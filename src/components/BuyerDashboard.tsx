@@ -1,4 +1,5 @@
 
+```tsx
 import React, { useState } from 'react';
 import { CartSheet } from './CartSheet';
 import { WishlistSheet } from './WishlistSheet';
@@ -42,7 +43,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, products,
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-secondary">
       <BuyerHeader
         wishlistCount={wishlistItems.length}
         cartItemCount={cartTotalItems}
@@ -88,3 +89,4 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, products,
 };
 
 export default BuyerDashboard;
+```

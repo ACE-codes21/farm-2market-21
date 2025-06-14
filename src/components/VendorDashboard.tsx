@@ -1,4 +1,5 @@
 
+```tsx
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -71,18 +72,18 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-secondary">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Street Vendor Dashboard</h1>
+              <h1 className="text-2xl font-bold text-foreground">Street Vendor Dashboard</h1>
             </div>
             <Button 
               variant="outline" 
               onClick={onRoleChange}
-              className="hover:bg-gray-50"
+              className="hover:bg-accent hover:text-accent-foreground"
             >
               Switch Role
             </Button>
@@ -98,12 +99,12 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+                    <p className="text-3xl font-bold text-foreground">{stat.value}</p>
                     <p className="text-sm text-green-600 font-medium">{stat.change}</p>
                   </div>
-                  <div className="p-3 bg-blue-100 rounded-full">
-                    <stat.icon className="h-6 w-6 text-blue-600" />
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <stat.icon className="h-6 w-6 text-primary" />
                   </div>
                 </div>
               </CardContent>
@@ -115,7 +116,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
         <Card className="mb-8">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl font-semibold">Your Products</CardTitle>
-            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => setIsAddProductOpen(true)}>
+            <Button onClick={() => setIsAddProductOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>
@@ -125,11 +126,11 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
               <table className="w-full">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Product</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Price</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Stock</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                    <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Product</th>
+                    <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Price</th>
+                    <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Stock</th>
+                    <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Status</th>
+                    <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -211,3 +212,4 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
 };
 
 export default VendorDashboard;
+```

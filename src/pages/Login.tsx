@@ -1,4 +1,5 @@
 
+```tsx
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -66,17 +67,17 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-green-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back to home button */}
-        <Link to="/" className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6">
+        <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Link>
 
         <Card className="shadow-lg">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl">Welcome Back</CardTitle>
             <CardDescription>
               Sign in to your account to continue
             </CardDescription>
@@ -121,7 +122,7 @@ const Login = () => {
 
             {/* Demo Accounts Section */}
             <div className="mt-6 pt-6 border-t">
-              <h3 className="text-sm font-medium text-gray-700 mb-3 text-center">
+              <h3 className="text-sm font-medium text-foreground mb-3 text-center">
                 Try Demo Accounts
               </h3>
               <div className="grid grid-cols-2 gap-3">
@@ -144,14 +145,14 @@ const Login = () => {
                   <span className="text-xs">Buyer Demo</span>
                 </Button>
               </div>
-              <div className="mt-3 text-xs text-gray-500 text-center">
+              <div className="mt-3 text-xs text-muted-foreground text-center">
                 <p>Vendor: vendor@demo.com / vendor123</p>
                 <p>Buyer: buyer@demo.com / buyer123</p>
               </div>
             </div>
           </CardContent>
 
-          <CardFooter className="text-center text-sm text-gray-500">
+          <CardFooter className="text-center text-sm text-muted-foreground">
             Don't have an account? Contact support for access.
           </CardFooter>
         </Card>
@@ -161,3 +162,4 @@ const Login = () => {
 };
 
 export default Login;
+```

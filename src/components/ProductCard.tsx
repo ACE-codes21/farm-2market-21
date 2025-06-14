@@ -1,4 +1,5 @@
 
+```tsx
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -79,7 +80,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <Badge variant="secondary" className="text-xs mb-2">
             {product.category}
           </Badge>
-          <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors truncate">
+          <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors truncate">
             {product.name}
           </h3>
           
@@ -96,18 +97,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-muted-foreground">
               {product.rating} ({product.reviews})
             </span>
           </div>
           
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-gray-900">
+            <span className="text-2xl font-bold text-foreground">
               ₹{product.price}
             </span>
             <Button 
               size="sm" 
-              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400"
+              className="disabled:bg-gray-400"
               onClick={(e) => {
                 e.stopPropagation();
                 onAddToCart();
@@ -122,3 +123,4 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     </Card>
   );
 };
+```
