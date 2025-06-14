@@ -4,13 +4,14 @@ import RoleSelectionModal from '@/components/RoleSelectionModal';
 import VendorDashboard from '@/components/VendorDashboard';
 import BuyerDashboard from '@/components/BuyerDashboard';
 import { products as initialProducts } from '@/data/market';
-import { Product, CartItem } from '@/types';
+import { Product, CartItem, Order } from '@/types';
 
 type UserRole = 'vendor' | 'buyer' | null;
 
 const Index = () => {
   const [userRole, setUserRole] = useState<UserRole>(null);
   const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
     setUserRole(role);
@@ -32,7 +33,24 @@ const Index = () => {
     });
   };
 
+  const handleEditProduct = (productId: number, updatedProduct: Partial<Product>) => {
+    setProducts(prevProducts =>
+      prevProducts.map(product =>
+        product.id === productId
+          ? { ...product, ...updatedProduct }
+          : product
+      )
+    );
+  };
+
+  const handleDeleteProduct = (productId: number) => {
+    setProducts(prevProducts => 
+      prevProducts.filter(product => product.id !== productId)
+    );
+  };
+
   const handlePurchase = (purchasedItems: CartItem[]) => {
+    // Update stock
     setProducts(prevProducts => {
       const newProducts = [...prevProducts];
       purchasedItems.forEach(item => {
@@ -43,13 +61,27 @@ const Index = () => {
       });
       return newProducts;
     });
+
+    // Create new order
+    const newOrder: Order = {
+      id: orders.length + 1,
+      items: purchasedItems,
+      total: purchasedItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      date: new Date().toLocaleDateString(),
+      status: 'confirmed'
+    };
+
+    setOrders(prevOrders => [...prevOrders, newOrder]);
   };
 
   if (userRole === 'vendor') {
     return <VendorDashboard 
       onRoleChange={handleRoleChange} 
       products={products}
+      orders={orders}
       onAddProduct={handleAddProduct}
+      onEditProduct={handleEditProduct}
+      onDeleteProduct={handleDeleteProduct}
     />;
   }
 

@@ -13,3 +13,18 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+export interface Order {
+  id: number;
+  items: CartItem[];
+  total: number;
+  date: string;
+  status: 'pending' | 'confirmed' | 'delivered';
+}
+
+export interface VendorStats {
+  totalSales: number;
+  totalProducts: number;
+  totalOrders: number;
+  totalRevenue: number;
+}
