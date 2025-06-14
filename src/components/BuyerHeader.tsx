@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart, ShoppingCart } from 'lucide-react';
+import { UserMenu } from './UserMenu';
 
 interface BuyerHeaderProps {
   wishlistCount: number;
@@ -34,13 +35,7 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
               <ShoppingCart className="h-5 w-5 mr-2" />
               Cart ({cartItemCount})
             </Button>
-            <Button
-              variant="outline"
-              onClick={onRoleChange}
-              className="hover:bg-gray-50"
-            >
-              Switch Role
-            </Button>
+            <UserMenu onLogout={onRoleChange} />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { UserMenu } from '../UserMenu';
 
 interface VendorDashboardHeaderProps {
   onRoleChange: () => void;
@@ -14,13 +14,7 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = ({ on
           <div className="flex items-center">
             <h1 className="text-2xl font-bold font-display text-foreground">Vendor Dashboard</h1>
           </div>
-          <Button 
-            variant="outline" 
-            onClick={onRoleChange}
-            className="font-semibold"
-          >
-            Switch Role
-          </Button>
+          <UserMenu onLogout={onRoleChange} />
         </div>
       </div>
     </header>
