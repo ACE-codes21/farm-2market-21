@@ -7,6 +7,7 @@ export interface Product {
   reviews: number;
   images: string[];
   category: string;
+  stock: number;
 }
 
 export interface CartItem extends Product {

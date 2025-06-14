@@ -1,4 +1,3 @@
-
 import { Product } from "@/types";
 
 export const products: Product[] = [
@@ -8,6 +7,7 @@ export const products: Product[] = [
       price: 60, 
       rating: 4.5, 
       reviews: 28,
+      stock: 50,
       images: [
         'https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop',
@@ -21,6 +21,7 @@ export const products: Product[] = [
       price: 40, 
       rating: 4.7, 
       reviews: 45,
+      stock: 40,
       images: [
         'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1546470427-e91e2e244ae6?w=400&h=300&fit=crop',
@@ -34,6 +35,7 @@ export const products: Product[] = [
       price: 30, 
       rating: 4.2, 
       reviews: 32,
+      stock: 60,
       images: [
         'https://images.unsplash.com/photo-1508313880080-c4bae5d55a0a?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1606868306217-dbf5046868d2?w=400&h=300&fit=crop',
@@ -47,6 +49,7 @@ export const products: Product[] = [
       price: 40, 
       rating: 4.8, 
       reviews: 67,
+      stock: 30,
       images: [
         'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&h=300&fit=crop',
@@ -60,6 +63,7 @@ export const products: Product[] = [
       price: 25, 
       rating: 4.6, 
       reviews: 23,
+      stock: 25,
       images: [
         'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&h=300&fit=crop',
@@ -73,6 +77,7 @@ export const products: Product[] = [
       price: 80, 
       rating: 4.4, 
       reviews: 18,
+      stock: 15,
       images: [
         'https://images.unsplash.com/photo-1599599810694-57a2ca8276a8?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1606756790138-261d2b21cd75?w=400&h=300&fit=crop',
@@ -86,6 +91,7 @@ export const products: Product[] = [
       price: 20, 
       rating: 4.3, 
       reviews: 15,
+      stock: 35,
       images: [
         'https://images.unsplash.com/photo-1583604649804-81d019b8e1e4?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1571568514386-b9c4d2cb4c61?w=400&h=300&fit=crop',
@@ -99,6 +105,7 @@ export const products: Product[] = [
       price: 10, 
       rating: 4.5, 
       reviews: 41,
+      stock: 40,
       images: [
         'https://images.unsplash.com/photo-1628773822503-930a7eaecf80?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?w=400&h=300&fit=crop',
@@ -112,6 +119,7 @@ export const products: Product[] = [
       price: 35, 
       rating: 4.6, 
       reviews: 29,
+      stock: 20,
       images: [
         'https://images.unsplash.com/photo-1628340428296-b5cd649bb6c8?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1609501676628-ba14ce3c4bb3?w=400&h=300&fit=crop',
@@ -125,6 +133,7 @@ export const products: Product[] = [
       price: 30, 
       rating: 4.7, 
       reviews: 34,
+      stock: 30,
       images: [
         'https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400&h=300&fit=crop',
@@ -138,6 +147,7 @@ export const products: Product[] = [
       price: 25, 
       rating: 4.4, 
       reviews: 52,
+      stock: 50,
       images: [
         'https://images.unsplash.com/photo-1582886946878-7f23e1fd1f2d?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1608181831042-8a2598f0a8ec?w=400&h=300&fit=crop',
@@ -151,6 +161,7 @@ export const products: Product[] = [
       price: 30, 
       rating: 4.9, 
       reviews: 88,
+      stock: 40,
       images: [
         'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',

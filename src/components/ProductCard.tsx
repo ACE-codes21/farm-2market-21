@@ -107,13 +107,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </span>
             <Button 
               size="sm" 
-              className="bg-green-600 hover:bg-green-700"
+              className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400"
               onClick={(e) => {
                 e.stopPropagation();
                 onAddToCart();
               }}
+              disabled={product.stock === 0}
             >
-              Add to Cart
+              {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
             </Button>
           </div>
         </div>

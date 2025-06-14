@@ -11,6 +11,7 @@ interface CartSheetProps {
   onUpdateQuantity: (productId: number, quantity: number) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onCheckout: () => void;
 }
 
 export const CartSheet: React.FC<CartSheetProps> = ({
@@ -18,6 +19,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
   onUpdateQuantity,
   open,
   onOpenChange,
+  onCheckout,
 }) => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -64,7 +66,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
                   <span>₹{total}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">Shipping & taxes calculated at checkout.</p>
-                <Button className="w-full mt-2">Checkout</Button>
+                <Button className="w-full mt-2" onClick={onCheckout}>Checkout</Button>
               </div>
             </SheetFooter>
           </>

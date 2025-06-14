@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { products } from '@/data/market';
 import { CartSheet } from './CartSheet';
 import { WishlistSheet } from './WishlistSheet';
 
@@ -9,18 +8,21 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { BuyerHeader } from './BuyerHeader';
 import { ProductFilters } from './ProductFilters';
 import { ProductList } from './ProductList';
+import { Product, CartItem } from '@/types';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
+  products: Product[];
+  onPurchase: (items: CartItem[]) => void;
 }
 
-const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
+const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, products, onPurchase }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
-  const { cartItems, addToCart, updateCartQuantity, cartTotalItems } = useCart();
+  const { cartItems, addToCart, updateCartQuantity, cartTotalItems, clearCart } = useCart();
   const { 
     wishlistItems, 
     handleAddToWishlist, 
@@ -32,6 +34,12 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
   const filteredProducts = selectedCategory === 'all' 
     ? products 
     : products.filter(product => product.category === selectedCategory);
+
+  const handleCheckout = () => {
+    onPurchase(cartItems);
+    clearCart();
+    setIsCartOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,6 +56,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
         onUpdateQuantity={updateCartQuantity}
         open={isCartOpen}
         onOpenChange={setIsCartOpen}
+        onCheckout={handleCheckout}
       />
       
       <WishlistSheet 

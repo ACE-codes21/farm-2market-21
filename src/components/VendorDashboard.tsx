@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,26 +10,17 @@ import {
   Plus,
   MoreHorizontal 
 } from 'lucide-react';
+import { Product } from '@/types';
+import { AddProductDialog } from './AddProductDialog';
 
 interface VendorDashboardProps {
   onRoleChange: () => void;
+  products: Product[];
+  onAddProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
 }
 
-const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
-  const products = [
-    { id: 1, name: 'Fresh Bananas (1kg)', price: 160, stock: 25, status: 'active' },
-    { id: 2, name: 'Tomatoes (1kg)', price: 240, stock: 18, status: 'active' },
-    { id: 3, name: 'Onions (1kg)', price: 80, stock: 5, status: 'low-stock' },
-    { id: 4, name: 'Street Samosas (6 pcs)', price: 320, stock: 12, status: 'active' },
-    { id: 5, name: 'Fresh Orange Juice', price: 160, stock: 8, status: 'active' },
-    { id: 6, name: 'Homemade Pickles', price: 400, stock: 3, status: 'low-stock' },
-    { id: 7, name: 'Green Chilies (250g)', price: 80, stock: 15, status: 'active' },
-    { id: 8, name: 'Fresh Coriander (bunch)', price: 80, stock: 20, status: 'active' },
-    { id: 9, name: 'Ginger (500g)', price: 240, stock: 10, status: 'active' },
-    { id: 10, name: 'Coconut Water (fresh)', price: 160, stock: 6, status: 'low-stock' },
-    { id: 11, name: 'Roasted Peanuts (200g)', price: 160, stock: 18, status: 'active' },
-    { id: 12, name: 'Street-style Pani Puri', price: 240, stock: 25, status: 'active' },
-  ];
+const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange, products, onAddProduct }) => {
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
   const stats = [
     { title: 'Total Sales', value: '₹27,760', icon: DollarSign, change: '+12%' },
@@ -84,7 +74,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
         <Card className="mb-8">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-xl font-semibold">Your Products</CardTitle>
-            <Button className="bg-blue-600 hover:bg-blue-700">
+            <Button className="bg-blue-600 hover:bg-blue-700" onClick={() => setIsAddProductOpen(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Add Product
             </Button>
@@ -109,10 +99,10 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
                       <td className="py-4 px-4">{product.stock}</td>
                       <td className="py-4 px-4">
                         <Badge 
-                          variant={product.status === 'active' ? 'default' : 'destructive'}
-                          className={product.status === 'active' ? 'bg-green-100 text-green-800' : ''}
+                          variant={product.stock > 10 ? 'default' : 'destructive'}
+                          className={product.stock > 10 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
                         >
-                          {product.status === 'active' ? 'Active' : 'Low Stock'}
+                          {product.stock > 10 ? 'Active' : (product.stock > 0 ? 'Low Stock' : 'Out of Stock')}
                         </Badge>
                       </td>
                       <td className="py-4 px-4">
@@ -128,6 +118,11 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
           </CardContent>
         </Card>
       </div>
+      <AddProductDialog 
+        isOpen={isAddProductOpen}
+        onOpenChange={setIsAddProductOpen}
+        onAddProduct={onAddProduct}
+      />
     </div>
   );
 };

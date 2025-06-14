@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import RoleSelectionModal from '@/components/RoleSelectionModal';
 import VendorDashboard from '@/components/VendorDashboard';
 import BuyerDashboard from '@/components/BuyerDashboard';
+import { products as initialProducts } from '@/data/market';
+import { Product, CartItem } from '@/types';
 
 type UserRole = 'vendor' | 'buyer' | null;
 
 const Index = () => {
   const [userRole, setUserRole] = useState<UserRole>(null);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
 
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
     setUserRole(role);
@@ -17,12 +20,45 @@ const Index = () => {
     setUserRole(null);
   };
 
+  const handleAddProduct = (newProductData: Omit<Product, 'id' | 'rating' | 'reviews'>) => {
+    setProducts(prevProducts => {
+      const newProduct: Product = {
+        ...newProductData,
+        id: prevProducts.length > 0 ? Math.max(...prevProducts.map(p => p.id)) + 1 : 1,
+        rating: 0,
+        reviews: 0,
+      };
+      return [...prevProducts, newProduct];
+    });
+  };
+
+  const handlePurchase = (purchasedItems: CartItem[]) => {
+    setProducts(prevProducts => {
+      const newProducts = [...prevProducts];
+      purchasedItems.forEach(item => {
+        const productIndex = newProducts.findIndex(p => p.id === item.id);
+        if (productIndex !== -1) {
+          newProducts[productIndex].stock -= item.quantity;
+        }
+      });
+      return newProducts;
+    });
+  };
+
   if (userRole === 'vendor') {
-    return <VendorDashboard onRoleChange={handleRoleChange} />;
+    return <VendorDashboard 
+      onRoleChange={handleRoleChange} 
+      products={products}
+      onAddProduct={handleAddProduct}
+    />;
   }
 
   if (userRole === 'buyer') {
-    return <BuyerDashboard onRoleChange={handleRoleChange} />;
+    return <BuyerDashboard 
+      onRoleChange={handleRoleChange} 
+      products={products} 
+      onPurchase={handlePurchase}
+    />;
   }
 
   return (
