@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,25 +18,25 @@ interface VendorDashboardProps {
 
 const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
   const products = [
-    { id: 1, name: 'Fresh Bananas (1kg)', price: 2, stock: 25, status: 'active' },
-    { id: 2, name: 'Tomatoes (1kg)', price: 3, stock: 18, status: 'active' },
-    { id: 3, name: 'Onions (1kg)', price: 1, stock: 5, status: 'low-stock' },
-    { id: 4, name: 'Street Samosas (6 pcs)', price: 4, stock: 12, status: 'active' },
-    { id: 5, name: 'Fresh Orange Juice', price: 2, stock: 8, status: 'active' },
-    { id: 6, name: 'Homemade Pickles', price: 5, stock: 3, status: 'low-stock' },
-    { id: 7, name: 'Green Chilies (250g)', price: 1, stock: 15, status: 'active' },
-    { id: 8, name: 'Fresh Coriander (bunch)', price: 1, stock: 20, status: 'active' },
-    { id: 9, name: 'Ginger (500g)', price: 3, stock: 10, status: 'active' },
-    { id: 10, name: 'Coconut Water (fresh)', price: 2, stock: 6, status: 'low-stock' },
-    { id: 11, name: 'Roasted Peanuts (200g)', price: 2, stock: 18, status: 'active' },
-    { id: 12, name: 'Street-style Pani Puri', price: 3, stock: 25, status: 'active' },
+    { id: 1, name: 'Fresh Bananas (1kg)', price: 160, stock: 25, status: 'active' },
+    { id: 2, name: 'Tomatoes (1kg)', price: 240, stock: 18, status: 'active' },
+    { id: 3, name: 'Onions (1kg)', price: 80, stock: 5, status: 'low-stock' },
+    { id: 4, name: 'Street Samosas (6 pcs)', price: 320, stock: 12, status: 'active' },
+    { id: 5, name: 'Fresh Orange Juice', price: 160, stock: 8, status: 'active' },
+    { id: 6, name: 'Homemade Pickles', price: 400, stock: 3, status: 'low-stock' },
+    { id: 7, name: 'Green Chilies (250g)', price: 80, stock: 15, status: 'active' },
+    { id: 8, name: 'Fresh Coriander (bunch)', price: 80, stock: 20, status: 'active' },
+    { id: 9, name: 'Ginger (500g)', price: 240, stock: 10, status: 'active' },
+    { id: 10, name: 'Coconut Water (fresh)', price: 160, stock: 6, status: 'low-stock' },
+    { id: 11, name: 'Roasted Peanuts (200g)', price: 160, stock: 18, status: 'active' },
+    { id: 12, name: 'Street-style Pani Puri', price: 240, stock: 25, status: 'active' },
   ];
 
   const stats = [
-    { title: 'Total Sales', value: '$347', icon: DollarSign, change: '+12%' },
-    { title: 'Products', value: '23', icon: Package, change: '+3' },
+    { title: 'Total Sales', value: '₹27,760', icon: DollarSign, change: '+12%' },
+    { title: 'Products', value: '12', icon: Package, change: '+3' },
     { title: 'Orders', value: '47', icon: ShoppingCart, change: '+8%' },
-    { title: 'Revenue', value: '$235', icon: TrendingUp, change: '+15%' },
+    { title: 'Revenue', value: '₹18,800', icon: TrendingUp, change: '+15%' },
   ];
 
   return (
@@ -104,7 +105,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
                   {products.map((product) => (
                     <tr key={product.id} className="border-b hover:bg-gray-50">
                       <td className="py-4 px-4 font-medium">{product.name}</td>
-                      <td className="py-4 px-4">${product.price}</td>
+                      <td className="py-4 px-4">₹{product.price}</td>
                       <td className="py-4 px-4">{product.stock}</td>
                       <td className="py-4 px-4">
                         <Badge 
