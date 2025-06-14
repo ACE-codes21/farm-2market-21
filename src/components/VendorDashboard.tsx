@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,6 +23,12 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
     { id: 4, name: 'Street Samosas (6 pcs)', price: 4, stock: 12, status: 'active' },
     { id: 5, name: 'Fresh Orange Juice', price: 2, stock: 8, status: 'active' },
     { id: 6, name: 'Homemade Pickles', price: 5, stock: 3, status: 'low-stock' },
+    { id: 7, name: 'Green Chilies (250g)', price: 1, stock: 15, status: 'active' },
+    { id: 8, name: 'Fresh Coriander (bunch)', price: 1, stock: 20, status: 'active' },
+    { id: 9, name: 'Ginger (500g)', price: 3, stock: 10, status: 'active' },
+    { id: 10, name: 'Coconut Water (fresh)', price: 2, stock: 6, status: 'low-stock' },
+    { id: 11, name: 'Roasted Peanuts (200g)', price: 2, stock: 18, status: 'active' },
+    { id: 12, name: 'Street-style Pani Puri', price: 3, stock: 25, status: 'active' },
   ];
 
   const stats = [

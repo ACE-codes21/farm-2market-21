@@ -28,7 +28,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 2, 
       rating: 4.5, 
       reviews: 28,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=300&fit=crop',
       category: 'Fruits'
     },
     { 
@@ -37,7 +37,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 3, 
       rating: 4.7, 
       reviews: 45,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&h=300&fit=crop',
       category: 'Vegetables'
     },
     { 
@@ -46,7 +46,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 1, 
       rating: 4.2, 
       reviews: 32,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1508313880080-c4bae5d55a0a?w=400&h=300&fit=crop',
       category: 'Vegetables'
     },
     { 
@@ -55,7 +55,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 4, 
       rating: 4.8, 
       reviews: 67,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',
       category: 'Snacks'
     },
     { 
@@ -64,7 +64,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 2, 
       rating: 4.6, 
       reviews: 23,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400&h=300&fit=crop',
       category: 'Beverages'
     },
     { 
@@ -73,26 +73,62 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
       price: 5, 
       rating: 4.4, 
       reviews: 18,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1599599810694-57a2ca8276a8?w=400&h=300&fit=crop',
       category: 'Condiments'
     },
     { 
       id: 7, 
-      name: 'Fresh Mint Leaves', 
+      name: 'Green Chilies (250g)', 
       price: 1, 
       rating: 4.3, 
       reviews: 15,
-      image: '/placeholder.svg',
-      category: 'Herbs'
+      image: 'https://images.unsplash.com/photo-1583604649804-81d019b8e1e4?w=400&h=300&fit=crop',
+      category: 'Spices'
     },
     { 
       id: 8, 
-      name: 'Roasted Peanuts (250g)', 
-      price: 3, 
+      name: 'Fresh Coriander (bunch)', 
+      price: 1, 
       rating: 4.5, 
       reviews: 41,
-      image: '/placeholder.svg',
+      image: 'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=400&h=300&fit=crop',
+      category: 'Herbs'
+    },
+    { 
+      id: 9, 
+      name: 'Ginger (500g)', 
+      price: 3, 
+      rating: 4.6, 
+      reviews: 29,
+      image: 'https://images.unsplash.com/photo-1587486913049-53fc88980cfc?w=400&h=300&fit=crop',
+      category: 'Spices'
+    },
+    { 
+      id: 10, 
+      name: 'Coconut Water (fresh)', 
+      price: 2, 
+      rating: 4.7, 
+      reviews: 34,
+      image: 'https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=400&h=300&fit=crop',
+      category: 'Beverages'
+    },
+    { 
+      id: 11, 
+      name: 'Roasted Peanuts (200g)', 
+      price: 2, 
+      rating: 4.4, 
+      reviews: 52,
+      image: 'https://images.unsplash.com/photo-1582886946878-7f23e1fd1f2d?w=400&h=300&fit=crop',
       category: 'Snacks'
+    },
+    { 
+      id: 12, 
+      name: 'Street-style Pani Puri', 
+      price: 3, 
+      rating: 4.9, 
+      reviews: 88,
+      image: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=300&fit=crop',
+      category: 'Street Food'
     },
   ];
 
