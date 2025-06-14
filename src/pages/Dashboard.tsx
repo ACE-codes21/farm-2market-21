@@ -1,9 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VendorDashboard from '@/components/VendorDashboard';
 import BuyerDashboard from '@/components/BuyerDashboard';
-import { products as initialProducts } from '@/data/market';
-import { Product, CartItem, Order } from '@/types';
+import { useAppContext } from '@/contexts/AppContext';
 
 type UserRole = 'vendor' | 'buyer';
 
@@ -15,8 +15,7 @@ interface UserSession {
 
 const Dashboard = () => {
   const [userSession, setUserSession] = useState<UserSession | null>(null);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const { products, orders, addProduct, editProduct, deleteProduct, addOrder } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,59 +39,6 @@ const Dashboard = () => {
     navigate('/');
   };
 
-  const handleAddProduct = (newProductData: Omit<Product, 'id' | 'rating' | 'reviews'>) => {
-    setProducts(prevProducts => {
-      const newProduct: Product = {
-        ...newProductData,
-        id: prevProducts.length > 0 ? Math.max(...prevProducts.map(p => p.id)) + 1 : 1,
-        rating: 0,
-        reviews: 0,
-      };
-      return [...prevProducts, newProduct];
-    });
-  };
-
-  const handleEditProduct = (productId: number, updatedProduct: Partial<Product>) => {
-    setProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.id === productId
-          ? { ...product, ...updatedProduct }
-          : product
-      )
-    );
-  };
-
-  const handleDeleteProduct = (productId: number) => {
-    setProducts(prevProducts => 
-      prevProducts.filter(product => product.id !== productId)
-    );
-  };
-
-  const handlePurchase = (purchasedItems: CartItem[]) => {
-    // Update stock
-    setProducts(prevProducts => {
-      const newProducts = [...prevProducts];
-      purchasedItems.forEach(item => {
-        const productIndex = newProducts.findIndex(p => p.id === item.id);
-        if (productIndex !== -1) {
-          newProducts[productIndex].stock -= item.quantity;
-        }
-      });
-      return newProducts;
-    });
-
-    // Create new order
-    const newOrder: Order = {
-      id: orders.length + 1,
-      items: purchasedItems,
-      total: purchasedItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-      date: new Date().toLocaleDateString(),
-      status: 'confirmed'
-    };
-
-    setOrders(prevOrders => [...prevOrders, newOrder]);
-  };
-
   if (!userSession) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -110,9 +56,9 @@ const Dashboard = () => {
         onRoleChange={handleLogout}
         products={products}
         orders={orders}
-        onAddProduct={handleAddProduct}
-        onEditProduct={handleEditProduct}
-        onDeleteProduct={handleDeleteProduct}
+        onAddProduct={addProduct}
+        onEditProduct={editProduct}
+        onDeleteProduct={deleteProduct}
       />
     );
   }
@@ -121,7 +67,7 @@ const Dashboard = () => {
     return (
       <BuyerDashboard 
         onRoleChange={handleLogout}
-        onPurchase={handlePurchase}
+        onPurchase={addOrder}
       />
     );
   }

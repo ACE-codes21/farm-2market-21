@@ -8,7 +8,7 @@ import { BuyerHeader } from '@/components/BuyerHeader';
 import { CartItem, Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { products as initialProducts } from '@/data/market';
+import { useAppContext } from '@/contexts/AppContext';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
@@ -16,7 +16,7 @@ interface BuyerDashboardProps {
 }
 
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchase }) => {
-  const [products] = useState<Product[]>(initialProducts);
+  const { products } = useAppContext();
   const [filters, setFilters] = useState({ category: 'all', searchQuery: '' });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isCartOpen, setIsCartOpen] = useState(false);

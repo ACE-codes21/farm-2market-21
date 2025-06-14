@@ -1,16 +1,15 @@
+
 import React, { useState } from 'react';
 import RoleSelectionModal from '@/components/RoleSelectionModal';
 import VendorDashboard from '@/components/VendorDashboard';
 import BuyerDashboard from '@/components/BuyerDashboard';
-import { products as initialProducts } from '@/data/market';
-import { Product, CartItem, Order } from '@/types';
+import { useAppContext } from '@/contexts/AppContext';
 
 type UserRole = 'vendor' | 'buyer' | null;
 
 const Index = () => {
   const [userRole, setUserRole] = useState<UserRole>(null);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const { products, orders, addProduct, editProduct, deleteProduct, addOrder } = useAppContext();
 
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
     setUserRole(role);
@@ -20,74 +19,21 @@ const Index = () => {
     setUserRole(null);
   };
 
-  const handleAddProduct = (newProductData: Omit<Product, 'id' | 'rating' | 'reviews'>) => {
-    setProducts(prevProducts => {
-      const newProduct: Product = {
-        ...newProductData,
-        id: prevProducts.length > 0 ? Math.max(...prevProducts.map(p => p.id)) + 1 : 1,
-        rating: 0,
-        reviews: 0,
-      };
-      return [...prevProducts, newProduct];
-    });
-  };
-
-  const handleEditProduct = (productId: number, updatedProduct: Partial<Product>) => {
-    setProducts(prevProducts =>
-      prevProducts.map(product =>
-        product.id === productId
-          ? { ...product, ...updatedProduct }
-          : product
-      )
-    );
-  };
-
-  const handleDeleteProduct = (productId: number) => {
-    setProducts(prevProducts => 
-      prevProducts.filter(product => product.id !== productId)
-    );
-  };
-
-  const handlePurchase = (purchasedItems: CartItem[]) => {
-    // Update stock
-    setProducts(prevProducts => {
-      const newProducts = [...prevProducts];
-      purchasedItems.forEach(item => {
-        const productIndex = newProducts.findIndex(p => p.id === item.id);
-        if (productIndex !== -1) {
-          newProducts[productIndex].stock -= item.quantity;
-        }
-      });
-      return newProducts;
-    });
-
-    // Create new order
-    const newOrder: Order = {
-      id: orders.length + 1,
-      items: purchasedItems,
-      total: purchasedItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
-      date: new Date().toLocaleDateString(),
-      status: 'confirmed'
-    };
-
-    setOrders(prevOrders => [...prevOrders, newOrder]);
-  };
-
   if (userRole === 'vendor') {
     return <VendorDashboard 
       onRoleChange={handleRoleChange} 
       products={products}
       orders={orders}
-      onAddProduct={handleAddProduct}
-      onEditProduct={handleEditProduct}
-      onDeleteProduct={handleDeleteProduct}
+      onAddProduct={addProduct}
+      onEditProduct={editProduct}
+      onDeleteProduct={deleteProduct}
     />;
   }
 
   if (userRole === 'buyer') {
     return <BuyerDashboard 
       onRoleChange={handleRoleChange} 
-      onPurchase={handlePurchase}
+      onPurchase={addOrder}
     />;
   }
 
