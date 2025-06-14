@@ -22,8 +22,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   
-  const { cartItems: cart, addToCart, removeFromCart, updateCartQuantity, cartTotalItems } = useCart();
-  const { wishlistItems: wishlist, handleAddToWishlist: addToWishlist, removeFromWishlist: removeFromWishlistFromHook, isInWishlist } = useWishlist();
+  const { cartItems: cart, addToCart, removeFromCart, updateCartQuantity, cartTotalItems, clearCart } = useCart();
+  const { wishlistItems: wishlist, handleAddToWishlist: addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -34,16 +34,26 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
   }, [products, filters]);
 
   const handleRemoveFromWishlist = (product: Product) => {
-    removeFromWishlistFromHook(product);
+    removeFromWishlist(product);
   }
+
+  const handleCheckout = () => {
+    onPurchase(cart);
+    clearCart();
+  };
+
+  const handleMoveToCart = (product: Product) => {
+    addToCart(product, 1);
+    removeFromWishlist(product);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <BuyerHeader
-        onCartClick={() => setIsCartOpen(true)}
-        onWishlistClick={() => setIsWishlistOpen(true)}
+        onCartOpen={() => setIsCartOpen(true)}
+        onWishlistOpen={() => setIsWishlistOpen(true)}
         cartItemCount={cartTotalItems}
-        wishlistItemCount={wishlist.length}
+        wishlistCount={wishlist.length}
         onRoleChange={onRoleChange}
       />
       
@@ -77,16 +87,15 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
         open={isCartOpen}
         onOpenChange={setIsCartOpen}
         cartItems={cart}
-        onRemoveItem={removeFromCart}
         onUpdateQuantity={updateCartQuantity}
-        onCheckout={onPurchase}
+        onCheckout={handleCheckout}
       />
       <WishlistSheet
         open={isWishlistOpen}
         onOpenChange={setIsWishlistOpen}
         wishlistItems={wishlist}
         onRemoveFromWishlist={handleRemoveFromWishlist}
-        onAddToCart={addToCart}
+        onMoveToCart={handleMoveToCart}
       />
     </div>
   );

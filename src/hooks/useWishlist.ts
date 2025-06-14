@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product } from '@/types';
 
-export const useWishlist = (
-  addToCart: (product: Product, quantity?: number) => void
-) => {
+export const useWishlist = () => {
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
   const { toast } = useToast();
 
@@ -38,15 +36,6 @@ export const useWishlist = (
     });
   };
 
-  const moveToCart = (product: Product) => {
-    addToCart(product, 1);
-    setWishlistItems(prev => prev.filter(item => item.id !== product.id));
-    toast({
-      title: "Moved to Cart",
-      description: `${product.name} has been moved from your cart.`,
-    });
-  };
-
   const isInWishlist = (productId: number) => {
     return wishlistItems.some(item => item.id === productId);
   };
@@ -55,7 +44,6 @@ export const useWishlist = (
     wishlistItems, 
     handleAddToWishlist,
     removeFromWishlist,
-    moveToCart, 
     isInWishlist 
   };
 };

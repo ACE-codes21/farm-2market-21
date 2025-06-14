@@ -47,6 +47,15 @@ export const useCart = () => {
     });
   };
 
+  const removeFromCart = (productId: number) => {
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+    toast({
+      variant: 'destructive',
+      title: "Item Removed",
+      description: "Item removed from your cart.",
+    });
+  };
+
   const updateCartQuantity = (productId: number, newQuantity: number) => {
     if (newQuantity <= 0) {
         setCartItems(prev => prev.filter(item => item.id !== productId));
@@ -83,5 +92,5 @@ export const useCart = () => {
 
   const cartTotalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  return { cartItems, addToCart, updateCartQuantity, cartTotalItems, clearCart };
+  return { cartItems, addToCart, removeFromCart, updateCartQuantity, cartTotalItems, clearCart };
 };
