@@ -48,7 +48,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
       <BuyerHeader
         onCartOpen={() => setIsCartOpen(true)}
         onWishlistOpen={() => setIsWishlistOpen(true)}
@@ -58,6 +58,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
       />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold font-display text-foreground mb-2">Discover Local Products</h2>
+          <p className="text-muted-foreground">Find fresh produce and authentic items from local street vendors</p>
+        </div>
+        
         <ProductFilters
           selectedCategory={filters.category}
           onCategoryChange={(category) => setFilters(f => ({ ...f, category }))}
@@ -75,9 +80,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
                 isInWishlist={isInWishlist}
             />
             {filteredProducts.length === 0 && (
-              <div className="text-center py-16 text-muted-foreground">
-                <p className="text-xl">No products match your criteria.</p>
-                <p>Try adjusting your filters.</p>
+              <div className="text-center py-16">
+                <div className="glass-effect rounded-2xl p-12 max-w-md mx-auto">
+                  <p className="text-xl font-semibold text-foreground mb-2">No products found</p>
+                  <p className="text-muted-foreground">Try adjusting your search or category filters</p>
+                </div>
               </div>
             )}
           </div>

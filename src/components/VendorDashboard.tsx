@@ -56,20 +56,30 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
       <VendorDashboardHeader onRoleChange={onRoleChange} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold font-display text-foreground mb-2">Dashboard Overview</h2>
+          <p className="text-muted-foreground">Manage your products and track your business performance</p>
+        </div>
+        
         <VendorStatsGrid stats={stats} />
         
-        <VendorProductsTable 
-          products={products}
-          onAddProductClick={() => setIsAddProductOpen(true)}
-          onEditProduct={handleEditProduct}
-          onDeleteProduct={handleDeleteProduct}
-        />
-
-        <VendorRecentOrders orders={orders} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <VendorProductsTable 
+              products={products}
+              onAddProductClick={() => setIsAddProductOpen(true)}
+              onEditProduct={handleEditProduct}
+              onDeleteProduct={handleDeleteProduct}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            <VendorRecentOrders orders={orders} />
+          </div>
+        </div>
       </main>
 
       <AddProductDialog 
