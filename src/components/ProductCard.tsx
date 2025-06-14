@@ -1,5 +1,4 @@
 
-```tsx
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -35,7 +34,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Card 
-      className="group overflow-hidden rounded-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+      className="group overflow-hidden rounded-lg border-border hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -53,7 +52,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             size="icon"
             variant="ghost"
             className={`absolute top-2 right-2 h-9 w-9 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white/95 transition-all duration-300 group-hover:opacity-100 group-hover:scale-110 opacity-0 scale-90 ${
-              isInWishlist ? 'text-red-500' : 'text-gray-700'
+              isInWishlist ? 'text-accent' : 'text-muted-foreground'
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -76,15 +75,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
         </div>
         
-        <div className="p-4">
-          <Badge variant="secondary" className="text-xs mb-2">
+        <div className="p-4 bg-card">
+          <Badge variant="secondary" className="text-xs font-medium mb-2">
             {product.category}
           </Badge>
-          <h3 className="font-semibold text-foreground mb-2 group-hover:text-primary transition-colors truncate">
+          <h3 className="font-semibold text-lg text-card-foreground mb-2 group-hover:text-primary transition-colors truncate">
             {product.name}
           </h3>
           
-          <div className="flex items-center gap-1 mb-2">
+          <div className="flex items-center gap-2 mb-3">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star 
@@ -103,12 +102,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
           
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold text-foreground">
+            <span className="text-2xl font-bold text-primary">
               ₹{product.price}
             </span>
             <Button 
               size="sm" 
-              className="disabled:bg-gray-400"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 disabled:bg-gray-400"
               onClick={(e) => {
                 e.stopPropagation();
                 onAddToCart();
@@ -123,4 +122,3 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     </Card>
   );
 };
-```
