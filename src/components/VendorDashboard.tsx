@@ -18,16 +18,19 @@ interface VendorDashboardProps {
 
 const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
   const products = [
-    { id: 1, name: 'Wireless Headphones', price: 99, stock: 15, status: 'active' },
-    { id: 2, name: 'Smart Watch', price: 249, stock: 8, status: 'active' },
-    { id: 3, name: 'Phone Case', price: 19, stock: 32, status: 'low-stock' },
+    { id: 1, name: 'Fresh Bananas (1kg)', price: 2, stock: 25, status: 'active' },
+    { id: 2, name: 'Tomatoes (1kg)', price: 3, stock: 18, status: 'active' },
+    { id: 3, name: 'Onions (1kg)', price: 1, stock: 5, status: 'low-stock' },
+    { id: 4, name: 'Street Samosas (6 pcs)', price: 4, stock: 12, status: 'active' },
+    { id: 5, name: 'Fresh Orange Juice', price: 2, stock: 8, status: 'active' },
+    { id: 6, name: 'Homemade Pickles', price: 5, stock: 3, status: 'low-stock' },
   ];
 
   const stats = [
-    { title: 'Total Sales', value: '$2,847', icon: DollarSign, change: '+12%' },
+    { title: 'Total Sales', value: '$347', icon: DollarSign, change: '+12%' },
     { title: 'Products', value: '23', icon: Package, change: '+3' },
     { title: 'Orders', value: '47', icon: ShoppingCart, change: '+8%' },
-    { title: 'Revenue', value: '$1,235', icon: TrendingUp, change: '+15%' },
+    { title: 'Revenue', value: '$235', icon: TrendingUp, change: '+15%' },
   ];
 
   return (
@@ -37,7 +40,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({ onRoleChange }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Vendor Dashboard</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Street Vendor Dashboard</h1>
             </div>
             <Button 
               variant="outline" 

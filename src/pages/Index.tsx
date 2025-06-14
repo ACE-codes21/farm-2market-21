@@ -26,7 +26,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-green-50 flex items-center justify-center">
       <RoleSelectionModal 
         isOpen={userRole === null} 
         onRoleSelect={handleRoleSelect} 
@@ -35,22 +35,22 @@ const Index = () => {
       {/* Background content */}
       <div className="text-center max-w-4xl mx-auto px-4">
         <h1 className="text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-          Welcome to MarketPlace
+          Street Vendor MarketPlace
         </h1>
         <p className="text-xl text-gray-600 mb-8 animate-fade-in">
-          Your one-stop destination for buying and selling amazing products
+          Empowering local street vendors and connecting communities through fresh, affordable products
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg animate-fade-in">
-            <h3 className="text-2xl font-semibold text-blue-600 mb-4">For Vendors</h3>
+            <h3 className="text-2xl font-semibold text-orange-600 mb-4">For Street Vendors</h3>
             <p className="text-gray-600">
-              Manage your products, track sales, and grow your business with our comprehensive vendor tools.
+              Digitize your business, manage inventory, track sales, and reach more customers in your community.
             </p>
           </div>
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg animate-fade-in">
-            <h3 className="text-2xl font-semibold text-green-600 mb-4">For Buyers</h3>
+            <h3 className="text-2xl font-semibold text-green-600 mb-4">For Local Buyers</h3>
             <p className="text-gray-600">
-              Discover amazing products, compare prices, and enjoy a seamless shopping experience.
+              Discover fresh produce, homemade snacks, and authentic local products from trusted street vendors.
             </p>
           </div>
         </div>
