@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 import { 
   Search, 
   Heart, 
@@ -19,15 +19,28 @@ interface BuyerDashboardProps {
   onRoleChange: () => void;
 }
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  reviews: number;
+  images: string[];
+  category: string;
+}
+
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
+  const { toast } = useToast();
   
   const products = [
     { 
       id: 1, 
       name: 'Fresh Bananas (1kg)', 
-      price: 160, // ₹2 * 80 (USD to INR)
+      price: 60, 
       rating: 4.5, 
       reviews: 28,
       images: [
@@ -39,8 +52,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     },
     { 
       id: 2, 
-      name: 'Tomatoes (1kg)', 
-      price: 240, 
+      name: 'Fresh Tomatoes (1kg)', 
+      price: 40, 
       rating: 4.7, 
       reviews: 45,
       images: [
@@ -52,8 +65,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     },
     { 
       id: 3, 
-      name: 'Onions (1kg)', 
-      price: 80, 
+      name: 'Red Onions (1kg)', 
+      price: 30, 
       rating: 4.2, 
       reviews: 32,
       images: [
@@ -66,7 +79,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 4, 
       name: 'Street Samosas (6 pcs)', 
-      price: 320, 
+      price: 40, 
       rating: 4.8, 
       reviews: 67,
       images: [
@@ -79,7 +92,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 5, 
       name: 'Fresh Orange Juice', 
-      price: 160, 
+      price: 25, 
       rating: 4.6, 
       reviews: 23,
       images: [
@@ -91,8 +104,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     },
     { 
       id: 6, 
-      name: 'Homemade Pickles', 
-      price: 400, 
+      name: 'Homemade Mango Pickle', 
+      price: 80, 
       rating: 4.4, 
       reviews: 18,
       images: [
@@ -105,7 +118,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 7, 
       name: 'Green Chilies (250g)', 
-      price: 80, 
+      price: 20, 
       rating: 4.3, 
       reviews: 15,
       images: [
@@ -118,7 +131,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 8, 
       name: 'Fresh Coriander (bunch)', 
-      price: 80, 
+      price: 10, 
       rating: 4.5, 
       reviews: 41,
       images: [
@@ -130,12 +143,12 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     },
     { 
       id: 9, 
-      name: 'Ginger (500g)', 
-      price: 240, 
+      name: 'Fresh Ginger (500g)', 
+      price: 35, 
       rating: 4.6, 
       reviews: 29,
       images: [
-        'https://images.unsplash.com/photo-1516059080552-7b1dc10c276e?w=400&h=300&fit=crop',
+        'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1609501676628-ba14ce3c4bb3?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1628340428296-b5cd649bb6c8?w=400&h=300&fit=crop'
       ],
@@ -143,8 +156,8 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     },
     { 
       id: 10, 
-      name: 'Coconut Water (fresh)', 
-      price: 160, 
+      name: 'Fresh Coconut Water', 
+      price: 30, 
       rating: 4.7, 
       reviews: 34,
       images: [
@@ -157,7 +170,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 11, 
       name: 'Roasted Peanuts (200g)', 
-      price: 160, 
+      price: 25, 
       rating: 4.4, 
       reviews: 52,
       images: [
@@ -170,7 +183,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     { 
       id: 12, 
       name: 'Street-style Pani Puri', 
-      price: 240, 
+      price: 30, 
       rating: 4.9, 
       reviews: 88,
       images: [
@@ -198,6 +211,43 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
     ? products 
     : products.filter(product => product.category === selectedCategory);
 
+  const addToCart = (product: Product) => {
+    const existingItem = cartItems.find(item => item.id === product.id);
+    if (!existingItem) {
+      setCartItems([...cartItems, product]);
+      toast({
+        title: "Added to Cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+    } else {
+      toast({
+        title: "Already in Cart",
+        description: `${product.name} is already in your cart.`,
+      });
+    }
+  };
+
+  const addToWishlist = (product: Product) => {
+    const existingItem = wishlistItems.find(item => item.id === product.id);
+    if (!existingItem) {
+      setWishlistItems([...wishlistItems, product]);
+      toast({
+        title: "Added to Wishlist",
+        description: `${product.name} has been added to your wishlist.`,
+      });
+    } else {
+      setWishlistItems(wishlistItems.filter(item => item.id !== product.id));
+      toast({
+        title: "Removed from Wishlist",
+        description: `${product.name} has been removed from your wishlist.`,
+      });
+    }
+  };
+
+  const isInWishlist = (productId: number) => {
+    return wishlistItems.some(item => item.id === productId);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -210,11 +260,11 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="sm">
                 <Heart className="h-5 w-5 mr-2" />
-                Wishlist (3)
+                Wishlist ({wishlistItems.length})
               </Button>
               <Button variant="ghost" size="sm">
                 <ShoppingCart className="h-5 w-5 mr-2" />
-                Cart (0)
+                Cart ({cartItems.length})
               </Button>
               <Button 
                 variant="outline" 
@@ -279,7 +329,13 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
             : 'grid-cols-1'
         }`}>
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              onAddToCart={addToCart}
+              onAddToWishlist={addToWishlist}
+              isInWishlist={isInWishlist(product.id)}
+            />
           ))}
         </div>
       </div>
@@ -288,18 +344,18 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
 };
 
 interface ProductCardProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    rating: number;
-    reviews: number;
-    images: string[];
-    category: string;
-  };
+  product: Product;
+  onAddToCart: (product: Product) => void;
+  onAddToWishlist: (product: Product) => void;
+  isInWishlist: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ 
+  product, 
+  onAddToCart, 
+  onAddToWishlist, 
+  isInWishlist 
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -332,9 +388,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Button 
             size="sm"
             variant="ghost"
-            className="absolute top-2 right-2 h-8 w-8 p-0 bg-white/80 hover:bg-white group-hover:opacity-100 opacity-0 transition-opacity"
+            className={`absolute top-2 right-2 h-8 w-8 p-0 bg-white/80 hover:bg-white group-hover:opacity-100 opacity-0 transition-opacity ${
+              isInWishlist ? 'text-red-500' : ''
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToWishlist(product);
+            }}
           >
-            <Heart className="h-4 w-4" />
+            <Heart className={`h-4 w-4 ${isInWishlist ? 'fill-current' : ''}`} />
           </Button>
           {product.images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
@@ -380,7 +442,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-2xl font-bold text-gray-900">
               ₹{product.price}
             </span>
-            <Button size="sm" className="bg-green-600 hover:bg-green-700">
+            <Button 
+              size="sm" 
+              className="bg-green-600 hover:bg-green-700"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}
+            >
               Add to Cart
             </Button>
           </div>
