@@ -24,46 +24,50 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
   onSearchQueryChange,
 }) => {
   return (
-    <div className="glass-effect rounded-2xl p-6 mb-8">
-      <div className="flex flex-col sm:flex-row gap-4">
+    <div className="glass-effect rounded-3xl p-8 mb-8 border border-white/30">
+      <div className="flex flex-col lg:flex-row gap-6">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+          <Search className="absolute left-5 top-1/2 transform -translate-y-1/2 text-muted-foreground h-6 w-6" />
           <Input
             placeholder="Search fresh produce, snacks, beverages..."
-            className="pl-12 h-12 bg-white/50 border-border/50 focus:bg-white transition-all duration-200"
+            className="elegant-input pl-14 h-14 text-lg font-medium focus:ring-2 focus:ring-primary/20"
             value={searchQuery}
             onChange={(e) => onSearchQueryChange(e.target.value)}
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
-            <SelectTrigger className="w-48 h-12 bg-white/50 border-border/50 focus:bg-white">
+            <SelectTrigger className="elegant-input w-56 h-14 text-lg font-medium">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent className="bg-white/95 backdrop-blur-md border border-border/50">
+            <SelectContent className="modern-card border border-white/30 shadow-2xl">
               {categories.map((category) => (
-                <SelectItem key={category.value} value={category.value}>
+                <SelectItem key={category.value} value={category.value} className="text-lg py-3 hover:bg-primary/10 rounded-lg">
                   {category.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <div className="flex glass-effect rounded-lg p-1">
+          <div className="glass-effect rounded-2xl p-2 border border-white/30">
             <Button
               variant={viewMode === 'grid' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('grid')}
-              className="h-10 w-10 p-0 transition-all duration-200"
+              className={`h-12 w-12 p-0 transition-all duration-200 rounded-xl ${
+                viewMode === 'grid' ? 'premium-button' : 'hover:bg-white/30'
+              }`}
             >
-              <Grid className="h-4 w-4" />
+              <Grid className="h-5 w-5" />
             </Button>
             <Button
               variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => onViewModeChange('list')}
-              className="h-10 w-10 p-0 transition-all duration-200"
+              className={`h-12 w-12 p-0 transition-all duration-200 rounded-xl ${
+                viewMode === 'list' ? 'premium-button' : 'hover:bg-white/30'
+              }`}
             >
-              <List className="h-4 w-4" />
+              <List className="h-5 w-5" />
             </Button>
           </div>
         </div>

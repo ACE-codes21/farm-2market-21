@@ -20,23 +20,23 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
   onRoleChange,
 }) => {
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg border-b border-border/50 sticky top-0 z-50">
+    <header className="glass-effect sticky top-0 z-50 border-b border-white/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold font-display gradient-text">Local Street Market</h1>
+            <h1 className="text-3xl font-bold font-display gradient-text">Street Market</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={onWishlistOpen}
-              className="relative hover:bg-primary/10 transition-all duration-200 rounded-full px-4"
+              className="relative modern-card border-0 px-5 py-3 text-foreground hover:bg-white/30"
             >
               <Heart className="h-5 w-5 mr-2 text-red-500" />
-              <span className="hidden sm:inline">Wishlist</span>
+              <span className="hidden sm:inline font-medium">Wishlist</span>
               {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
                   {wishlistCount}
                 </span>
               )}
@@ -45,12 +45,12 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={onCartOpen}
-              className="relative hover:bg-primary/10 transition-all duration-200 rounded-full px-4"
+              className="relative modern-card border-0 px-5 py-3 text-foreground hover:bg-white/30"
             >
               <ShoppingCart className="h-5 w-5 mr-2 text-primary" />
-              <span className="hidden sm:inline">Cart</span>
+              <span className="hidden sm:inline font-medium">Cart</span>
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-primary to-accent text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
                   {cartItemCount}
                 </span>
               )}

@@ -8,11 +8,11 @@ interface VendorDashboardHeaderProps {
 
 export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = ({ onRoleChange }) => {
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg border-b border-border/50">
+    <header className="glass-effect border-b border-white/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold font-display gradient-text">Vendor Dashboard</h1>
+            <h1 className="text-3xl font-bold font-display gradient-text">Vendor Dashboard</h1>
           </div>
           <UserMenu onLogout={onRoleChange} />
         </div>
