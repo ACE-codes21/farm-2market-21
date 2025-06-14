@@ -1,66 +1,69 @@
 
 import React, { useState, useMemo } from 'react';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductList } from '@/components/ProductList';
 import { ProductFilters } from '@/components/ProductFilters';
 import { CartSheet } from '@/components/CartSheet';
 import { WishlistSheet } from '@/components/WishlistSheet';
-import BuyerHeader from '@/components/BuyerHeader';
-import { Product } from '@/types';
+import { BuyerHeader } from '@/components/BuyerHeader';
+import { CartItem, Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { initialProducts } from '@/data/market';
+import { products as initialProducts } from '@/data/market';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
+  onPurchase: (items: CartItem[]) => void;
 }
 
-const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
+const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchase }) => {
   const [products] = useState<Product[]>(initialProducts);
-  const [filters, setFilters] = useState({ category: 'all', minPrice: 0, maxPrice: 1000, searchQuery: '' });
+  const [filters, setFilters] = useState({ category: 'all', searchQuery: '' });
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   
-  const { cart, addToCart, removeFromCart, updateQuantity } = useCart();
-  const { wishlist, addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { cartItems: cart, addToCart, removeFromCart, updateCartQuantity, cartTotalItems } = useCart();
+  const { wishlistItems: wishlist, handleAddToWishlist: addToWishlist, removeFromWishlist: removeFromWishlistFromHook, isInWishlist } = useWishlist();
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
       const categoryMatch = filters.category === 'all' || product.category === filters.category;
-      const priceMatch = product.price >= filters.minPrice && product.price <= filters.maxPrice;
       const searchMatch = product.name.toLowerCase().includes(filters.searchQuery.toLowerCase());
-      return categoryMatch && priceMatch && searchMatch;
+      return categoryMatch && searchMatch;
     });
   }, [products, filters]);
+
+  const handleRemoveFromWishlist = (product: Product) => {
+    removeFromWishlistFromHook(product);
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <BuyerHeader
         onCartClick={() => setIsCartOpen(true)}
         onWishlistClick={() => setIsWishlistOpen(true)}
-        cartItemCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+        cartItemCount={cartTotalItems}
         wishlistItemCount={wishlist.length}
         onRoleChange={onRoleChange}
       />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <aside className="lg:col-span-1">
-            <ProductFilters filters={filters} onFilterChange={setFilters} />
-          </aside>
-          
-          <div className="lg:col-span-3">
-            <h2 className="text-3xl font-bold font-display mb-6">Products</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredProducts.map(product => (
-                <ProductCard 
-                  key={product.id}
-                  product={product}
-                  onAddToCart={() => addToCart(product)}
-                  onAddToWishlist={addToWishlist}
-                  isInWishlist={isInWishlist(product.id)}
-                />
-              ))}
-            </div>
+        <ProductFilters
+          selectedCategory={filters.category}
+          onCategoryChange={(category) => setFilters(f => ({ ...f, category }))}
+          searchQuery={filters.searchQuery}
+          onSearchQueryChange={(searchQuery) => setFilters(f => ({ ...f, searchQuery }))}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+        <div className="mt-6">
+            <ProductList
+                products={filteredProducts}
+                viewMode={viewMode}
+                onAddToCart={addToCart}
+                onAddToWishlist={addToWishlist}
+                isInWishlist={isInWishlist}
+            />
             {filteredProducts.length === 0 && (
               <div className="text-center py-16 text-muted-foreground">
                 <p className="text-xl">No products match your criteria.</p>
@@ -68,21 +71,21 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
               </div>
             )}
           </div>
-        </div>
       </main>
       
       <CartSheet 
-        isOpen={isCartOpen}
+        open={isCartOpen}
         onOpenChange={setIsCartOpen}
         cartItems={cart}
         onRemoveItem={removeFromCart}
-        onUpdateQuantity={updateQuantity}
+        onUpdateQuantity={updateCartQuantity}
+        onCheckout={onPurchase}
       />
       <WishlistSheet
-        isOpen={isWishlistOpen}
+        open={isWishlistOpen}
         onOpenChange={setIsWishlistOpen}
         wishlistItems={wishlist}
-        onRemoveFromWishlist={removeFromWishlist}
+        onRemoveFromWishlist={handleRemoveFromWishlist}
         onAddToCart={addToCart}
       />
     </div>

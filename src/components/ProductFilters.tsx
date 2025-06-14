@@ -11,6 +11,8 @@ interface ProductFiltersProps {
   onCategoryChange: (category: string) => void;
   viewMode: 'grid' | 'list';
   onViewModeChange: (mode: 'grid' | 'list') => void;
+  searchQuery: string;
+  onSearchQueryChange: (query: string) => void;
 }
 
 export const ProductFilters: React.FC<ProductFiltersProps> = ({
@@ -18,6 +20,8 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
   onCategoryChange,
   viewMode,
   onViewModeChange,
+  searchQuery,
+  onSearchQueryChange,
 }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -26,6 +30,8 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
         <Input
           placeholder="Search fresh produce, snacks, beverages..."
           className="pl-10 h-12"
+          value={searchQuery}
+          onChange={(e) => onSearchQueryChange(e.target.value)}
         />
       </div>
       <div className="flex gap-2">
