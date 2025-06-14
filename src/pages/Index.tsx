@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import RoleSelectionModal from '@/components/RoleSelectionModal';
 import VendorDashboard from '@/components/VendorDashboard';
@@ -88,7 +87,6 @@ const Index = () => {
   if (userRole === 'buyer') {
     return <BuyerDashboard 
       onRoleChange={handleRoleChange} 
-      products={products} 
       onPurchase={handlePurchase}
     />;
   }

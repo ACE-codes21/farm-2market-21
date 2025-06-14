@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VendorDashboard from '@/components/VendorDashboard';
@@ -122,7 +121,6 @@ const Dashboard = () => {
     return (
       <BuyerDashboard 
         onRoleChange={handleLogout}
-        products={products} 
         onPurchase={handlePurchase}
       />
     );

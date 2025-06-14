@@ -34,7 +34,12 @@ const Login: React.FC = () => {
     const isVendor = role === 'vendor' && email === 'vendor@demo.com' && password === 'vendor123';
 
     if (isBuyer || isVendor) {
-      localStorage.setItem('userRole', role);
+      const userSession = {
+        email,
+        role,
+        isAuthenticated: true,
+      };
+      localStorage.setItem('userSession', JSON.stringify(userSession));
       navigate('/dashboard');
     } else {
       setError('Invalid email or password for the selected role.');
