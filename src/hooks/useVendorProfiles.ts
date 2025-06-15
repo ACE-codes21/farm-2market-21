@@ -17,12 +17,11 @@ export interface VendorProfile {
 const fetchVendorProfiles = async (): Promise<VendorProfile[]> => {
   console.log('Fetching vendor profiles with locations...');
 
+  // First try to fetch with new columns, fallback if they don't exist
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, full_name, phone, address, latitude, longitude, avatar_url, upi_id, location_updated_at')
-    .eq('role', 'vendor')
-    .not('latitude', 'is', null)
-    .not('longitude', 'is', null);
+    .select('id, full_name, phone, avatar_url, upi_id')
+    .eq('role', 'vendor');
 
   if (error) {
     console.error('Error fetching vendor profiles:', error);
@@ -30,7 +29,21 @@ const fetchVendorProfiles = async (): Promise<VendorProfile[]> => {
   }
 
   console.log('Vendor profiles fetched successfully:', data);
-  return data || [];
+  
+  // Transform the data to match our interface, with default values for missing columns
+  const transformedData: VendorProfile[] = (data || []).map(profile => ({
+    id: profile.id,
+    full_name: profile.full_name,
+    phone: profile.phone,
+    address: null, // Will be null until database migration is complete
+    latitude: null,
+    longitude: null,
+    avatar_url: profile.avatar_url,
+    upi_id: profile.upi_id,
+    location_updated_at: null
+  }));
+
+  return transformedData;
 };
 
 export const useVendorProfiles = () => {

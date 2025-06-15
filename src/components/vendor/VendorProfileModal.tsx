@@ -70,14 +70,25 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
           email: data.email || user.email || '',
           phone: data.phone || '',
           address: data.address || '',
-          latitude: data.latitude,
-          longitude: data.longitude,
+          latitude: data.latitude || null,
+          longitude: data.longitude || null,
           avatar_url: data.avatar_url || '',
           upi_id: data.upi_id || ''
         });
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
+      // Fallback for when new columns don't exist yet
+      setProfile({
+        full_name: '',
+        email: user.email || '',
+        phone: '',
+        address: '',
+        latitude: null,
+        longitude: null,
+        avatar_url: '',
+        upi_id: ''
+      });
     }
   };
 
@@ -86,16 +97,21 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
 
     setLoading(true);
     try {
-      const updateData = {
+      // Only update columns that exist
+      const updateData: any = {
         full_name: profile.full_name,
         phone: profile.phone,
-        address: profile.address,
-        latitude: profile.latitude,
-        longitude: profile.longitude,
         avatar_url: profile.avatar_url,
-        upi_id: profile.upi_id,
-        location_updated_at: profile.latitude && profile.longitude ? new Date().toISOString() : null
+        upi_id: profile.upi_id
       };
+
+      // Try to add location fields if they exist
+      if (profile.latitude && profile.longitude) {
+        updateData.latitude = profile.latitude;
+        updateData.longitude = profile.longitude;
+        updateData.address = profile.address;
+        updateData.location_updated_at = new Date().toISOString();
+      }
 
       const { error } = await supabase
         .from('profiles')

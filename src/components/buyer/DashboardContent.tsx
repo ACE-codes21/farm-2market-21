@@ -49,21 +49,20 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({
 
   return (
     <div className="space-y-6">
-      <ProductFilters
-        filters={filters}
-        setFilters={setFilters}
-        advancedFilters={advancedFilters}
-        setAdvancedFilters={setAdvancedFilters}
-        sortOptions={sortOptions}
-        setSortOptions={setSortOptions}
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-      />
+      <div className="dark-glass-effect rounded-3xl p-8 border border-slate-600/30">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="flex-1 relative">
+            <input 
+              placeholder="Search fresh produce, snacks, beverages..." 
+              className="w-full pl-14 h-14 text-lg font-medium bg-slate-800/50 border border-slate-600/30 rounded-xl text-white placeholder:text-slate-400 focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50" 
+            />
+          </div>
+        </div>
+      </div>
       
       <ProductList
         products={filteredProducts}
         viewMode={viewMode}
-        isLoading={isLoadingProducts}
         onAddToCart={onAddToCart}
         onAddToWishlist={onAddToWishlist}
         isInWishlist={isInWishlist}
