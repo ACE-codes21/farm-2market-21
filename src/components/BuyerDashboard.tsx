@@ -1,7 +1,6 @@
-
 import React, { useState, useMemo } from 'react';
 import { ProductList } from '@/components/ProductList';
-import { ProductFilters } from '@/components/ProductFilters';
+import { ProductFilters, FilterOptions, SortOptions } from '@/components/ProductFilters';
 import { CartSheet } from '@/components/CartSheet';
 import { WishlistSheet } from '@/components/WishlistSheet';
 import { BuyerHeader } from '@/components/BuyerHeader';
@@ -12,7 +11,6 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { useAppContext } from '@/contexts/AppContext';
 import { Sparkles, Map, Grid3x3, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { FilterOptions, SortOptions } from '@/components/AdvancedFilters';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
