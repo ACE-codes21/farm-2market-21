@@ -10,7 +10,7 @@ interface VendorRecentOrdersProps {
 
 export const VendorRecentOrders: React.FC<VendorRecentOrdersProps> = ({ orders }) => {
   return (
-    <Card className="bg-card">
+    <Card className="dark-glass-effect border-slate-700">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">Recent Orders</CardTitle>
       </CardHeader>
@@ -28,7 +28,7 @@ export const VendorRecentOrders: React.FC<VendorRecentOrdersProps> = ({ orders }
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-lg text-primary">₹{order.total}</p>
-                  <Badge variant="default" className="bg-green-100 text-green-800 font-semibold border-green-200">
+                  <Badge variant="default" className="bg-green-500/20 text-green-400 border-green-500/30">
                     {order.status}
                   </Badge>
                 </div>

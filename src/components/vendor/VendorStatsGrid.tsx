@@ -26,13 +26,13 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       {statsDisplay.map((stat) => (
-        <Card key={stat.key} className="hover:shadow-lg transition-shadow duration-200 bg-card">
+        <Card key={stat.key} className="dark-glass-effect border-slate-700">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
                 <p className="text-3xl font-bold text-card-foreground">{stat.value}</p>
-                <p className="text-sm text-green-600 font-medium">{stat.change}</p>
+                <p className="text-sm text-green-400 font-medium">{stat.change}</p>
               </div>
               <div className="p-3 bg-primary/10 rounded-full">
                 <stat.icon className="h-6 w-6 text-primary" />

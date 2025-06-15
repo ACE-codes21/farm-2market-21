@@ -32,7 +32,7 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
     <Card className="dark-glass-effect border-slate-700 animate-fade-in">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-xl font-semibold text-white">Smart Inventory</CardTitle>
-        <Button onClick={onAddProductClick} className="bg-green-500 text-white hover:bg-green-600 btn-hover-glow shadow-green-500/30 neon-box">
+        <Button onClick={onAddProductClick} className="bg-green-500 text-white hover:bg-green-600 btn-hover-glow shadow-green-500/30">
           <Plus className="h-4 w-4 mr-2" />
           Add Product
         </Button>
