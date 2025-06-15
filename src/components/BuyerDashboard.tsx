@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { ProductList } from '@/components/ProductList';
 import { ProductFilters, FilterOptions, SortOptions } from '@/components/ProductFilters';
@@ -9,7 +10,9 @@ import { OrdersPage } from '@/components/OrdersPage';
 import { CartItem, Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
-import { useAppContext } from '@/contexts/AppContext';
+// import { useAppContext } from '@/contexts/AppContext'; // No longer needed
+import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 import { Sparkles, Map, Grid3x3, List, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +22,36 @@ interface BuyerDashboardProps {
 }
 
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchase }) => {
-  const { products } = useAppContext();
+  // const { products } = useAppContext(); // Replaced with Supabase query
+  const { data: products = [], isLoading: isLoadingProducts } = useQuery<Product[]>({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('products')
+        .select(`
+          *,
+          vendor:profiles (
+            full_name,
+            phone,
+            upi_id,
+            upi_qr_code
+          )
+        `);
+
+      if (error) {
+        console.error('Error fetching products:', error);
+        throw error;
+      }
+      
+      return data.map((p: any) => ({
+        ...p,
+        id: p.id,
+        price: Number(p.price),
+        vendor: p.vendor ? { name: p.vendor.full_name, phone: p.vendor.phone, upiId: p.vendor.upi_id, upiQrCode: p.vendor.upi_qr_code } : undefined,
+      }));
+    },
+  });
+
   const [filters, setFilters] = useState({ category: 'all', searchQuery: '' });
   const [advancedFilters, setAdvancedFilters] = useState<FilterOptions>({
     priceRange: [0, 500],
@@ -183,20 +215,29 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
               onSortChange={setSortOptions}
             />
             <div className="mt-6">
-              <ProductList
-                products={filteredProducts}
-                viewMode={viewMode}
-                onAddToCart={handleAddToCart}
-                onAddToWishlist={addToWishlist}
-                isInWishlist={isInWishlist}
-              />
-              {filteredProducts.length === 0 && (
-                <div className="text-center py-16">
-                  <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
-                    <p className="text-2xl font-semibold text-white mb-3">No products found</p>
-                    <p className="text-slate-300">Try adjusting your search or filters</p>
-                  </div>
-                </div>
+              {isLoadingProducts ? (
+                 <div className="text-center py-16">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
+                    <p className="text-slate-300">Fetching fresh products...</p>
+                 </div>
+              ) : (
+                <>
+                  <ProductList
+                    products={filteredProducts}
+                    viewMode={viewMode}
+                    onAddToCart={handleAddToCart}
+                    onAddToWishlist={addToWishlist}
+                    isInWishlist={isInWishlist}
+                  />
+                  {filteredProducts.length === 0 && (
+                    <div className="text-center py-16">
+                      <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
+                        <p className="text-2xl font-semibold text-white mb-3">No products found</p>
+                        <p className="text-slate-300">Try adjusting your search or filters</p>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </>

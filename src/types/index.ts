@@ -1,24 +1,26 @@
+
 export interface Product {
-  id: number;
+  id: string; // was number
   name: string;
   price: number;
-  rating: number;
-  reviews: number;
-  images: string[];
+  rating: number | null;
+  reviews: number | null;
+  images: string[] | null;
   category: string;
   stock: number;
-  description?: string;
+  description?: string | null;
+  vendor_id?: string;
   vendor?: {
-    name: string;
-    phone: string;
-    upiId?: string;
-    upiQrCode?: string;
+    name: string | null;
+    phone: string | null;
+    upiId?: string | null;
+    upiQrCode?: string | null;
   };
-  expiryDate?: string;
-  restockReminder?: boolean;
-  barcode?: string;
-  isFreshPick?: boolean;
-  freshPickExpiresAt?: string;
+  expiryDate?: string | null;
+  restockReminder?: boolean | null;
+  barcode?: string | null;
+  isFreshPick?: boolean | null;
+  freshPickExpiresAt?: string | null;
 }
 
 export interface CartItem extends Product {

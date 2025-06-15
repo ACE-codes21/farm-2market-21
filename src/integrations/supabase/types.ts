@@ -9,6 +9,74 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      products: {
+        Row: {
+          barcode: string | null
+          category: string
+          created_at: string
+          description: string | null
+          expiry_date: string | null
+          fresh_pick_expires_at: string | null
+          id: string
+          images: string[] | null
+          is_fresh_pick: boolean | null
+          name: string
+          price: number
+          rating: number | null
+          restock_reminder: boolean | null
+          reviews: number | null
+          stock: number
+          updated_at: string
+          vendor_id: string
+        }
+        Insert: {
+          barcode?: string | null
+          category: string
+          created_at?: string
+          description?: string | null
+          expiry_date?: string | null
+          fresh_pick_expires_at?: string | null
+          id?: string
+          images?: string[] | null
+          is_fresh_pick?: boolean | null
+          name: string
+          price: number
+          rating?: number | null
+          restock_reminder?: boolean | null
+          reviews?: number | null
+          stock: number
+          updated_at?: string
+          vendor_id: string
+        }
+        Update: {
+          barcode?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          expiry_date?: string | null
+          fresh_pick_expires_at?: string | null
+          id?: string
+          images?: string[] | null
+          is_fresh_pick?: boolean | null
+          name?: string
+          price?: number
+          rating?: number | null
+          restock_reminder?: boolean | null
+          reviews?: number | null
+          stock?: number
+          updated_at?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -16,8 +84,11 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          phone: string | null
           role: string | null
           updated_at: string | null
+          upi_id: string | null
+          upi_qr_code: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -25,8 +96,11 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          phone?: string | null
           role?: string | null
           updated_at?: string | null
+          upi_id?: string | null
+          upi_qr_code?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -34,8 +108,11 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          phone?: string | null
           role?: string | null
           updated_at?: string | null
+          upi_id?: string | null
+          upi_qr_code?: string | null
         }
         Relationships: []
       }
