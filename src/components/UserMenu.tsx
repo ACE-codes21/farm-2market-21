@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, Settings, Shield, Info, LogOut } from 'lucide-react';
+import { User, ShoppingBag, Headphones, LogOut } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -64,11 +64,11 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
       case 'profile':
         console.log('Opening profile section');
         break;
-      case 'security':
-        console.log('Opening security section');
+      case 'orders':
+        console.log('Opening orders section');
         break;
-      case 'about':
-        console.log('Opening about section');
+      case 'customer-support':
+        console.log('Opening customer support section');
         break;
       default:
         break;
@@ -96,18 +96,18 @@ export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
           <span className="font-medium">Profile</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          onClick={() => handleMenuAction('security')}
+          onClick={() => handleMenuAction('orders')}
           className="hover:bg-accent/10 transition-colors duration-200 cursor-pointer py-3 px-4 rounded-lg mx-2 my-1"
         >
-          <Shield className="mr-3 h-5 w-5 text-accent" />
-          <span className="font-medium">Security</span>
+          <ShoppingBag className="mr-3 h-5 w-5 text-accent" />
+          <span className="font-medium">Orders</span>
         </DropdownMenuItem>
         <DropdownMenuItem 
-          onClick={() => handleMenuAction('about')}
+          onClick={() => handleMenuAction('customer-support')}
           className="hover:bg-blue-500/10 transition-colors duration-200 cursor-pointer py-3 px-4 rounded-lg mx-2 my-1"
         >
-          <Info className="mr-3 h-5 w-5 text-blue-500" />
-          <span className="font-medium">About</span>
+          <Headphones className="mr-3 h-5 w-5 text-blue-500" />
+          <span className="font-medium">Customer Support</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator className="bg-border/30 my-2" />
         <DropdownMenuItem 
