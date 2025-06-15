@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowRight, Sparkles, Leaf, Heart, Truck, Users } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
+
 const HeroSection: React.FC = () => {
   const [authModal, setAuthModal] = useState<{
     isOpen: boolean;
@@ -12,6 +14,7 @@ const HeroSection: React.FC = () => {
     role: null,
     mode: 'login'
   });
+
   const openAuthModal = (role: 'vendor' | 'buyer', mode: 'login' | 'signup' = 'signup') => {
     setAuthModal({
       isOpen: true,
@@ -19,6 +22,7 @@ const HeroSection: React.FC = () => {
       mode
     });
   };
+
   const closeAuthModal = () => {
     setAuthModal({
       isOpen: false,
@@ -26,6 +30,7 @@ const HeroSection: React.FC = () => {
       mode: 'login'
     });
   };
+
   const features = [{
     icon: Leaf,
     text: "Fresh & Local",
@@ -43,7 +48,9 @@ const HeroSection: React.FC = () => {
     text: "Community First",
     color: "purple"
   }];
-  return <>
+
+  return (
+    <>
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="space-y-8 animate-fade-in">
@@ -70,8 +77,8 @@ const HeroSection: React.FC = () => {
 
             {/* Subtitle */}
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in" style={{
-            animationDelay: '0.2s'
-          }}>
+              animationDelay: '0.2s'
+            }}>
               Empowering <span className="text-orange-400 font-semibold">vendors</span>. Nourishing <span className="text-green-400 font-semibold">neighborhoods</span>.
             </p>
 
@@ -95,15 +102,25 @@ const HeroSection: React.FC = () => {
             {/* Enhanced Feature Pills */}
             <div className="flex flex-wrap justify-center gap-6 pt-16">
               {features.map((feature, index) => {
-              const IconComponent = feature.icon;
-              const colorClasses = {
-                green: "from-green-500/20 to-green-400/10 border-green-400/30 text-green-300 shadow-green-500/20",
-                red: "from-red-500/20 to-red-400/10 border-red-400/30 text-red-300 shadow-red-500/20",
-                blue: "from-blue-500/20 to-blue-400/10 border-blue-400/30 text-blue-300 shadow-blue-500/20",
-                purple: "from-purple-500/20 to-purple-400/10 border-purple-400/30 text-purple-300 shadow-purple-500/20"
-              };
-              return;
-            })}
+                const IconComponent = feature.icon;
+                const colorClasses = {
+                  green: "from-green-500/20 to-green-400/10 border-green-400/30 text-green-300 shadow-green-500/20",
+                  red: "from-red-500/20 to-red-400/10 border-red-400/30 text-red-300 shadow-red-500/20",
+                  blue: "from-blue-500/20 to-blue-400/10 border-blue-400/30 text-blue-300 shadow-blue-500/20",
+                  purple: "from-purple-500/20 to-purple-400/10 border-purple-400/30 text-purple-300 shadow-purple-500/20"
+                };
+                
+                return (
+                  <div
+                    key={index}
+                    className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${colorClasses[feature.color as keyof typeof colorClasses]} border rounded-full text-sm font-medium backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
+                    style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+                  >
+                    <IconComponent className="h-4 w-4" />
+                    {feature.text}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -111,6 +128,8 @@ const HeroSection: React.FC = () => {
 
       {/* Auth Modal */}
       <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} role={authModal.role} defaultMode={authModal.mode} />
-    </>;
+    </>
+  );
 };
+
 export default HeroSection;
