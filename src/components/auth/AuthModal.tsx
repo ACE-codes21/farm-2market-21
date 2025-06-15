@@ -42,7 +42,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
       checkAuth();
     }
   }, [isOpen, onClose]);
-
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     setError('');
@@ -80,7 +79,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
-
   const handleSignup = async (email: string, password: string, fullName: string) => {
     setIsLoading(true);
     setError('');
@@ -125,7 +123,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
-
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
     setIsLoading(true);
     setError('');
@@ -152,34 +149,32 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
-
   const getRoleTitle = () => {
     if (role === 'vendor') return 'Vendor';
     if (role === 'buyer') return 'Buyer';
     return 'User';
   };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
-        <div className="relative animate-fade-in opacity-0 transition-opacity duration-700 data-[state=open]:opacity-100 data-[state=open]:animate-[fadeInUp_0.5s_ease-out]">
-          {/* Enhanced frosted glass background with dark translucent blur */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-md rounded-3xl shadow-xl ring-1 ring-white/10 before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-white/5 before:to-transparent before:p-[1px] before:content-[''] after:absolute after:inset-[1px] after:rounded-3xl after:bg-gradient-to-br after:from-black/20 after:to-black/5"></div>
+        <div className="relative animate-fade-in">
+          {/* Enhanced frosted glass background with better border */}
+          <div className="absolute inset-0 backdrop-blur-xl bg-black/60 rounded-3xl border border-white/20 shadow-[0_0_60px_rgba(34,197,94,0.4),0_0_120px_rgba(34,197,94,0.2)] before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-white/10 before:to-transparent before:p-[1px] before:content-[''] after:absolute after:inset-[1px] after:rounded-3xl after:bg-gradient-to-br after:from-black/40 after:to-black/20"></div>
           
-          {/* Subtle ambient glow effects */}
-          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-lime-500/10 rounded-full blur-xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-white/5 rounded-full blur-lg"></div>
+          {/* Subtle glow effects */}
+          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-green-500/20 rounded-full blur-xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-white/10 rounded-full blur-lg"></div>
 
-          {/* Close button with glow on hover */}
+          {/* Close button */}
           <button 
             onClick={onClose} 
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm ring-1 ring-white/10 text-white/70 hover:text-white hover:bg-black/50 hover:ring-lime-500/50 hover:ring-2 hover:ring-offset-2 hover:ring-offset-transparent hover:scale-110 transition-all duration-300"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white/70 hover:text-white hover:bg-black/50 hover:border-white/30 transition-all duration-300 hover:scale-110"
           >
             <X className="h-4 w-4" />
           </button>
 
           {/* Main content */}
-          <div className="relative z-10 p-6 sm:p-8">
+          <div className="relative z-10 p-8">
             {/* Hidden accessibility elements */}
             <DialogTitle className="sr-only">
               {role ? `${getRoleTitle()} Authentication` : 'Welcome to Farm2Market'}
@@ -188,18 +183,18 @@ const AuthModal: React.FC<AuthModalProps> = ({
               {role ? `Continue as a ${getRoleTitle().toLowerCase()} to access your dashboard` : 'Connect with local vendors and buyers in your community'}
             </DialogDescription>
 
-            <Tabs defaultValue={defaultMode} className="space-y-4 sm:space-y-6">
-              {/* Enhanced tabs with neon glow effect */}
-              <TabsList className="grid w-full grid-cols-2 bg-black/30 backdrop-blur-sm ring-1 ring-white/10 p-1 rounded-2xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <Tabs defaultValue={defaultMode} className="space-y-6">
+              {/* Enhanced tabs with better emphasis */}
+              <TabsList className="grid w-full grid-cols-2 bg-black/40 backdrop-blur-sm border border-white/20 p-1 rounded-2xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <TabsTrigger 
                   value="login" 
-                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-lime-500 data-[state=active]:to-lime-400 data-[state=active]:text-black data-[state=active]:ring-2 data-[state=active]:ring-lime-500 data-[state=active]:shadow-lg data-[state=active]:shadow-lime-500/25 transition-all duration-300 hover:text-white hover:scale-105 font-sans rounded-xl py-2 sm:py-3"
+                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 hover:text-white font-sans rounded-xl py-3"
                 >
                   Sign In
                 </TabsTrigger>
                 <TabsTrigger 
                   value="signup" 
-                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-lime-500 data-[state=active]:to-lime-400 data-[state=active]:text-black data-[state=active]:ring-2 data-[state=active]:ring-lime-500 data-[state=active]:shadow-lg data-[state=active]:shadow-lime-500/25 transition-all duration-300 hover:text-white hover:scale-105 font-sans rounded-xl py-2 sm:py-3"
+                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 hover:text-white font-sans rounded-xl py-3"
                 >
                   Sign Up
                 </TabsTrigger>
@@ -212,11 +207,11 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 </Alert>
               )}
 
-              <TabsContent value="login" className="space-y-4 sm:space-y-5">
+              <TabsContent value="login" className="space-y-5">
                 <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
               </TabsContent>
 
-              <TabsContent value="signup" className="space-y-4 sm:space-y-5">
+              <TabsContent value="signup" className="space-y-5">
                 <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
               </TabsContent>
 
