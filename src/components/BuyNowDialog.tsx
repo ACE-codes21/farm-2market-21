@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Zap, CreditCard, Smartphone, Wallet, Tag, Check, X } from 'lucide-react';
+import { Zap, CreditCard, Smartphone, Wallet, Tag, Check, X, CheckCircle } from 'lucide-react';
 import { Product } from '@/types';
 import { QuantitySelector } from './QuantitySelector';
 import { useToast } from '@/hooks/use-toast';
@@ -26,6 +26,8 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
   const [appliedCoupon, setAppliedCoupon] = useState<{code: string, discount: number} | null>(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
   const [open, setOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
   const { toast } = useToast();
 
   // Mock coupons for demo
@@ -67,18 +69,47 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
     setCouponCode('');
   };
 
-  const handlePurchase = () => {
-    onPurchase(selectedQuantity, appliedCoupon?.code, selectedPaymentMethod);
-    setOpen(false);
-    setSelectedQuantity(1);
-    setCouponCode('');
-    setAppliedCoupon(null);
+  const handlePurchase = async () => {
+    setIsProcessing(true);
     
-    toast({
-      title: "Purchase Initiated",
-      description: `Proceeding to ${paymentMethods.find(p => p.id === selectedPaymentMethod)?.name} payment`
-    });
+    // Simulate payment processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    onPurchase(selectedQuantity, appliedCoupon?.code, selectedPaymentMethod);
+    setOrderPlaced(true);
+    setIsProcessing(false);
+    
+    // Reset after showing success
+    setTimeout(() => {
+      setOpen(false);
+      setOrderPlaced(false);
+      setSelectedQuantity(1);
+      setCouponCode('');
+      setAppliedCoupon(null);
+    }, 2000);
   };
+
+  if (orderPlaced) {
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-xl border border-slate-600/30 shadow-2xl">
+          <div className="text-center p-6 space-y-4">
+            <div className="mx-auto w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
+              <CheckCircle className="h-8 w-8 text-green-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-white">Order Placed Successfully!</h3>
+              <p className="text-slate-300 mt-2">Your order for {product.name} has been confirmed.</p>
+              <p className="text-sm text-slate-400 mt-1">Order total: ₹{total.toFixed(2)}</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -246,16 +277,17 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
             variant="outline" 
             onClick={() => setOpen(false)} 
             className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white"
+            disabled={isProcessing}
           >
             Cancel
           </Button>
           <Button 
             onClick={handlePurchase} 
-            disabled={product.stock === 0}
+            disabled={product.stock === 0 || isProcessing}
             className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex-1"
           >
             <Zap className="mr-2 h-4 w-4" />
-            Complete Purchase ₹{total.toFixed(2)}
+            {isProcessing ? 'Processing...' : `Complete Purchase ₹${total.toFixed(2)}`}
           </Button>
         </DialogFooter>
       </DialogContent>

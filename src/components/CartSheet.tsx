@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Plus, Minus, X } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, X, CheckCircle } from 'lucide-react';
 import { CartItem } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useToast } from '@/hooks/use-toast';
 
 interface CartSheetProps {
   cartItems: CartItem[];
@@ -21,7 +22,56 @@ export const CartSheet: React.FC<CartSheetProps> = ({
   onOpenChange,
   onCheckout,
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const { toast } = useToast();
+  
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckout = async () => {
+    if (cartItems.length === 0) return;
+    
+    setIsProcessing(true);
+    
+    // Simulate checkout processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    onCheckout();
+    setOrderPlaced(true);
+    setIsProcessing(false);
+    
+    toast({
+      title: "Order Placed Successfully!",
+      description: `Your order of ${cartItems.length} items has been confirmed.`
+    });
+    
+    // Reset after showing success
+    setTimeout(() => {
+      setOrderPlaced(false);
+      onOpenChange(false);
+    }, 2000);
+  };
+
+  if (orderPlaced) {
+    return (
+      <Sheet open={open} onOpenChange={onOpenChange}>
+        <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg bg-slate-900/95 backdrop-blur-xl border-l border-slate-600/30">
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <div className="mx-auto w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center">
+                <CheckCircle className="h-10 w-10 text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold text-white">Order Placed!</h3>
+                <p className="text-slate-300 mt-2">Your cart items have been ordered successfully.</p>
+                <p className="text-sm text-slate-400 mt-1">Total: ₹{total.toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -62,7 +112,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <p className="text-lg font-bold text-white">₹{item.price * item.quantity}</p>
+                      <p className="text-lg font-bold text-white">₹{(item.price * item.quantity).toFixed(2)}</p>
                       <Button 
                         variant="ghost" 
                         size="icon" 
@@ -80,14 +130,15 @@ export const CartSheet: React.FC<CartSheetProps> = ({
               <div className="flex w-full flex-col gap-4">
                 <div className="flex justify-between text-xl font-semibold">
                   <span className="text-slate-300">Subtotal</span>
-                  <span className="text-white">₹{total}</span>
+                  <span className="text-white">₹{total.toFixed(2)}</span>
                 </div>
                 <p className="text-xs text-slate-400">Shipping & taxes calculated at checkout.</p>
                 <Button 
-                  className="w-full mt-2 bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200" 
-                  onClick={onCheckout}
+                  className="w-full mt-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200" 
+                  onClick={handleCheckout}
+                  disabled={isProcessing}
                 >
-                  Checkout
+                  {isProcessing ? 'Processing...' : 'Checkout'}
                 </Button>
               </div>
             </SheetFooter>
@@ -102,7 +153,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
               <p className="text-slate-400">Add items to your cart to get started.</p>
             </div>
             <SheetClose asChild>
-              <Button className="bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200">
+              <Button className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200">
                 Continue Shopping
               </Button>
             </SheetClose>
