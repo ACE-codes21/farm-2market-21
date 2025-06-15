@@ -37,20 +37,16 @@ const Homepage: React.FC = () => {
 
   return (
     <div className="relative w-full overflow-hidden">
-      {/* Hero Section with Background and Navigation */}
+      {/* Hero Section with Background */}
       <div className="relative min-h-screen">
         <HeroBackground />
         <NavigationHeader />
         <HeroSection />
       </div>
 
-      {/* Features Section with enhanced visuals */}
+      {/* Additional Sections */}
       <FeaturesSection />
-      
-      {/* Stats Section */}
       <StatsSection />
-      
-      {/* CTA Section */}
       <CTASection onOpenAuthModal={openAuthModal} />
 
       {/* Auth Modal */}
