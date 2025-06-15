@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -9,23 +8,32 @@ import { useToast } from '@/hooks/use-toast';
 import LoginForm from '@/components/auth/LoginForm';
 import SignupForm from '@/components/auth/SignupForm';
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
-
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   role: 'vendor' | 'buyer' | null;
   defaultMode?: 'login' | 'signup';
 }
-
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMode = 'login' }) => {
-  const { toast } = useToast();
+const AuthModal: React.FC<AuthModalProps> = ({
+  isOpen,
+  onClose,
+  role,
+  defaultMode = 'login'
+}) => {
+  const {
+    toast
+  } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   // Check if user is already logged in
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: {
+          session
+        }
+      } = await supabase.auth.getSession();
       if (session) {
         onClose();
       }
@@ -34,17 +42,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
       checkAuth();
     }
   }, [isOpen, onClose]);
-
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     setError('');
-
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const {
+        error
+      } = await supabase.auth.signInWithPassword({
         email,
-        password,
+        password
       });
-
       if (error) throw error;
 
       // Store role in localStorage for dashboard routing
@@ -52,46 +59,43 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
         const userSession = {
           email,
           role,
-          isAuthenticated: true,
+          isAuthenticated: true
         };
         localStorage.setItem('userSession', JSON.stringify(userSession));
       }
-
       toast({
         title: "Welcome back!",
-        description: "You've successfully logged in.",
+        description: "You've successfully logged in."
       });
-      
       onClose();
     } catch (error: any) {
       setError(error.message);
       toast({
         title: "Login failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleSignup = async (email: string, password: string, fullName: string) => {
     setIsLoading(true);
     setError('');
-
     try {
-      const { error } = await supabase.auth.signUp({
+      const {
+        error
+      } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             full_name: fullName,
-            role,
+            role
           }
         }
       });
-
       if (error) throw error;
 
       // Store role in localStorage for immediate use
@@ -99,62 +103,58 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
         const userSession = {
           email,
           role,
-          isAuthenticated: true,
+          isAuthenticated: true
         };
         localStorage.setItem('userSession', JSON.stringify(userSession));
       }
-
       toast({
         title: "Account created!",
-        description: "Please check your email to verify your account.",
+        description: "Please check your email to verify your account."
       });
-      
       onClose();
     } catch (error: any) {
       setError(error.message);
       toast({
         title: "Signup failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
     setIsLoading(true);
     setError('');
-
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const {
+        error
+      } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/dashboard`,
-          queryParams: role ? { role } : undefined,
+          queryParams: role ? {
+            role
+          } : undefined
         }
       });
-
       if (error) throw error;
     } catch (error: any) {
       setError(error.message);
       toast({
         title: "Social login failed",
         description: error.message,
-        variant: "destructive",
+        variant: "destructive"
       });
       setIsLoading(false);
     }
   };
-
   const getRoleTitle = () => {
     if (role === 'vendor') return 'Vendor';
     if (role === 'buyer') return 'Buyer';
     return 'User';
   };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+  return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
         <div className="relative animate-fade-in">
           {/* Frosted glass background with cinematic glow */}
@@ -165,10 +165,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
           <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-white/5 rounded-full blur-lg"></div>
 
           {/* Close button with smooth transitions */}
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 text-white/60 hover:text-white hover:bg-black/40 hover:border-white/20 transition-all duration-300 hover:scale-110"
-          >
+          <button onClick={onClose} className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 text-white/60 hover:text-white hover:bg-black/40 hover:border-white/20 transition-all duration-300 hover:scale-110">
             <X className="h-3 w-3" />
           </button>
 
@@ -183,36 +180,26 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
             </DialogDescription>
 
             <div className="text-center space-y-3 mb-6">
-              <div className="mx-auto w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] animate-fade-in hover:scale-105 transition-transform duration-300">
-                <span className="text-lg font-bold text-black font-display">F2M</span>
-              </div>
-              <h2 className="text-xl font-bold text-white font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] animate-fade-in" style={{animationDelay: '0.1s'}}>
-                {role ? `${getRoleTitle()} Portal` : 'Welcome'}
-              </h2>
+              
+              
             </div>
 
             <Tabs defaultValue={defaultMode} className="space-y-4">
-              <TabsList className="grid w-full grid-cols-2 bg-black/30 backdrop-blur-sm border border-white/10 animate-fade-in" style={{animationDelay: '0.2s'}}>
-                <TabsTrigger 
-                  value="login" 
-                  className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans"
-                >
+              <TabsList className="grid w-full grid-cols-2 bg-black/30 backdrop-blur-sm border border-white/10 animate-fade-in" style={{
+              animationDelay: '0.2s'
+            }}>
+                <TabsTrigger value="login" className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans">
                   Login
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="signup" 
-                  className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans"
-                >
+                <TabsTrigger value="signup" className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans">
                   Sign Up
                 </TabsTrigger>
               </TabsList>
 
-              {error && (
-                <Alert variant="destructive" className="bg-red-900/20 border-red-500/50 backdrop-blur-sm animate-fade-in">
+              {error && <Alert variant="destructive" className="bg-red-900/20 border-red-500/50 backdrop-blur-sm animate-fade-in">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription className="text-red-200 text-sm font-sans">{error}</AlertDescription>
-                </Alert>
-              )}
+                </Alert>}
 
               <TabsContent value="login" className="space-y-4">
                 <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
@@ -222,19 +209,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
                 <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
               </TabsContent>
 
-              <div className="animate-fade-in" style={{animationDelay: '0.4s'}}>
-                <SocialLoginButtons
-                  onGoogleLogin={() => handleSocialLogin('google')}
-                  onFacebookLogin={() => handleSocialLogin('facebook')}
-                  isLoading={isLoading}
-                />
+              <div className="animate-fade-in" style={{
+              animationDelay: '0.4s'
+            }}>
+                <SocialLoginButtons onGoogleLogin={() => handleSocialLogin('google')} onFacebookLogin={() => handleSocialLogin('facebook')} isLoading={isLoading} />
               </div>
             </Tabs>
           </div>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default AuthModal;
