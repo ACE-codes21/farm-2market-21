@@ -62,7 +62,7 @@ const Auth: React.FC = () => {
 
       if (error) throw error;
 
-      // Store role in localStorage for dashboard routing
+      // Store role in localStorage immediately for dashboard routing
       if (roleFromUrl) {
         const userSession = {
           email,
@@ -70,6 +70,7 @@ const Auth: React.FC = () => {
           isAuthenticated: true,
         };
         localStorage.setItem('userSession', JSON.stringify(userSession));
+        console.log('Role stored in localStorage:', roleFromUrl);
       }
 
       toast({
@@ -77,7 +78,10 @@ const Auth: React.FC = () => {
         description: "You've successfully logged in.",
       });
       
-      navigate('/dashboard');
+      // Navigate to dashboard after a short delay to ensure localStorage is set
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
     } catch (error: any) {
       setError(error.message);
       toast({
@@ -109,7 +113,7 @@ const Auth: React.FC = () => {
 
       if (error) throw error;
 
-      // Store role in localStorage for immediate use
+      // Store role in localStorage immediately for dashboard routing
       if (roleFromUrl) {
         const userSession = {
           email,
@@ -117,12 +121,18 @@ const Auth: React.FC = () => {
           isAuthenticated: true,
         };
         localStorage.setItem('userSession', JSON.stringify(userSession));
+        console.log('Role stored in localStorage during signup:', roleFromUrl);
       }
 
       toast({
         title: "Account created!",
         description: "Please check your email to verify your account.",
       });
+      
+      // Navigate to dashboard after a short delay to ensure localStorage is set
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
     } catch (error: any) {
       setError(error.message);
       toast({
