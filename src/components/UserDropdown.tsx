@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -25,6 +26,7 @@ import { useToast } from '@/hooks/use-toast';
 
 export const UserDropdown: React.FC = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [user, setUser] = React.useState<any>(null);
 
   React.useEffect(() => {
@@ -62,16 +64,16 @@ export const UserDropdown: React.FC = () => {
         return;
       }
 
-      // Clear any local storage
-      localStorage.clear();
+      // Clear user session from local storage
+      localStorage.removeItem('userSession');
       
       toast({
         title: "Success",
         description: "You have been logged out successfully.",
       });
 
-      // Redirect to homepage
-      window.location.href = '/';
+      // Redirect to homepage using React Router
+      navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
       toast({
