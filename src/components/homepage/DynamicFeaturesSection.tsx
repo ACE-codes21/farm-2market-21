@@ -7,7 +7,7 @@ const features = [{
   icon: <Search className="h-12 w-12 text-green-400 drop-shadow-neon" />,
   title: 'Vendor Discovery Map',
   desc: 'Find nearby street vendors in real time with an immersive, animated live map. Quickly check availability and reviews.',
-  preview: <div className="feature-preview bg-black/50 border-green-400/30 neon-box text-green-300">
+  preview: <div className="feature-preview bg-black/50 border-green-400/30 neon-box text-green-300 rounded-xl">
         <span className="neon-pulse text-3xl">📍</span> Live Map
       </div>,
   color: 'from-green-800/70 via-black to-gray-900',
@@ -96,9 +96,7 @@ export const DynamicFeaturesSection: React.FC = () => {
         <div className="absolute bottom-24 left-1/2 w-40 h-40 bg-cyan-400/10 rounded-full blur-2xl neon-blob animate-pulse" />
       </div>
       <div className="relative max-w-6xl mx-auto z-20">
-        <h2 className="text-center text-4xl md:text-6xl font-bold mb-16 tracking-tight gradient-text drop-shadow-neon">
-          Platform Features
-        </h2>
+        <h2 className="text-center text-4xl md:text-6xl font-bold mb-16 tracking-tight gradient-text drop-shadow-neon">What we offer?</h2>
         <div className="flex flex-col gap-28">
           {features.map((f, i) => {
           const isEven = i % 2 === 0;
