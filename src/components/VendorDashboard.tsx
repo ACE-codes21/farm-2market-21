@@ -26,9 +26,8 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   onEditProduct,
   onDeleteProduct
 }) => {
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  const [isEditProductOpen, setIsEditProductOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isEditProductOpen, setIsEditProductOpen] = useState(false);
   const { toast } = useToast();
 
   const stats: VendorStats = {
@@ -71,7 +70,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
           <div className="lg:col-span-2">
             <VendorProductsTable 
               products={products}
-              onAddProductClick={() => setIsAddProductOpen(true)}
+              onAddProductClick={() => {}}
               onEditProduct={handleEditProduct}
               onDeleteProduct={handleDeleteProduct}
             />
@@ -82,11 +81,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
         </div>
       </main>
 
-      <AddProductDialog 
-        isOpen={isAddProductOpen}
-        onOpenChange={setIsAddProductOpen}
-        onAddProduct={onAddProduct}
-      />
+      <AddProductDialog onAddProduct={onAddProduct} />
 
       <EditProductDialog
         isOpen={isEditProductOpen}

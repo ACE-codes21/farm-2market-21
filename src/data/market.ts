@@ -201,3 +201,19 @@ export const marketProducts: Product[] = [
     }
   }
 ];
+
+// Add the missing exports that other files are expecting
+export const products = marketProducts;
+
+export const categories = [
+  { value: 'all', label: 'All Categories' },
+  { value: 'Vegetables', label: 'Vegetables' },
+  { value: 'Fruits', label: 'Fruits' },
+  { value: 'Dairy', label: 'Dairy' },
+  { value: 'Snacks', label: 'Snacks' },
+  { value: 'Spices', label: 'Spices' },
+  { value: 'Sweeteners', label: 'Sweeteners' },
+  { value: 'Beverages', label: 'Beverages' },
+  { value: 'Grains', label: 'Grains' },
+  { value: 'Herbs', label: 'Herbs' }
+];
