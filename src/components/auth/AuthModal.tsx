@@ -27,16 +27,13 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const getRoleTitle = () => {
-    if (role === 'vendor') return 'Vendor';
-    if (role === 'buyer') return 'Buyer';
-    return 'User';
-  };
-
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     setError('');
+    
     try {
+      console.log('Logging in user...');
+      
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -44,11 +41,40 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       if (loginError) throw loginError;
 
+      // Get user profile to determine role
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session?.user) {
+        // Fetch user profile to get role
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+
+        const userRole = profile?.role || 'buyer';
+        console.log('User role from profile:', userRole);
+
+        // Store role in localStorage for dashboard routing
+        const userSession = {
+          email,
+          role: userRole,
+          isAuthenticated: true,
+        };
+        localStorage.setItem('userSession', JSON.stringify(userSession));
+      }
+
       toast({
         title: "Welcome back!",
-        description: `You've successfully logged in as a ${getRoleTitle().toLowerCase()}.`
+        description: "You've successfully logged in."
       });
+      
       onClose();
+      
+      // Navigate to dashboard
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 100);
     } catch (error: any) {
       setError(error.message || 'Login failed.');
       toast({
@@ -64,26 +90,43 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const handleSignup = async (email: string, password: string, fullName: string) => {
     setIsLoading(true);
     setError('');
+    
     try {
+      console.log('Signing up user with role:', role);
+      
       const { error: signupError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/`,
+          emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             full_name: fullName,
-            role
+            role: role || 'buyer'
           }
         }
       });
 
       if (signupError) throw signupError;
 
+      // Store role in localStorage for dashboard routing
+      const userSession = {
+        email,
+        role: role || 'buyer',
+        isAuthenticated: true,
+      };
+      localStorage.setItem('userSession', JSON.stringify(userSession));
+
       toast({
         title: "Account created!",
-        description: `Welcome to Farm2Market! You've signed up as a ${getRoleTitle().toLowerCase()}.`
+        description: "Please check your email to verify your account."
       });
+      
       onClose();
+      
+      // Navigate to dashboard
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 100);
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
       toast({
@@ -99,13 +142,16 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
     setIsLoading(true);
     setError('');
+    
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: `${window.location.origin}/dashboard`,
+          queryParams: role ? { role } : undefined
         }
       });
+      
       if (error) throw error;
     } catch (error: any) {
       setError(error.message || 'Social login failed');
@@ -122,17 +168,13 @@ const AuthModal: React.FC<AuthModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
         <div className="relative animate-fade-in">
-          {/* Enhanced frosted glass background with better border */}
-          <div className="absolute inset-0 backdrop-blur-xl bg-black/60 rounded-3xl border border-white/20 shadow-[0_0_60px_rgba(34,197,94,0.4),0_0_120px_rgba(34,197,94,0.2)] before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br before:from-white/10 before:to-transparent before:p-[1px] before:content-[''] after:absolute after:inset-[1px] after:rounded-3xl after:bg-gradient-to-br after:from-black/40 after:to-black/20"></div>
+          {/* Enhanced frosted glass background */}
+          <div className="absolute inset-0 backdrop-blur-xl bg-black/60 rounded-3xl border border-white/20 shadow-[0_0_60px_rgba(34,197,94,0.4),0_0_120px_rgba(34,197,94,0.2)]"></div>
           
-          {/* Subtle glow effects */}
-          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-green-500/20 rounded-full blur-xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-white/10 rounded-full blur-lg"></div>
-
           {/* Close button */}
           <button 
             onClick={onClose} 
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white/70 hover:text-white hover:bg-black/50 hover:border-white/30 transition-all duration-300 hover:scale-110"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-white/70 hover:text-white hover:bg-black/50 transition-all duration-300"
           >
             <X className="h-4 w-4" />
           </button>
@@ -141,33 +183,30 @@ const AuthModal: React.FC<AuthModalProps> = ({
           <div className="relative z-10 p-8">
             {/* Hidden accessibility elements */}
             <DialogTitle className="sr-only">
-              {role ? `${getRoleTitle()} Authentication` : 'Welcome to Farm2Market'}
+              Welcome to Farm2Market
             </DialogTitle>
             <DialogDescription className="sr-only">
-              {role ? `Continue as a ${getRoleTitle().toLowerCase()}` : 'Connect with local vendors and buyers in your community'}
+              Sign in to your existing account
             </DialogDescription>
 
-            {/* Role indicator */}
-            {role && (
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-green-400/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm">
-                  {getRoleTitle()} Registration
-                </div>
-              </div>
-            )}
+            {/* Header */}
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+              <p className="text-white/70 text-sm">Sign in to your existing account</p>
+            </div>
 
             <Tabs defaultValue={defaultMode} className="space-y-6">
-              {/* Enhanced tabs with better emphasis */}
-              <TabsList className="grid w-full grid-cols-2 bg-black/40 backdrop-blur-sm border border-white/20 p-1 rounded-2xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              {/* Enhanced tabs */}
+              <TabsList className="grid w-full grid-cols-2 bg-black/40 backdrop-blur-sm border border-white/20 p-1 rounded-2xl">
                 <TabsTrigger 
                   value="login" 
-                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 hover:text-white font-sans rounded-xl py-3"
+                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 rounded-xl py-3"
                 >
                   Sign In
                 </TabsTrigger>
                 <TabsTrigger 
                   value="signup" 
-                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 hover:text-white font-sans rounded-xl py-3"
+                  className="text-sm font-semibold text-white/80 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-400 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300 rounded-xl py-3"
                 >
                   Sign Up
                 </TabsTrigger>
@@ -176,7 +215,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
               {error && (
                 <Alert variant="destructive" className="bg-red-900/30 border-red-500/50 backdrop-blur-sm animate-fade-in rounded-xl">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertDescription className="text-red-200 text-sm font-sans">{error}</AlertDescription>
+                  <AlertDescription className="text-red-200 text-sm">{error}</AlertDescription>
                 </Alert>
               )}
 
@@ -188,7 +227,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
                 <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
               </TabsContent>
 
-              <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <div className="animate-fade-in">
                 <SocialLoginButtons 
                   onGoogleLogin={() => handleSocialLogin('google')} 
                   onFacebookLogin={() => handleSocialLogin('facebook')} 

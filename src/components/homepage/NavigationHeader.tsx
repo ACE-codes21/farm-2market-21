@@ -37,6 +37,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
   }, []);
 
   const handleLoginClick = () => {
+    // For login, we don't specify a role - user can login with any existing account
     onOpenAuthModal('buyer', 'login');
   };
 

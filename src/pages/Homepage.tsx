@@ -7,6 +7,7 @@ import FeaturesSection from '@/components/homepage/FeaturesSection';
 import StatsSection from '@/components/homepage/StatsSection';
 import CTASection from '@/components/homepage/CTASection';
 import AuthModal from '@/components/auth/AuthModal';
+import SignupOnlyModal from '@/components/auth/SignupOnlyModal';
 
 const Homepage: React.FC = () => {
   const [authModal, setAuthModal] = useState<{
@@ -19,12 +20,29 @@ const Homepage: React.FC = () => {
     mode: 'login'
   });
 
-  const openAuthModal = (role: 'vendor' | 'buyer', mode: 'login' | 'signup' = 'signup') => {
-    setAuthModal({
-      isOpen: true,
-      role,
-      mode
-    });
+  const [signupModal, setSignupModal] = useState<{
+    isOpen: boolean;
+    role: 'vendor' | 'buyer' | null;
+  }>({
+    isOpen: false,
+    role: null
+  });
+
+  const openAuthModal = (role: 'vendor' | 'buyer', mode: 'login' | 'signup' = 'login') => {
+    if (mode === 'signup') {
+      // Open signup-only modal for role-based signups
+      setSignupModal({
+        isOpen: true,
+        role
+      });
+    } else {
+      // Open regular auth modal for login
+      setAuthModal({
+        isOpen: true,
+        role,
+        mode
+      });
+    }
   };
 
   const closeAuthModal = () => {
@@ -32,6 +50,13 @@ const Homepage: React.FC = () => {
       isOpen: false,
       role: null,
       mode: 'login'
+    });
+  };
+
+  const closeSignupModal = () => {
+    setSignupModal({
+      isOpen: false,
+      role: null
     });
   };
 
@@ -49,13 +74,22 @@ const Homepage: React.FC = () => {
       <StatsSection />
       <CTASection onOpenAuthModal={openAuthModal} />
 
-      {/* Auth Modal */}
+      {/* Regular Auth Modal (for login) */}
       <AuthModal 
         isOpen={authModal.isOpen} 
         onClose={closeAuthModal} 
         role={authModal.role} 
         defaultMode={authModal.mode} 
       />
+
+      {/* Signup-Only Modal (for role-based signups) */}
+      {signupModal.role && (
+        <SignupOnlyModal
+          isOpen={signupModal.isOpen}
+          onClose={closeSignupModal}
+          role={signupModal.role}
+        />
+      )}
     </div>
   );
 };
