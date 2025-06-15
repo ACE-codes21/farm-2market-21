@@ -37,20 +37,38 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
+    try {
+      // Clear localStorage first
+      localStorage.removeItem('userSession');
+      
+      // Then sign out from Supabase
+      const { error } = await supabase.auth.signOut();
 
-    if (error) {
-      console.error('Supabase sign out error:', error.message);
+      if (error) {
+        console.error('Supabase sign out error:', error.message);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to logout properly.",
+        });
+        return;
+      }
+
+      toast({
+        title: "Success",
+        description: "You have been logged out successfully.",
+      });
+
+      // Force navigation after successful logout
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An error occurred during logout.",
+      });
     }
-
-    localStorage.removeItem('userSession');
-    
-    toast({
-      title: "Success",
-      description: "You have been logged out successfully.",
-    });
-
-    navigate('/');
   };
 
   const handleProfileClick = () => {
@@ -94,61 +112,61 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
     <>
       <DropdownMenuContent 
         align="end" 
-        className="w-64 bg-white border border-gray-200 shadow-lg z-50"
+        className="w-64 bg-slate-800/95 border border-slate-600/50 shadow-xl backdrop-blur-md z-50"
       >
-        <DropdownMenuLabel className="font-bold text-lg py-3">
+        <DropdownMenuLabel className="font-bold text-lg py-3 text-white border-b border-slate-600/30">
           Welcome, {displayName}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-slate-600/30" />
         
-        <DropdownMenuItem onClick={handleProfileClick} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <UserIcon className="mr-3 h-4 w-4 text-gray-600" />
+        <DropdownMenuItem onClick={handleProfileClick} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <UserIcon className="mr-3 h-4 w-4 text-slate-300" />
           <span>Profile</span>
-          {isVendor && <MapPin className="ml-auto h-4 w-4 text-green-500" />}
+          {isVendor && <MapPin className="ml-auto h-4 w-4 text-green-400" />}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('favorites')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <Heart className="mr-3 h-4 w-4 text-red-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('favorites')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <Heart className="mr-3 h-4 w-4 text-red-400" />
           <span>Favorites</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <Bell className="mr-3 h-4 w-4 text-yellow-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <Bell className="mr-3 h-4 w-4 text-yellow-400" />
           <span>Notifications</span>
         </DropdownMenuItem>
         
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-slate-600/30" />
         
-        <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <Settings className="mr-3 h-4 w-4 text-gray-600" />
+        <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <Settings className="mr-3 h-4 w-4 text-slate-300" />
           <span>Settings</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('security')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <Shield className="mr-3 h-4 w-4 text-blue-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('security')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <Shield className="mr-3 h-4 w-4 text-blue-400" />
           <span>Security</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <CreditCard className="mr-3 h-4 w-4 text-green-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <CreditCard className="mr-3 h-4 w-4 text-green-400" />
           <span>Billing</span>
         </DropdownMenuItem>
         
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-slate-600/30" />
         
-        <DropdownMenuItem onClick={() => handleMenuAction('help')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <HelpCircle className="mr-3 h-4 w-4 text-purple-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('help')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <HelpCircle className="mr-3 h-4 w-4 text-purple-400" />
           <span>Help & Support</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('about')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-          <Info className="mr-3 h-4 w-4 text-blue-500" />
+        <DropdownMenuItem onClick={() => handleMenuAction('about')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
+          <Info className="mr-3 h-4 w-4 text-blue-400" />
           <span>About</span>
         </DropdownMenuItem>
         
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-slate-600/30" />
         
-        <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:bg-red-50 cursor-pointer py-3 px-4">
+        <DropdownMenuItem onClick={handleLogout} className="text-red-400 hover:bg-red-500/10 cursor-pointer py-3 px-4 focus:bg-red-500/10">
           <LogOut className="mr-3 h-4 w-4" />
           <span>Logout</span>
         </DropdownMenuItem>
