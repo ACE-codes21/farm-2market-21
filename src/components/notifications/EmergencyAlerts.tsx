@@ -3,10 +3,14 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Bell } from 'lucide-react';
-import { emergencyAlerts } from '@/data/notifications';
+import { EmergencyAlert } from '@/data/notifications';
 import { useToast } from '@/hooks/use-toast';
 
-const EmergencyAlerts: React.FC = () => {
+interface EmergencyAlertsProps {
+  alerts: EmergencyAlert[];
+}
+
+const EmergencyAlerts: React.FC<EmergencyAlertsProps> = ({ alerts }) => {
     const { toast } = useToast();
 
     const handlePanic = () => {
@@ -18,9 +22,10 @@ const EmergencyAlerts: React.FC = () => {
     }
 
     const handleReport = () => {
+        window.open('https://docs.google.com/forms/d/e/1FAIpQLSfvZ2gYwXEhYJ_E-F4x-xxxxxxxxx/viewform', '_blank');
         toast({
-            title: "Report Incident",
-            description: "This feature is coming soon.",
+            title: "Opening Incident Report Form",
+            description: "Please fill out the form in the new tab to report the incident.",
         })
     }
 
@@ -34,7 +39,7 @@ const EmergencyAlerts: React.FC = () => {
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
-                    {emergencyAlerts.map(alert => (
+                    {alerts.length > 0 ? alerts.map(alert => (
                         <div key={alert.id} className="flex items-start gap-3 p-3 bg-red-900/20 rounded-lg">
                             <div className="p-2 bg-red-900/50 rounded-full">
                                 <Bell className="w-5 h-5 text-red-400" />
@@ -45,7 +50,9 @@ const EmergencyAlerts: React.FC = () => {
                                 <p className="text-xs text-slate-500 mt-1">{alert.timestamp}</p>
                             </div>
                         </div>
-                    ))}
+                    )) : (
+                        <p className="text-center text-slate-500 py-4">No new alerts.</p>
+                    )}
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
