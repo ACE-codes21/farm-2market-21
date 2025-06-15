@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats, StatChanges } from '@/types';
@@ -7,6 +8,7 @@ import { VendorDashboardHeader } from './vendor/VendorDashboardHeader';
 import { VendorStatsGrid } from './vendor/VendorStatsGrid';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
 import { subDays, isAfter } from 'date-fns';
+import { VendorProductsTable } from './vendor/VendorProductsTable';
 
 interface VendorDashboardProps {
   products: Product[];
