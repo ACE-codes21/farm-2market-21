@@ -21,6 +21,15 @@ const LANGUAGES = [
   { code: "zh", name: "Chinese" },
 ];
 
+const NAV_LINKS = [
+  { label: "Home" },
+  { label: "Why Us?" },
+  { label: "How It Works" },
+  { label: "Pricing" },
+  { label: "Resources" },
+  { label: "Support" }, // Support added here
+];
+
 const NavigationHeader: React.FC = () => {
   const [selectedLang, setSelectedLang] = useState("en");
   const [session, setSession] = useState<any>(null);
@@ -32,7 +41,6 @@ const NavigationHeader: React.FC = () => {
       setSession(session);
 
       if (session?.user) {
-        // Try to get name/email; fallback to email if no name
         setProfile({
           name: session.user.user_metadata?.full_name || session.user.user_metadata?.name,
           email: session.user.email,
@@ -64,55 +72,56 @@ const NavigationHeader: React.FC = () => {
     setProfile(null);
   };
 
-  // Aesthetic styles
-  const barClass =
-    "sticky top-0 w-full z-30 bg-white/60 backdrop-blur-lg shadow-md ring-1 ring-white/40 border-b border-white/20";
-  const containerClass =
-    "max-w-6xl mx-auto px-3 sm:px-6 flex items-center justify-between min-h-[52px]";
-  const logoClass =
-    "h-8 w-8 flex items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow-inner";
-  const navClass =
-    "hidden md:flex flex-1 justify-center items-center gap-1.5";
-  const navLink =
-    "px-2 py-0.5 text-sm font-semibold rounded transition-colors text-gray-700 hover:bg-green-100";
-  const rightClass = "flex items-center gap-2";
-
+  // -- Compact, no-background, minimal nav styles --
   return (
-    <header className={barClass}>
-      <div className={containerClass}>
-        {/* F2M Logo */}
-        <div className={logoClass}>
-          <span className="flex items-center select-none font-display text-base font-extrabold tracking-tight">
-            <span className="text-green-500" style={{fontWeight:700}}>F</span>
-            <span className="mx-[1px] text-white font-bold">2</span>
-            <span className="text-orange-400">M</span>
+    <header className="w-full z-30">
+      <div className="max-w-6xl mx-auto px-2 sm:px-4 flex items-center justify-between min-h-[40px]">
+        {/* Logo */}
+        <div className="flex-shrink-0 flex items-center">
+          <span className="block h-7 w-7 rounded-full flex items-center justify-center border border-green-200 shadow-none">
+            <span className="flex font-display text-base font-bold tracking-tight select-none">
+              <span className="text-green-500" style={{ fontWeight: 700 }}>F</span>
+              <span className="mx-[1px] text-white font-bold drop-shadow-[0_1px_0_rgba(0,0,0,0.15)]">2</span>
+              <span className="text-orange-500">M</span>
+            </span>
           </span>
         </div>
 
         {/* Center nav */}
-        <nav className={navClass}>
-          <span className={navLink}>Home</span>
-          <span className={navLink}>Why Us?</span>
-          <span className={navLink}>How It Works</span>
-          <span className={navLink}>Pricing</span>
-          <span className={navLink + " hidden xl:inline"}>Resources</span>
-          <span className={navLink + " hidden xl:inline"}>Support</span>
+        <nav className="hidden md:flex flex-1 justify-center items-center gap-2">
+          {NAV_LINKS.map(({ label }, idx) => (
+            <span
+              key={label}
+              className={cn(
+                "px-1.5 py-1 text-xs font-semibold rounded",
+                "text-gray-700 hover:text-green-600 transition-colors cursor-pointer"
+              )}
+              style={{
+                fontSize: "0.92rem",
+                letterSpacing: "0.01em",
+                ...(idx === 0 && { fontWeight: 700 })
+              }}
+            >
+              {label}
+            </span>
+          ))}
         </nav>
 
-        {/* Right controls */}
-        <div className={rightClass}>
+        {/* Right controls - Language + User */}
+        <div className="flex items-center gap-1.5">
           {/* Language Selector */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-semibold text-gray-700 bg-white/70 hover:bg-green-100 transition focus:outline-none focus:ring-1 focus:ring-green-300"
+                className="flex items-center gap-1 px-2 py-1 rounded text-xs font-semibold text-gray-700 hover:text-green-600 focus:outline-none focus:ring-1 focus:ring-green-300 transition"
                 aria-label="Select Language"
+                style={{ background: "transparent", boxShadow: "none" }}
               >
                 <span>{LANGUAGES.find(l => l.code === selectedLang)?.name || "Language"}</span>
                 <ChevronDown className="h-4 w-4 text-gray-500 ml-0.5" aria-hidden="true" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuContent align="end" className="w-36">
               <DropdownMenuLabel>Select language</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {LANGUAGES.map(lang => (
@@ -120,67 +129,68 @@ const NavigationHeader: React.FC = () => {
                   key={lang.code}
                   onClick={() => setSelectedLang(lang.code)}
                   className={cn(
-                    "cursor-pointer text-sm",
+                    "cursor-pointer text-xs",
                     lang.code === selectedLang && "bg-green-100 font-bold"
                   )}
+                  style={{ background: "transparent" }}
                 >
                   {lang.name}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/* Me/User Dropdown */}
+          {/* User/Me Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="flex items-center px-1.5 py-1.5 rounded-lg focus:outline-none group bg-white/60 hover:bg-green-50 border border-transparent focus:ring-1 focus:ring-green-400 transition"
+                className="flex items-center px-1 py-1 rounded focus:outline-none group border border-transparent transition"
                 aria-label="Account"
+                style={{ background: "transparent" }}
               >
-                <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-orange-400 flex items-center justify-center mr-1 shadow-sm">
+                <div className="h-7 w-7 rounded-full flex items-center justify-center mr-1 bg-gradient-to-tr from-green-300 to-orange-200">
                   <User className="h-4 w-4 text-white" />
                 </div>
-                <span className="hidden sm:inline text-gray-800 text-sm font-medium mr-1">Me</span>
-                <ChevronDown className="h-3.5 w-3.5 text-gray-500 group-hover:text-green-400 transition" />
+                <span className="hidden sm:inline text-gray-800 text-xs font-medium mr-0.5">Me</span>
+                <ChevronDown className="h-3 w-3 text-gray-500 group-hover:text-green-400 transition" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuContent align="end" className="w-52">
               {session && profile ? (
                 <>
-                  <DropdownMenuLabel className="font-semibold text-sm py-2">
+                  <DropdownMenuLabel className="font-semibold text-xs py-2">
                     {profile.name || "Signed in"}
                   </DropdownMenuLabel>
                   <div className="flex items-center gap-3 px-4 py-1">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-orange-400 flex items-center justify-center shadow">
+                    <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-green-400 to-orange-400 flex items-center justify-center">
                       <User className="h-4 w-4 text-white" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-xs text-gray-800">{profile.name || "User"}</span>
-                      <span className="text-[11px] text-gray-500">{profile.email}</span>
+                      <span className="text-[10px] text-gray-500">{profile.email}</span>
                     </div>
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-green-50">
+                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-1.5 cursor-pointer hover:text-green-600">
                       <User className="h-4 w-4 text-green-500" />
                       <span>Profile</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-lime-50">
+                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-1.5 cursor-pointer hover:text-lime-600">
                       <Shield className="h-4 w-4 text-lime-500" />
                       <span>Security</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-orange-50">
+                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-1.5 cursor-pointer hover:text-orange-600">
                       <Settings className="h-4 w-4 text-orange-500" />
                       <span>Account Settings</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-50">
+                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-1.5 cursor-pointer hover:text-blue-600">
                       <Info className="h-4 w-4 text-blue-400" />
                       <span>About</span>
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="flex items-center gap-2 px-4 py-2 text-red-600 cursor-pointer hover:bg-red-50"
+                    className="flex items-center gap-2 px-4 py-1.5 text-red-600 cursor-pointer hover:text-red-700"
                     onClick={handleLogout}
                   >
                     <LogOut className="h-4 w-4" />
@@ -189,12 +199,11 @@ const NavigationHeader: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <DropdownMenuLabel>Not signed in</DropdownMenuLabel>
+                  <DropdownMenuLabel className="text-xs">Not signed in</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
-                    className="cursor-pointer"
+                    className="cursor-pointer text-xs"
                     onClick={async () => {
-                      // Redirect to login page
                       window.location.href = "/login";
                     }}
                   >
@@ -207,14 +216,17 @@ const NavigationHeader: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile nav */}
+      {/* Mobile nav: minimal */}
       <nav className="flex md:hidden gap-1 items-center justify-center px-2 pb-1 pt-2">
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Home</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Why Us?</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">How It Works</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Pricing</span>
+        {NAV_LINKS.slice(0, 4).map(({ label }) => (
+          <span key={label} className="px-2 py-1 text-xs rounded text-gray-700 hover:text-green-600 transition cursor-pointer">
+            {label}
+          </span>
+        ))}
+        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:text-green-600 transition cursor-pointer">Support</span>
       </nav>
     </header>
   );
 };
+
 export default NavigationHeader;
