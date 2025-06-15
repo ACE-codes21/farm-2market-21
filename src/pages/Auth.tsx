@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -13,10 +13,15 @@ import { useToast } from '@/hooks/use-toast';
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  
+  // Get role from URL params
+  const roleFromUrl = searchParams.get('role') as 'vendor' | 'buyer' | null;
+  const modeFromUrl = searchParams.get('mode') as 'login' | 'signup' | null;
   
   // Form states
   const [loginData, setLoginData] = useState({
@@ -54,6 +59,16 @@ const Auth: React.FC = () => {
 
       if (error) throw error;
 
+      // Store role in localStorage for dashboard routing
+      if (roleFromUrl) {
+        const userSession = {
+          email: loginData.email,
+          role: roleFromUrl,
+          isAuthenticated: true,
+        };
+        localStorage.setItem('userSession', JSON.stringify(userSession));
+      }
+
       toast({
         title: "Welcome back!",
         description: "You've successfully logged in.",
@@ -85,11 +100,22 @@ const Auth: React.FC = () => {
           emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             full_name: signupData.fullName,
+            role: roleFromUrl, // Store role in user metadata
           }
         }
       });
 
       if (error) throw error;
+
+      // Store role in localStorage for immediate use
+      if (roleFromUrl) {
+        const userSession = {
+          email: signupData.email,
+          role: roleFromUrl,
+          isAuthenticated: true,
+        };
+        localStorage.setItem('userSession', JSON.stringify(userSession));
+      }
 
       toast({
         title: "Account created!",
@@ -116,6 +142,7 @@ const Auth: React.FC = () => {
         provider,
         options: {
           redirectTo: `${window.location.origin}/dashboard`,
+          queryParams: roleFromUrl ? { role: roleFromUrl } : undefined,
         }
       });
 
@@ -130,6 +157,14 @@ const Auth: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  const getRoleTitle = () => {
+    if (roleFromUrl === 'vendor') return 'Vendor';
+    if (roleFromUrl === 'buyer') return 'Buyer';
+    return 'User';
+  };
+
+  const defaultTab = modeFromUrl === 'signup' ? 'signup' : 'login';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-orange-50 to-yellow-50 flex items-center justify-center p-4">
@@ -146,15 +181,18 @@ const Auth: React.FC = () => {
             <span className="text-2xl font-bold text-white">F2M</span>
           </div>
           <CardTitle className="text-2xl font-bold font-display gradient-text">
-            Welcome to Farm2Market
+            {roleFromUrl ? `${getRoleTitle()} Authentication` : 'Welcome to Farm2Market'}
           </CardTitle>
           <CardDescription className="text-gray-600">
-            Connect with local vendors and buyers in your community
+            {roleFromUrl 
+              ? `Continue as a ${getRoleTitle().toLowerCase()} to access your dashboard`
+              : 'Connect with local vendors and buyers in your community'
+            }
           </CardDescription>
         </CardHeader>
         
         <CardContent>
-          <Tabs defaultValue="login" className="space-y-6">
+          <Tabs defaultValue={defaultTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-2 bg-muted/50">
               <TabsTrigger value="login" className="font-semibold">Login</TabsTrigger>
               <TabsTrigger value="signup" className="font-semibold">Sign Up</TabsTrigger>

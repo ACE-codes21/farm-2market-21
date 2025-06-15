@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import VendorDashboard from '@/components/VendorDashboard';
 import BuyerDashboard from '@/components/BuyerDashboard';
 import { useAppContext } from '@/contexts/AppContext';
+import { supabase } from '@/integrations/supabase/client';
 
 type UserRole = 'vendor' | 'buyer';
 
@@ -15,31 +15,105 @@ interface UserSession {
 
 const Dashboard = () => {
   const [userSession, setUserSession] = useState<UserSession | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { products, orders, addProduct, editProduct, deleteProduct, addOrder } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check for user session
-    const sessionData = localStorage.getItem('userSession');
-    if (sessionData) {
-      const session = JSON.parse(sessionData) as UserSession;
-      if (session.isAuthenticated) {
-        setUserSession(session);
-      } else {
-        navigate('/login');
+    const checkAuth = async () => {
+      try {
+        // Check Supabase auth state
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+          // If no Supabase session, check localStorage (for demo/legacy users)
+          const sessionData = localStorage.getItem('userSession');
+          if (sessionData) {
+            const localSession = JSON.parse(sessionData) as UserSession;
+            if (localSession.isAuthenticated) {
+              setUserSession(localSession);
+              setIsLoading(false);
+              return;
+            }
+          }
+          
+          navigate('/');
+          return;
+        }
+
+        // If Supabase session exists, check for role in user metadata or localStorage
+        let role: UserRole | null = null;
+        
+        // First try to get role from user metadata
+        if (session.user.user_metadata?.role) {
+          role = session.user.user_metadata.role as UserRole;
+        } else {
+          // Fallback to localStorage
+          const sessionData = localStorage.getItem('userSession');
+          if (sessionData) {
+            const localSession = JSON.parse(sessionData) as UserSession;
+            role = localSession.role;
+          }
+        }
+
+        // If no role is found, redirect to homepage to select role
+        if (!role) {
+          navigate('/');
+          return;
+        }
+
+        const userSessionData: UserSession = {
+          email: session.user.email || '',
+          role,
+          isAuthenticated: true,
+        };
+
+        setUserSession(userSessionData);
+        
+        // Update localStorage to keep role consistent
+        localStorage.setItem('userSession', JSON.stringify(userSessionData));
+        
+      } catch (error) {
+        console.error('Auth check error:', error);
+        navigate('/');
+      } finally {
+        setIsLoading(false);
       }
-    } else {
-      navigate('/login');
-    }
+    };
+
+    checkAuth();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        localStorage.removeItem('userSession');
+        setUserSession(null);
+        navigate('/');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('userSession');
-    setUserSession(null);
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      // Sign out from Supabase
+      await supabase.auth.signOut();
+      
+      // Clear localStorage
+      localStorage.removeItem('userSession');
+      setUserSession(null);
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback: still clear local state and redirect
+      localStorage.removeItem('userSession');
+      setUserSession(null);
+      navigate('/');
+    }
   };
 
-  if (!userSession) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -48,6 +122,10 @@ const Dashboard = () => {
         </div>
       </div>
     );
+  }
+
+  if (!userSession) {
+    return null; // This should not happen due to redirect in useEffect
   }
 
   if (userSession.role === 'vendor') {
