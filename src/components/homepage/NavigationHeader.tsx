@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogIn } from 'lucide-react';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { UserMenu } from '@/components/UserMenu';
 import { supabase } from '@/integrations/supabase/client';
+import { Link } from 'react-router-dom';
 
 interface NavigationHeaderProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -46,9 +46,11 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <h1 className="text-2xl font-bold text-white">
-            <span className="text-green-400">Farm</span>2Market
-          </h1>
+          <Link to="/">
+            <h1 className="text-2xl font-bold text-white">
+              <span className="text-green-400">Farm</span>2Market
+            </h1>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
