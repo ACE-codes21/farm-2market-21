@@ -1,10 +1,23 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, Users, TrendingUp, Shield, Star, ArrowRight } from 'lucide-react';
+import LoginSignupModal from '@/components/LoginSignupModal';
 
 const Homepage: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<'vendor' | 'buyer' | null>(null);
+
+  const handleRoleSelect = (role: 'vendor' | 'buyer') => {
+    setSelectedRole(role);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedRole(null);
+  };
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       {/* Hero Background with India street vendor vibe */}
@@ -40,26 +53,24 @@ const Homepage: React.FC = () => {
             
             {/* Role Selection Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-              <Link to="/auth?role=vendor">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
-                >
-                  <Store className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
-                  I am a Vendor
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </Button>
-              </Link>
-              <Link to="/auth?role=buyer">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
-                >
-                  <ShoppingBag className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
-                  I am a Buyer
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => handleRoleSelect('vendor')}
+                size="lg" 
+                className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
+              >
+                <Store className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
+                I am a Vendor
+                <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </Button>
+              <Button 
+                onClick={() => handleRoleSelect('buyer')}
+                size="lg" 
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
+              >
+                <ShoppingBag className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
+                I am a Buyer
+                <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </Button>
               <Link to="/demo">
                 <Button 
                   size="lg" 
@@ -150,6 +161,13 @@ const Homepage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Login/Signup Modal */}
+      <LoginSignupModal 
+        isOpen={showModal}
+        onClose={handleCloseModal}
+        role={selectedRole}
+      />
     </div>
   );
 };
