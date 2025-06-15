@@ -55,18 +55,18 @@ const HeroSection: React.FC = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/0 via-green-400/20 to-green-400/0 animate-pulse"></div>
             </div>
 
-            {/* Inspirational Intro Line with slower glow */}
-            <div className="mb-2">
+            {/* Inspirational Intro Line with reduced glow */}
+            <div className="mb-1">
               <h2 className="text-2xl md:text-4xl font-black text-white leading-tight tracking-wide">
-                <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] animate-pulse text-7xl" style={{animationDuration: '3s'}}>Fresh from the</span>
+                <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-pulse text-7xl" style={{animationDuration: '4s'}}>Fresh from the</span>
               </h2>
             </div>
 
-            {/* Main Heading with slower, more aesthetic glow */}
+            {/* Main Heading with reduced, slower glow */}
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              <span className="text-green-400 drop-shadow-[0_0_40px_rgba(34,197,94,1)] text-8xl" style={{
-                textShadow: '0 0 20px rgba(34,197,94,0.8), 0 0 40px rgba(34,197,94,0.6), 0 0 60px rgba(34,197,94,0.4)',
-                animation: 'pulseGlow 4s ease-in-out infinite alternate'
+              <span className="text-green-400 drop-shadow-[0_0_20px_rgba(34,197,94,0.6)] text-8xl" style={{
+                textShadow: '0 0 10px rgba(34,197,94,0.5), 0 0 20px rgba(34,197,94,0.3), 0 0 30px rgba(34,197,94,0.2)',
+                animation: 'pulseGlow 6s ease-in-out infinite alternate'
               }}>Farm</span>
             </h1>
 
