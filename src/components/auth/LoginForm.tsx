@@ -23,11 +23,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 animate-fade-in" style={{animationDelay: '0.3s'}}>
+    <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in" style={{animationDelay: '0.3s'}}>
       <div className="space-y-2">
-        <Label htmlFor="login-email" className="text-xs font-medium text-white/80 font-sans">Email</Label>
+        <Label htmlFor="login-email" className="text-sm font-medium text-white/90 font-sans">Email</Label>
         <div className="relative">
-          <Mail className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-green-400/60 transition-colors duration-300" />
+          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-400 z-10" />
           <Input
             id="login-email"
             type="email"
@@ -35,15 +35,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading }) => {
             required
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="pl-8 h-9 bg-black/20 backdrop-blur-sm border-white/20 text-white placeholder:text-white/40 focus:border-green-400 focus:bg-black/30 transition-all duration-300 text-sm font-sans hover:border-white/30"
+            className="pl-10 h-11 bg-black/30 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:border-green-400 focus:bg-black/40 transition-all duration-300 text-sm font-sans hover:border-white/40 rounded-xl"
           />
         </div>
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="login-password" className="text-xs font-medium text-white/80 font-sans">Password</Label>
+        <Label htmlFor="login-password" className="text-sm font-medium text-white/90 font-sans">Password</Label>
         <div className="relative">
-          <Lock className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-3.5 w-3.5 text-green-400/60 transition-colors duration-300" />
+          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-400 z-10" />
           <Input
             id="login-password"
             type={showPassword ? "text" : "password"}
@@ -51,21 +51,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, isLoading }) => {
             required
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="pl-8 pr-8 h-9 bg-black/20 backdrop-blur-sm border-white/20 text-white placeholder:text-white/40 focus:border-green-400 focus:bg-black/30 transition-all duration-300 text-sm font-sans hover:border-white/30"
+            className="pl-10 pr-10 h-11 bg-black/30 backdrop-blur-sm border-white/30 text-white placeholder:text-white/50 focus:border-green-400 focus:bg-black/40 transition-all duration-300 text-sm font-sans hover:border-white/40 rounded-xl"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-2.5 top-1/2 transform -translate-y-1/2 text-green-400/60 hover:text-green-400 transition-all duration-300 hover:scale-110"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-400 hover:text-green-300 transition-all duration-300 hover:scale-110 z-10"
           >
-            {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
       </div>
       
       <Button 
         type="submit" 
-        className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold font-sans shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_25px_rgba(34,197,94,0.6)] transform hover:scale-105 transition-all duration-300 h-9 text-sm rounded-xl border border-green-400 hover:border-green-300" 
+        className="w-full bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-black font-bold font-sans shadow-[0_0_25px_rgba(34,197,94,0.5)] hover:shadow-[0_0_35px_rgba(34,197,94,0.7)] transform hover:scale-105 transition-all duration-300 h-12 text-base rounded-xl border-2 border-green-400 hover:border-green-300" 
         disabled={isLoading}
       >
         {isLoading ? "Signing in..." : "Sign In"}
