@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,7 +8,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState<'vendor' | 'buyer' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { addOrder } = useAppContext();
 
   useEffect(() => {
     const checkAuthAndRole = async () => {
@@ -117,7 +115,6 @@ const Dashboard = () => {
     return (
       <BuyerDashboard 
         onRoleChange={handleRoleChange} 
-        onPurchase={addOrder}
       />
     );
   }

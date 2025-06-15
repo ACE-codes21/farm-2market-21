@@ -21,14 +21,14 @@ export const VendorRecentOrders: React.FC<VendorRecentOrdersProps> = ({ orders }
             {orders.slice(0, 5).map((order) => (
               <div key={order.id} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-secondary/50">
                 <div>
-                  <p className="font-medium text-card-foreground">Order #{order.id.substring(0, 8)}</p>
-                  <p className="text-sm text-muted-foreground">{format(new Date(order.created_at), 'dd MMM yyyy, p')}</p>
+                  <p className="font-medium text-card-foreground">Order #{String(order.id).substring(0, 8)}</p>
+                  <p className="text-sm text-muted-foreground">{order.created_at ? format(new Date(order.created_at), 'dd MMM yyyy, p') : ''}</p>
                   <p className="text-sm text-muted-foreground">
-                    {order.order_items.reduce((sum, item) => sum + item.quantity, 0)} items
+                    {order.order_items?.reduce((sum, item) => sum + item.quantity, 0) || 0} items
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-lg text-primary">₹{order.total_amount}</p>
+                  <p className="font-bold text-lg text-primary">₹{order.total_amount || 0}</p>
                   <Badge variant="default" className="bg-green-500/20 text-green-400 border-green-500/30 capitalize">
                     {order.status}
                   </Badge>

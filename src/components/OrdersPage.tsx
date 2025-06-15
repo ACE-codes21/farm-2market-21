@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +10,7 @@ import { Order, CartItem } from '@/types';
 
 // Mock tracking data for demonstration
 const mockTrackingData = {
-  1: {
+  '1': {
     currentStatus: 'confirmed',
     estimatedDelivery: '20-25 min',
     trackingSteps: [{
@@ -42,7 +43,7 @@ const mockTrackingData = {
 };
 interface OrderCardProps {
   order: Order;
-  onTrackOrder: (orderId: number) => void;
+  onTrackOrder: (orderId: number | string) => void;
 }
 const OrderCard: React.FC<OrderCardProps> = ({
   order,
@@ -75,20 +76,20 @@ const OrderCard: React.FC<OrderCardProps> = ({
       
       <CardContent className="space-y-4">
         <div className="space-y-3">
-          {order.items.slice(0, 2).map((item: CartItem, index: number) => <div key={index} className="flex items-center gap-3">
+          {order.items?.slice(0, 2).map((item: CartItem, index: number) => <div key={index} className="flex items-center gap-3">
               <img src={item.images[0]} alt={item.name} className="w-12 h-12 rounded-lg object-cover ring-1 ring-slate-600/30" />
               <div className="flex-1">
                 <p className="text-white font-medium text-sm truncate">{item.name}</p>
                 <p className="text-slate-400 text-xs">Qty: {item.quantity} × ₹{item.price}</p>
               </div>
             </div>)}
-          {order.items.length > 2 && <p className="text-slate-400 text-xs">+{order.items.length - 2} more items</p>}
+          {order.items && order.items.length > 2 && <p className="text-slate-400 text-xs">+{order.items.length - 2} more items</p>}
         </div>
         
         <div className="flex items-center justify-between pt-3 border-t border-slate-700/50">
           <div>
             <span className="text-slate-300 text-sm">Total: </span>
-            <span className="text-white font-bold text-lg">₹{order.total.toFixed(2)}</span>
+            <span className="text-white font-bold text-lg">₹{(order.total || 0).toFixed(2)}</span>
           </div>
           <Button variant="outline" size="sm" onClick={() => onTrackOrder(order.id)} className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white">
             <Eye className="h-4 w-4 mr-2" />
@@ -106,7 +107,7 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({
   order,
   onBack
 }) => {
-  const trackingData = mockTrackingData[order.id as keyof typeof mockTrackingData];
+  const trackingData = mockTrackingData[String(order.id) as keyof typeof mockTrackingData];
   if (!trackingData) {
     return <div className="text-center py-16">
         <p className="text-white text-lg">Tracking information not available</p>
@@ -179,7 +180,7 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({
           <div className="space-y-4">
             <h4 className="text-white font-medium">Items Ordered</h4>
             <div className="space-y-3">
-              {order.items.map((item: CartItem, index: number) => <div key={index} className="flex items-center gap-4 p-3 bg-slate-700/30 rounded-lg border border-slate-600/30">
+              {order.items?.map((item: CartItem, index: number) => <div key={index} className="flex items-center gap-4 p-3 bg-slate-700/30 rounded-lg border border-slate-600/30">
                   <img src={item.images[0]} alt={item.name} className="w-16 h-16 rounded-lg object-cover ring-1 ring-slate-600/30" />
                   <div className="flex-1">
                     <p className="text-white font-medium">{item.name}</p>
@@ -197,7 +198,7 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({
           <div className="bg-slate-700/30 p-4 rounded-xl border border-slate-600/30">
             <div className="flex justify-between text-lg">
               <span className="text-slate-300">Order Total:</span>
-              <span className="text-white font-bold">₹{order.total.toFixed(2)}</span>
+              <span className="text-white font-bold">₹{(order.total || 0).toFixed(2)}</span>
             </div>
           </div>
         </CardContent>
@@ -211,7 +212,7 @@ export const OrdersPage: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const activeOrders = orders.filter(order => order.status !== 'delivered');
   const orderHistory = orders.filter(order => order.status === 'delivered');
-  const handleTrackOrder = (orderId: number) => {
+  const handleTrackOrder = (orderId: number | string) => {
     const order = orders.find(o => o.id === orderId);
     if (order) {
       setSelectedOrder(order);

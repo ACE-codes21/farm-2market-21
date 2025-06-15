@@ -1,3 +1,4 @@
+import { Product, CartItem, VendorStats } from './index';
 
 export interface Product {
   id: string; // was number
@@ -28,11 +29,13 @@ export interface CartItem extends Product {
 }
 
 export interface Order {
-  id: string; // uuid
-  created_at: string;
+  id: string | number;
   status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
-  total_amount: number;
-  order_items: {
+
+  // From database (and for vendor view)
+  created_at?: string;
+  total_amount?: number;
+  order_items?: {
     quantity: number;
     price: number;
     products: {
@@ -40,6 +43,11 @@ export interface Order {
       images: string[] | null;
     } | null;
   }[];
+
+  // From old mock data (and for buyer orders page)
+  date?: string;
+  items?: CartItem[];
+  total?: number;
 }
 
 export interface VendorStats {
