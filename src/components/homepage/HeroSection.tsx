@@ -1,9 +1,7 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowRight, Sparkles } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
-
 const HeroSection: React.FC = () => {
   const [authModal, setAuthModal] = useState<{
     isOpen: boolean;
@@ -14,7 +12,6 @@ const HeroSection: React.FC = () => {
     role: null,
     mode: 'login'
   });
-
   const openAuthModal = (role: 'vendor' | 'buyer', mode: 'login' | 'signup' = 'signup') => {
     setAuthModal({
       isOpen: true,
@@ -22,7 +19,6 @@ const HeroSection: React.FC = () => {
       mode
     });
   };
-
   const closeAuthModal = () => {
     setAuthModal({
       isOpen: false,
@@ -30,9 +26,7 @@ const HeroSection: React.FC = () => {
       mode: 'login'
     });
   };
-
-  return (
-    <>
+  return <>
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="space-y-8 animate-fade-in">
@@ -50,27 +44,19 @@ const HeroSection: React.FC = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Empowering local farmers and vendors to connect directly with their community. 
-              Fresh produce, authentic products, fair prices.
-            </p>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">Empowering &lt;vendors&gt;. Nourishing Neighborhoods.
+
+          </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
-              <Button 
-                onClick={() => openAuthModal('buyer', 'signup')}
-                className="group relative px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-bold text-lg rounded-2xl border-2 border-green-400 shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_40px_rgba(34,197,94,0.8)] transform hover:scale-105 transition-all duration-300 min-w-[200px]"
-              >
+              <Button onClick={() => openAuthModal('buyer', 'signup')} className="group relative px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-bold text-lg rounded-2xl border-2 border-green-400 shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_40px_rgba(34,197,94,0.8)] transform hover:scale-105 transition-all duration-300 min-w-[200px]">
                 <ShoppingBag className="h-6 w-6 mr-3" />
                 Shop Now
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
 
-              <Button 
-                onClick={() => openAuthModal('vendor', 'signup')}
-                variant="outline"
-                className="group relative px-8 py-4 bg-transparent hover:bg-white/5 text-white font-bold text-lg rounded-2xl border-2 border-white/20 hover:border-orange-400 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(251,146,60,0.5)] transform hover:scale-105 transition-all duration-300 min-w-[200px]"
-              >
+              <Button onClick={() => openAuthModal('vendor', 'signup')} variant="outline" className="group relative px-8 py-4 bg-transparent hover:bg-white/5 text-white font-bold text-lg rounded-2xl border-2 border-white/20 hover:border-orange-400 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(251,146,60,0.5)] transform hover:scale-105 transition-all duration-300 min-w-[200px]">
                 <Store className="h-6 w-6 mr-3" />
                 Sell With Us
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -79,34 +65,18 @@ const HeroSection: React.FC = () => {
 
             {/* Feature Pills */}
             <div className="flex flex-wrap justify-center gap-4 pt-12">
-              {[
-                "🌱 Fresh & Local",
-                "💚 Fair Trade",
-                "🚚 Direct Delivery",
-                "🤝 Community First"
-              ].map((feature, index) => (
-                <div 
-                  key={index}
-                  className="px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full text-gray-300 text-sm hover:bg-white/10 transition-all duration-300"
-                  style={{ animationDelay: `${1.2 + index * 0.1}s` }}
-                >
+              {["🌱 Fresh & Local", "💚 Fair Trade", "🚚 Direct Delivery", "🤝 Community First"].map((feature, index) => <div key={index} className="px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full text-gray-300 text-sm hover:bg-white/10 transition-all duration-300" style={{
+              animationDelay: `${1.2 + index * 0.1}s`
+            }}>
                   {feature}
-                </div>
-              ))}
+                </div>)}
             </div>
           </div>
         </div>
       </div>
 
       {/* Auth Modal */}
-      <AuthModal
-        isOpen={authModal.isOpen}
-        onClose={closeAuthModal}
-        role={authModal.role}
-        defaultMode={authModal.mode}
-      />
-    </>
-  );
+      <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} role={authModal.role} defaultMode={authModal.mode} />
+    </>;
 };
-
 export default HeroSection;
