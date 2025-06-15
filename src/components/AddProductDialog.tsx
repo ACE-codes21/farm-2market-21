@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
+import { X, Upload } from 'lucide-react';
 
 type FormValues = {
   name: string;
@@ -38,7 +39,8 @@ interface AddProductDialogProps {
 }
 
 export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOpenChange, onAddProduct }) => {
-  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<FormValues>({
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<FormValues>({
     defaultValues: {
       name: '',
       price: 0,
@@ -49,61 +51,113 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
   });
   const { toast } = useToast();
 
+  const watchedImages = watch('images');
+
+  React.useEffect(() => {
+    if (watchedImages) {
+      const urls = watchedImages.split(',').map(url => url.trim()).filter(url => url);
+      setImagePreviews(urls);
+    } else {
+      setImagePreviews([]);
+    }
+  }, [watchedImages]);
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const imageUrls = data.images.split(',').map(url => url.trim()).filter(url => url);
+    
     const newProduct = {
       ...data,
       price: Number(data.price),
       stock: Number(data.stock),
-      images: data.images.split(',').map(url => url.trim()).filter(url => url),
+      images: imageUrls.length > 0 ? imageUrls : ['https://images.unsplash.com/photo-1579621970795-87f54d5921ba?w=400&h=300&fit=crop'],
     };
-    if (newProduct.images.length === 0) {
-      newProduct.images.push('https://images.unsplash.com/photo-1579621970795-87f54d5921ba?w=400&h=300&fit=crop');
-    }
+    
     onAddProduct(newProduct);
     toast({
-      title: "Product Added",
-      description: `${newProduct.name} has been added to your store.`,
+      title: "✅ Listing Added Successfully!",
+      description: `${newProduct.name} has been added to your store and is now live.`,
     });
+    
     reset();
+    setImagePreviews([]);
     onOpenChange(false);
   };
 
+  const removeImagePreview = (indexToRemove: number) => {
+    const currentImages = watchedImages.split(',').map(url => url.trim()).filter(url => url);
+    const updatedImages = currentImages.filter((_, index) => index !== indexToRemove);
+    setValue('images', updatedImages.join(', '));
+  };
+
+  const handleDialogClose = (open: boolean) => {
+    if (!open) {
+      reset();
+      setImagePreviews([]);
+    }
+    onOpenChange(open);
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => {
-      if (!open) {
-        reset();
-      }
-      onOpenChange(open);
-    }}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={isOpen} onOpenChange={handleDialogClose}>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Product</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <Upload className="h-5 w-5" />
+            Add New Product
+          </DialogTitle>
           <DialogDescription>
             Fill in the details below to add a new product to your inventory.
           </DialogDescription>
         </DialogHeader>
+        
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" {...register('name', { required: 'Product name is required.' })} />
+              <Label htmlFor="name">Product Name *</Label>
+              <Input 
+                id="name" 
+                {...register('name', { 
+                  required: 'Product name is required.',
+                  minLength: { value: 2, message: 'Product name must be at least 2 characters.' }
+                })} 
+                placeholder="e.g. Fresh Tomatoes"
+              />
               {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="price">Price (₹)</Label>
-              <Input id="price" type="number" {...register('price', { required: 'Price is required.', valueAsNumber: true, min: { value: 1, message: 'Price must be positive.' } })} />
+              <Label htmlFor="price">Price (₹) *</Label>
+              <Input 
+                id="price" 
+                type="number" 
+                step="0.01"
+                {...register('price', { 
+                  required: 'Price is required.', 
+                  valueAsNumber: true, 
+                  min: { value: 0.01, message: 'Price must be greater than 0.' }
+                })} 
+                placeholder="0.00"
+              />
               {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="stock">Stock</Label>
-              <Input id="stock" type="number" {...register('stock', { required: 'Stock is required.', valueAsNumber: true, min: { value: 0, message: 'Stock cannot be negative.' } })} />
+              <Label htmlFor="stock">Stock Quantity *</Label>
+              <Input 
+                id="stock" 
+                type="number" 
+                {...register('stock', { 
+                  required: 'Stock quantity is required.', 
+                  valueAsNumber: true, 
+                  min: { value: 0, message: 'Stock cannot be negative.' }
+                })} 
+                placeholder="0"
+              />
               {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">Category *</Label>
               <Controller
                 name="category"
                 control={control}
@@ -125,15 +179,51 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="images">Images</Label>
-              <Input id="images" {...register('images')} placeholder="Comma-separated URLs" />
-              <p className="text-xs text-gray-500">Separate multiple image URLs with a comma.</p>
+              <Label htmlFor="images">Product Images</Label>
+              <Input 
+                id="images" 
+                {...register('images')} 
+                placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+              />
+              <p className="text-xs text-gray-500">Separate multiple image URLs with commas. Leave empty for default image.</p>
+              
+              {/* Image Previews */}
+              {imagePreviews.length > 0 && (
+                <div className="mt-3">
+                  <Label className="text-sm font-medium">Image Preview:</Label>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    {imagePreviews.map((url, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={url}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-20 object-cover rounded-md border"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1579621970795-87f54d5921ba?w=400&h=300&fit=crop';
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImagePreview(index)}
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-
           </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-            <Button type="submit">Add Product</Button>
+          
+          <DialogFooter className="gap-2">
+            <Button type="button" variant="outline" onClick={() => handleDialogClose(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" className="bg-green-600 hover:bg-green-700">
+              Add Product
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
