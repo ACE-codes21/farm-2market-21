@@ -1,23 +1,19 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowDown } from 'lucide-react';
-
 const HeroSection: React.FC = () => {
   const navigate = useNavigate();
-  
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
     navigate(`/auth?role=${role}&mode=signup`);
   };
-
   const scrollToFeatures = () => {
     const featuresSection = document.getElementById('features-section');
-    featuresSection?.scrollIntoView({ behavior: 'smooth' });
+    featuresSection?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <>
+  return <>
       {/* Main Hero Section */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center max-w-5xl mx-auto">
@@ -29,9 +25,7 @@ const HeroSection: React.FC = () => {
           </h1>
           
           {/* Subtitle with subtle glow */}
-          <p className="text-xl md:text-2xl text-gray-300 mb-16 font-light tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-            Empowering Vendors. Nourishing Neighborhoods.
-          </p>
+          <p className="text-xl md:text-2xl text-gray-300 mb-16 font-light tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Empowering &lt;vendors&gt;. Nourishing Neighborhoods.</p>
           
           {/* Two large buttons with neon styling */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-20">
@@ -55,26 +49,17 @@ const HeroSection: React.FC = () => {
 
       {/* Scroll down arrow - fixed positioning */}
       <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-        <button 
-          onClick={scrollToFeatures}
-          className="animate-bounce hover:text-green-300 transition-colors duration-300 focus:outline-none"
-        >
+        <button onClick={scrollToFeatures} className="animate-bounce hover:text-green-300 transition-colors duration-300 focus:outline-none">
           <ArrowDown className="h-8 w-8 text-green-400 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
         </button>
       </div>
 
       {/* Demo link - better positioning */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-        <Button 
-          onClick={() => navigate('/demo')} 
-          variant="ghost" 
-          className="text-green-400/80 hover:text-green-400 hover:bg-green-400/10 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 border border-green-400/20 text-sm"
-        >
+        <Button onClick={() => navigate('/demo')} variant="ghost" className="text-green-400/80 hover:text-green-400 hover:bg-green-400/10 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 border border-green-400/20 text-sm">
           Browse Market Demo
         </Button>
       </div>
-    </>
-  );
+    </>;
 };
-
 export default HeroSection;
