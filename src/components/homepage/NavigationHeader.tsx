@@ -2,6 +2,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import { LanguageSelector } from '@/components/LanguageSelector';
+import { UserDropdown } from '@/components/UserDropdown';
 
 interface NavigationHeaderProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -33,19 +35,8 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
           </a>
           
           <div className="flex items-center space-x-4">
-            <Button
-              onClick={() => onOpenAuthModal('buyer', 'login')}
-              variant="ghost"
-              className="text-white hover:bg-white/10"
-            >
-              Sign In
-            </Button>
-            <Button
-              onClick={() => onOpenAuthModal('vendor', 'signup')}
-              className="bg-green-500 hover:bg-green-600 text-black font-semibold"
-            >
-              Get Started
-            </Button>
+            <LanguageSelector />
+            <UserDropdown />
           </div>
         </div>
 
@@ -71,26 +62,9 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                 Contact
               </a>
               
-              <div className="pt-4 space-y-3">
-                <Button
-                  onClick={() => {
-                    onOpenAuthModal('buyer', 'login');
-                    setIsMenuOpen(false);
-                  }}
-                  variant="ghost"
-                  className="w-full text-white hover:bg-white/10"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  onClick={() => {
-                    onOpenAuthModal('vendor', 'signup');
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full bg-green-500 hover:bg-green-600 text-black font-semibold"
-                >
-                  Get Started
-                </Button>
+              <div className="pt-4 space-y-3 flex flex-col items-start">
+                <LanguageSelector />
+                <UserDropdown />
               </div>
             </div>
           </div>
