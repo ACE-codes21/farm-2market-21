@@ -11,8 +11,8 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
             <h1 className="text-3xl font-bold font-display">
-              <span className="text-green-500">Farm</span>
-              <span className="text-white">2Market</span>
+              <span className="text-green-500 text-4xl">Farm</span>
+              <span className="text-white text-4xl">2Market</span>
             </h1>
           </div>
           <div className="flex items-center gap-4">
