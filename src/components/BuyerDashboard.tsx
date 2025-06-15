@@ -77,14 +77,14 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
       />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Header Section */}
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold font-display gradient-text mb-2">Discover Local Market</h2>
-          <p className="text-slate-300">Find fresh produce and authentic items from local street vendors</p>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="mb-6">
+        {/* Header Section with Tab Navigation */}
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold font-display gradient-text mb-2">Discover Local Market</h2>
+            <p className="text-slate-300">Find fresh produce and authentic items from local street vendors</p>
+          </div>
+          
+          {/* Tab Navigation moved to right side */}
           <div className="dark-glass-effect rounded-2xl p-2 border border-slate-600/30 inline-flex">
             <Button
               variant={activeTab === 'products' ? 'default' : 'ghost'}
