@@ -36,6 +36,7 @@ export const useCheckout = () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['vendor-products'] });
       queryClient.invalidateQueries({ queryKey: ['vendor-orders'] });
+      queryClient.invalidateQueries({ queryKey: ['buyer-orders'] });
     },
   });
 

@@ -1,12 +1,12 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Package, Clock, CheckCircle, Truck, MapPin, Phone, Eye } from 'lucide-react';
-import { useAppContext } from '@/contexts/AppContext';
+import { useBuyerOrders } from '@/hooks/useBuyerOrders';
 import { Order, CartItem } from '@/types';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Mock tracking data for demonstration
 const mockTrackingData = {
@@ -206,30 +206,78 @@ const OrderTracking: React.FC<OrderTrackingProps> = ({
     </div>;
 };
 export const OrdersPage: React.FC = () => {
-  const {
-    orders
-  } = useAppContext();
+  const { data: orders = [], isLoading } = useBuyerOrders();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const activeOrders = orders.filter(order => order.status !== 'delivered');
-  const orderHistory = orders.filter(order => order.status === 'delivered');
+
+  const activeOrders = orders.filter(order => order.status === 'pending' || order.status === 'confirmed');
+  const orderHistory = orders.filter(order => order.status === 'delivered' || order.status === 'cancelled');
+
   const handleTrackOrder = (orderId: number | string) => {
     const order = orders.find(o => o.id === orderId);
     if (order) {
       setSelectedOrder(order);
     }
   };
+
   const handleBackToOrders = () => {
     setSelectedOrder(null);
   };
+
   if (selectedOrder) {
     return <OrderTracking order={selectedOrder} onBack={handleBackToOrders} />;
   }
-  return <div className="space-y-6">
-      <div>
-        
-        
+  
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <Tabs defaultValue="active" className="w-full">
+          <TabsList className="dark-glass-effect border border-slate-600/30">
+            <TabsTrigger value="active" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              Active Orders
+            </TabsTrigger>
+            <TabsTrigger value="history" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              Order History
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="active" className="space-y-4 mt-6">
+            <div className="grid gap-4">
+              {[...Array(3)].map((_, i) => (
+                <Card key={i} className="dark-modern-card border-slate-600/30">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Skeleton className="h-6 w-32" />
+                        <Skeleton className="h-4 w-48 mt-2" />
+                      </div>
+                      <Skeleton className="h-6 w-24" />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Skeleton className="w-12 h-12 rounded-lg" />
+                        <div className="flex-1 space-y-2">
+                          <Skeleton className="h-4 w-full" />
+                          <Skeleton className="h-3 w-2/3" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between pt-3 border-t border-slate-700/50">
+                      <Skeleton className="h-8 w-28" />
+                      <Skeleton className="h-9 w-32" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
+    );
+  }
 
+  return (
+    <div className="space-y-6">
       <Tabs defaultValue="active" className="w-full">
         <TabsList className="dark-glass-effect border border-slate-600/30">
           <TabsTrigger value="active" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
@@ -241,28 +289,41 @@ export const OrdersPage: React.FC = () => {
         </TabsList>
 
         <TabsContent value="active" className="space-y-4 mt-6">
-          {activeOrders.length > 0 ? <div className="grid gap-4">
-              {activeOrders.map(order => <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />)}
-            </div> : <div className="text-center py-16">
+          {activeOrders.length > 0 ? (
+            <div className="grid gap-4">
+              {activeOrders.map(order => (
+                <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
               <div className="dark-glass-effect p-12 max-w-md mx-auto border border-slate-600/30">
                 <Truck className="h-16 w-16 text-slate-500 mx-auto mb-4" />
                 <p className="text-2xl font-semibold text-white mb-3">No Active Orders</p>
                 <p className="text-slate-300">You don't have any active orders at the moment.</p>
               </div>
-            </div>}
+            </div>
+          )}
         </TabsContent>
 
         <TabsContent value="history" className="space-y-4 mt-6">
-          {orderHistory.length > 0 ? <div className="grid gap-4">
-              {orderHistory.map(order => <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />)}
-            </div> : <div className="text-center py-16">
+          {orderHistory.length > 0 ? (
+            <div className="grid gap-4">
+              {orderHistory.map(order => (
+                <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
               <div className="dark-glass-effect p-12 max-w-md mx-auto border border-slate-600/30">
                 <Package className="h-16 w-16 text-slate-500 mx-auto mb-4" />
                 <p className="text-2xl font-semibold text-white mb-3">No Order History</p>
                 <p className="text-slate-300">Your completed orders will appear here.</p>
               </div>
-            </div>}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 };
