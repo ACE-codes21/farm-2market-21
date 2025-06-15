@@ -43,6 +43,18 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
     onOpenAuthModal('buyer', 'login');
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    // Close mobile menu if open
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="absolute top-0 left-0 right-0 z-20 p-6">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
@@ -56,15 +68,24 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
           </Link>
           {/* Nav Links */}
           <div className="hidden md:flex items-center space-x-7">
-            <a href="#features" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            <button 
+              onClick={() => scrollToSection('dynamic-features')}
+              className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
+            >
               {t('nav.nav_features')}
-            </a>
-            <a href="#about" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            </button>
+            <button 
+              onClick={() => scrollToSection('about-us')}
+              className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
+            >
               {t('nav.nav_about')}
-            </a>
-            <a href="#contact" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            </button>
+            <button 
+              onClick={() => scrollToSection('contact-footer')}
+              className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
+            >
               {t('nav.nav_contact')}
-            </a>
+            </button>
           </div>
         </div>
 
@@ -103,15 +124,24 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
             <div className="p-6 space-y-4">
               {/* Move nav links to the top */}
               <div className="flex flex-col gap-3 mb-4">
-                <a href="#features" className="block text-white/80 hover:text-white transition-colors">
+                <button 
+                  onClick={() => scrollToSection('dynamic-features')}
+                  className="block text-white/80 hover:text-white transition-colors text-left"
+                >
                   {t('nav.nav_features')}
-                </a>
-                <a href="#about" className="block text-white/80 hover:text-white transition-colors">
+                </button>
+                <button 
+                  onClick={() => scrollToSection('about-us')}
+                  className="block text-white/80 hover:text-white transition-colors text-left"
+                >
                   {t('nav.nav_about')}
-                </a>
-                <a href="#contact" className="block text-white/80 hover:text-white transition-colors">
+                </button>
+                <button 
+                  onClick={() => scrollToSection('contact-footer')}
+                  className="block text-white/80 hover:text-white transition-colors text-left"
+                >
                   {t('nav.nav_contact')}
-                </a>
+                </button>
               </div>
               <div className="pt-2 space-y-3 flex flex-col items-start">
                 <LanguageSelector />
@@ -141,4 +171,3 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
 };
 
 export default NavigationHeader;
-
