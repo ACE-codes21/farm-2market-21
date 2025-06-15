@@ -1,8 +1,10 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Heart, Package } from 'lucide-react';
 import { UserDropdown } from './UserDropdown';
+
 interface BuyerHeaderProps {
   onCartOpen: () => void;
   onWishlistOpen: () => void;
@@ -23,13 +25,18 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-2">
               
-              <span className="text-xl font-bold gradient-text text-gray-50">Farm2Market</span>
+              <span className="text-xl font-bold">
+                <span className="text-green-500">Farm</span>
+                <span className="text-white">2Market</span>
+              </span>
             </div>
           </div>
 
           <div className="flex items-center space-x-4">
             {/* Orders Button */}
-            {onOrdersClick}
+            {onOrdersClick && <Button variant="ghost" size="sm" onClick={onOrdersClick} className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2">
+                <Package className="h-5 w-5" />
+              </Button>}
             
             {/* Wishlist Button */}
             <Button variant="ghost" size="sm" onClick={onWishlistOpen} className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2">
