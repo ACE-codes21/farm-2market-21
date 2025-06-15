@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Star, ShoppingCart, Sparkles } from 'lucide-react';
+import { Heart, Star, ShoppingCart, Sparkles, MessageCircle } from 'lucide-react';
 import { Product } from '@/types';
 import { FreshPickBadge } from './FreshPickBadge';
+import { ContactVendorDialog } from './ContactVendorDialog';
+import { AddToCartDialog } from './AddToCartDialog';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: () => void;
+  onAddToCart: (quantity: number) => void;
   onAddToWishlist: (product: Product) => void;
   isInWishlist: boolean;
 }
@@ -131,34 +133,45 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           </div>
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <span className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               ₹{product.price}
             </span>
-            <Button 
-              size="sm" 
-              className={`premium-button px-6 py-3 text-sm font-bold ${
-                product.stock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:scale-110'
-              }`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddToCart();
-              }}
-              disabled={product.stock === 0}
-            >
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}
-            </Button>
+            {product.vendor && (
+              <ContactVendorDialog product={product}>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  Contact
+                </Button>
+              </ContactVendorDialog>
+            )}
           </div>
 
-          {/* Stock indicator */}
-          {product.stock > 0 && product.stock <= 5 && (
-            <div className="mt-3 text-center">
-              <span className="text-xs font-bold text-orange-500 bg-orange-100 px-3 py-1 rounded-full">
-                Only {product.stock} left!
-              </span>
-            </div>
-          )}
+          <div className="space-y-3">
+            <AddToCartDialog 
+              product={product} 
+              onAddToCart={onAddToCart}
+            >
+              <Button 
+                className={`w-full premium-button px-6 py-3 text-sm font-bold ${
+                  product.stock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:scale-105'
+                }`}
+                disabled={product.stock === 0}
+              >
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}
+              </Button>
+            </AddToCartDialog>
+
+            {/* Stock indicator */}
+            {product.stock > 0 && product.stock <= 5 && (
+              <div className="text-center">
+                <span className="text-xs font-bold text-orange-500 bg-orange-100 px-3 py-1 rounded-full">
+                  Only {product.stock} left!
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

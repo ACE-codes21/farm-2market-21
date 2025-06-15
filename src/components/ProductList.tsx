@@ -6,7 +6,7 @@ import { ProductCard } from './ProductCard';
 interface ProductListProps {
   products: Product[];
   viewMode: 'grid' | 'list';
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (product: Product, quantity: number) => void;
   onAddToWishlist: (product: Product) => void;
   isInWishlist: (productId: number) => boolean;
 }
@@ -36,7 +36,7 @@ export const ProductList: React.FC<ProductListProps> = ({
         <ProductCard
           key={product.id}
           product={product}
-          onAddToCart={() => onAddToCart(product)}
+          onAddToCart={(quantity: number) => onAddToCart(product, quantity)}
           onAddToWishlist={onAddToWishlist}
           isInWishlist={isInWishlist(product.id)}
         />

@@ -32,7 +32,7 @@ export const useCart = () => {
 
         toast({
             title: "Added to Cart",
-            description: `${product.name} has been added to your cart.`,
+            description: `${quantity} ${product.name}${quantity > 1 ? 's' : ''} added to your cart.`,
         });
 
         if (existingItem) {

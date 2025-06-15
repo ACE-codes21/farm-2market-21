@@ -9,6 +9,12 @@ export interface Product {
   stock: number;
   isFreshPick?: boolean;
   freshPickExpiresAt?: string;
+  vendor?: {
+    name: string;
+    phone: string;
+    upiId?: string;
+    upiQrCode?: string;
+  };
 }
 
 export interface CartItem extends Product {

@@ -47,6 +47,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
     removeFromWishlist(product);
   };
 
+  const handleAddToCart = (product: Product, quantity: number) => {
+    addToCart(product, quantity);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
       <BuyerHeader
@@ -75,7 +79,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
             <ProductList
                 products={filteredProducts}
                 viewMode={viewMode}
-                onAddToCart={addToCart}
+                onAddToCart={handleAddToCart}
                 onAddToWishlist={addToWishlist}
                 isInWishlist={isInWishlist}
             />
