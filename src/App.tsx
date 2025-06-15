@@ -10,6 +10,7 @@ import VendorPortal from "./pages/VendorPortal";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "./contexts/AppContext";
+import FinanceDashboard from "./pages/FinanceDashboard";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<Homepage />} />
             <Route path="/buyer" element={<Dashboard />} />
             <Route path="/vendor" element={<VendorPortal />} />
+            <Route path="/vendor/finance" element={<FinanceDashboard />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
