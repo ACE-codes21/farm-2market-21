@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -124,7 +125,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuthModal }) => {
               <>
                 {userRole === 'buyer' && (
                   <Button 
-                    onClick={() => navigate('/market')} 
+                    onClick={() => navigate('/dashboard')} 
                     className="group relative px-8 py-6 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-black font-bold text-lg rounded-2xl border-2 border-green-400 shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_50px_rgba(34,197,94,0.8)] transform hover:scale-105 transition-all duration-300 min-w-[200px] overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
