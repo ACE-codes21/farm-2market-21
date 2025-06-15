@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowRight, Sparkles, Leaf, Heart, Truck, Users } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Session } from '@supabase/supabase-js';
 
 interface HeroSectionProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode: 'login' | 'signup') => void;
@@ -15,41 +15,31 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuthModal }) => {
   const [userRole, setUserRole] = useState<'vendor' | 'buyer' | null>(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
+    const updateUserState = (session: Session | null) => {
       if (session) {
         setIsAuthenticated(true);
-        // Check for role in localStorage or user metadata
-        const sessionData = localStorage.getItem('userSession');
-        if (sessionData) {
-          const localSession = JSON.parse(sessionData);
-          setUserRole(localSession.role);
-        } else if (session.user.user_metadata?.role) {
-          setUserRole(session.user.user_metadata.role);
+        const role = session.user.user_metadata?.role;
+        if (role === 'vendor' || role === 'buyer') {
+          setUserRole(role);
+        } else {
+          setUserRole(null); 
         }
       } else {
         setIsAuthenticated(false);
         setUserRole(null);
+        // Clean up local storage as a safeguard for other parts of the app
+        localStorage.removeItem('userSession');
       }
     };
 
-    checkAuth();
+    // Check initial session state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      updateUserState(session);
+    });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        setIsAuthenticated(true);
-        const sessionData = localStorage.getItem('userSession');
-        if (sessionData) {
-          const localSession = JSON.parse(sessionData);
-          setUserRole(localSession.role);
-        } else if (session.user.user_metadata?.role) {
-          setUserRole(session.user.user_metadata.role);
-        }
-      } else {
-        setIsAuthenticated(false);
-        setUserRole(null);
-      }
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      updateUserState(session);
     });
 
     return () => subscription.unsubscribe();
