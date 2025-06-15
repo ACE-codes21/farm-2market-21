@@ -8,6 +8,7 @@ import { ShoppingCart, Plus, Minus, X, CheckCircle, CreditCard, Smartphone, Wall
 import { CartItem } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface CartSheetProps {
   cartItems: CartItem[];
@@ -29,13 +30,15 @@ export const CartSheet: React.FC<CartSheetProps> = ({
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('card');
   const { toast } = useToast();
+  const { t } = useTranslation();
   
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const paymentMethods = [
-    { id: 'card', name: 'Credit/Debit Card', icon: CreditCard, color: 'blue' },
-    { id: 'upi', name: 'UPI Payment', icon: Smartphone, color: 'green' },
-    { id: 'wallet', name: 'Digital Wallet', icon: Wallet, color: 'purple' }
+    { id: 'card', name: t('buy_now_dialog.payment_methods.card'), icon: CreditCard, color: 'blue' },
+    { id: 'upi', name: t('buy_now_dialog.payment_methods.upi'), icon: Smartphone, color: 'green' },
+    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' }
   ];
 
   const handleInitiateCheckout = () => {
@@ -45,7 +48,6 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 
   const handleCheckout = async () => {
     setIsProcessing(true);
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     
     try {
       await onCheckout();
@@ -57,8 +59,8 @@ export const CartSheet: React.FC<CartSheetProps> = ({
       setShowPaymentOptions(false);
       
       toast({
-        title: "Order Placed Successfully!",
-        description: `Your order of ${totalItems} items has been confirmed.`
+        title: t('cart_sheet.order_placed_success'),
+        description: t('cart_sheet.order_confirmed', { count: totalItems })
       });
       
       // Reset after showing success
@@ -89,9 +91,9 @@ export const CartSheet: React.FC<CartSheetProps> = ({
                 <CheckCircle className="h-10 w-10 text-green-400" />
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-white">Order Placed!</h3>
-                <p className="text-slate-300 mt-2">Your cart items have been ordered successfully.</p>
-                <p className="text-sm text-slate-400 mt-1">Total: ₹{total.toFixed(2)}</p>
+                <h3 className="text-2xl font-semibold text-white">{t('cart_sheet.order_placed_title')}</h3>
+                <p className="text-slate-300 mt-2">{t('cart_sheet.order_placed_desc')}</p>
+                <p className="text-sm text-slate-400 mt-1">{t('cart_sheet.total_paid', { total: total.toFixed(2) })}</p>
               </div>
             </div>
           </div>
@@ -112,10 +114,10 @@ export const CartSheet: React.FC<CartSheetProps> = ({
                 onClick={handleBackToCart}
                 className="text-slate-400 hover:text-white p-2"
               >
-                ← Back
+                {t('cart_sheet.back_to_cart')}
               </Button>
               <SheetTitle className="text-white font-display">
-                Choose Payment Method
+                {t('cart_sheet.choose_payment')}
               </SheetTitle>
             </div>
           </SheetHeader>
@@ -123,19 +125,19 @@ export const CartSheet: React.FC<CartSheetProps> = ({
           <div className="flex-1 p-6 space-y-6">
             {/* Order Summary */}
             <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-600/30">
-              <h4 className="font-medium text-white mb-3">Order Summary</h4>
+              <h4 className="font-medium text-white mb-3">{t('cart_sheet.order_summary')}</h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between text-slate-300">
-                  <span>Items ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})</span>
+                  <span>{t('cart_sheet.items_count', { count: totalItems })}</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-slate-300">
-                  <span>Delivery</span>
-                  <span className="text-green-400">Free</span>
+                  <span>{t('cart_sheet.delivery')}</span>
+                  <span className="text-green-400">{t('cart_sheet.free')}</span>
                 </div>
                 <Separator className="bg-slate-600/30" />
                 <div className="flex justify-between text-lg font-semibold text-white">
-                  <span>Total</span>
+                  <span>{t('cart_sheet.total')}</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>
               </div>
@@ -143,7 +145,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 
             {/* Payment Methods */}
             <div className="space-y-4">
-              <h4 className="font-medium text-white">Select Payment Method</h4>
+              <h4 className="font-medium text-white">{t('buy_now_dialog.payment_method')}</h4>
               <div className="space-y-3">
                 {paymentMethods.map((method) => {
                   const Icon = method.icon;
@@ -180,7 +182,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
               onClick={handleCheckout}
               disabled={isProcessing}
             >
-              {isProcessing ? 'Processing...' : `Pay ₹${total.toFixed(2)}`}
+              {isProcessing ? t('cart_sheet.processing') : t('cart_sheet.pay', { total: total.toFixed(2) })}
             </Button>
           </SheetFooter>
         </SheetContent>
@@ -193,7 +195,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg bg-slate-900/95 backdrop-blur-xl border-l border-slate-600/30">
         <SheetHeader className="px-6 border-b border-slate-700/50 pb-4">
           <SheetTitle className="text-white font-display">
-            Cart ({cartItems.reduce((sum, item) => sum + item.quantity, 0)})
+            {t('cart_sheet.cart_title', { count: totalItems })}
           </SheetTitle>
         </SheetHeader>
         {cartItems.length > 0 ? (
@@ -244,15 +246,15 @@ export const CartSheet: React.FC<CartSheetProps> = ({
             <SheetFooter className="p-6 pt-4 bg-slate-800/50 border-t border-slate-700/50">
               <div className="flex w-full flex-col gap-4">
                 <div className="flex justify-between text-xl font-semibold">
-                  <span className="text-slate-300">Subtotal</span>
+                  <span className="text-slate-300">{t('cart_sheet.subtotal')}</span>
                   <span className="text-white">₹{total.toFixed(2)}</span>
                 </div>
-                <p className="text-xs text-slate-400">Shipping & taxes calculated at checkout.</p>
+                <p className="text-xs text-slate-400">{t('cart_sheet.shipping_note')}</p>
                 <Button 
                   className="w-full mt-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium py-3 shadow-lg hover:shadow-xl transition-all duration-200" 
                   onClick={handleInitiateCheckout}
                 >
-                  Proceed to Checkout
+                  {t('cart_sheet.proceed_to_checkout')}
                 </Button>
               </div>
             </SheetFooter>
@@ -263,12 +265,12 @@ export const CartSheet: React.FC<CartSheetProps> = ({
               <ShoppingCart className="h-16 w-16 text-slate-500" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl font-semibold text-white">Your cart is empty</h3>
-              <p className="text-slate-400">Add items to your cart to get started.</p>
+              <h3 className="text-xl font-semibold text-white">{t('cart_sheet.empty_cart_title')}</h3>
+              <p className="text-slate-400">{t('cart_sheet.empty_cart_desc')}</p>
             </div>
             <SheetClose asChild>
               <Button className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-200">
-                Continue Shopping
+                {t('cart_sheet.continue_shopping')}
               </Button>
             </SheetClose>
           </div>

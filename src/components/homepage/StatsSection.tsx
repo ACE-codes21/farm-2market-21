@@ -1,11 +1,13 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { TrendingUp, Users, ShoppingBag, Award } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const StatsSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [counters, setCounters] = useState({ vendors: 0, customers: 0, orders: 0, satisfaction: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const finalValues = { vendors: 500, customers: 5000, orders: 25000, satisfaction: 98 };
 
@@ -59,34 +61,34 @@ const StatsSection: React.FC = () => {
       icon: Users,
       value: counters.vendors,
       suffix: '+',
-      label: 'Local Vendors',
+      label: t('stats_section.stats.vendors'),
       color: 'green'
     },
     {
       icon: ShoppingBag,
       value: counters.customers,
       suffix: '+',
-      label: 'Happy Customers',
+      label: t('stats_section.stats.customers'),
       color: 'blue'
     },
     {
       icon: TrendingUp,
       value: counters.orders,
       suffix: '+',
-      label: 'Orders Delivered',
+      label: t('stats_section.stats.orders'),
       color: 'purple'
     },
     {
       icon: Award,
       value: counters.satisfaction,
       suffix: '%',
-      label: 'Satisfaction Rate',
+      label: t('stats_section.stats.satisfaction'),
       color: 'orange'
     }
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-32 px-4 overflow-hidden">
+    <section ref={sectionRef} id="about" className="relative py-32 px-4 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-r from-green-900/20 via-black to-orange-900/20"></div>
       
@@ -101,10 +103,10 @@ const StatsSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Growing <span className="text-green-400">Together</span>
+            {t('stats_section.heading')} <span className="text-green-400">{t('stats_section.heading_highlight')}</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Join thousands of vendors and customers who trust Farm2Market for their fresh produce needs
+            {t('stats_section.subheading')}
           </p>
         </div>
 

@@ -23,5 +23,149 @@
   },
   "buyer_dashboard": {
     "welcome_banner": "🌿 Welcome to Farm2Market | Fresh from the Street"
+  },
+  "cta_section": {
+    "badge": "Ready to Transform Your Food Journey?",
+    "heading_1": "Start Your",
+    "heading_2": "Farm2Market",
+    "heading_3": "Journey Today",
+    "description": "Whether you're a vendor looking to reach more customers or a buyer seeking fresh, local produce, we're here to connect you with your community.",
+    "start_shopping": "Start Shopping",
+    "start_selling": "Start Selling"
+  },
+  "features_section": {
+    "heading": "Why Choose",
+    "heading_highlight": "Farm2Market?",
+    "subheading": "Experience the future of local commerce with our innovative platform connecting communities",
+    "features": {
+      "fresh_organic": {
+        "title": "Fresh & Organic",
+        "description": "Direct from farm to your table, ensuring maximum freshness and quality"
+      },
+      "easy_shopping": {
+        "title": "Easy Shopping",
+        "description": "Browse, order, and receive fresh produce with just a few clicks"
+      },
+      "community_driven": {
+        "title": "Community Driven",
+        "description": "Supporting local farmers and building stronger communities"
+      },
+      "fair_pricing": {
+        "title": "Fair Pricing",
+        "description": "Transparent pricing that benefits both farmers and consumers"
+      },
+      "local_network": {
+        "title": "Local Network",
+        "description": "Connect with vendors in your neighborhood and surrounding areas"
+      },
+      "quick_delivery": {
+        "title": "Quick Delivery",
+        "description": "Fast and reliable delivery to ensure freshness is maintained"
+      }
+    }
+  },
+  "stats_section": {
+    "heading": "Growing",
+    "heading_highlight": "Together",
+    "subheading": "Join thousands of vendors and customers who trust Farm2Market for their fresh produce needs",
+    "stats": {
+      "vendors": "Local Vendors",
+      "customers": "Happy Customers",
+      "orders": "Orders Delivered",
+      "satisfaction": "Satisfaction Rate"
+    }
+  },
+  "hero_section": {
+    "badge": "Connecting Local Communities Through Fresh Food",
+    "heading_1": "From",
+    "heading_farm": "Farm",
+    "heading_2": "to Your",
+    "heading_market": "Market",
+    "subheading_1": "Empowering",
+    "subheading_vendors": "vendors",
+    "subheading_2": ". Nourishing",
+    "subheading_neighbourhoods": "neighbourhoods",
+    "go_to_market": "Go to Market",
+    "go_to_dashboard": "Go to Dashboard",
+    "shop_now": "Shop Now",
+    "sell_with_us": "Sell with Us",
+    "stats": {
+      "farmers": "Local Farmers",
+      "customers": "Happy Customers",
+      "cities": "Cities Covered"
+    }
+  },
+  "buy_now_dialog": {
+    "quick_checkout": "Quick Checkout",
+    "each": "each",
+    "available": "available",
+    "quantity": "Quantity",
+    "coupon_code": "Coupon Code",
+    "apply": "Apply",
+    "coupon_applied": "Coupon Applied!",
+    "discount_applied": "{{discount}}% discount applied",
+    "invalid_coupon": "Invalid Coupon",
+    "invalid_coupon_desc": "Please enter a valid coupon code",
+    "payment_method": "Payment Method",
+    "order_summary": "Order Summary",
+    "subtotal_items": "Subtotal ({{count}} items)",
+    "discount_code": "Discount ({{code}})",
+    "total": "Total",
+    "cancel": "Cancel",
+    "complete_purchase": "Complete Purchase ₹{{total}}",
+    "processing": "Processing...",
+    "order_placed_success": "Order Placed Successfully!",
+    "order_confirmed": "Your order for {{productName}} has been confirmed.",
+    "order_total": "Order total: ₹{{total}}",
+    "payment_methods": {
+      "card": "Credit/Debit Card",
+      "upi": "UPI Payment",
+      "wallet": "Digital Wallet"
+    },
+    "coupons": {
+      "fresh10_desc": "10% off on fresh items",
+      "welcome20_desc": "20% off for new users",
+      "bulk5_desc": "5% off on bulk orders"
+    }
+  },
+  "cart_sheet": {
+    "cart_title": "Cart ({{count}})",
+    "subtotal": "Subtotal",
+    "shipping_note": "Shipping & taxes calculated at checkout.",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "empty_cart_title": "Your cart is empty",
+    "empty_cart_desc": "Add items to your cart to get started.",
+    "continue_shopping": "Continue Shopping",
+    "choose_payment": "Choose Payment Method",
+    "back_to_cart": "← Back",
+    "order_summary": "Order Summary",
+    "items_count": "Items ({{count}})",
+    "delivery": "Delivery",
+    "free": "Free",
+    "total": "Total",
+    "pay": "Pay ₹{{total}}",
+    "processing": "Processing...",
+    "order_placed_success": "Order Placed Successfully!",
+    "order_confirmed": "Your order of {{count}} items has been confirmed.",
+    "order_placed_title": "Order Placed!",
+    "order_placed_desc": "Your cart items have been ordered successfully.",
+    "total_paid": "Total: ₹{{total}}"
+  },
+  "fresh_for_badge": {
+    "na": "N/A",
+    "expired": "Expired"
+  },
+  "dashboard_tabs": {
+    "discover_market": "Discover Local Market",
+    "discover_vendors": "Discover Vendors",
+    "my_orders": "My Orders",
+    "products_desc": "Find fresh produce and authentic items from local street vendors",
+    "vendors_desc": "Find fresh products from local vendors around you",
+    "orders_desc": "Track your orders and view order history",
+    "tabs": {
+      "products": "Products",
+      "vendors": "Vendors",
+      "orders": "Orders"
+    }
   }
 }

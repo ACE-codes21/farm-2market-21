@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Map, Grid3x3, Package } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type ActiveTab = 'products' | 'vendors' | 'orders';
 
@@ -10,25 +11,26 @@ interface DashboardTabsProps {
   setActiveTab: (tab: ActiveTab) => void;
 }
 
-const tabConfig = {
-  products: { label: 'Products', icon: Grid3x3 },
-  vendors: { label: 'Vendors', icon: Map },
-  orders: { label: 'Orders', icon: Package },
-};
-
 export const DashboardTabs: React.FC<DashboardTabsProps> = ({ activeTab, setActiveTab }) => {
+  const { t } = useTranslation();
+  const tabConfig = {
+    products: { label: t('dashboard_tabs.tabs.products'), icon: Grid3x3 },
+    vendors: { label: t('dashboard_tabs.tabs.vendors'), icon: Map },
+    orders: { label: t('dashboard_tabs.tabs.orders'), icon: Package },
+  };
+
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
         <h2 className="text-3xl font-bold font-display gradient-text mb-2">
-          {activeTab === 'products' && 'Discover Local Market'}
-          {activeTab === 'vendors' && 'Discover Vendors'}
-          {activeTab === 'orders' && 'My Orders'}
+          {activeTab === 'products' && t('dashboard_tabs.discover_market')}
+          {activeTab === 'vendors' && t('dashboard_tabs.discover_vendors')}
+          {activeTab === 'orders' && t('dashboard_tabs.my_orders')}
         </h2>
         <p className="text-slate-300">
-          {activeTab === 'products' && 'Find fresh produce and authentic items from local street vendors'}
-          {activeTab === 'vendors' && 'Find fresh products from local vendors around you'}
-          {activeTab === 'orders' && 'Track your orders and view order history'}
+          {activeTab === 'products' && t('dashboard_tabs.products_desc')}
+          {activeTab === 'vendors' && t('dashboard_tabs.vendors_desc')}
+          {activeTab === 'orders' && t('dashboard_tabs.orders_desc')}
         </p>
       </div>
 

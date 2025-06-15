@@ -1,10 +1,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Leaf, ShoppingCart, Users, TrendingUp, MapPin, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const FeaturesSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -26,38 +28,38 @@ const FeaturesSection: React.FC = () => {
   const features = [
     {
       icon: Leaf,
-      title: "Fresh & Organic",
-      description: "Direct from farm to your table, ensuring maximum freshness and quality",
+      title: t('features_section.features.fresh_organic.title'),
+      description: t('features_section.features.fresh_organic.description'),
       color: "green"
     },
     {
       icon: ShoppingCart,
-      title: "Easy Shopping",
-      description: "Browse, order, and receive fresh produce with just a few clicks",
+      title: t('features_section.features.easy_shopping.title'),
+      description: t('features_section.features.easy_shopping.description'),
       color: "blue"
     },
     {
       icon: Users,
-      title: "Community Driven",
-      description: "Supporting local farmers and building stronger communities",
+      title: t('features_section.features.community_driven.title'),
+      description: t('features_section.features.community_driven.description'),
       color: "purple"
     },
     {
       icon: TrendingUp,
-      title: "Fair Pricing",
-      description: "Transparent pricing that benefits both farmers and consumers",
+      title: t('features_section.features.fair_pricing.title'),
+      description: t('features_section.features.fair_pricing.description'),
       color: "orange"
     },
     {
       icon: MapPin,
-      title: "Local Network",
-      description: "Connect with vendors in your neighborhood and surrounding areas",
+      title: t('features_section.features.local_network.title'),
+      description: t('features_section.features.local_network.description'),
       color: "red"
     },
     {
       icon: Clock,
-      title: "Quick Delivery",
-      description: "Fast and reliable delivery to ensure freshness is maintained",
+      title: t('features_section.features.quick_delivery.title'),
+      description: t('features_section.features.quick_delivery.description'),
       color: "indigo"
     }
   ];
@@ -72,7 +74,7 @@ const FeaturesSection: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative py-32 px-4 overflow-hidden">
+    <section ref={sectionRef} id="features" className="relative py-32 px-4 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/95 to-black"></div>
       
@@ -86,10 +88,10 @@ const FeaturesSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Why Choose <span className="text-green-400">Farm2Market</span>?
+            {t('features_section.heading')} <span className="text-green-400">{t('features_section.heading_highlight')}</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Experience the future of local commerce with our innovative platform connecting communities
+            {t('features_section.subheading')}
           </p>
         </div>
 
