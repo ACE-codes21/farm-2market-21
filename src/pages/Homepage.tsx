@@ -40,7 +40,7 @@ const Homepage: React.FC = () => {
             
             {/* Role Selection Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-              <Link to="/login?role=vendor">
+              <Link to="/auth?role=vendor">
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
@@ -50,7 +50,7 @@ const Homepage: React.FC = () => {
                   <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </Link>
-              <Link to="/login?role=buyer">
+              <Link to="/auth?role=buyer">
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
@@ -136,7 +136,7 @@ const Homepage: React.FC = () => {
           <div className="text-center">
             <p className="text-gray-600 mb-4 text-lg">Ready to join our marketplace?</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/login">
+              <Link to="/auth">
                 <Button className="bg-gradient-to-r from-green-600 to-orange-600 hover:from-green-700 hover:to-orange-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                   Get Started Today →
                 </Button>
