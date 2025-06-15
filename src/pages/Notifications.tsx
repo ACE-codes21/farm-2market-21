@@ -43,7 +43,7 @@ const NotificationsPage = () => {
                         <h2 className="text-3xl font-bold font-display gradient-text mb-2">Notifications</h2>
                         <p className="text-slate-400">Your central hub for reviews, alerts, and updates.</p>
                     </div>
-                    <Button variant="outline" className="border-slate-600 hover:bg-slate-800" onClick={handleMarkAllAsRead}>Mark all as read</Button>
+                    <Button variant="ghost" className="text-slate-400 hover:bg-slate-800 hover:text-white" onClick={handleMarkAllAsRead}>Mark all as read</Button>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -80,10 +80,6 @@ const NotificationsPage = () => {
 
                     <div className="lg:col-span-1 space-y-6">
                         <ReviewInsights />
-                        <div className="hidden lg:block">
-                            {/* This is duplicated in the layout, showing alerts in both tabs and sidebar */}
-                            <EmergencyAlerts alerts={alerts} />
-                        </div>
                     </div>
                 </div>
             </main>
