@@ -1,63 +1,82 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Heart, ShoppingCart } from 'lucide-react';
-import { UserMenu } from './UserMenu';
+import { Badge } from '@/components/ui/badge';
+import { ShoppingCart, Heart, Package } from 'lucide-react';
+import { UserDropdown } from './UserDropdown';
 
 interface BuyerHeaderProps {
-  wishlistCount: number;
-  cartItemCount: number;
-  onWishlistOpen: () => void;
   onCartOpen: () => void;
+  onWishlistOpen: () => void;
+  cartItemCount: number;
+  wishlistCount: number;
   onRoleChange: () => void;
+  onOrdersClick?: () => void;
 }
 
 export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
-  wishlistCount,
-  cartItemCount,
-  onWishlistOpen,
   onCartOpen,
+  onWishlistOpen,
+  cartItemCount,
+  wishlistCount,
   onRoleChange,
+  onOrdersClick
 }) => {
   return (
-    <header className="dark-glass-effect sticky top-0 z-50 border-b border-slate-600/30 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex items-center">
-            <h1 className="text-3xl font-bold font-display">
-              <span className="text-green-400">Farm</span>
-              <span className="text-white">2Market</span>
-            </h1>
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-orange-500 rounded-lg"></div>
+              <span className="text-xl font-bold gradient-text">Farm2Market</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+
+          <div className="flex items-center space-x-4">
+            {/* Orders Button */}
+            {onOrdersClick && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onOrdersClick}
+                className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
+              >
+                <Package className="h-5 w-5" />
+              </Button>
+            )}
+            
+            {/* Wishlist Button */}
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onWishlistOpen}
-              className="relative dark-modern-card border-0 px-5 py-3 text-white hover:bg-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20"
+              className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
             >
-              <Heart className="h-5 w-5 mr-2 text-red-400" />
-              <span className="hidden sm:inline font-medium">Wishlist</span>
+              <Heart className="h-5 w-5" />
               {wishlistCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center bg-red-500 hover:bg-red-500 text-white text-xs">
                   {wishlistCount}
-                </span>
+                </Badge>
               )}
             </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
+
+            {/* Cart Button */}
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={onCartOpen}
-              className="relative dark-modern-card border-0 px-5 py-3 text-white hover:bg-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20"
+              className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
             >
-              <ShoppingCart className="h-5 w-5 mr-2 text-green-400" />
-              <span className="hidden sm:inline font-medium">Cart</span>
+              <ShoppingCart className="h-5 w-5" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
+                <Badge className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center bg-green-500 hover:bg-green-500 text-white text-xs">
                   {cartItemCount}
-                </span>
+                </Badge>
               )}
             </Button>
-            <UserMenu onLogout={onRoleChange} />
+
+            <UserDropdown onRoleChange={onRoleChange} />
           </div>
         </div>
       </div>

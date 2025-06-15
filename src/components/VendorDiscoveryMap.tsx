@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, Clock, Navigation, Filter } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { VendorProductsPage } from './VendorProductsPage';
 
 interface Vendor {
   id: string;
@@ -21,7 +22,7 @@ interface Vendor {
 const mockVendors: Vendor[] = [
   {
     id: '1',
-    name: 'Green Valley Farms',
+    name: 'Rajesh Kumar Farm',
     category: 'Fresh Produce',
     distance: 0.8,
     rating: 4.8,
@@ -32,7 +33,7 @@ const mockVendors: Vendor[] = [
   },
   {
     id: '2',
-    name: 'Spice Corner',
+    name: 'Spice Route',
     category: 'Spices & Herbs',
     distance: 1.2,
     rating: 4.6,
@@ -43,7 +44,7 @@ const mockVendors: Vendor[] = [
   },
   {
     id: '3',
-    name: 'Fresh Dairy Hub',
+    name: 'Dairy Fresh',
     category: 'Dairy',
     distance: 2.1,
     rating: 4.7,
@@ -51,12 +52,35 @@ const mockVendors: Vendor[] = [
     location: { lat: 28.6149, lng: 77.2085 },
     isOnline: false,
     estimatedDelivery: 'Offline'
+  },
+  {
+    id: '4',
+    name: 'Tropical Fruits Hub',
+    category: 'Fruits',
+    distance: 1.5,
+    rating: 4.7,
+    freshness: 'Ultra Fresh',
+    location: { lat: 28.6145, lng: 77.2100 },
+    isOnline: true,
+    estimatedDelivery: '18-25 min'
+  },
+  {
+    id: '5',
+    name: 'Street Food Express',
+    category: 'Snacks',
+    distance: 0.9,
+    rating: 4.5,
+    freshness: 'Fresh',
+    location: { lat: 28.6135, lng: 77.2080 },
+    isOnline: true,
+    estimatedDelivery: '12-18 min'
   }
 ];
 
 export const VendorDiscoveryMap: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [maxDistance, setMaxDistance] = useState('5');
+  const [selectedVendor, setSelectedVendor] = useState<string | null>(null);
 
   const filteredVendors = mockVendors.filter(vendor => {
     const categoryMatch = selectedCategory === 'all' || vendor.category.toLowerCase().includes(selectedCategory);
@@ -71,6 +95,18 @@ export const VendorDiscoveryMap: React.FC = () => {
       default: return 'bg-orange-500';
     }
   };
+
+  const handleViewProducts = (vendorName: string) => {
+    setSelectedVendor(vendorName);
+  };
+
+  const handleBackToVendors = () => {
+    setSelectedVendor(null);
+  };
+
+  if (selectedVendor) {
+    return <VendorProductsPage vendorName={selectedVendor} onBack={handleBackToVendors} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -101,6 +137,8 @@ export const VendorDiscoveryMap: React.FC = () => {
               <SelectItem value="produce" className="text-white hover:bg-green-500/10">Fresh Produce</SelectItem>
               <SelectItem value="spices" className="text-white hover:bg-green-500/10">Spices & Herbs</SelectItem>
               <SelectItem value="dairy" className="text-white hover:bg-green-500/10">Dairy</SelectItem>
+              <SelectItem value="fruits" className="text-white hover:bg-green-500/10">Fruits</SelectItem>
+              <SelectItem value="snacks" className="text-white hover:bg-green-500/10">Snacks</SelectItem>
             </SelectContent>
           </Select>
           <Select value={maxDistance} onValueChange={setMaxDistance}>
@@ -164,6 +202,7 @@ export const VendorDiscoveryMap: React.FC = () => {
                   <Button 
                     className={`${vendor.isOnline ? 'premium-button' : 'bg-slate-600 text-slate-300 cursor-not-allowed'}`}
                     disabled={!vendor.isOnline}
+                    onClick={() => vendor.isOnline && handleViewProducts(vendor.name)}
                   >
                     {vendor.isOnline ? 'View Products' : 'Offline'}
                   </Button>

@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { ProductList } from '@/components/ProductList';
 import { ProductFilters, FilterOptions, SortOptions } from '@/components/ProductFilters';
@@ -5,11 +6,12 @@ import { CartSheet } from '@/components/CartSheet';
 import { WishlistSheet } from '@/components/WishlistSheet';
 import { BuyerHeader } from '@/components/BuyerHeader';
 import { VendorDiscoveryMap } from '@/components/VendorDiscoveryMap';
+import { OrdersPage } from '@/components/OrdersPage';
 import { CartItem, Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
 import { useAppContext } from '@/contexts/AppContext';
-import { Sparkles, Map, Grid3x3, List } from 'lucide-react';
+import { Sparkles, Map, Grid3x3, List, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface BuyerDashboardProps {
@@ -31,7 +33,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
     direction: 'asc'
   });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [activeTab, setActiveTab] = useState<'products' | 'vendors'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'vendors' | 'orders'>('products');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   
@@ -108,14 +110,23 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
         cartItemCount={cartTotalItems}
         wishlistCount={wishlist.length}
         onRoleChange={onRoleChange}
+        onOrdersClick={() => setActiveTab('orders')}
       />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header Section with Tab Navigation */}
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold font-display gradient-text mb-2">Discover Local Market</h2>
-            <p className="text-slate-300">Find fresh produce and authentic items from local street vendors</p>
+            <h2 className="text-3xl font-bold font-display gradient-text mb-2">
+              {activeTab === 'products' && 'Discover Local Market'}
+              {activeTab === 'vendors' && 'Discover Vendors'}
+              {activeTab === 'orders' && 'My Orders'}
+            </h2>
+            <p className="text-slate-300">
+              {activeTab === 'products' && 'Find fresh produce and authentic items from local street vendors'}
+              {activeTab === 'vendors' && 'Find fresh products from local vendors around you'}
+              {activeTab === 'orders' && 'Track your orders and view order history'}
+            </p>
           </div>
           
           {/* Tab Navigation moved to right side */}
@@ -123,26 +134,38 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
             <Button
               variant={activeTab === 'products' ? 'default' : 'ghost'}
               onClick={() => setActiveTab('products')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 ${
                 activeTab === 'products' 
                   ? 'bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg' 
                   : 'hover:bg-slate-700/50 text-slate-300'
               }`}
             >
               <Grid3x3 className="h-4 w-4" />
-              Browse Products
+              Products
             </Button>
             <Button
               variant={activeTab === 'vendors' ? 'default' : 'ghost'}
               onClick={() => setActiveTab('vendors')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 ${
                 activeTab === 'vendors' 
                   ? 'bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg' 
                   : 'hover:bg-slate-700/50 text-slate-300'
               }`}
             >
               <Map className="h-4 w-4" />
-              Discover Vendors
+              Vendors
+            </Button>
+            <Button
+              variant={activeTab === 'orders' ? 'default' : 'ghost'}
+              onClick={() => setActiveTab('orders')}
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200 ${
+                activeTab === 'orders' 
+                  ? 'bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg' 
+                  : 'hover:bg-slate-700/50 text-slate-300'
+              }`}
+            >
+              <Package className="h-4 w-4" />
+              Orders
             </Button>
           </div>
         </div>
@@ -179,8 +202,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
               )}
             </div>
           </>
-        ) : (
+        ) : activeTab === 'vendors' ? (
           <VendorDiscoveryMap />
+        ) : (
+          <OrdersPage />
         )}
       </main>
       
