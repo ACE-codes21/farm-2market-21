@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Star, ShoppingCart, Sparkles, MessageCircle } from 'lucide-react';
+import { Heart, Star, ShoppingCart, Sparkles, MessageCircle, CreditCard, Phone } from 'lucide-react';
 import { Product } from '@/types';
 import { FreshPickBadge } from './FreshPickBadge';
 import { ContactVendorDialog } from './ContactVendorDialog';
@@ -158,21 +158,56 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
 
-          <AddToCartDialog 
-            product={product} 
-            onAddToCart={onAddToCart}
-          >
-            <Button 
-              className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 btn-hover-elevate btn-hover-glow focus-ring ${
-                product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''
-              }`}
-              disabled={product.stock === 0}
-              aria-label={product.stock === 0 ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            {/* Add to Cart Button */}
+            <AddToCartDialog 
+              product={product} 
+              onAddToCart={onAddToCart}
             >
-              <ShoppingCart className="mr-2 h-4 w-4" aria-hidden="true" />
-              {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-            </Button>
-          </AddToCartDialog>
+              <Button 
+                className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 btn-hover-elevate btn-hover-glow focus-ring ${
+                  product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''
+                }`}
+                disabled={product.stock === 0}
+                aria-label={product.stock === 0 ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
+              >
+                <ShoppingCart className="mr-2 h-4 w-4" aria-hidden="true" />
+                {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+              </Button>
+            </AddToCartDialog>
+
+            {/* Contact & Payment Buttons */}
+            <div className="grid grid-cols-2 gap-2">
+              {/* Contact Vendor Button */}
+              {product.vendor && (
+                <ContactVendorDialog product={product}>
+                  <Button 
+                    variant="outline"
+                    className="flex items-center gap-2 text-sm py-2 rounded-lg border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-500 transition-colors btn-hover-elevate focus-ring"
+                    aria-label={`Contact vendor ${product.vendor.name}`}
+                  >
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    Call/Chat
+                  </Button>
+                </ContactVendorDialog>
+              )}
+
+              {/* Pay via UPI Button */}
+              {product.vendor?.upiId && (
+                <ContactVendorDialog product={product}>
+                  <Button 
+                    variant="outline"
+                    className="flex items-center gap-2 text-sm py-2 rounded-lg border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-500 transition-colors btn-hover-elevate focus-ring"
+                    aria-label="Pay via UPI"
+                  >
+                    <CreditCard className="h-4 w-4" aria-hidden="true" />
+                    Pay UPI
+                  </Button>
+                </ContactVendorDialog>
+              )}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ShoppingBag, Store, Users, TrendingUp, Shield, Star, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Store, Users, TrendingUp, Shield, Star, ArrowRight, LogIn, UserPlus } from 'lucide-react';
 import LoginSignupModal from '@/components/LoginSignupModal';
 
 const Homepage: React.FC = () => {
@@ -33,6 +34,29 @@ const Homepage: React.FC = () => {
         <div className="absolute top-10 left-10 w-32 h-32 bg-orange-200/30 rounded-full filter blur-xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-40 h-40 bg-green-200/30 rounded-full filter blur-xl animate-pulse animation-delay-2000"></div>
         <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-yellow-200/30 rounded-full filter blur-xl animate-pulse animation-delay-4000"></div>
+      </div>
+
+      {/* Floating Login/Signup Buttons */}
+      <div className="fixed top-4 right-4 z-20 flex gap-3">
+        <Link to="/auth?mode=login">
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="bg-white/90 backdrop-blur-sm border-gray-300 hover:bg-white shadow-lg btn-hover-elevate"
+          >
+            <LogIn className="mr-2 h-4 w-4" />
+            Login
+          </Button>
+        </Link>
+        <Link to="/auth?mode=signup">
+          <Button 
+            size="sm"
+            className="bg-green-600 hover:bg-green-700 text-white shadow-lg btn-hover-elevate"
+          >
+            <UserPlus className="mr-2 h-4 w-4" />
+            Sign Up
+          </Button>
+        </Link>
       </div>
       
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">

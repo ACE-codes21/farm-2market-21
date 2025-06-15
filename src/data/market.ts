@@ -1,4 +1,3 @@
-
 import { Product } from "@/types";
 
 export const products: Product[] = [
@@ -224,6 +223,233 @@ export const products: Product[] = [
       upiQrCode: 'https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=200&h=200&fit=crop'
     }
   },
+];
+
+export const mockProducts: Product[] = [
+  {
+    id: 1,
+    name: "Tomatoes",
+    price: 25,
+    category: "vegetables",
+    images: [
+      "https://images.unsplash.com/photo-1546470427-227eb2b9d22d?q=80&w=1000",
+      "https://images.unsplash.com/photo-1572441713132-51c75654db73?q=80&w=1000",
+      "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=1000"
+    ],
+    description: "Locally grown red tomatoes, perfect for cooking",
+    rating: 4.2,
+    reviews: 28,
+    stock: 12,
+    vendor: {
+      id: 1,
+      name: "Ravi Kumar",
+      phone: "+919876543210",
+      upiId: "ravi.kumar@paytm",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 2,
+    name: "Bananas",
+    price: 30,
+    category: "fruits",
+    images: [
+      "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?q=80&w=1000",
+      "https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=1000",
+      "https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=1000"
+    ],
+    description: "Sweet yellow bananas from local farms",
+    rating: 4.7,
+    reviews: 45,
+    stock: 8,
+    vendor: {
+      id: 2,
+      name: "Sunita Devi",
+      phone: "+919876543211",
+      upiId: "sunita.devi@phonepe",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 3,
+    name: "Mangoes",
+    price: 80,
+    category: "fruits",
+    images: [
+      "https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=1000",
+      "https://images.unsplash.com/photo-1605027990121-3b2c78f7effc?q=80&w=1000",
+      "https://images.unsplash.com/photo-1574471965350-a36ee4b8e98c?q=80&w=1000"
+    ],
+    description: "Seasonal Alphonso mangoes, sweet and juicy",
+    rating: 4.9,
+    reviews: 67,
+    stock: 15,
+    isFreshPick: true,
+    freshPickExpiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    vendor: {
+      id: 3,
+      name: "Amit Shah",
+      phone: "+919876543212",
+      upiId: "amit.shah@gpay",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 4,
+    name: "Onions",
+    price: 20,
+    category: "vegetables",
+    images: [
+      "https://images.unsplash.com/photo-1508313880080-c4bef43d8a8f?q=80&w=1000",
+      "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?q=80&w=1000",
+      "https://images.unsplash.com/photo-1692264446371-b5c1ff86e5c0?q=80&w=1000"
+    ],
+    description: "Red onions for everyday cooking needs",
+    rating: 4.0,
+    reviews: 22,
+    stock: 20,
+    vendor: {
+      id: 4,
+      name: "Priya Sharma",
+      phone: "+919876543213",
+      upiId: "priya.sharma@paytm",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 5,
+    name: "Potatoes",
+    price: 15,
+    category: "vegetables",
+    images: [
+      "https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=1000",
+      "https://images.unsplash.com/photo-1590334089495-b8da80314b13?q=80&w=1000",
+      "https://images.unsplash.com/photo-1622205313162-be1d5712a43f?q=80&w=1000"
+    ],
+    description: "Quality potatoes for all your cooking requirements",
+    rating: 4.3,
+    reviews: 31,
+    stock: 25,
+    vendor: {
+      id: 5,
+      name: "Vikram Singh",
+      phone: "+919876543214",
+      upiId: "vikram.singh@phonepe",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 6,
+    name: "Apples",
+    price: 120,
+    category: "fruits",
+    images: [
+      "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?q=80&w=1000",
+      "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?q=80&w=1000",
+      "https://images.unsplash.com/photo-1570197788417-0e82375c9371?q=80&w=1000"
+    ],
+    description: "Crisp red apples imported from Kashmir",
+    rating: 4.6,
+    reviews: 89,
+    stock: 18,
+    vendor: {
+      id: 6,
+      name: "Meera Joshi",
+      phone: "+919876543215",
+      upiId: "meera.joshi@gpay",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 7,
+    name: "Rice",
+    price: 45,
+    category: "grains",
+    images: [
+      "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?q=80&w=1000",
+      "https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1000",
+      "https://images.unsplash.com/photo-1615484477778-ca3b77940c25?q=80&w=1000"
+    ],
+    description: "Premium basmati rice, 1kg pack",
+    rating: 4.4,
+    reviews: 56,
+    stock: 30,
+    vendor: {
+      id: 7,
+      name: "Rajesh Gupta",
+      phone: "+919876543216",
+      upiId: "rajesh.gupta@paytm",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 8,
+    name: "Green Chili",
+    price: 35,
+    category: "vegetables",
+    images: [
+      "https://images.unsplash.com/photo-1583286801908-3b5ac4b0de5d?q=80&w=1000",
+      "https://images.unsplash.com/photo-1612507790849-32b2ef7b7740?q=80&w=1000",
+      "https://images.unsplash.com/photo-1612542114344-84f5ae3f6e84?q=80&w=1000"
+    ],
+    description: "Spicy green chilies for authentic Indian cooking",
+    rating: 4.1,
+    reviews: 19,
+    stock: 10,
+    vendor: {
+      id: 8,
+      name: "Anita Verma",
+      phone: "+919876543217",
+      upiId: "anita.verma@phonepe",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 9,
+    name: "Coriander",
+    price: 10,
+    category: "herbs",
+    images: [
+      "https://images.unsplash.com/photo-1524158900728-c23f6ed8eb12?q=80&w=1000",
+      "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?q=80&w=1000",
+      "https://images.unsplash.com/photo-1627662055477-2b97b81dc8c4?q=80&w=1000"
+    ],
+    description: "Bunches of coriander leaves, aromatic and fresh",
+    rating: 4.5,
+    reviews: 38,
+    stock: 15,
+    isFreshPick: true,
+    freshPickExpiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    vendor: {
+      id: 9,
+      name: "Deepak Yadav",
+      phone: "+919876543218",
+      upiId: "deepak.yadav@gpay",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  },
+  {
+    id: 10,
+    name: "Wheat Flour",
+    price: 40,
+    category: "grains",
+    images: [
+      "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=1000",
+      "https://images.unsplash.com/photo-1590736969955-71cc94901144?q=80&w=1000",
+      "https://images.unsplash.com/photo-1619298725118-4fcf54e79625?q=80&w=1000"
+    ],
+    description: "Whole wheat flour, finely ground, 1kg pack",
+    rating: 4.2,
+    reviews: 42,
+    stock: 22,
+    vendor: {
+      id: 10,
+      name: "Sanjay Patel",
+      phone: "+919876543219",
+      upiId: "sanjay.patel@paytm",
+      upiQrCode: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=400"
+    }
+  }
 ];
 
 export const categories = [
