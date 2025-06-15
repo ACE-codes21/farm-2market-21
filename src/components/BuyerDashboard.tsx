@@ -55,9 +55,9 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
     removeFromWishlist(product);
   }
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     onPurchase(cart);
-    clearCart();
+    await clearCart();
   };
 
   const handleMoveToCart = (product: Product) => {
