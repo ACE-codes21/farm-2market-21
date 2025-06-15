@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats } from '@/types';
@@ -7,6 +8,7 @@ import { VendorDashboardHeader } from './vendor/VendorDashboardHeader';
 import { VendorStatsGrid } from './vendor/VendorStatsGrid';
 import { VendorProductsTable } from './vendor/VendorProductsTable';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
+import { DemandForecastPanel } from './vendor/DemandForecastPanel';
 
 interface VendorDashboardProps {
   products: Product[];
@@ -25,6 +27,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
 }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isEditProductOpen, setIsEditProductOpen] = useState(false);
+  const [isAddProductDialogOpen, setAddProductDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const stats: VendorStats = {
@@ -34,11 +37,15 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
     totalRevenue: orders.reduce((sum, order) => sum + order.total, 0)
   };
 
-  const handleEditProduct = (product: Product) => {
+  const handleEditProductClick = (product: Product) => {
     setSelectedProduct(product);
     setIsEditProductOpen(true);
   };
 
+  const handleUpdateProduct = (productId: number, updatedProduct: Partial<Product>) => {
+    onEditProduct(productId, updatedProduct);
+  };
+  
   const handleDeleteProduct = (productId: number) => {
     const product = products.find(p => p.id === productId);
     if (product) {
@@ -52,33 +59,39 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
+    <div className="min-h-screen bg-slate-900 text-gray-200">
       <VendorDashboardHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold font-display text-foreground mb-2">Dashboard Overview</h2>
-          <p className="text-muted-foreground">Manage your products and track your business performance</p>
+        <div className="mb-8 animate-fade-in-up">
+          <h2 className="text-3xl font-bold font-display text-white mb-2">Dashboard Overview</h2>
+          <p className="text-slate-400">Manage your products and track your business performance</p>
         </div>
         
         <VendorStatsGrid stats={stats} />
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
           <div className="lg:col-span-2">
             <VendorProductsTable 
               products={products}
-              onAddProductClick={() => {}}
-              onEditProduct={handleEditProduct}
+              onAddProductClick={() => setAddProductDialogOpen(true)}
+              onEditProduct={handleEditProductClick}
+              onUpdateProduct={handleUpdateProduct}
               onDeleteProduct={handleDeleteProduct}
             />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 flex flex-col gap-8">
             <VendorRecentOrders orders={orders} />
+            <DemandForecastPanel />
           </div>
         </div>
       </main>
 
-      <AddProductDialog onAddProduct={onAddProduct} />
+      <AddProductDialog 
+        isOpen={isAddProductDialogOpen}
+        onOpenChange={setAddProductDialogOpen}
+        onAddProduct={onAddProduct} 
+      />
 
       <EditProductDialog
         isOpen={isEditProductOpen}

@@ -1,3 +1,4 @@
+
 export interface Product {
   id: number;
   name: string;
@@ -8,14 +9,15 @@ export interface Product {
   category: string;
   stock: number;
   description?: string;
-  isFreshPick?: boolean;
-  freshPickExpiresAt?: string;
   vendor?: {
     name: string;
     phone: string;
     upiId?: string;
     upiQrCode?: string;
   };
+  expiryDate?: string;
+  restockReminder?: boolean;
+  barcode?: string;
 }
 
 export interface CartItem extends Product {

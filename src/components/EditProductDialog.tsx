@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { categories } from '@/data/market';
 import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
+import { DatePicker } from '@/components/ui/DatePicker';
 
 interface EditProductDialogProps {
   isOpen: boolean;
@@ -27,8 +28,10 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
     price: '',
     stock: '',
     category: '',
-    images: ['']
+    images: [''],
+    barcode: '',
   });
+  const [expiryDate, setExpiryDate] = useState<Date | undefined>();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -38,8 +41,10 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
         price: product.price.toString(),
         stock: product.stock.toString(),
         category: product.category,
-        images: product.images
+        images: product.images,
+        barcode: product.barcode || '',
       });
+      setExpiryDate(product.expiryDate ? new Date(product.expiryDate) : undefined);
     }
   }, [product]);
 
@@ -60,7 +65,9 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock),
       category: formData.category,
-      images: formData.images.filter(img => img.trim() !== '')
+      images: formData.images.filter(img => img.trim() !== ''),
+      expiryDate: expiryDate?.toISOString(),
+      barcode: formData.barcode,
     });
 
     toast({
@@ -73,53 +80,31 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] dark-glass-effect border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="name">Product Name *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Enter product name"
-              required
-            />
+            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
           </div>
 
-          <div>
-            <Label htmlFor="price">Price (₹) *</Label>
-            <Input
-              id="price"
-              type="number"
-              step="0.01"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              placeholder="Enter price"
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="stock">Stock Quantity *</Label>
-            <Input
-              id="stock"
-              type="number"
-              value={formData.stock}
-              onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-              placeholder="Enter stock quantity"
-              required
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div >
+              <Label htmlFor="price">Price (₹) *</Label>
+              <Input id="price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required />
+            </div>
+            <div>
+              <Label htmlFor="stock">Stock Quantity *</Label>
+              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required />
+            </div>
           </div>
 
           <div>
             <Label htmlFor="category">Category *</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
+              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
               <SelectContent>
                 {categories.filter(cat => cat.value !== 'all').map((category) => (
                   <SelectItem key={category.value} value={category.value}>
@@ -130,11 +115,22 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
             </Select>
           </div>
 
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <DatePicker date={expiryDate} setDate={setExpiryDate} />
+            </div>
+            <div>
+              <Label htmlFor="barcode">Barcode (Optional)</Label>
+              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} />
+            </div>
+          </div>
+
           <div className="flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit">
+            <Button type="submit" className="btn-hover-glow">
               Update Product
             </Button>
           </div>

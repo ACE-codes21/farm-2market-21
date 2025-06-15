@@ -2,15 +2,18 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Plus } from 'lucide-react';
 import { Product } from '@/types';
 import { ProductActionsDropdown } from '@/components/ProductActionsDropdown';
+import { Switch } from '@/components/ui/switch';
+import { FreshForBadge } from './FreshForBadge';
+import { format } from 'date-fns';
 
 interface VendorProductsTableProps {
   products: Product[];
   onAddProductClick: () => void;
   onEditProduct: (product: Product) => void;
+  onUpdateProduct: (productId: number, updatedProduct: Partial<Product>) => void;
   onDeleteProduct: (productId: number) => void;
 }
 
@@ -18,48 +21,53 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
   products,
   onAddProductClick,
   onEditProduct,
+  onUpdateProduct,
   onDeleteProduct,
 }) => {
+  const handleToggleRestock = (product: Product, checked: boolean) => {
+    onUpdateProduct(product.id, { restockReminder: checked });
+  };
+
   return (
-    <Card className="mb-8 bg-card">
+    <Card className="dark-glass-effect border-slate-700 animate-fade-in">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-xl font-semibold">Your Products</CardTitle>
-        <Button onClick={onAddProductClick} className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <CardTitle className="text-xl font-semibold text-white">Smart Inventory</CardTitle>
+        <Button onClick={onAddProductClick} className="bg-green-500 text-white hover:bg-green-600 btn-hover-glow shadow-green-500/30 neon-box">
           <Plus className="h-4 w-4 mr-2" />
           Add Product
         </Button>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Product</th>
-                <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Price</th>
-                <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Stock</th>
-                <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Status</th>
-                <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Actions</th>
+          <table className="w-full text-sm text-left text-slate-300">
+            <thead className="text-xs text-slate-400 uppercase bg-slate-800/50">
+              <tr>
+                <th scope="col" className="py-3 px-6">Product Name</th>
+                <th scope="col" className="py-3 px-6">Stock</th>
+                <th scope="col" className="py-3 px-6">Expiry Date</th>
+                <th scope="col" className="py-3 px-6">Fresh For</th>
+                <th scope="col" className="py-3 px-6">Restock Reminder</th>
+                <th scope="col" className="py-3 px-6 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product.id} className="border-b border-border hover:bg-secondary/50">
-                  <td className="py-4 px-4 font-medium text-card-foreground">{product.name}</td>
-                  <td className="py-4 px-4 text-muted-foreground">₹{product.price}</td>
-                  <td className="py-4 px-4 text-muted-foreground">{product.stock}</td>
-                  <td className="py-4 px-4">
-                    <Badge 
-                      variant={product.stock > 0 ? 'default' : 'destructive'}
-                      className={
-                        product.stock > 10 ? 'bg-green-100 text-green-800 border-green-200' :
-                        product.stock > 0 ? 'bg-orange-100 text-orange-800 border-orange-200' :
-                        'bg-red-100 text-red-800 border-red-200'
-                      }
-                    >
-                      {product.stock > 10 ? 'In Stock' : (product.stock > 0 ? 'Low Stock' : 'Out of Stock')}
-                    </Badge>
+                <tr key={product.id} className="border-b border-slate-700 hover:bg-slate-800/50 transition-colors duration-300">
+                  <td className="py-4 px-6 font-medium text-white whitespace-nowrap">{product.name}</td>
+                  <td className="py-4 px-6">{product.stock} units</td>
+                  <td className="py-4 px-6">
+                    {product.expiryDate ? format(new Date(product.expiryDate), 'dd MMM yyyy') : 'N/A'}
                   </td>
-                  <td className="py-4 px-4">
+                  <td className="py-4 px-6">
+                    <FreshForBadge expiryDate={product.expiryDate} />
+                  </td>
+                  <td className="py-4 px-6">
+                    <Switch
+                      checked={!!product.restockReminder}
+                      onCheckedChange={(checked) => handleToggleRestock(product, checked)}
+                    />
+                  </td>
+                  <td className="py-4 px-6 text-right">
                     <ProductActionsDropdown
                       product={product}
                       onEdit={onEditProduct}
