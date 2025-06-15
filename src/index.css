@@ -3,8 +3,282 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import modular CSS files */
-@import './styles/base.css';
-@import './styles/animations.css';
-@import './styles/utilities.css';
-@import './styles/components.css';
+/* Import Nunito Sans - a rounded, friendly Google font */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
+/* Modern design system with earthy Farm2Market colors */
+
+@layer base {
+  :root {
+    --background: 46 20% 97%;
+    --foreground: 25 25% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 25 25% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 25 25% 15%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 46 38% 92%;
+    --secondary-foreground: 25 25% 15%;
+    --muted: 46 38% 92%;
+    --muted-foreground: 25 15% 45%;
+    --accent: 25 85% 55%;
+    --accent-foreground: 355.7 100% 97.3%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 46 38% 88%;
+    --input: 46 38% 88%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.75rem;
+    --chart-1: 25 85% 55%;
+    --chart-2: 142 76% 36%;
+    --chart-3: 46 85% 58%;
+    --chart-4: 84 74% 44%;
+    --chart-5: 32 95% 44%;
+  }
+
+  .dark {
+    --background: 25 25% 8%;
+    --foreground: 46 20% 95%;
+    --card: 25 25% 8%;
+    --card-foreground: 46 20% 95%;
+    --popover: 25 25% 8%;
+    --popover-foreground: 46 20% 95%;
+    --primary: 142.1 70% 45%;
+    --primary-foreground: 46 20% 95%;
+    --secondary: 25 20% 15%;
+    --secondary-foreground: 46 20% 95%;
+    --muted: 25 20% 15%;
+    --muted-foreground: 46 15% 65%;
+    --accent: 25 75% 55%;
+    --accent-foreground: 46 20% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 46 20% 95%;
+    --border: 25 20% 15%;
+    --input: 25 20% 15%;
+    --ring: 142.1 70% 45%;
+    --chart-1: 25 75% 55%;
+    --chart-2: 142 70% 45%;
+    --chart-3: 46 75% 58%;
+    --chart-4: 84 65% 54%;
+    --chart-5: 32 85% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(135deg, 
+      hsl(var(--background)) 0%, 
+      hsl(var(--secondary)/0.5) 50%, 
+      hsl(var(--accent)/0.2) 100%);
+    min-height: 100vh;
+    font-family: 'Nunito Sans', 'Inter', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Ensure sufficient color contrast */
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+    opacity: 0.9;
+  }
+}
+
+@layer utilities {
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+  
+  .glass-effect {
+    @apply bg-white/20 backdrop-blur-xl border border-white/20 shadow-2xl;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-green-600 via-orange-500 to-green-600 bg-clip-text text-transparent;
+  }
+
+  .modern-card {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
+  }
+
+  .premium-button {
+    @apply bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 rounded-xl font-semibold focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .elegant-input {
+    @apply bg-white/70 backdrop-blur-sm border border-white/30 rounded-xl focus:bg-white focus:border-green-500/50 transition-all duration-200 shadow-sm focus:shadow-md;
+  }
+
+  /* Enhanced button hover effects */
+  .btn-hover-elevate {
+    @apply transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5 focus:shadow-lg focus:-translate-y-0.5;
+  }
+
+  .btn-hover-glow {
+    @apply transition-all duration-200 ease-out hover:shadow-lg hover:shadow-primary/25 focus:shadow-lg focus:shadow-primary/25;
+  }
+
+  /* Enhanced card hover effects */
+  .card-hover-elevate {
+    @apply transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 focus-within:shadow-xl focus-within:-translate-y-1;
+  }
+
+  .card-hover-glow {
+    @apply transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/10 focus-within:shadow-2xl focus-within:shadow-primary/10;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /* High contrast focus indicators */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .focus-ring-inset {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset;
+  }
+
+  /* Cinematic animations for landing page */
+  .animate-fade-in-up {
+    animation: fadeInUp 1.2s ease-out;
+  }
+
+  .animate-zoom-in {
+    animation: zoomIn 1s ease-out;
+  }
+
+  /* Neon glow effects for modern design */
+  .neon-text {
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+
+  .neon-box {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+  }
+  100% {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.gradient-animated {
+  background: linear-gradient(-45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)), hsl(var(--accent)));
+  background-size: 400% 400%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Farm2Market specific utilities */
+.farm-gradient {
+  @apply bg-gradient-to-br from-green-50 via-orange-50 to-yellow-50;
+}
+
+.vendor-gradient {
+  @apply bg-gradient-to-r from-green-600 to-green-700;
+}
+
+.buyer-gradient {
+  @apply bg-gradient-to-r from-orange-500 to-orange-600;
+}
+
+.market-gradient {
+  @apply bg-gradient-to-r from-yellow-500 to-yellow-600;
+}
