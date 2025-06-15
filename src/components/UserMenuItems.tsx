@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenuContent,
@@ -15,10 +16,13 @@ import {
   Heart,
   CreditCard,
   HelpCircle,
-  Bell
+  Bell,
+  MapPin
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { VendorProfileModal } from './vendor/VendorProfileModal';
+import { useUserSession } from '@/hooks/useUserSession';
 import type { User } from '@supabase/supabase-js';
 
 interface UserMenuItemsProps {
@@ -29,13 +33,13 @@ interface UserMenuItemsProps {
 export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName }) => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const currentUser = useUserSession();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
 
     if (error) {
-      // Log the error for debugging but don't show a disruptive toast.
-      // The session might already be invalid, which is fine for the user's goal of logging out.
       console.error('Supabase sign out error:', error.message);
     }
 
@@ -49,9 +53,22 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
     navigate('/');
   };
 
+  const handleProfileClick = () => {
+    // Check if user is a vendor
+    const userRole = user.user_metadata?.role || localStorage.getItem('userSession') && JSON.parse(localStorage.getItem('userSession')!).role;
+    
+    if (userRole === 'vendor') {
+      setIsProfileModalOpen(true);
+    } else {
+      toast({
+        title: "Profile",
+        description: "Profile section coming soon!",
+      });
+    }
+  };
+
   const handleMenuAction = (action: string) => {
     const actions: { [key: string]: string } = {
-        profile: "Profile",
         settings: "Settings",
         security: "Security",
         billing: "Billing",
@@ -69,66 +86,80 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
     }
   };
 
+  // Check if user is a vendor
+  const userRole = user.user_metadata?.role || (localStorage.getItem('userSession') && JSON.parse(localStorage.getItem('userSession')!).role);
+  const isVendor = userRole === 'vendor';
+
   return (
-    <DropdownMenuContent 
-      align="end" 
-      className="w-64 bg-white border border-gray-200 shadow-lg z-50"
-    >
-      <DropdownMenuLabel className="font-bold text-lg py-3">
-        Welcome, {displayName}
-      </DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('profile')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <UserIcon className="mr-3 h-4 w-4 text-gray-600" />
-        <span>Profile</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('favorites')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <Heart className="mr-3 h-4 w-4 text-red-500" />
-        <span>Favorites</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <Bell className="mr-3 h-4 w-4 text-yellow-500" />
-        <span>Notifications</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuSeparator />
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <Settings className="mr-3 h-4 w-4 text-gray-600" />
-        <span>Settings</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('security')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <Shield className="mr-3 h-4 w-4 text-blue-500" />
-        <span>Security</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <CreditCard className="mr-3 h-4 w-4 text-green-500" />
-        <span>Billing</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuSeparator />
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('help')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <HelpCircle className="mr-3 h-4 w-4 text-purple-500" />
-        <span>Help & Support</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuItem onClick={() => handleMenuAction('about')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
-        <Info className="mr-3 h-4 w-4 text-blue-500" />
-        <span>About</span>
-      </DropdownMenuItem>
-      
-      <DropdownMenuSeparator />
-      
-      <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:bg-red-50 cursor-pointer py-3 px-4">
-        <LogOut className="mr-3 h-4 w-4" />
-        <span>Logout</span>
-      </DropdownMenuItem>
-    </DropdownMenuContent>
+    <>
+      <DropdownMenuContent 
+        align="end" 
+        className="w-64 bg-white border border-gray-200 shadow-lg z-50"
+      >
+        <DropdownMenuLabel className="font-bold text-lg py-3">
+          Welcome, {displayName}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuItem onClick={handleProfileClick} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <UserIcon className="mr-3 h-4 w-4 text-gray-600" />
+          <span>Profile</span>
+          {isVendor && <MapPin className="ml-auto h-4 w-4 text-green-500" />}
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('favorites')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <Heart className="mr-3 h-4 w-4 text-red-500" />
+          <span>Favorites</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <Bell className="mr-3 h-4 w-4 text-yellow-500" />
+          <span>Notifications</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <Settings className="mr-3 h-4 w-4 text-gray-600" />
+          <span>Settings</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('security')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <Shield className="mr-3 h-4 w-4 text-blue-500" />
+          <span>Security</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <CreditCard className="mr-3 h-4 w-4 text-green-500" />
+          <span>Billing</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('help')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <HelpCircle className="mr-3 h-4 w-4 text-purple-500" />
+          <span>Help & Support</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem onClick={() => handleMenuAction('about')} className="hover:bg-gray-100 cursor-pointer py-3 px-4">
+          <Info className="mr-3 h-4 w-4 text-blue-500" />
+          <span>About</span>
+        </DropdownMenuItem>
+        
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuItem onClick={handleLogout} className="text-red-600 hover:bg-red-50 cursor-pointer py-3 px-4">
+          <LogOut className="mr-3 h-4 w-4" />
+          <span>Logout</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+
+      {isVendor && (
+        <VendorProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
