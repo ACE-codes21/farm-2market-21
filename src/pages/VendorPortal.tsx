@@ -1,14 +1,23 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import VendorDashboard from '@/components/VendorDashboard';
 import { useAppContext } from '@/contexts/AppContext';
+import { useVendorProducts } from '@/hooks/useVendorProducts';
 
 const VendorPortal = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState<'vendor' | 'buyer' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { products, orders, addProduct, editProduct, deleteProduct } = useAppContext();
+  const { orders } = useAppContext();
+  const { 
+    products, 
+    isLoadingProducts, 
+    addProduct, 
+    editProduct, 
+    deleteProduct 
+  } = useVendorProducts();
 
   useEffect(() => {
     const checkAuthAndRole = async () => {
@@ -90,7 +99,7 @@ const VendorPortal = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  if (isLoading) {
+  if (isLoading || isLoadingProducts) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">

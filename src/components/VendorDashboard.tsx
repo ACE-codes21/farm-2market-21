@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats } from '@/types';
@@ -13,7 +14,7 @@ interface VendorDashboardProps {
   products: Product[];
   orders: Order[];
   onAddProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
-  onEditProduct: (productId: string, updatedProduct: Partial<Product>) => void;
+  onEditProduct: (vars: { productId: string; updatedProduct: Partial<Product> }) => void;
   onDeleteProduct: (productId: string) => void;
 }
 
@@ -42,7 +43,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   };
 
   const handleUpdateProduct = (productId: string, updatedProduct: Partial<Product>) => {
-    onEditProduct(productId, updatedProduct);
+    onEditProduct({ productId, updatedProduct });
   };
   
   const handleDeleteProduct = (productId: string) => {
@@ -96,7 +97,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
         isOpen={isEditProductOpen}
         onOpenChange={setIsEditProductOpen}
         product={selectedProduct}
-        onEditProduct={(updatedProduct) => onEditProduct(selectedProduct.id, updatedProduct)}
+        onEditProduct={(updatedProduct) => onEditProduct({productId: selectedProduct.id, updatedProduct})}
       />}
     </div>
   );
