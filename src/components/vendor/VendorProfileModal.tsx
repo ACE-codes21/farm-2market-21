@@ -65,15 +65,17 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
       }
 
       if (data) {
+        // Use type assertion to access the new fields
+        const profileData = data as any;
         setProfile({
-          full_name: data.full_name || '',
-          email: data.email || user.email || '',
-          phone: data.phone || '',
-          address: data.address || '',
-          latitude: data.latitude || null,
-          longitude: data.longitude || null,
-          avatar_url: data.avatar_url || '',
-          upi_id: data.upi_id || ''
+          full_name: profileData.full_name || '',
+          email: profileData.email || user.email || '',
+          phone: profileData.phone || '',
+          address: profileData.address || '',
+          latitude: profileData.latitude || null,
+          longitude: profileData.longitude || null,
+          avatar_url: profileData.avatar_url || '',
+          upi_id: profileData.upi_id || ''
         });
       }
     } catch (error) {
