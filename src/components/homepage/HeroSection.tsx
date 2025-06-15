@@ -43,6 +43,18 @@ const HeroSection: React.FC = () => {
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="space-y-8 animate-fade-in">
+            {/* Inspirational Intro Line */}
+            <div className="mb-12">
+              <h2 className="text-2xl md:text-4xl font-bold text-white leading-tight mb-4 animate-fade-in">
+                <span className="bg-gradient-to-r from-green-400 via-emerald-300 to-green-400 bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(34,197,94,0.8)] font-extrabold tracking-wide">
+                  Revolutionary Marketplace
+                </span>
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 font-medium animate-fade-in opacity-90" style={{animationDelay: '0.2s'}}>
+                <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">Where Fresh Meets Future</span>
+              </p>
+            </div>
+
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/10 via-green-400/15 to-green-500/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] transition-all duration-500 transform hover:scale-105">
               <Sparkles className="h-4 w-4 animate-pulse" />
