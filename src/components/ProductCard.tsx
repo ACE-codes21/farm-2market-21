@@ -49,19 +49,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Card 
-      className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative"
+      className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg card-hover-elevate card-hover-glow relative focus-ring"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
         setCurrentImageIndex(0);
       }}
+      tabIndex={0}
+      role="article"
+      aria-label={`Product: ${product.name}`}
     >
       <CardContent className="p-0">
         <div className="relative overflow-hidden">
           <img 
             src={product.images[currentImageIndex]} 
-            alt={product.name}
+            alt={`${product.name} - ${product.category} available for ₹${product.price}`}
             className="w-full h-56 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
@@ -69,13 +73,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <Button 
             size="icon"
             variant="ghost"
-            className={`absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm hover:scale-110 transition-all duration-300 shadow-lg ${
+            className={`absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm btn-hover-elevate transition-all duration-300 shadow-lg focus-ring ${
               isInWishlist ? 'text-red-500' : 'text-gray-600 hover:text-red-500'
             }`}
             onClick={(e) => {
               e.stopPropagation();
               onAddToWishlist(product);
             }}
+            aria-label={isInWishlist ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
           >
             <Heart className={`h-5 w-5 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
           </Button>
@@ -90,7 +95,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Premium Badge - Only for high rated items */}
           {isPremium && !product.isFreshPick && (
             <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
-              <Sparkles className="h-3 w-3 text-white" />
+              <Sparkles className="h-3 w-3 text-white" aria-hidden="true" />
               <span className="text-xs font-bold text-white">Premium</span>
             </div>
           )}
@@ -103,8 +108,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </Badge>
             {product.vendor && (
               <ContactVendorDialog product={product}>
-                <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs px-2 py-1 h-7 rounded-lg border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors">
-                  <MessageCircle className="h-3 w-3" />
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center gap-1 text-xs px-2 py-1 h-7 rounded-lg border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors btn-hover-elevate focus-ring"
+                  aria-label={`Contact vendor ${product.vendor.name} for ${product.name}`}
+                >
+                  <MessageCircle className="h-3 w-3" aria-hidden="true" />
                   Contact
                 </Button>
               </ContactVendorDialog>
@@ -116,7 +126,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
           
           <div className="flex items-center gap-2 mb-4">
-            <div className="flex items-center">
+            <div className="flex items-center" role="img" aria-label={`Rating: ${product.rating} out of 5 stars`}>
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
@@ -124,24 +134,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     i < Math.floor(product.rating) 
                       ? 'text-yellow-400 fill-current' 
                       : 'text-gray-300'
-                  }`} 
-                />
+                  }`}
+                  aria-hidden="true"
+                /> 
               ))}
             </div>
             <span className="text-sm text-gray-600 font-medium">
               {product.rating}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-600">
               ({product.reviews} reviews)
             </span>
           </div>
           
           <div className="flex items-center justify-between mb-4">
-            <span className="text-2xl font-bold text-gray-900">
+            <span className="text-2xl font-bold text-gray-900" aria-label={`Price: ${product.price} rupees`}>
               ₹{product.price}
             </span>
             {product.stock <= 5 && product.stock > 0 && (
-              <span className="text-xs font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+              <span className="text-xs font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full" role="status">
                 Only {product.stock} left
               </span>
             )}
@@ -152,12 +163,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             onAddToCart={onAddToCart}
           >
             <Button 
-              className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 ${
-                product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : 'hover:shadow-lg'
+              className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 btn-hover-elevate btn-hover-glow focus-ring ${
+                product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''
               }`}
               disabled={product.stock === 0}
+              aria-label={product.stock === 0 ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
             >
-              <ShoppingCart className="mr-2 h-4 w-4" />
+              <ShoppingCart className="mr-2 h-4 w-4" aria-hidden="true" />
               {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
             </Button>
           </AddToCartDialog>

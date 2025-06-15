@@ -83,6 +83,21 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
   }
+
+  /* Enhanced focus styles for accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Ensure sufficient color contrast */
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+    opacity: 0.9;
+  }
 }
 
 @layer utilities {
@@ -111,11 +126,29 @@
   }
 
   .premium-button {
-    @apply bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 rounded-xl font-semibold;
+    @apply bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 rounded-xl font-semibold focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 
   .elegant-input {
-    @apply bg-white/70 backdrop-blur-sm border border-white/30 rounded-xl focus:bg-white focus:border-green-500/50 transition-all duration-200 shadow-sm;
+    @apply bg-white/70 backdrop-blur-sm border border-white/30 rounded-xl focus:bg-white focus:border-green-500/50 transition-all duration-200 shadow-sm focus:shadow-md;
+  }
+
+  /* Enhanced button hover effects */
+  .btn-hover-elevate {
+    @apply transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5 focus:shadow-lg focus:-translate-y-0.5;
+  }
+
+  .btn-hover-glow {
+    @apply transition-all duration-200 ease-out hover:shadow-lg hover:shadow-primary/25 focus:shadow-lg focus:shadow-primary/25;
+  }
+
+  /* Enhanced card hover effects */
+  .card-hover-elevate {
+    @apply transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1 focus-within:shadow-xl focus-within:-translate-y-1;
+  }
+
+  .card-hover-glow {
+    @apply transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-primary/10 focus-within:shadow-2xl focus-within:shadow-primary/10;
   }
 
   /* Line clamp utilities */
@@ -138,6 +171,15 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+  }
+
+  /* High contrast focus indicators */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .focus-ring-inset {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset;
   }
 }
 
