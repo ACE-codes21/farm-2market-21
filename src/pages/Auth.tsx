@@ -37,6 +37,24 @@ const Auth: React.FC = () => {
     setError('');
 
     try {
+      // Fetch intended user role if roleFromUrl is specified
+      if (roleFromUrl) {
+        const { data, error: fetchRoleError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('email', email)
+          .maybeSingle();
+
+        // If user exists and role mismatches, prevent login
+        if (data && data.role && data.role !== roleFromUrl) {
+          setError(
+            `This account is registered as a ${data.role}. You cannot log in as a ${roleFromUrl}.`
+          );
+          setIsLoading(false);
+          return;
+        }
+      }
+
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

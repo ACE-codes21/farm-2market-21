@@ -42,34 +42,59 @@ const AuthModal: React.FC<AuthModalProps> = ({
       checkAuth();
     }
   }, [isOpen, onClose]);
+
+  // Helper to get intended role for UI text
+  const getRoleTitle = () => {
+    if (role === 'vendor') return 'Vendor';
+    if (role === 'buyer') return 'Buyer';
+    return 'User';
+  };
+
+  // Helper: fetch user role from profiles table by email
+  const fetchUserRole = async (email: string): Promise<'vendor' | 'buyer' | null> => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('email', email)
+      .maybeSingle();
+
+    if (error || !data) return null;
+    return data.role === 'vendor' ? 'vendor' : 'buyer';
+  };
+
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     setError('');
     try {
-      const {
-        error
-      } = await supabase.auth.signInWithPassword({
+      // Get user's account role from profiles before login (to block mismatches early)
+      const userRole = await fetchUserRole(email);
+
+      if (userRole && role && userRole !== role) {
+        setError(`This account is registered as a ${userRole}. You cannot log in as a ${role}.`);
+        setIsLoading(false);
+        return;
+      }
+
+      const { error: loginError } = await supabase.auth.signInWithPassword({
         email,
         password
       });
-      if (error) throw error;
 
-      // Store role in localStorage for dashboard routing
+      if (loginError) throw loginError;
+
+      // Save intended userSession to localStorage
       if (role) {
-        const userSession = {
-          email,
-          role,
-          isAuthenticated: true
-        };
+        const userSession = { email, role, isAuthenticated: true };
         localStorage.setItem('userSession', JSON.stringify(userSession));
       }
+
       toast({
         title: "Welcome back!",
         description: "You've successfully logged in."
       });
       onClose();
     } catch (error: any) {
-      setError(error.message);
+      setError(error.message || 'Login failed.');
       toast({
         title: "Login failed",
         description: error.message,
@@ -79,13 +104,13 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
+
   const handleSignup = async (email: string, password: string, fullName: string) => {
     setIsLoading(true);
     setError('');
     try {
-      const {
-        error
-      } = await supabase.auth.signUp({
+      // Actually save to user_metadata and profiles.role
+      const { error: signupError } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -96,24 +121,22 @@ const AuthModal: React.FC<AuthModalProps> = ({
           }
         }
       });
-      if (error) throw error;
 
-      // Store role in localStorage for immediate use
+      if (signupError) throw signupError;
+
+      // Save role-local session
       if (role) {
-        const userSession = {
-          email,
-          role,
-          isAuthenticated: true
-        };
+        const userSession = { email, role, isAuthenticated: true };
         localStorage.setItem('userSession', JSON.stringify(userSession));
       }
+
       toast({
         title: "Account created!",
         description: "Please check your email to verify your account."
       });
       onClose();
     } catch (error: any) {
-      setError(error.message);
+      setError(error.message || 'Signup failed.');
       toast({
         title: "Signup failed",
         description: error.message,
@@ -123,24 +146,22 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
+
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
     setIsLoading(true);
     setError('');
     try {
-      const {
-        error
-      } = await supabase.auth.signInWithOAuth({
+      // Social login intent stores intended role as query param only, can't enforce fully, but let's try
+      const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/dashboard`,
-          queryParams: role ? {
-            role
-          } : undefined
+          queryParams: role ? { role } : undefined
         }
       });
       if (error) throw error;
     } catch (error: any) {
-      setError(error.message);
+      setError(error.message || 'Social login failed');
       toast({
         title: "Social login failed",
         description: error.message,
@@ -149,11 +170,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
     }
   };
-  const getRoleTitle = () => {
-    if (role === 'vendor') return 'Vendor';
-    if (role === 'buyer') return 'Buyer';
-    return 'User';
-  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
