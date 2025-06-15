@@ -10,7 +10,6 @@ interface BuyerHeaderProps {
   onWishlistOpen: () => void;
   cartItemCount: number;
   wishlistCount: number;
-  onRoleChange: () => void;
   onOrdersClick?: () => void;
 }
 
@@ -19,7 +18,6 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
   onWishlistOpen,
   cartItemCount,
   wishlistCount,
-  onRoleChange,
   onOrdersClick
 }) => {
   return (
@@ -76,7 +74,7 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
               )}
             </Button>
 
-            <UserDropdown onRoleChange={onRoleChange} />
+            <UserDropdown />
           </div>
         </div>
       </div>

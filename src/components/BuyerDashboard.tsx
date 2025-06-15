@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { ProductList } from '@/components/ProductList';
 import { ProductFilters, FilterOptions, SortOptions } from '@/components/ProductFilters';
@@ -109,7 +108,6 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
         onWishlistOpen={() => setIsWishlistOpen(true)}
         cartItemCount={cartTotalItems}
         wishlistCount={wishlist.length}
-        onRoleChange={onRoleChange}
         onOrdersClick={() => setActiveTab('orders')}
       />
       

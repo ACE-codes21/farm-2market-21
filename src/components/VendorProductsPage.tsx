@@ -145,7 +145,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
             product={product}
             onAddToCart={(quantity) => handleAddToCart(product, quantity)}
             onAddToWishlist={addToWishlist}
-            isInWishlist={isInWishlist(product)}
+            isInWishlist={isInWishlist(product.id)}
           />
         ))}
       </div>
