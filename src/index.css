@@ -116,6 +116,11 @@
   .glass-effect {
     @apply bg-white/20 backdrop-blur-xl border border-white/20 shadow-2xl;
   }
+
+  /* Dark theme glass effect for buyer dashboard */
+  .dark-glass-effect {
+    @apply bg-slate-800/30 backdrop-blur-xl border border-slate-600/30 shadow-2xl;
+  }
   
   .gradient-text {
     @apply bg-gradient-to-r from-green-600 via-orange-500 to-green-600 bg-clip-text text-transparent;
@@ -125,12 +130,22 @@
     @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
   }
 
+  /* Dark theme modern card */
+  .dark-modern-card {
+    @apply bg-slate-800/50 backdrop-blur-lg border border-slate-600/30 shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02];
+  }
+
   .premium-button {
     @apply bg-gradient-to-r from-green-600 to-orange-500 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 rounded-xl font-semibold focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 
   .elegant-input {
     @apply bg-white/70 backdrop-blur-sm border border-white/30 rounded-xl focus:bg-white focus:border-green-500/50 transition-all duration-200 shadow-sm focus:shadow-md;
+  }
+
+  /* Dark theme elegant input */
+  .dark-elegant-input {
+    @apply bg-slate-800/50 backdrop-blur-sm border border-slate-600/30 rounded-xl focus:bg-slate-700/50 focus:border-green-500/50 transition-all duration-200 shadow-sm focus:shadow-md;
   }
 
   /* Enhanced button hover effects */

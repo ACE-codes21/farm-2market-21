@@ -20,7 +20,7 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
   onRoleChange,
 }) => {
   return (
-    <header className="glass-effect sticky top-0 z-50 border-b border-white/20">
+    <header className="dark-glass-effect sticky top-0 z-50 border-b border-slate-600/30 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
@@ -31,12 +31,12 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={onWishlistOpen}
-              className="relative modern-card border-0 px-5 py-3 text-foreground hover:bg-white/30"
+              className="relative dark-modern-card border-0 px-5 py-3 text-white hover:bg-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20"
             >
-              <Heart className="h-5 w-5 mr-2 text-red-500" />
+              <Heart className="h-5 w-5 mr-2 text-red-400" />
               <span className="hidden sm:inline font-medium">Wishlist</span>
               {wishlistCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
                   {wishlistCount}
                 </span>
               )}
@@ -45,12 +45,12 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
               variant="ghost" 
               size="sm" 
               onClick={onCartOpen}
-              className="relative modern-card border-0 px-5 py-3 text-foreground hover:bg-white/30"
+              className="relative dark-modern-card border-0 px-5 py-3 text-white hover:bg-slate-700/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20"
             >
-              <ShoppingCart className="h-5 w-5 mr-2 text-primary" />
+              <ShoppingCart className="h-5 w-5 mr-2 text-green-400" />
               <span className="hidden sm:inline font-medium">Cart</span>
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-primary to-accent text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg">
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-orange-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
                   {cartItemCount}
                 </span>
               )}
