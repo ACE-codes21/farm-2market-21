@@ -112,6 +112,10 @@
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
   
   .glass-effect {
     @apply bg-white/20 backdrop-blur-xl border border-white/20 shadow-2xl;
@@ -182,7 +186,7 @@
     @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset;
   }
 
-  /* Cinematic animations for landing page */
+  /* Enhanced cinematic animations for landing page */
   .animate-fade-in-up {
     animation: fadeInUp 1.2s ease-out;
   }
@@ -191,9 +195,9 @@
     animation: zoomIn 1s ease-out;
   }
 
-  /* Neon glow effects for modern design */
+  /* Enhanced neon glow effects for modern design */
   .neon-text {
-    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
   }
 
   .neon-box {
@@ -201,7 +205,12 @@
   }
 
   .pulse-glow {
-    animation: pulseGlow 2s ease-in-out infinite alternate;
+    animation: pulseGlow 3s ease-in-out infinite alternate;
+  }
+
+  /* Ken Burns effect for cinematic background */
+  .ken-burns {
+    animation: kenBurns 20s ease-in-out infinite alternate;
   }
 }
 
@@ -232,7 +241,7 @@
 @keyframes fadeInUp {
   0% {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(60px);
   }
   100% {
     opacity: 1;
@@ -243,7 +252,7 @@
 @keyframes zoomIn {
   0% {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.8);
   }
   100% {
     opacity: 1;
@@ -253,10 +262,19 @@
 
 @keyframes pulseGlow {
   0% {
-    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+    text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor, 0 0 20px currentColor;
   }
   100% {
-    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor;
+  }
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  100% {
+    transform: scale(1.1) translateX(-20px);
   }
 }
 
