@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { UserMenu } from '../UserMenu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -24,7 +25,7 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="#">
+                  <Link to="/vendor/analytics">
                     <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>AI Analytics</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>

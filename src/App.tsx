@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import { AppProvider } from "./contexts/AppContext";
 import FinanceDashboard from "./pages/FinanceDashboard";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/buyer" element={<Dashboard />} />
             <Route path="/vendor" element={<VendorPortal />} />
             <Route path="/vendor/finance" element={<FinanceDashboard />} />
+            <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
