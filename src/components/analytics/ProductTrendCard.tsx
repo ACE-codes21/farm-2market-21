@@ -7,6 +7,7 @@ import { Sparkles } from 'lucide-react';
 
 interface ProductTrendCardProps {
   product: {
+    id: number;
     name: string;
     trend: 'Trending' | 'Steady' | 'Low Demand';
     icon: string;
