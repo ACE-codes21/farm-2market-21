@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import HeroBackground from '@/components/homepage/HeroBackground';
 import NavigationHeader from '@/components/homepage/NavigationHeader';
 import HeroSection from '@/components/homepage/HeroSection';
-import FeaturesSection from '@/components/homepage/FeaturesSection';
-import StatsSection from '@/components/homepage/StatsSection';
+import CoreFeaturesSection from '@/components/homepage/CoreFeaturesSection';
 import CTASection from '@/components/homepage/CTASection';
 import AuthModal from '@/components/auth/AuthModal';
 
@@ -44,9 +43,10 @@ const Homepage: React.FC = () => {
         <HeroSection />
       </div>
 
-      {/* Additional Sections */}
-      <FeaturesSection />
-      <StatsSection />
+      {/* Core Features Section */}
+      <CoreFeaturesSection />
+
+      {/* CTA Section */}
       <CTASection onOpenAuthModal={openAuthModal} />
 
       {/* Auth Modal */}
