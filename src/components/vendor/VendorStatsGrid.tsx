@@ -17,19 +17,20 @@ const statsIcons = {
 };
 
 export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
+  const isNegativeRevenue = stats.totalRevenue < 0;
+
   const statsDisplay = [
-    { title: 'Total Sales', value: `₹${stats.totalSales.toLocaleString()}`, icon: statsIcons.totalSales, change: '+12%', key: 'totalSales' },
-    { title: 'Products', value: stats.totalProducts.toString(), icon: statsIcons.totalProducts, change: '+3', key: 'totalProducts' },
-    { title: 'Orders', value: stats.totalOrders.toString(), icon: statsIcons.totalOrders, change: '+8%', key: 'totalOrders' },
-    { title: 'Revenue', value: `${stats.totalRevenue < 0 ? '-' : ''}₹${Math.abs(stats.totalRevenue).toLocaleString()}`, icon: statsIcons.totalRevenue, change: '+15%', key: 'totalRevenue' },
+    { title: 'Total Sales', value: `₹${stats.totalSales.toLocaleString()}`, icon: statsIcons.totalSales, change: '+12%', isPositive: true, key: 'totalSales' },
+    { title: 'Products', value: stats.totalProducts.toString(), icon: statsIcons.totalProducts, change: '+3', isPositive: true, key: 'totalProducts' },
+    { title: 'Orders', value: stats.totalOrders.toString(), icon: statsIcons.totalOrders, change: '+8%', isPositive: true, key: 'totalOrders' },
+    { title: 'Revenue', value: `${isNegativeRevenue ? '-' : ''}₹${Math.abs(stats.totalRevenue).toLocaleString()}`, icon: statsIcons.totalRevenue, change: isNegativeRevenue ? '-15%' : '+15%', isPositive: !isNegativeRevenue, key: 'totalRevenue' },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       {statsDisplay.map((stat) => {
-        const isNegativeRevenue = stat.key === 'totalRevenue' && stats.totalRevenue < 0;
-        const Icon = isNegativeRevenue ? TrendingDown : stat.icon;
-
+        const Icon = (stat.key === 'totalRevenue' && !stat.isPositive) ? TrendingDown : stat.icon;
+        
         return (
           <Card key={stat.key} className="dark-glass-effect border-slate-700">
             <CardContent className="p-6">
@@ -39,15 +40,20 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
                   <p className="text-3xl font-bold text-white">
                     {stat.value}
                   </p>
-                  <p className="text-sm text-green-400 font-medium">{stat.change}</p>
+                  <p className={cn(
+                    "text-sm font-medium",
+                    stat.isPositive ? "text-green-400" : "text-amber-400"
+                  )}>
+                    {stat.change}
+                  </p>
                 </div>
                 <div className={cn(
                   "p-3 rounded-full",
-                  isNegativeRevenue ? "bg-rose-500/10" : "bg-primary/10"
+                  stat.isPositive ? "bg-green-500/10" : "bg-amber-500/10"
                 )}>
                   <Icon className={cn(
                     "h-6 w-6",
-                    isNegativeRevenue ? "text-rose-400" : "text-primary"
+                    stat.isPositive ? "text-green-500" : "text-amber-500"
                   )} />
                 </div>
               </div>
