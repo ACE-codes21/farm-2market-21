@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -135,7 +136,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuthModal }) => {
                 )}
                 {userRole === 'vendor' && (
                    <Button 
-                    onClick={() => navigate('/dashboard')}
+                    onClick={() => navigate('/market')}
                     variant="outline" 
                     className="group relative px-8 py-6 bg-transparent hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-orange-400/10 text-white font-bold text-lg rounded-2xl border-2 border-white/20 hover:border-orange-400 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(251,146,60,0.6)] transform hover:scale-105 transition-all duration-300 min-w-[200px] overflow-hidden"
                   >
