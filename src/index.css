@@ -191,6 +191,19 @@
     animation: zoomIn 1s ease-out;
   }
 
+  /* Floating animations for price tags */
+  .animate-float-slow {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-float-fast {
+    animation: float 2s ease-in-out infinite;
+  }
+
   /* Neon glow effects for modern design */
   .neon-text {
     text-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 20px currentColor;
@@ -257,6 +270,21 @@
   }
   100% {
     text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-15px) translateX(3px);
   }
 }
 

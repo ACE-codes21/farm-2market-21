@@ -17,10 +17,10 @@ const HeroBackground: React.FC = () => {
         <div className="absolute bottom-20 left-20 text-purple-400/20 text-3xl animate-bounce" style={{animationDelay: '1.5s'}}>🍆</div>
         <div className="absolute top-40 right-1/3 text-green-400/20 text-2xl animate-bounce" style={{animationDelay: '2.5s'}}>🥬</div>
         
-        {/* Floating price symbols */}
-        <div className="absolute top-16 left-1/3 text-green-400/30 text-lg font-mono animate-pulse">₹25</div>
-        <div className="absolute top-80 right-1/4 text-orange-400/30 text-lg font-mono animate-pulse" style={{animationDelay: '1s'}}>₹40</div>
-        <div className="absolute bottom-60 left-1/2 text-yellow-400/30 text-lg font-mono animate-pulse" style={{animationDelay: '2s'}}>₹15</div>
+        {/* Animated floating price symbols */}
+        <div className="absolute top-16 left-1/3 text-green-400/40 text-lg font-mono animate-float-slow">₹25</div>
+        <div className="absolute top-80 right-1/4 text-orange-400/40 text-lg font-mono animate-float-medium" style={{animationDelay: '1s'}}>₹40</div>
+        <div className="absolute bottom-60 left-1/2 text-yellow-400/40 text-lg font-mono animate-float-fast" style={{animationDelay: '2s'}}>₹15</div>
         
         {/* Grid dots pattern */}
         <div className="absolute inset-0 opacity-10">
