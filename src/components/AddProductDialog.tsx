@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { DatePicker } from '@/components/ui/DatePicker';
+import { ImageUploader } from './ImageUploader';
+import { supabase } from '@/integrations/supabase/client';
+import { useUserSession } from '@/hooks/useUserSession';
 
 interface AddProductDialogProps {
   isOpen: boolean;
@@ -19,15 +21,16 @@ interface AddProductDialogProps {
 export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOpenChange, onAddProduct }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const user = useUserSession();
   const [formData, setFormData] = useState({
     name: '',
     price: '',
     category: '',
     stock: '',
     description: '',
-    images: [''],
     barcode: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [expiryDate, setExpiryDate] = useState<Date | undefined>();
 
   const categories = [
@@ -35,15 +38,52 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
     'Sweeteners', 'Beverages', 'Grains', 'Herbs'
   ];
 
+  const resetForm = () => {
+    setFormData({ name: '', price: '', category: '', stock: '', description: '', barcode: '' });
+    setImageFile(null);
+    setExpiryDate(undefined);
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    if (!user) {
+        toast({ title: "Authentication Error", description: "You must be logged in to add a product.", variant: "destructive" });
+        setIsSubmitting(false);
+        return;
+    }
 
     try {
+      let imageUrls: string[] = [];
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+        const filePath = `${user.id}/${fileName}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, imageFile);
+          
+        if (uploadError) {
+          throw uploadError;
+        }
+        
+        const { data: urlData } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+          
+        if (urlData.publicUrl) {
+          imageUrls.push(urlData.publicUrl);
+        } else {
+            throw new Error("Could not get public URL for the image.");
+        }
+      }
+
       const newProduct: Omit<Product, 'id' | 'rating' | 'reviews'> = {
         name: formData.name,
         price: parseFloat(formData.price),
-        images: formData.images.filter(img => img.trim() !== ''),
+        images: imageUrls,
         category: formData.category,
         stock: parseInt(formData.stock),
         description: formData.description,
@@ -67,27 +107,34 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
       });
 
       // Reset form and close dialog
-      setFormData({ name: '', price: '', category: '', stock: '', description: '', images: [''], barcode: '' });
-      setExpiryDate(undefined);
+      resetForm();
       onOpenChange(false);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error adding item",
-        description: "There was a problem adding your item. Please try again.",
+        description: error.message || "There was a problem adding your item. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
+  
+  const handleDialogChange = (open: boolean) => {
+    if (!open) {
+      resetForm();
+    }
+    onOpenChange(open);
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto dark-glass-effect border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <ImageUploader onFileSelect={setImageFile} reset={!isOpen} />
           <div>
             <Label htmlFor="name" className="text-slate-300">Product Name</Label>
             <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
@@ -135,7 +182,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+            <Button type="button" variant="secondary" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button type="submit" className="bg-green-600 hover:bg-green-700 btn-hover-glow" disabled={isSubmitting}>
