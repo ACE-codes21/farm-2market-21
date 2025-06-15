@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats } from '@/types';
@@ -10,7 +9,6 @@ import { VendorProductsTable } from './vendor/VendorProductsTable';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
 
 interface VendorDashboardProps {
-  onRoleChange: () => void;
   products: Product[];
   orders: Order[];
   onAddProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
@@ -19,7 +17,6 @@ interface VendorDashboardProps {
 }
 
 const VendorDashboard: React.FC<VendorDashboardProps> = ({ 
-  onRoleChange, 
   products, 
   orders,
   onAddProduct,
@@ -56,7 +53,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background">
-      <VendorDashboardHeader onRoleChange={onRoleChange} />
+      <VendorDashboardHeader />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">

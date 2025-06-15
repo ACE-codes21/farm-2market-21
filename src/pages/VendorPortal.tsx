@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -91,11 +90,6 @@ const VendorPortal = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const handleRoleChange = () => {
-    setUserRole(null);
-    navigate('/');
-  };
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -112,7 +106,6 @@ const VendorPortal = () => {
   if (userRole === 'vendor') {
     return (
       <VendorDashboard 
-        onRoleChange={handleRoleChange} 
         products={products}
         orders={orders}
         onAddProduct={addProduct}

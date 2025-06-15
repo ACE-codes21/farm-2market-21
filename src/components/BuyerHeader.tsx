@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Heart, Package } from 'lucide-react';
-import { UserDropdown } from './UserDropdown';
+import { UserMenu } from './UserMenu';
 
 interface BuyerHeaderProps {
   onCartOpen: () => void;
@@ -54,7 +53,7 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
                 </Badge>}
             </Button>
 
-            <UserDropdown />
+            <UserMenu />
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogIn } from 'lucide-react';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import { UserDropdown } from '@/components/UserDropdown';
+import { UserMenu } from '@/components/UserMenu';
 import { supabase } from '@/integrations/supabase/client';
 
 interface NavigationHeaderProps {
@@ -69,7 +69,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
             {!isLoading && (
               <>
                 {user ? (
-                  <UserDropdown />
+                  <UserMenu />
                 ) : (
                   <Button
                     onClick={handleLoginClick}
@@ -113,7 +113,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                 {!isLoading && (
                   <>
                     {user ? (
-                      <UserDropdown />
+                      <UserMenu />
                     ) : (
                       <Button
                         onClick={handleLoginClick}
