@@ -39,14 +39,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     if (isHovered && product.images.length > 1) {
       interval = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-      }, 1000);
+      }, 2500); // Slower slideshow - 2.5 seconds
     }
     return () => clearInterval(interval);
   }, [isHovered, product.images.length]);
 
+  // Only show premium badge for ratings 4.6 and above
+  const isPremium = product.rating >= 4.6;
+
   return (
     <Card 
-      className="group overflow-hidden rounded-3xl border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 modern-card relative"
+      className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -58,69 +61,66 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <img 
             src={product.images[currentImageIndex]} 
             alt={product.name}
-            className="w-full h-56 object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            className="w-full h-56 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Wishlist Button */}
           <Button 
             size="icon"
             variant="ghost"
-            className={`absolute top-4 right-4 h-12 w-12 rounded-full glass-effect backdrop-blur-md hover:scale-110 transition-all duration-300 group-hover:opacity-100 opacity-80 shadow-xl ${
-              isInWishlist ? 'text-red-500' : 'text-white hover:text-red-500'
+            className={`absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm hover:scale-110 transition-all duration-300 shadow-lg ${
+              isInWishlist ? 'text-red-500' : 'text-gray-600 hover:text-red-500'
             }`}
             onClick={(e) => {
               e.stopPropagation();
               onAddToWishlist(product);
             }}
           >
-            <Heart className={`h-6 w-6 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
+            <Heart className={`h-5 w-5 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
           </Button>
 
           {/* Fresh Pick Badge */}
           {product.isFreshPick && product.freshPickExpiresAt && (
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-3 left-3">
               <FreshPickBadge expiresAt={product.freshPickExpiresAt} />
             </div>
           )}
 
-          {/* Premium Badge */}
-          {product.rating >= 4.5 && !product.isFreshPick && (
-            <div className="absolute top-4 left-4 glass-effect rounded-full px-3 py-1 flex items-center gap-1">
-              <Sparkles className="h-4 w-4 text-yellow-400" />
+          {/* Premium Badge - Only for high rated items */}
+          {isPremium && !product.isFreshPick && (
+            <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
+              <Sparkles className="h-3 w-3 text-white" />
               <span className="text-xs font-bold text-white">Premium</span>
-            </div>
-          )}
-          
-          {/* Image Indicators */}
-          {product.images.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-              {product.images.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentImageIndex ? 'bg-white scale-125 shadow-lg' : 'bg-white/60'
-                  }`}
-                />
-              ))}
             </div>
           )}
         </div>
         
-        <div className="p-6">
-          <Badge variant="secondary" className="text-xs font-bold mb-4 px-3 py-1 bg-gradient-to-r from-primary/20 to-accent/20 text-primary border-primary/30 rounded-full">
-            {product.category}
-          </Badge>
-          <h3 className="font-bold text-xl text-card-foreground mb-4 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+        <div className="p-5">
+          <div className="flex items-center justify-between mb-3">
+            <Badge variant="secondary" className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-700 rounded-md">
+              {product.category}
+            </Badge>
+            {product.vendor && (
+              <ContactVendorDialog product={product}>
+                <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs px-2 py-1 h-7 rounded-lg border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors">
+                  <MessageCircle className="h-3 w-3" />
+                  Contact
+                </Button>
+              </ContactVendorDialog>
+            )}
+          </div>
+
+          <h3 className="font-semibold text-lg text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-green-600 transition-colors">
             {product.name}
           </h3>
           
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
-                  className={`h-4 w-4 transition-colors ${
+                  className={`h-4 w-4 ${
                     i < Math.floor(product.rating) 
                       ? 'text-yellow-400 fill-current' 
                       : 'text-gray-300'
@@ -128,50 +128,39 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 />
               ))}
             </div>
-            <span className="text-sm text-muted-foreground font-semibold bg-gray-100 px-2 py-1 rounded-full">
-              {product.rating} ({product.reviews})
+            <span className="text-sm text-gray-600 font-medium">
+              {product.rating}
+            </span>
+            <span className="text-xs text-gray-500">
+              ({product.reviews} reviews)
             </span>
           </div>
           
           <div className="flex items-center justify-between mb-4">
-            <span className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="text-2xl font-bold text-gray-900">
               ₹{product.price}
             </span>
-            {product.vendor && (
-              <ContactVendorDialog product={product}>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  Contact
-                </Button>
-              </ContactVendorDialog>
+            {product.stock <= 5 && product.stock > 0 && (
+              <span className="text-xs font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+                Only {product.stock} left
+              </span>
             )}
           </div>
 
-          <div className="space-y-3">
-            <AddToCartDialog 
-              product={product} 
-              onAddToCart={onAddToCart}
+          <AddToCartDialog 
+            product={product} 
+            onAddToCart={onAddToCart}
+          >
+            <Button 
+              className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 ${
+                product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : 'hover:shadow-lg'
+              }`}
+              disabled={product.stock === 0}
             >
-              <Button 
-                className={`w-full premium-button px-6 py-3 text-sm font-bold ${
-                  product.stock === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-xl hover:scale-105'
-                }`}
-                disabled={product.stock === 0}
-              >
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                {product.stock === 0 ? 'Sold Out' : 'Add to Cart'}
-              </Button>
-            </AddToCartDialog>
-
-            {/* Stock indicator */}
-            {product.stock > 0 && product.stock <= 5 && (
-              <div className="text-center">
-                <span className="text-xs font-bold text-orange-500 bg-orange-100 px-3 py-1 rounded-full">
-                  Only {product.stock} left!
-                </span>
-              </div>
-            )}
-          </div>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+            </Button>
+          </AddToCartDialog>
         </div>
       </CardContent>
     </Card>
