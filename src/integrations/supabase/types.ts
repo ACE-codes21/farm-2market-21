@@ -199,6 +199,20 @@ export type Database = {
         Args: { items_to_buy: Json }
         Returns: string
       }
+      get_vendor_orders: {
+        Args: { vendor_id_param: string }
+        Returns: {
+          id: string
+          created_at: string
+          status: string
+          total_amount: number
+          order_items: Json
+        }[]
+      }
+      is_order_owner: {
+        Args: { order_id_to_check: string }
+        Returns: boolean
+      }
     }
     Enums: {
       order_status: "pending" | "confirmed" | "delivered" | "cancelled"
