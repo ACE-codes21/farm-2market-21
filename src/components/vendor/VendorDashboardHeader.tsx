@@ -10,11 +10,11 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
   return <header className="dark-glass-effect border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center gap-8">
-            <Link to="/">
-              <h1 className="text-3xl font-bold font-display">
-                <span className="text-green-500 text-lg">Farm</span>
-                <span className="text-white text-lg">2Market</span>
+          <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center h-10">
+              <h1 className="font-bold font-display">
+                <span className="text-green-500 text-xl">Farm</span>
+                <span className="text-white text-xl">2Market</span>
               </h1>
             </Link>
             <NavigationMenu>
