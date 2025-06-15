@@ -1,10 +1,9 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface CTASectionProps {
-  onOpenAuthModal: (role: 'vendor' | 'buyer', mode: 'login' | 'signup') => void;
+  onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
 }
 
 const CTASection: React.FC<CTASectionProps> = ({ onOpenAuthModal }) => {
