@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heart, Star, ShoppingCart, Sparkles } from 'lucide-react';
 import { Product } from '@/types';
+import { FreshPickBadge } from './FreshPickBadge';
 
 interface ProductCardProps {
   product: Product;
@@ -21,6 +22,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Check if fresh pick is expired
+  const isFreshPickExpired = product.isFreshPick && product.freshPickExpiresAt && 
+    new Date(product.freshPickExpiresAt).getTime() <= new Date().getTime();
+
+  // Don't render if fresh pick is expired
+  if (isFreshPickExpired) {
+    return null;
+  }
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -65,8 +75,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Heart className={`h-6 w-6 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
           </Button>
 
+          {/* Fresh Pick Badge */}
+          {product.isFreshPick && product.freshPickExpiresAt && (
+            <div className="absolute top-4 left-4">
+              <FreshPickBadge expiresAt={product.freshPickExpiresAt} />
+            </div>
+          )}
+
           {/* Premium Badge */}
-          {product.rating >= 4.5 && (
+          {product.rating >= 4.5 && !product.isFreshPick && (
             <div className="absolute top-4 left-4 glass-effect rounded-full px-3 py-1 flex items-center gap-1">
               <Sparkles className="h-4 w-4 text-yellow-400" />
               <span className="text-xs font-bold text-white">Premium</span>

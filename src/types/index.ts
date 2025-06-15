@@ -1,4 +1,3 @@
-
 export interface Product {
   id: number;
   name: string;
@@ -8,6 +7,8 @@ export interface Product {
   images: string[];
   category: string;
   stock: number;
+  isFreshPick?: boolean;
+  freshPickExpiresAt?: string;
 }
 
 export interface CartItem extends Product {

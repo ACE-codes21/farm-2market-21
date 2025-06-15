@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -22,7 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/hooks/use-toast';
-import { X, Upload } from 'lucide-react';
+import { X, Upload, Clock } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 
 type FormValues = {
   name: string;
@@ -30,6 +30,7 @@ type FormValues = {
   stock: number;
   category: string;
   images: string;
+  isFreshPick: boolean;
 };
 
 interface AddProductDialogProps {
@@ -47,11 +48,13 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
       stock: 0,
       category: '',
       images: '',
+      isFreshPick: false,
     }
   });
   const { toast } = useToast();
 
   const watchedImages = watch('images');
+  const watchedIsFreshPick = watch('isFreshPick');
 
   React.useEffect(() => {
     if (watchedImages) {
@@ -65,17 +68,25 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     const imageUrls = data.images.split(',').map(url => url.trim()).filter(url => url);
     
+    // Calculate fresh pick expiry (24 hours from now)
+    const freshPickExpiresAt = data.isFreshPick 
+      ? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+      : undefined;
+    
     const newProduct = {
       ...data,
       price: Number(data.price),
       stock: Number(data.stock),
       images: imageUrls.length > 0 ? imageUrls : ['https://images.unsplash.com/photo-1579621970795-87f54d5921ba?w=400&h=300&fit=crop'],
+      freshPickExpiresAt,
     };
     
     onAddProduct(newProduct);
+    
+    const freshPickMessage = data.isFreshPick ? " Your Fresh Pick listing will be visible for 24 hours!" : "";
     toast({
       title: "✅ Listing Added Successfully!",
-      description: `${newProduct.name} has been added to your store and is now live.`,
+      description: `${newProduct.name} has been added to your store and is now live.${freshPickMessage}`,
     });
     
     reset();
@@ -176,6 +187,29 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
                 )}
               />
               {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <Controller
+                  name="isFreshPick"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="freshPick"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="freshPick" className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-orange-500" />
+                  Fresh Pick (24h auto-expiry)
+                </Label>
+              </div>
+              <p className="text-xs text-gray-500">
+                Fresh Pick listings get premium visibility but automatically expire after 24 hours.
+              </p>
             </div>
             
             <div className="space-y-2">

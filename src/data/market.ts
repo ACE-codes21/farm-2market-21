@@ -1,3 +1,4 @@
+
 import { Product } from "@/types";
 
 export const products: Product[] = [
@@ -13,7 +14,9 @@ export const products: Product[] = [
         'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=300&fit=crop'
       ],
-      category: 'Fruits'
+      category: 'Fruits',
+      isFreshPick: true,
+      freshPickExpiresAt: new Date(Date.now() + 20 * 60 * 60 * 1000).toISOString() // 20 hours from now
     },
     { 
       id: 2, 
@@ -167,7 +170,9 @@ export const products: Product[] = [
         'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop',
         'https://images.unsplash.com/photo-1583225214464-9296029427aa?w=400&h=300&fit=crop'
       ],
-      category: 'Street Food'
+      category: 'Street Food',
+      isFreshPick: true,
+      freshPickExpiresAt: new Date(Date.now() + 15 * 60 * 60 * 1000).toISOString() // 15 hours from now
     },
   ];
 

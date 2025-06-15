@@ -11,6 +11,7 @@ interface AppContextType {
   deleteProduct: (productId: number) => void;
   addOrder: (items: CartItem[]) => void;
   updateProductStock: (productId: number, quantityUsed: number) => void;
+  cleanupExpiredProducts: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -30,6 +31,23 @@ interface AppProviderProps {
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [orders, setOrders] = useState<Order[]>([]);
+
+  const cleanupExpiredProducts = () => {
+    setProducts(prevProducts => 
+      prevProducts.filter(product => {
+        if (product.isFreshPick && product.freshPickExpiresAt) {
+          return new Date(product.freshPickExpiresAt).getTime() > new Date().getTime();
+        }
+        return true;
+      })
+    );
+  };
+
+  // Auto-cleanup expired products every minute
+  React.useEffect(() => {
+    const interval = setInterval(cleanupExpiredProducts, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const addProduct = (newProductData: Omit<Product, 'id' | 'rating' | 'reviews'>) => {
     setProducts(prevProducts => {
@@ -95,6 +113,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     deleteProduct,
     addOrder,
     updateProductStock,
+    cleanupExpiredProducts,
   };
 
   return (
