@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -85,7 +84,7 @@ const Auth: React.FC = () => {
           emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
             full_name: fullName,
-            role: roleFromUrl, // Store role in user metadata
+            role: roleFromUrl,
           }
         }
       });
@@ -168,15 +167,25 @@ const Auth: React.FC = () => {
   return (
     <AuthFormLayout title={getTitle()} description={getDescription()}>
       <Tabs defaultValue={defaultTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 bg-muted/50">
-          <TabsTrigger value="login" className="font-semibold">Login</TabsTrigger>
-          <TabsTrigger value="signup" className="font-semibold">Sign Up</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 bg-black/50 border border-green-400/20">
+          <TabsTrigger 
+            value="login" 
+            className="font-semibold text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300"
+          >
+            Login
+          </TabsTrigger>
+          <TabsTrigger 
+            value="signup" 
+            className="font-semibold text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300"
+          >
+            Sign Up
+          </TabsTrigger>
         </TabsList>
 
         {error && (
-          <Alert variant="destructive" className="bg-red-50 border-red-200">
+          <Alert variant="destructive" className="bg-red-900/20 border-red-500/50 backdrop-blur-sm animate-fade-in">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription className="text-red-200">{error}</AlertDescription>
           </Alert>
         )}
 
@@ -188,11 +197,13 @@ const Auth: React.FC = () => {
           <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
         </TabsContent>
 
-        <SocialLoginButtons
-          onGoogleLogin={() => handleSocialLogin('google')}
-          onFacebookLogin={() => handleSocialLogin('facebook')}
-          isLoading={isLoading}
-        />
+        <div className="animate-fade-in" style={{animationDelay: '0.5s'}}>
+          <SocialLoginButtons
+            onGoogleLogin={() => handleSocialLogin('google')}
+            onFacebookLogin={() => handleSocialLogin('facebook')}
+            isLoading={isLoading}
+          />
+        </div>
       </Tabs>
     </AuthFormLayout>
   );
