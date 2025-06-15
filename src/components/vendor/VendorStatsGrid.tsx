@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { DollarSign, Package, ShoppingCart, TrendingUp } from 'lucide-react';
 import { VendorStats } from '@/types';
+import { cn } from '@/lib/utils';
 
 interface VendorStatsGridProps {
   stats: VendorStats;
@@ -20,7 +21,7 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
     { title: 'Total Sales', value: `₹${stats.totalSales.toLocaleString()}`, icon: statsIcons.totalSales, change: '+12%', key: 'totalSales' },
     { title: 'Products', value: stats.totalProducts.toString(), icon: statsIcons.totalProducts, change: '+3', key: 'totalProducts' },
     { title: 'Orders', value: stats.totalOrders.toString(), icon: statsIcons.totalOrders, change: '+8%', key: 'totalOrders' },
-    { title: 'Revenue', value: `₹${stats.totalRevenue.toLocaleString()}`, icon: statsIcons.totalRevenue, change: '+15%', key: 'totalRevenue' },
+    { title: 'Revenue', value: `${stats.totalRevenue < 0 ? '-' : ''}₹${Math.abs(stats.totalRevenue).toLocaleString()}`, icon: statsIcons.totalRevenue, change: '+15%', key: 'totalRevenue' },
   ];
 
   return (
@@ -31,7 +32,12 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-400">{stat.title}</p>
-                <p className="text-3xl font-bold text-white">{stat.value}</p>
+                <p className={cn(
+                  "text-3xl font-bold",
+                  stat.key === 'totalRevenue' && stats.totalRevenue < 0 ? 'text-red-500' : 'text-white'
+                )}>
+                  {stat.value}
+                </p>
                 <p className="text-sm text-green-400 font-medium">{stat.change}</p>
               </div>
               <div className="p-3 bg-primary/10 rounded-full">
