@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart, Store } from 'lucide-react';
@@ -49,8 +48,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onOpenAuthModal }) => {
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Discover fresh, local produce directly from farmers in your community. 
-            Support sustainable agriculture while enjoying the freshest ingredients.
+            Empowering <span className="text-orange-400">vendors</span>. Nourishing <span className="text-green-400">neighbourhoods</span>.
           </p>
 
           {/* CTA Buttons */}
