@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { UserMenu } from '../UserMenu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
@@ -21,30 +20,22 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link to="#">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>
-                      Analytics
-                    </NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>Finance</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="#">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>
-                      Finance
-                    </NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>AI Analytics</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="#">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>
-                      Marketing
-                    </NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>Services</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="#">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>
-                      Settings
-                    </NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>Notifications</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
