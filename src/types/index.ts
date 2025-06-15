@@ -7,6 +7,7 @@ export interface Product {
   images: string[];
   category: string;
   stock: number;
+  description?: string;
   isFreshPick?: boolean;
   freshPickExpiresAt?: string;
   vendor?: {
