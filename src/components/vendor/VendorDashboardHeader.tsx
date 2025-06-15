@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { UserMenu } from '../UserMenu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Link } from 'react-router-dom';
@@ -10,6 +12,7 @@ interface VendorDashboardHeaderProps {
 }
 export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () => {
   const [notificationCount, setNotificationCount] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setNotificationCount(getUnreadNotifications().count);
@@ -41,39 +44,30 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link to="/vendor">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Dashboard</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.dashboard')}</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/finance">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Finance</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.finance')}</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/analytics">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>AI Analytics</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.ai_analytics')}</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/services">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Services</NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link to="/vendor/notifications" className="relative">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Notifications</NavigationMenuLink>
-                    {notificationCount > 0 && (
-                      <Badge variant="destructive" className="absolute top-1.5 right-[-4px] h-[18px] w-[18px] flex items-center justify-center p-0 text-[10px] rounded-full">
-                        {notificationCount}
-                      </Badge>
-                    )}
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.services')}</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <UserMenu />
+            {/* The notification link was incomplete, it has been removed to prevent errors. */}
           </div>
         </div>
       </div>

@@ -167,5 +167,52 @@
       "vendors": "বিক্রেতা",
       "orders": "অর্ডার"
     }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "ড্যাশবোর্ড",
+    "finance": "অর্থ",
+    "ai_analytics": "এআই অ্যানালিটিক্স",
+    "services": "পরিষেবা"
+  },
+  "dashboard_page": {
+    "loading": "ড্যাশবোর্ড লোড হচ্ছে..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "উফ! পৃষ্ঠা পাওয়া যায়নি",
+    "return_home": "হোমপেজে ফিরে যান"
+  },
+  "analytics_dashboard": {
+    "title": "এআই অ্যানালিটিক্স",
+    "subtitle": "আপনার ব্যবসা বাড়াতে স্মার্ট অন্তর্দৃষ্টি।",
+    "product_trends": "পণ্যের প্রবণতা",
+    "sales_summary": {
+      "total_revenue": "মোট রাজস্ব",
+      "total_sales": "মোট বিক্রয়",
+      "customers": "গ্রাহক"
+    }
+  },
+  "finance_dashboard": {
+    "title": "ফাইন্যান্স হাব",
+    "subtitle": "এক নজরে আপনার আর্থিক স্বাস্থ্য। ক্রেডিট অ্যাক্সেস করুন, লোন ট্র্যাক করুন এবং আপনার ব্যবসা বাড়ান।",
+    "available_loan_schemes": "উপলব্ধ লোন স্কিম"
+  },
+  "services_dashboard": {
+    "title": "সার্ভিস হাব",
+    "subtitle": "সরকারি স্কিম, লাইসেন্স এবং সমর্থনের জন্য আপনার ওয়ান-স্টপ পোর্টাল।",
+    "tabs": {
+      "schemes": "স্কিম",
+      "eligibility": "যোগ্যতা",
+      "tracker": "ট্র্যাকার",
+      "documents": "ডকুমেন্টস",
+      "ai_assist": "এআই অ্যাসিস্ট্যান্ট"
+    }
+  },
+  "vendor_stats_grid": {
+    "total_sales": "মোট বিক্রয়",
+    "total_products": "মোট পণ্য",
+    "orders": "অর্ডার",
+    "revenue": "রাজস্ব",
+    "last_7_days": "গত ৭ দিনে {{change}}"
   }
 }

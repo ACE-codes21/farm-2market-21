@@ -167,5 +167,52 @@
       "vendors": "விற்பனையாளர்கள்",
       "orders": "ஆர்டர்கள்"
     }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "டாஷ்போர்டு",
+    "finance": "நிதி",
+    "ai_analytics": "AI பகுப்பாய்வு",
+    "services": "சேவைகள்"
+  },
+  "dashboard_page": {
+    "loading": "டாஷ்போர்டு ஏற்றப்படுகிறது..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "ஓப்ஸ்! பக்கம் காணப்படவில்லை",
+    "return_home": "முகப்புக்குத் திரும்பு"
+  },
+  "analytics_dashboard": {
+    "title": "AI பகுப்பாய்வு",
+    "subtitle": "உங்கள் வணிகத்தை வளர்க்க ஸ்மார்ட் நுண்ணறிவு.",
+    "product_trends": "தயாரிப்பு போக்குகள்",
+    "sales_summary": {
+      "total_revenue": "மொத்த வருவாய்",
+      "total_sales": "மொத்த விற்பனை",
+      "customers": "வாடிக்கையாளர்கள்"
+    }
+  },
+  "finance_dashboard": {
+    "title": "நிதி மையம்",
+    "subtitle": "உங்கள் நிதி ஆரோக்கியம் ஒரே பார்வையில். கடன் அணுகவும், கடன்களைக் கண்காணிக்கவும், மற்றும் உங்கள் வணிகத்தை வளர்க்கவும்.",
+    "available_loan_schemes": "கிடைக்கும் கடன் திட்டங்கள்"
+  },
+  "services_dashboard": {
+    "title": "சேவைகள் மையம்",
+    "subtitle": "அரசாங்க திட்டங்கள், உரிமங்கள், மற்றும் ஆதரவுக்கான உங்கள் ஒரே-நிறுத்த போர்டல்.",
+    "tabs": {
+      "schemes": "திட்டங்கள்",
+      "eligibility": "தகுதி",
+      "tracker": "டிராக்கர்",
+      "documents": "ஆவணங்கள்",
+      "ai_assist": "AI உதவியாளர்"
+    }
+  },
+  "vendor_stats_grid": {
+    "total_sales": "மொத்த விற்பனை",
+    "total_products": "மொத்த தயாரிப்புகள்",
+    "orders": "ஆர்டர்கள்",
+    "revenue": "வருவாய்",
+    "last_7_days": "கடந்த 7 நாட்களில் {{change}}"
   }
 }

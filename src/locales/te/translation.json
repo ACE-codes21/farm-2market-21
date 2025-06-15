@@ -167,5 +167,52 @@
       "vendors": "విక్రేతలు",
       "orders": "ఆర్డర్లు"
     }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "డాష్‌బోర్డ్",
+    "finance": "ఫైనాన్స్",
+    "ai_analytics": "AI అనలిటిక్స్",
+    "services": "సర్వీసెస్"
+  },
+  "dashboard_page": {
+    "loading": "డాష్‌బోర్డ్ లోడ్ అవుతోంది..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "అయ్యో! పేజీ కనుగొనబడలేదు",
+    "return_home": "హోమ్‌కు తిరిగి వెళ్ళు"
+  },
+  "analytics_dashboard": {
+    "title": "AI అనలిటిక్స్",
+    "subtitle": "మీ వ్యాపారాన్ని పెంచడానికి స్మార్ట్ అంతర్దృష్టులు.",
+    "product_trends": "ఉత్పత్తి ట్రెండ్‌లు",
+    "sales_summary": {
+      "total_revenue": "మొత్తం రాబడి",
+      "total_sales": "మొత్తం అమ్మకాలు",
+      "customers": "కస్టమర్‌లు"
+    }
+  },
+  "finance_dashboard": {
+    "title": "ఫైనాన్స్ హబ్",
+    "subtitle": "మీ ఆర్థిక ఆరోగ్యం ఒక చూపులో. క్రెడిట్ యాక్సెస్ చేయండి, రుణాలను ట్రాక్ చేయండి, మరియు మీ వ్యాపారాన్ని పెంచండి.",
+    "available_loan_schemes": "అందుబాటులో ఉన్న లోన్ స్కీమ్‌లు"
+  },
+  "services_dashboard": {
+    "title": "సేవల హబ్",
+    "subtitle": "ప్రభుత్వ పథకాలు, లైసెన్సులు, మరియు మద్దతు కోసం మీ వన్-స్టాప్ పోర్టల్.",
+    "tabs": {
+      "schemes": "పథకాలు",
+      "eligibility": "అర్హత",
+      "tracker": "ట్రాకర్",
+      "documents": "పత్రాలు",
+      "ai_assist": "AI అసిస్టెంట్"
+    }
+  },
+  "vendor_stats_grid": {
+    "total_sales": "మొత్తం అమ్మకాలు",
+    "total_products": "మొత్తం ఉత్పత్తులు",
+    "orders": "ఆర్డర్లు",
+    "revenue": "రాబడి",
+    "last_7_days": "గత 7 రోజుల్లో {{change}}"
   }
 }

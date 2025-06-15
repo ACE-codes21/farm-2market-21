@@ -167,5 +167,52 @@
       "vendors": "Vendors",
       "orders": "Orders"
     }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "Dashboard",
+    "finance": "Finance",
+    "ai_analytics": "AI Analytics",
+    "services": "Services"
+  },
+  "dashboard_page": {
+    "loading": "Loading Dashboard..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "Oops! Page not found",
+    "return_home": "Return to Home"
+  },
+  "analytics_dashboard": {
+    "title": "AI Analytics",
+    "subtitle": "Smart insights to grow your business.",
+    "product_trends": "Product Trends",
+    "sales_summary": {
+      "total_revenue": "Total Revenue",
+      "total_sales": "Total Sales",
+      "customers": "Customers"
+    }
+  },
+  "finance_dashboard": {
+    "title": "Finance Hub",
+    "subtitle": "Your financial health at a glance. Access credit, track loans, and grow your business.",
+    "available_loan_schemes": "Available Loan Schemes"
+  },
+  "services_dashboard": {
+    "title": "Services Hub",
+    "subtitle": "Your one-stop portal for government schemes, licenses, and support.",
+    "tabs": {
+      "schemes": "Schemes",
+      "eligibility": "Eligibility",
+      "tracker": "Tracker",
+      "documents": "Documents",
+      "ai_assist": "AI Assistant"
+    }
+  },
+  "vendor_stats_grid": {
+    "total_sales": "Total Sales",
+    "total_products": "Total Products",
+    "orders": "Orders",
+    "revenue": "Revenue",
+    "last_7_days": "{{change}} in last 7 days"
   }
 }

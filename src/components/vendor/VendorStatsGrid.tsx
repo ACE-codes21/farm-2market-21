@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { DollarSign, Package, ShoppingCart, TrendingUp, TrendingDown } from 'lucide-react';
 import { VendorStats, StatChanges } from '@/types';
@@ -18,6 +19,7 @@ const statsIcons = {
 };
 
 export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats, changes }) => {
+  const { t } = useTranslation();
   const isNegativeRevenue = stats.totalRevenue < 0;
 
   const formatChange = (value: number, isPercentage: boolean = true) => {
@@ -27,10 +29,10 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats, changes
   };
 
   const statsDisplay = [
-    { title: 'Total Sales', value: `₹${stats.totalSales.toLocaleString()}`, icon: statsIcons.totalSales, change: formatChange(changes.sales), isPositive: changes.sales >= 0, key: 'totalSales' },
-    { title: 'Total Products', value: stats.totalProducts.toString(), icon: statsIcons.totalProducts, change: formatChange(changes.products, false), isPositive: true, key: 'totalProducts' },
-    { title: 'Orders', value: stats.totalOrders.toString(), icon: statsIcons.totalOrders, change: formatChange(changes.orders), isPositive: changes.orders >= 0, key: 'totalOrders' },
-    { title: 'Revenue', value: `${isNegativeRevenue ? '-' : ''}₹${Math.abs(stats.totalRevenue).toLocaleString()}`, icon: statsIcons.totalRevenue, change: formatChange(changes.revenue), isPositive: changes.revenue >= 0, key: 'totalRevenue' },
+    { title: t('vendor_stats_grid.total_sales'), value: `₹${stats.totalSales.toLocaleString()}`, icon: statsIcons.totalSales, change: formatChange(changes.sales), isPositive: changes.sales >= 0, key: 'totalSales' },
+    { title: t('vendor_stats_grid.total_products'), value: stats.totalProducts.toString(), icon: statsIcons.totalProducts, change: formatChange(changes.products, false), isPositive: true, key: 'totalProducts' },
+    { title: t('vendor_stats_grid.orders'), value: stats.totalOrders.toString(), icon: statsIcons.totalOrders, change: formatChange(changes.orders), isPositive: changes.orders >= 0, key: 'totalOrders' },
+    { title: t('vendor_stats_grid.revenue'), value: `${isNegativeRevenue ? '-' : ''}₹${Math.abs(stats.totalRevenue).toLocaleString()}`, icon: statsIcons.totalRevenue, change: formatChange(changes.revenue), isPositive: changes.revenue >= 0, key: 'totalRevenue' },
   ];
 
   return (
@@ -51,7 +53,7 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats, changes
                     "text-sm font-medium",
                     stat.isPositive ? "text-green-400" : "text-amber-400"
                   )}>
-                    {stat.key === 'totalProducts' ? `${stat.change} in last 7 days` : stat.change}
+                    {stat.key === 'totalProducts' ? t('vendor_stats_grid.last_7_days', { change: stat.change }) : stat.change}
                   </p>
                 </div>
                 <div className={cn(
