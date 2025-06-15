@@ -7,16 +7,10 @@ const HeroSection: React.FC = () => {
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
     navigate(`/auth?role=${role}&mode=signup`);
   };
-  const scrollToFeatures = () => {
-    const featuresSection = document.getElementById('features-section');
-    featuresSection?.scrollIntoView({
-      behavior: 'smooth'
-    });
-  };
   return <>
-      {/* Main Hero Section */}
+      {/* Main content - centered */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-        <div className="text-center max-w-5xl mx-auto">
+        <div className="text-center max-w-5xl mx-auto animate-fade-in">
           {/* Main title with neon glow effect */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 leading-tight">
             <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] font-thin">Fresh From the</span>
@@ -25,10 +19,12 @@ const HeroSection: React.FC = () => {
           </h1>
           
           {/* Subtitle with subtle glow */}
-          <p className="text-xl md:text-2xl text-gray-300 mb-16 font-light tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">Empowering &lt;vendors&gt;. Nourishing Neighborhoods.</p>
+          <p className="text-xl md:text-2xl text-gray-300 mb-16 font-light tracking-wide drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+            Empowering Vendors. Nourishing Neighborhoods.
+          </p>
           
           {/* Two large buttons with neon styling */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-20">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <Button onClick={() => handleRoleSelect('buyer')} size="lg" className="bg-green-500 hover:bg-green-400 text-black font-bold shadow-[0_0_30px_rgba(34,197,94,0.5)] hover:shadow-[0_0_40px_rgba(34,197,94,0.8)] transform hover:scale-105 transition-all duration-300 px-16 py-8 text-2xl rounded-2xl group min-w-[280px] border-2 border-green-400">
               <ShoppingBag className="mr-4 h-8 w-8 group-hover:rotate-12 transition-transform duration-300" />
               Shop Now
@@ -40,25 +36,25 @@ const HeroSection: React.FC = () => {
             </Button>
           </div>
           
-          {/* Connecting farmers tagline - positioned better */}
-          <div className="text-green-400/60 text-sm tracking-wider mb-8">
+          {/* Additional glow text elements */}
+          <div className="mt-16 text-green-400/60 text-sm tracking-wider">
             <span className="animate-pulse">CONNECTING FARMERS TO COMMUNITIES</span>
           </div>
         </div>
       </div>
 
-      {/* Scroll down arrow - fixed positioning */}
-      <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-        <button onClick={scrollToFeatures} className="animate-bounce hover:text-green-300 transition-colors duration-300 focus:outline-none">
-          <ArrowDown className="h-8 w-8 text-green-400 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
-        </button>
+      {/* Animated scroll down arrow */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+        <ArrowDown className="h-8 w-8 text-green-400 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
       </div>
 
-      {/* Demo link - better positioning */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
-        <Button onClick={() => navigate('/demo')} variant="ghost" className="text-green-400/80 hover:text-green-400 hover:bg-green-400/10 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 border border-green-400/20 text-sm">
-          Browse Market Demo
-        </Button>
+      {/* Bottom section with demo link */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/80 to-transparent p-8">
+        <div className="text-center">
+          <Button onClick={() => navigate('/demo')} variant="ghost" className="text-green-400/80 hover:text-green-400 hover:bg-green-400/10 hover:shadow-[0_0_15px_rgba(34,197,94,0.3)] transition-all duration-300 border border-green-400/20">
+            Browse Market Demo
+          </Button>
+        </div>
       </div>
     </>;
 };
