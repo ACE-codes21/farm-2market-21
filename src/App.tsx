@@ -13,6 +13,7 @@ import { AppProvider } from "./contexts/AppContext";
 import FinanceDashboard from "./pages/FinanceDashboard";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import ServicesDashboard from "./pages/ServicesDashboard";
+import NotificationsPage from "./pages/Notifications";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/vendor/finance" element={<FinanceDashboard />} />
             <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
             <Route path="/vendor/services" element={<ServicesDashboard />} />
+            <Route path="/vendor/notifications" element={<NotificationsPage />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

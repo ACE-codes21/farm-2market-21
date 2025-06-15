@@ -35,7 +35,7 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link to="#">
+                  <Link to="/vendor/notifications">
                     <NavigationMenuLink className={`${navigationMenuTriggerStyle()} bg-transparent text-slate-300 hover:bg-slate-700/50 hover:text-white`}>Notifications</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
