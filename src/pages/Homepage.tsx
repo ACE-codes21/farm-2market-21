@@ -41,7 +41,7 @@ const Homepage: React.FC = () => {
       <div className="relative min-h-screen">
         <HeroBackground />
         <NavigationHeader onOpenAuthModal={openAuthModal} />
-        <HeroSection />
+        <HeroSection onOpenAuthModal={openAuthModal} />
       </div>
 
       {/* Additional Sections */}
