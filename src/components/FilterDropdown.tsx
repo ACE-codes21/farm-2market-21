@@ -66,27 +66,27 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent 
-        className="w-80 p-6 dark-modern-card border border-slate-600/30 shadow-2xl bg-slate-800" 
+        className="w-64 p-4 dark-modern-card border border-slate-600/30 shadow-2xl bg-slate-800" 
         align="end"
         sideOffset={8}
       >
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">Filters</h3>
+            <h3 className="text-sm font-semibold text-white">Filters</h3>
             <Button 
               variant="ghost" 
               size="sm" 
               onClick={resetFilters}
-              className="text-slate-400 hover:text-white"
+              className="text-xs text-slate-400 hover:text-white h-6 px-2"
             >
               Reset
             </Button>
           </div>
           
           {/* Price Range Filter */}
-          <div className="space-y-3">
-            <Label className="text-white font-medium">Price Range</Label>
-            <div className="px-2">
+          <div className="space-y-2">
+            <Label className="text-xs text-white font-medium">Price Range</Label>
+            <div className="px-1">
               <Slider
                 value={filters.priceRange}
                 onValueChange={handlePriceRangeChange}
@@ -95,7 +95,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 step={10}
                 className="w-full"
               />
-              <div className="flex justify-between text-sm text-slate-300 mt-2">
+              <div className="flex justify-between text-xs text-slate-300 mt-1">
                 <span>₹{filters.priceRange[0]}</span>
                 <span>₹{filters.priceRange[1]}</span>
               </div>
@@ -103,9 +103,9 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
           </div>
 
           {/* Rating Filter */}
-          <div className="space-y-3">
-            <Label className="text-white font-medium">Minimum Rating</Label>
-            <div className="px-2">
+          <div className="space-y-2">
+            <Label className="text-xs text-white font-medium">Min Rating</Label>
+            <div className="px-1">
               <Slider
                 value={[filters.minRating]}
                 onValueChange={handleRatingChange}
@@ -114,31 +114,31 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 step={0.5}
                 className="w-full"
               />
-              <div className="text-sm text-slate-300 mt-2 text-center">
+              <div className="text-xs text-slate-300 mt-1 text-center">
                 {filters.minRating}+ stars
               </div>
             </div>
           </div>
 
           {/* Freshness Filter */}
-          <div className="space-y-3">
-            <Label className="text-white font-medium">Freshness</Label>
+          <div className="space-y-2">
+            <Label className="text-xs text-white font-medium">Freshness</Label>
             <Select value={filters.freshness} onValueChange={handleFreshnessChange}>
-              <SelectTrigger className="dark-elegant-input bg-slate-700/50 border-slate-600/30 text-white">
+              <SelectTrigger className="dark-elegant-input bg-slate-700/50 border-slate-600/30 text-white h-8 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="dark-modern-card border border-slate-600/30 shadow-2xl bg-slate-800">
-                <SelectItem value="all" className="text-white hover:bg-green-500/10">All Items</SelectItem>
-                <SelectItem value="fresh-pick" className="text-white hover:bg-green-500/10">Fresh Pick Only</SelectItem>
-                <SelectItem value="regular" className="text-white hover:bg-green-500/10">Regular Items</SelectItem>
+                <SelectItem value="all" className="text-white hover:bg-green-500/10 text-xs">All Items</SelectItem>
+                <SelectItem value="fresh-pick" className="text-white hover:bg-green-500/10 text-xs">Fresh Pick Only</SelectItem>
+                <SelectItem value="regular" className="text-white hover:bg-green-500/10 text-xs">Regular Items</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Delivery Time Filter */}
-          <div className="space-y-3">
-            <Label className="text-white font-medium">Max Delivery Time</Label>
-            <div className="px-2">
+          <div className="space-y-2">
+            <Label className="text-xs text-white font-medium">Max Delivery Time</Label>
+            <div className="px-1">
               <Slider
                 value={[filters.maxDeliveryTime]}
                 onValueChange={handleDeliveryTimeChange}
@@ -147,7 +147,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
                 step={5}
                 className="w-full"
               />
-              <div className="text-sm text-slate-300 mt-2 text-center">
+              <div className="text-xs text-slate-300 mt-1 text-center">
                 {filters.maxDeliveryTime} minutes
               </div>
             </div>
