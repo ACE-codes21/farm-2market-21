@@ -241,7 +241,6 @@ export const mockProducts: Product[] = [
     reviews: 28,
     stock: 12,
     vendor: {
-      id: 1,
       name: "Ravi Kumar",
       phone: "+919876543210",
       upiId: "ravi.kumar@paytm",
@@ -263,7 +262,6 @@ export const mockProducts: Product[] = [
     reviews: 45,
     stock: 8,
     vendor: {
-      id: 2,
       name: "Sunita Devi",
       phone: "+919876543211",
       upiId: "sunita.devi@phonepe",
@@ -287,7 +285,6 @@ export const mockProducts: Product[] = [
     isFreshPick: true,
     freshPickExpiresAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
     vendor: {
-      id: 3,
       name: "Amit Shah",
       phone: "+919876543212",
       upiId: "amit.shah@gpay",
@@ -309,7 +306,6 @@ export const mockProducts: Product[] = [
     reviews: 22,
     stock: 20,
     vendor: {
-      id: 4,
       name: "Priya Sharma",
       phone: "+919876543213",
       upiId: "priya.sharma@paytm",
@@ -331,7 +327,6 @@ export const mockProducts: Product[] = [
     reviews: 31,
     stock: 25,
     vendor: {
-      id: 5,
       name: "Vikram Singh",
       phone: "+919876543214",
       upiId: "vikram.singh@phonepe",
@@ -353,7 +348,6 @@ export const mockProducts: Product[] = [
     reviews: 89,
     stock: 18,
     vendor: {
-      id: 6,
       name: "Meera Joshi",
       phone: "+919876543215",
       upiId: "meera.joshi@gpay",
@@ -375,7 +369,6 @@ export const mockProducts: Product[] = [
     reviews: 56,
     stock: 30,
     vendor: {
-      id: 7,
       name: "Rajesh Gupta",
       phone: "+919876543216",
       upiId: "rajesh.gupta@paytm",
@@ -397,7 +390,6 @@ export const mockProducts: Product[] = [
     reviews: 19,
     stock: 10,
     vendor: {
-      id: 8,
       name: "Anita Verma",
       phone: "+919876543217",
       upiId: "anita.verma@phonepe",
@@ -421,7 +413,6 @@ export const mockProducts: Product[] = [
     isFreshPick: true,
     freshPickExpiresAt: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
     vendor: {
-      id: 9,
       name: "Deepak Yadav",
       phone: "+919876543218",
       upiId: "deepak.yadav@gpay",
@@ -443,7 +434,6 @@ export const mockProducts: Product[] = [
     reviews: 42,
     stock: 22,
     vendor: {
-      id: 10,
       name: "Sanjay Patel",
       phone: "+919876543219",
       upiId: "sanjay.patel@paytm",
