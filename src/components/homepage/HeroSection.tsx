@@ -84,7 +84,7 @@ const HeroSection: React.FC = () => {
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform relative z-10" />
               </Button>
 
-              <Button onClick={() => openAuthModal('vendor', 'signup')} variant="outline" className="group relative px-8 py-4 bg-transparent hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-orange-400/10 text-white font-bold text-lg rounded-2xl border-2 border-white/20 hover:border-orange-400 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(251,146,60,0.6)] transform hover:scale-105 transition-all duration-300 min-w-[200px] overflow-hidden">
+              <Button onClick={() => openAuthModal('vendor', 'signup')} variant="outline" className="group relative px-8 py-6 bg-transparent hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-orange-400/10 text-white font-bold text-lg rounded-2xl border-2 border-white/20 hover:border-orange-400 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(251,146,60,0.6)] transform hover:scale-105 transition-all duration-300 min-w-[200px] overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-400/0 via-orange-400/10 to-orange-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                 <Store className="h-6 w-6 mr-3 relative z-10" />
                 <span className="relative z-10">Sell With Us</span>
