@@ -31,27 +31,27 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-xl border border-slate-600/30 shadow-2xl">
         <DialogHeader>
-          <DialogTitle>Add to Cart</DialogTitle>
+          <DialogTitle className="text-white font-display">Add to Cart</DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="flex gap-4">
             <img 
               src={product.images[0]} 
               alt={product.name}
-              className="w-20 h-20 rounded-lg object-cover"
+              className="w-20 h-20 rounded-xl object-cover ring-1 ring-slate-600/30"
             />
             <div className="flex-1">
-              <h3 className="font-medium">{product.name}</h3>
-              <p className="text-sm text-muted-foreground">₹{product.price} each</p>
-              <p className="text-sm text-muted-foreground">{product.stock} available</p>
+              <h3 className="font-medium text-white">{product.name}</h3>
+              <p className="text-sm text-slate-300">₹{product.price} each</p>
+              <p className="text-sm text-slate-400">{product.stock} available</p>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Quantity</label>
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-white">Quantity</label>
             <QuantitySelector
               max={product.stock}
               onQuantityChange={setSelectedQuantity}
@@ -59,19 +59,23 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
             />
           </div>
 
-          <div className="bg-muted/50 p-3 rounded-lg">
+          <div className="bg-slate-700/30 p-4 rounded-xl border border-slate-600/30">
             <div className="flex justify-between text-sm">
-              <span>Subtotal:</span>
-              <span className="font-medium">₹{(product.price * selectedQuantity).toFixed(2)}</span>
+              <span className="text-slate-300">Subtotal:</span>
+              <span className="font-medium text-white">₹{(product.price * selectedQuantity).toFixed(2)}</span>
             </div>
           </div>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        <DialogFooter className="gap-3">
+          <Button variant="outline" onClick={() => setOpen(false)} className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white">
             Cancel
           </Button>
-          <Button onClick={handleAddToCart} disabled={product.stock === 0}>
+          <Button 
+            onClick={handleAddToCart} 
+            disabled={product.stock === 0}
+            className="bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200"
+          >
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>

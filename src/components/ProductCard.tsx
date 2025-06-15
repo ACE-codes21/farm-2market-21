@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Star, ShoppingCart, Sparkles, MessageCircle, CreditCard, Phone } from 'lucide-react';
+import { Heart, Star, ShoppingCart, Sparkles, MessageCircle } from 'lucide-react';
 import { Product } from '@/types';
 import { FreshPickBadge } from './FreshPickBadge';
 import { ContactVendorDialog } from './ContactVendorDialog';
@@ -175,37 +175,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
               </Button>
             </AddToCartDialog>
-
-            {/* Contact & Payment Buttons */}
-            <div className="grid grid-cols-2 gap-2">
-              {/* Contact Vendor Button */}
-              {product.vendor && (
-                <ContactVendorDialog product={product}>
-                  <Button 
-                    variant="outline"
-                    className="flex items-center gap-1 text-xs py-1.5 rounded-lg border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-blue-500/50 hover:text-blue-400 transition-colors bg-slate-800/30"
-                    aria-label={`Contact vendor ${product.vendor.name}`}
-                  >
-                    <Phone className="h-3 w-3" aria-hidden="true" />
-                    Call
-                  </Button>
-                </ContactVendorDialog>
-              )}
-
-              {/* Pay via UPI Button */}
-              {product.vendor?.upiId && (
-                <ContactVendorDialog product={product}>
-                  <Button 
-                    variant="outline"
-                    className="flex items-center gap-1 text-xs py-1.5 rounded-lg border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-purple-500/50 hover:text-purple-400 transition-colors bg-slate-800/30"
-                    aria-label="Pay via UPI"
-                  >
-                    <CreditCard className="h-3 w-3" aria-hidden="true" />
-                    UPI
-                  </Button>
-                </ContactVendorDialog>
-              )}
-            </div>
           </div>
         </div>
       </CardContent>
