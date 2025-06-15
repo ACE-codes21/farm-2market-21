@@ -243,7 +243,7 @@ export const OrdersPage: React.FC = () => {
           {activeOrders.length > 0 ? <div className="grid gap-4">
               {activeOrders.map(order => <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />)}
             </div> : <div className="text-center py-16">
-              <div className="dark-glass-effect p-12 max-w-md mx-auto border border-slate-600/30 rounded-none">
+              <div className="dark-glass-effect p-12 max-w-md mx-auto border border-slate-600/30">
                 <Truck className="h-16 w-16 text-slate-500 mx-auto mb-4" />
                 <p className="text-2xl font-semibold text-white mb-3">No Active Orders</p>
                 <p className="text-slate-300">You don't have any active orders at the moment.</p>
@@ -255,7 +255,7 @@ export const OrdersPage: React.FC = () => {
           {orderHistory.length > 0 ? <div className="grid gap-4">
               {orderHistory.map(order => <OrderCard key={order.id} order={order} onTrackOrder={handleTrackOrder} />)}
             </div> : <div className="text-center py-16">
-              <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
+              <div className="dark-glass-effect p-12 max-w-md mx-auto border border-slate-600/30">
                 <Package className="h-16 w-16 text-slate-500 mx-auto mb-4" />
                 <p className="text-2xl font-semibold text-white mb-3">No Order History</p>
                 <p className="text-slate-300">Your completed orders will appear here.</p>
