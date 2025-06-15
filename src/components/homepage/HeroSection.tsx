@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart, Store } from 'lucide-react';
@@ -46,7 +47,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-12 justify-center items-center mb-16">
             <Button onClick={() => onOpenAuthModal('buyer', 'signup')} className="group relative px-10 py-7 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-black font-bold text-xl rounded-2xl border-2 border-green-400 shadow-[0_0_40px_rgba(34,197,94,0.6)] hover:shadow-[0_0_60px_rgba(34,197,94,0.9)] transform hover:scale-110 transition-all duration-300 min-w-[220px] overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
               <ShoppingCart className="h-6 w-6 mr-3 relative z-10" />
