@@ -14,6 +14,7 @@ import FinanceDashboard from "./pages/FinanceDashboard";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import ServicesDashboard from "./pages/ServicesDashboard";
 import NotificationsPage from "./pages/Notifications";
+import FloatingChatButton from "./components/chat/FloatingChatButton";
 import "./i18n";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <FloatingChatButton />
         </BrowserRouter>
       </TooltipProvider>
     </AppProvider>

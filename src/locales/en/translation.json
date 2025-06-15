@@ -1,37 +1,51 @@
-
 {
-  "nav_features": "Features",
-  "nav_about": "About",
-  "nav_contact": "Contact",
-  "nav_login": "Log In",
-  "fresh_pick_badge": {
-    "fresh_pick": "FRESH PICK",
-    "expired": "EXPIRED"
+  "nav": {
+    "nav_features": "Features",
+    "nav_about": "About",
+    "nav_contact": "Contact",
+    "nav_login": "Log In"
   },
-  "buyer_header": {
-    "farm": "Farm",
-    "tomarket": "2Market"
+  "auth_modal": {
+    "title": "Authentication",
+    "subtitle": "Please log in to continue",
+    "email": "Email",
+    "password": "Password",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "forgot_password": "Forgot Password",
+    "reset_password": "Reset Password",
+    "confirm_password": "Confirm Password",
+    "submit": "Submit",
+    "cancel": "Cancel"
   },
-  "add_to_cart_dialog": {
-    "title": "Add to Cart",
-    "each": "each",
-    "available": "available",
-    "quantity": "Quantity",
-    "subtotal": "Subtotal:",
-    "cancel": "Cancel",
-    "add_to_cart": "Add to Cart"
+  "signup_only_modal": {
+    "title": "Sign Up",
+    "subtitle": "Please sign up to continue",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "submit": "Submit",
+    "cancel": "Cancel"
   },
-  "buyer_dashboard": {
-    "welcome_banner": "🌿 Welcome to Farm2Market | Fresh from the Street"
-  },
-  "cta_section": {
-    "badge": "Ready to Transform Your Food Journey?",
-    "heading_1": "Start Your",
-    "heading_2": "Farm2Market",
-    "heading_3": "Journey Today",
-    "description": "Whether you're a vendor looking to reach more customers or a buyer seeking fresh, local produce, we're here to connect you with your community.",
-    "start_shopping": "Start Shopping",
-    "start_selling": "Start Selling"
+  "hero_section": {
+    "badge": "Connecting Local Communities Through Fresh Food",
+    "heading_1": "From",
+    "heading_farm": "Farm",
+    "heading_2": "to Your",
+    "heading_market": "Market",
+    "subheading_1": "Empowering",
+    "subheading_vendors": "vendors",
+    "subheading_2": ". Nourishing",
+    "subheading_neighbourhoods": "neighbourhoods",
+    "go_to_market": "Go to Market",
+    "go_to_dashboard": "Go to Dashboard",
+    "shop_now": "Shop Now",
+    "sell_with_us": "Sell with Us",
+    "stats": {
+      "farmers": "Local Farmers",
+      "customers": "Happy Customers",
+      "cities": "Cities Covered"
+    }
   },
   "features_section": {
     "heading": "Why Choose",
@@ -75,25 +89,14 @@
       "satisfaction": "Satisfaction Rate"
     }
   },
-  "hero_section": {
-    "badge": "Connecting Local Communities Through Fresh Food",
-    "heading_1": "From",
-    "heading_farm": "Farm",
-    "heading_2": "to Your",
-    "heading_market": "Market",
-    "subheading_1": "Empowering",
-    "subheading_vendors": "vendors",
-    "subheading_2": ". Nourishing",
-    "subheading_neighbourhoods": "neighbourhoods",
-    "go_to_market": "Go to Market",
-    "go_to_dashboard": "Go to Dashboard",
-    "shop_now": "Shop Now",
-    "sell_with_us": "Sell with Us",
-    "stats": {
-      "farmers": "Local Farmers",
-      "customers": "Happy Customers",
-      "cities": "Cities Covered"
-    }
+  "cta_section": {
+    "badge": "Ready to Transform Your Food Journey?",
+    "heading_1": "Start Your",
+    "heading_2": "Farm2Market",
+    "heading_3": "Journey Today",
+    "description": "Whether you're a vendor looking to reach more customers or a buyer seeking fresh, local produce, we're here to connect you with your community.",
+    "start_shopping": "Start Shopping",
+    "start_selling": "Start Selling"
   },
   "buy_now_dialog": {
     "quick_checkout": "Quick Checkout",
@@ -214,5 +217,12 @@
     "orders": "Orders",
     "revenue": "Revenue",
     "last_7_days": "{{change}} in last 7 days"
+  },
+  "ai_chat": {
+    "title": "AI Assistant",
+    "tooltip": "Chat with our AI Assistant",
+    "welcome_message": "Hello! How can I help you today?",
+    "mock_response": "Thanks for your question! I'm still in training and can't provide a full answer right now, but I'm learning fast. Please check back later!",
+    "placeholder": "Ask a question..."
   }
 }
