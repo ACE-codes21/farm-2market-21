@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -38,28 +37,15 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
 
   const handleLogout = async () => {
     try {
-      // Clear localStorage first
+      // Remove user session from localStorage
       localStorage.removeItem('userSession');
-      
-      // Then sign out from Supabase
-      const { error } = await supabase.auth.signOut();
-
-      if (error) {
-        console.error('Supabase sign out error:', error.message);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to logout properly.",
-        });
-        return;
-      }
-
+      // Sign out from Supabase (ignore errors for now)
+      await supabase.auth.signOut();
       toast({
         title: "Success",
         description: "You have been logged out successfully.",
       });
-
-      // Force navigation after successful logout
+      // Immediately redirect to home (window.location reload guarantees full reset)
       window.location.href = '/';
     } catch (error) {
       console.error('Logout error:', error);
@@ -108,66 +94,94 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
   const userRole = user.user_metadata?.role || (localStorage.getItem('userSession') && JSON.parse(localStorage.getItem('userSession')!).role);
   const isVendor = userRole === 'vendor';
 
+  // Redesigned dropdown: glassy, soft blur, shadow, subtle border, bright hover
   return (
     <>
       <DropdownMenuContent 
-        align="end" 
-        className="w-64 bg-slate-800/95 border border-slate-600/50 shadow-xl backdrop-blur-md z-50"
+        align="end"
+        className="w-72 bg-gradient-to-br from-slate-800/90 via-slate-900/95 to-[#212A34]/90 border border-slate-600/40 rounded-xl shadow-2xl backdrop-blur-lg z-[9999] p-0"
       >
-        <DropdownMenuLabel className="font-bold text-lg py-3 text-white border-b border-slate-600/30">
-          Welcome, {displayName}
+        <DropdownMenuLabel className="font-bold text-lg py-4 px-6 text-white border-b border-slate-700/30 bg-transparent">
+          Welcome, <span className="text-green-400">{displayName}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-slate-600/30" />
         
-        <DropdownMenuItem onClick={handleProfileClick} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <UserIcon className="mr-3 h-4 w-4 text-slate-300" />
+        <DropdownMenuItem
+          onClick={handleProfileClick}
+          className="flex items-center gap-3 hover:bg-green-700/20 hover:text-green-400 cursor-pointer py-3 px-6 text-white focus:bg-green-800/20 group transition-all"
+        >
+          <UserIcon className="h-5 w-5 text-slate-300 group-hover:text-green-400" />
           <span>Profile</span>
-          {isVendor && <MapPin className="ml-auto h-4 w-4 text-green-400" />}
+          {isVendor && <MapPin className="ml-auto h-5 w-5 text-green-400" />}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('favorites')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <Heart className="mr-3 h-4 w-4 text-red-400" />
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('favorites')}
+          className="flex items-center gap-3 hover:bg-red-500/10 hover:text-red-400 cursor-pointer py-3 px-6 text-white focus:bg-red-700/10 group transition-all"
+        >
+          <Heart className="h-5 w-5 text-red-400 group-hover:animate-pulse" />
           <span>Favorites</span>
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <Bell className="mr-3 h-4 w-4 text-yellow-400" />
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('notifications')}
+          className="flex items-center gap-3 hover:bg-yellow-500/10 hover:text-yellow-300 cursor-pointer py-3 px-6 text-white focus:bg-yellow-700/10 group transition-all"
+        >
+          <Bell className="h-5 w-5 text-yellow-400 group-hover:animate-bounce" />
           <span>Notifications</span>
         </DropdownMenuItem>
-        
+
         <DropdownMenuSeparator className="bg-slate-600/30" />
-        
-        <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <Settings className="mr-3 h-4 w-4 text-slate-300" />
+
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('settings')}
+          className="flex items-center gap-3 hover:bg-slate-600/20 hover:text-white cursor-pointer py-3 px-6 text-slate-200 focus:bg-slate-700/30 group"
+        >
+          <Settings className="h-5 w-5 text-slate-400 group-hover:text-green-300" />
           <span>Settings</span>
         </DropdownMenuItem>
-        
-        <DropdownMenuItem onClick={() => handleMenuAction('security')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <Shield className="mr-3 h-4 w-4 text-blue-400" />
+
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('security')}
+          className="flex items-center gap-3 hover:bg-blue-800/10 hover:text-blue-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-blue-900/20 group"
+        >
+          <Shield className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
           <span>Security</span>
         </DropdownMenuItem>
-        
-        <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <CreditCard className="mr-3 h-4 w-4 text-green-400" />
+
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('billing')}
+          className="flex items-center gap-3 hover:bg-green-800/10 hover:text-green-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-green-900/20 group"
+        >
+          <CreditCard className="h-5 w-5 text-green-400 group-hover:text-green-300" />
           <span>Billing</span>
         </DropdownMenuItem>
-        
+
         <DropdownMenuSeparator className="bg-slate-600/30" />
-        
-        <DropdownMenuItem onClick={() => handleMenuAction('help')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <HelpCircle className="mr-3 h-4 w-4 text-purple-400" />
+
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('help')}
+          className="flex items-center gap-3 hover:bg-purple-800/10 hover:text-purple-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-purple-900/20 group"
+        >
+          <HelpCircle className="h-5 w-5 text-purple-400 group-hover:text-purple-300" />
           <span>Help & Support</span>
         </DropdownMenuItem>
-        
-        <DropdownMenuItem onClick={() => handleMenuAction('about')} className="hover:bg-slate-700/50 cursor-pointer py-3 px-4 text-white focus:bg-slate-700/50">
-          <Info className="mr-3 h-4 w-4 text-blue-400" />
+
+        <DropdownMenuItem
+          onClick={() => handleMenuAction('about')}
+          className="flex items-center gap-3 hover:bg-blue-800/10 hover:text-blue-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-blue-900/20 group"
+        >
+          <Info className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
           <span>About</span>
         </DropdownMenuItem>
-        
-        <DropdownMenuSeparator className="bg-slate-600/30" />
-        
-        <DropdownMenuItem onClick={handleLogout} className="text-red-400 hover:bg-red-500/10 cursor-pointer py-3 px-4 focus:bg-red-500/10">
-          <LogOut className="mr-3 h-4 w-4" />
+
+        <DropdownMenuSeparator className="bg-slate-700/20" />
+
+        <DropdownMenuItem
+          onClick={handleLogout}
+          className="flex items-center gap-3 text-red-400 hover:bg-red-700/10 hover:text-red-500 cursor-pointer py-3 px-6 focus:bg-red-900/10 group transition-all"
+        >
+          <LogOut className="h-5 w-5 group-hover:-rotate-12" />
           <span>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -40,54 +40,53 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
   }, []);
 
   const handleLoginClick = () => {
-    // For login, we don't specify a role - user can login with any existing account
     onOpenAuthModal('buyer', 'login');
   };
 
   return (
     <header className="absolute top-0 left-0 right-0 z-20 p-6">
       <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <Link to="/">
+        {/* Logo + Nav Links (left) */}
+        <div className="flex items-center space-x-8">
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
             <h1 className="text-2xl font-bold text-white">
               <span className="text-green-400">Farm</span>2Market
             </h1>
           </Link>
+          {/* Nav Links */}
+          <div className="hidden md:flex items-center space-x-7">
+            <a href="#features" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+              {t('nav.nav_features')}
+            </a>
+            <a href="#about" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+              {t('nav.nav_about')}
+            </a>
+            <a href="#contact" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+              {t('nav.nav_contact')}
+            </a>
+          </div>
         </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
-            {t('nav.nav_features')}
-          </a>
-          <a href="#about" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
-            {t('nav.nav_about')}
-          </a>
-          <a href="#contact" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
-            {t('nav.nav_contact')}
-          </a>
-          
-          <div className="flex items-center space-x-4">
-            <LanguageSelector />
-            
-            {!isLoading && (
-              <>
-                {user ? (
-                  <UserMenu />
-                ) : (
-                  <Button
-                    onClick={handleLoginClick}
-                    variant="ghost"
-                    className="text-white hover:bg-white/10 flex items-center gap-2"
-                  >
-                    <LogIn className="h-4 w-4" />
-                    <span>{t('nav.nav_login')}</span>
-                  </Button>
-                )}
-              </>
-            )}
-          </div>
+        {/* Right Side controls */}
+        <div className="hidden md:flex items-center space-x-4">
+          <LanguageSelector />
+          {!isLoading && (
+            <>
+              {user ? (
+                <UserMenu />
+              ) : (
+                <Button
+                  onClick={handleLoginClick}
+                  variant="ghost"
+                  className="text-white hover:bg-white/10 flex items-center gap-2"
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span>{t('nav.nav_login')}</span>
+                </Button>
+              )}
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -98,23 +97,24 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
           {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu dropdown */}
         {isMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-black/90 backdrop-blur-md border-t border-white/10 md:hidden">
+          <div className="absolute top-full left-0 right-0 bg-black/90 backdrop-blur-md border-t border-white/10 md:hidden z-[9999]">
             <div className="p-6 space-y-4">
-              <a href="#features" className="block text-white/80 hover:text-white transition-colors">
-                {t('nav.nav_features')}
-              </a>
-              <a href="#about" className="block text-white/80 hover:text-white transition-colors">
-                {t('nav.nav_about')}
-              </a>
-              <a href="#contact" className="block text-white/80 hover:text-white transition-colors">
-                {t('nav.nav_contact')}
-              </a>
-              
-              <div className="pt-4 space-y-3 flex flex-col items-start">
+              {/* Move nav links to the top */}
+              <div className="flex flex-col gap-3 mb-4">
+                <a href="#features" className="block text-white/80 hover:text-white transition-colors">
+                  {t('nav.nav_features')}
+                </a>
+                <a href="#about" className="block text-white/80 hover:text-white transition-colors">
+                  {t('nav.nav_about')}
+                </a>
+                <a href="#contact" className="block text-white/80 hover:text-white transition-colors">
+                  {t('nav.nav_contact')}
+                </a>
+              </div>
+              <div className="pt-2 space-y-3 flex flex-col items-start">
                 <LanguageSelector />
-                
                 {!isLoading && (
                   <>
                     {user ? (
@@ -141,3 +141,4 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
 };
 
 export default NavigationHeader;
+
