@@ -1,22 +1,23 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Phone, MessageCircle, QrCode, Copy, ExternalLink, CreditCard } from 'lucide-react';
+import { Phone, MessageCircle, ExternalLink } from 'lucide-react';
 import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
+
 interface ContactVendorDialogProps {
   product: Product;
   children: React.ReactNode;
 }
+
 export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
   product,
   children
 }) => {
-  const [showQR, setShowQR] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleWhatsAppContact = () => {
     if (product.vendor?.phone) {
       const message = `Hi! I'm interested in ${product.name} from your Farm2Market listing. Price: ₹${product.price}`;
@@ -28,6 +29,7 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
       });
     }
   };
+
   const handlePhoneCall = () => {
     if (product.vendor?.phone) {
       window.location.href = `tel:${product.vendor.phone}`;
@@ -37,26 +39,9 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
       });
     }
   };
-  const copyUpiId = () => {
-    if (product.vendor?.upiId) {
-      navigator.clipboard.writeText(product.vendor.upiId);
-      toast({
-        title: "UPI ID Copied",
-        description: "UPI ID copied to clipboard. You can now paste it in your payment app."
-      });
-    }
-  };
-  const openUpiApp = () => {
-    if (product.vendor?.upiId) {
-      const upiUrl = `upi://pay?pa=${product.vendor.upiId}&pn=${encodeURIComponent(product.vendor.name || 'Vendor')}&am=${product.price}&cu=INR&tn=${encodeURIComponent(`Payment for ${product.name}`)}`;
-      window.location.href = upiUrl;
-      toast({
-        title: "Opening UPI App",
-        description: "Opening your default UPI payment app"
-      });
-    }
-  };
-  return <Dialog>
+
+  return (
+    <Dialog>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -75,12 +60,15 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
         </DialogHeader>
         
         <div className="space-y-6">
-          
           {/* Contact Options */}
           <div className="space-y-4">
             <h4 className="font-medium text-sm text-slate-300">Contact Options</h4>
             <div className="grid grid-cols-1 gap-3">
-              <Button variant="outline" onClick={handleWhatsAppContact} className="flex items-center gap-3 justify-start p-4 h-auto bg-green-500/10 border-green-500/30 hover:border-green-400 hover:bg-green-500/20 transition-colors text-white">
+              <Button 
+                variant="outline" 
+                onClick={handleWhatsAppContact} 
+                className="flex items-center gap-3 justify-start p-4 h-auto bg-green-500/10 border-green-500/30 hover:border-green-400 hover:bg-green-500/20 transition-colors text-white"
+              >
                 <MessageCircle className="h-5 w-5 text-green-400" />
                 <div className="text-left">
                   <div className="font-medium">WhatsApp</div>
@@ -89,7 +77,11 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
                 <ExternalLink className="h-4 w-4 ml-auto text-slate-400" />
               </Button>
               
-              <Button variant="outline" onClick={handlePhoneCall} className="flex items-center gap-3 justify-start p-4 h-auto bg-blue-500/10 border-blue-500/30 hover:border-blue-400 hover:bg-blue-500/20 transition-colors text-white">
+              <Button 
+                variant="outline" 
+                onClick={handlePhoneCall} 
+                className="flex items-center gap-3 justify-start p-4 h-auto bg-blue-500/10 border-blue-500/30 hover:border-blue-400 hover:bg-blue-500/20 transition-colors text-white"
+              >
                 <Phone className="h-5 w-5 text-blue-400" />
                 <div className="text-left">
                   <div className="font-medium">Call Vendor</div>
@@ -100,12 +92,12 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
             </div>
           </div>
 
-          {/* UPI Payment Section */}
-          {product.vendor?.upiId}
-
           {/* Helper Text */}
-          <div className="text-xs text-slate-400 bg-slate-700/30 p-3 rounded-lg border border-slate-600/30">💡 Tip: Respect their time, they're busy feeding the city.</div>
+          <div className="text-xs text-slate-400 bg-slate-700/30 p-3 rounded-lg border border-slate-600/30">
+            💡 Tip: Respect their time, they're busy feeding the city.
+          </div>
         </div>
       </DialogContent>
-    </Dialog>;
+    </Dialog>
+  );
 };
