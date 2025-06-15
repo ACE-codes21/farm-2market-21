@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Product } from '@/types';
@@ -23,7 +22,23 @@ export const useVendorProducts = () => {
         console.error('Error fetching vendor products:', error);
         throw error;
       }
-      return data.map((p: any) => ({ ...p, id: p.id, price: Number(p.price) }));
+      return data.map((p: any) => ({
+        id: p.id,
+        name: p.name,
+        price: Number(p.price),
+        rating: p.rating,
+        reviews: p.reviews,
+        images: p.images,
+        category: p.category,
+        stock: p.stock,
+        description: p.description,
+        vendor_id: p.vendor_id,
+        expiryDate: p.expiry_date,
+        restockReminder: p.restock_reminder,
+        barcode: p.barcode,
+        isFreshPick: p.is_fresh_pick,
+        freshPickExpiresAt: p.fresh_pick_expires_at,
+      }));
     },
     enabled: !!user,
   });
@@ -32,14 +47,20 @@ export const useVendorProducts = () => {
     mutationFn: async (newProduct: Omit<Product, 'id' | 'rating' | 'reviews'>) => {
       if (!user) throw new Error('User not authenticated');
       
-      const productData = { ...newProduct };
-      if ('vendor' in productData) {
-        delete (productData as any).vendor;
-      }
+      const { vendor, expiryDate, restockReminder, isFreshPick, freshPickExpiresAt, ...rest } = newProduct as any;
+
+      const productForDb = {
+        ...rest,
+        vendor_id: user.id,
+        expiry_date: expiryDate,
+        restock_reminder: restockReminder,
+        is_fresh_pick: isFreshPick,
+        fresh_pick_expires_at: freshPickExpiresAt,
+      };
 
       const { data, error } = await supabase
         .from('products')
-        .insert([{ ...productData, vendor_id: user.id }])
+        .insert([productForDb])
         .select();
 
       if (error) {
@@ -65,9 +86,17 @@ export const useVendorProducts = () => {
 
   const { mutate: editProduct } = useMutation({
     mutationFn: async ({ productId, updatedProduct }: { productId: string, updatedProduct: Partial<Product> }) => {
+      const { expiryDate, restockReminder, isFreshPick, freshPickExpiresAt, ...rest } = updatedProduct;
+
+      const updatedProductForDb: { [key: string]: any } = { ...rest };
+      if (expiryDate !== undefined) updatedProductForDb.expiry_date = expiryDate;
+      if (restockReminder !== undefined) updatedProductForDb.restock_reminder = restockReminder;
+      if (isFreshPick !== undefined) updatedProductForDb.is_fresh_pick = isFreshPick;
+      if (freshPickExpiresAt !== undefined) updatedProductForDb.fresh_pick_expires_at = freshPickExpiresAt;
+
       const { data, error } = await supabase
         .from('products')
-        .update(updatedProduct)
+        .update(updatedProductForDb)
         .eq('id', productId)
         .select();
       
