@@ -1,32 +1,31 @@
+
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+
 export const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, {
     once: true
   });
-  return <section ref={sectionRef} id="about-us" className="relative py-24 px-4 bg-gradient-to-b from-neutral-950/95 via-black/90 to-black">
+
+  return (
+    <section ref={sectionRef} id="about-us" className="relative py-24 px-4 bg-gradient-to-b from-neutral-950/95 via-black/90 to-black">
       <div className="max-w-4xl mx-auto text-center">
-        <motion.h2 className="text-4xl md:text-6xl font-bold text-white mb-7 gradient-text" initial={{
-        opacity: 0,
-        y: 40
-      }} animate={isInView ? {
-        opacity: 1,
-        y: 0
-      } : {}}>
+        <motion.h2 
+          className="text-4xl md:text-6xl font-bold text-white mb-7 gradient-text" 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+        >
           Our Mission
         </motion.h2>
-        <motion.p className="text-xl md:text-2xl text-gray-200 leading-relaxed mb-10" initial={{
-        opacity: 0,
-        y: 40
-      }} animate={isInView ? {
-        opacity: 1,
-        y: 0
-      } : {}} transition={{
-        delay: 0.3
-      }}>
+        <motion.p 
+          className="text-xl md:text-2xl text-gray-200 leading-relaxed mb-10" 
+          initial={{ opacity: 0, y: 40 }} 
+          animate={isInView ? { opacity: 1, y: 0 } : {}} 
+          transition={{ delay: 0.3 }}
+        >
           Farm2Market is built to <span className="text-green-300">empower street vendors</span>, connect communities, and make <span className="text-orange-400">fresh, local produce</span> accessible to everyone.<br />
-          Our vision centers around <span className="text-cyan-300">vendors and customers</span>, smart tools, and direct relationships between <span className="text-green-400">producers and consumers</span>.<br />
+          Our vision centers around <span className="text-cyan-300">vendors and customers</span>, smart tools, and online relationships between <span className="text-green-400">producers and consumers</span>.<br />
           We believe in technology for good—helping small businesses thrive and nourishing neighborhoods with wholesome food, optimism, and opportunity.
         </motion.p>
 
@@ -60,6 +59,8 @@ export const AboutUsSection: React.FC = () => {
           <div className="mx-auto border-t border-dashed mt-10 border-gray-700 w-2/3 opacity-40"></div>
         </motion.div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default AboutUsSection;
