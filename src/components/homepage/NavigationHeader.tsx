@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogIn } from 'lucide-react';
@@ -5,6 +6,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { UserMenu } from '@/components/UserMenu';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationHeaderProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -14,6 +16,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [user, setUser] = React.useState<any>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     // Get initial session
@@ -55,14 +58,14 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-white/80 hover:text-white transition-colors">
-            Features
+          <a href="#features" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            {t('nav_features')}
           </a>
-          <a href="#about" className="text-white/80 hover:text-white transition-colors">
-            About
+          <a href="#about" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            {t('nav_about')}
           </a>
-          <a href="#contact" className="text-white/80 hover:text-white transition-colors">
-            Contact
+          <a href="#contact" className="text-white/80 hover:text-white transition-colors nav-link-animated-underline">
+            {t('nav_contact')}
           </a>
           
           <div className="flex items-center space-x-4">
@@ -79,7 +82,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                     className="text-white hover:bg-white/10 flex items-center gap-2"
                   >
                     <LogIn className="h-4 w-4" />
-                    <span>Log In</span>
+                    <span>{t('nav_login')}</span>
                   </Button>
                 )}
               </>
@@ -100,13 +103,13 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
           <div className="absolute top-full left-0 right-0 bg-black/90 backdrop-blur-md border-t border-white/10 md:hidden">
             <div className="p-6 space-y-4">
               <a href="#features" className="block text-white/80 hover:text-white transition-colors">
-                Features
+                {t('nav_features')}
               </a>
               <a href="#about" className="block text-white/80 hover:text-white transition-colors">
-                About
+                {t('nav_about')}
               </a>
               <a href="#contact" className="block text-white/80 hover:text-white transition-colors">
-                Contact
+                {t('nav_contact')}
               </a>
               
               <div className="pt-4 space-y-3 flex flex-col items-start">
@@ -123,7 +126,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                         className="text-white hover:bg-white/10 flex items-center gap-2 p-0"
                       >
                         <LogIn className="h-4 w-4" />
-                        <span>Log In</span>
+                        <span>{t('nav_login')}</span>
                       </Button>
                     )}
                   </>

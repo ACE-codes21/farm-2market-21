@@ -8,9 +8,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const LanguageSelector: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = React.useState('English');
+  const { i18n } = useTranslation();
 
   const languages = [
     { code: 'en', name: 'English' },
@@ -19,10 +20,11 @@ export const LanguageSelector: React.FC = () => {
     { code: 'de', name: 'Deutsch' },
   ];
 
-  const handleLanguageChange = (language: string) => {
-    setSelectedLanguage(language);
-    console.log(`Language changed to: ${language}`);
+  const handleLanguageChange = (languageCode: string) => {
+    i18n.changeLanguage(languageCode);
   };
+
+  const currentLanguageName = languages.find(lang => i18n.language.startsWith(lang.code))?.name || 'English';
 
   return (
     <DropdownMenu>
@@ -32,7 +34,7 @@ export const LanguageSelector: React.FC = () => {
           className="text-white hover:bg-white/10 flex items-center gap-2"
         >
           <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline">{selectedLanguage}</span>
+          <span className="hidden sm:inline">{currentLanguageName}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
@@ -42,7 +44,7 @@ export const LanguageSelector: React.FC = () => {
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            onClick={() => handleLanguageChange(language.name)}
+            onClick={() => handleLanguageChange(language.code)}
             className="hover:bg-gray-100 cursor-pointer py-2 px-3"
           >
             {language.name}

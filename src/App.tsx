@@ -14,6 +14,7 @@ import FinanceDashboard from "./pages/FinanceDashboard";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import ServicesDashboard from "./pages/ServicesDashboard";
 import NotificationsPage from "./pages/Notifications";
+import "./i18n";
 
 const queryClient = new QueryClient();
 
