@@ -10,16 +10,49 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User, Settings, Shield, Info, LogOut } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserMenuProps {
   onLogout: () => void;
 }
 
 export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
-  const handleMenuAction = (action: string) => {
+  const { toast } = useToast();
+
+  const handleMenuAction = async (action: string) => {
     switch (action) {
       case 'logout':
-        onLogout();
+        try {
+          console.log('Logging out user...');
+          const { error } = await supabase.auth.signOut();
+          
+          if (error) {
+            console.error('Logout error:', error);
+            toast({
+              variant: "destructive",
+              title: "Logout Failed",
+              description: error.message,
+            });
+          } else {
+            console.log('User logged out successfully');
+            // Clear any local storage data
+            localStorage.removeItem('userSession');
+            toast({
+              title: "Logged Out",
+              description: "You have been successfully logged out.",
+            });
+            // Call the onLogout callback
+            onLogout();
+          }
+        } catch (error) {
+          console.error('Unexpected logout error:', error);
+          toast({
+            variant: "destructive",
+            title: "Logout Failed",
+            description: "An unexpected error occurred during logout.",
+          });
+        }
         break;
       case 'profile':
         console.log('Opening profile section');
