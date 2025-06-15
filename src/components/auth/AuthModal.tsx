@@ -156,37 +156,23 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
-        <div className="relative">
-          {/* Dark gradient background matching landing page */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl"></div>
+        <div className="relative animate-fade-in">
+          {/* Frosted glass background with cinematic glow */}
+          <div className="absolute inset-0 backdrop-blur-md bg-black/50 rounded-2xl ring-1 ring-white/10 shadow-[0_0_50px_rgba(34,197,94,0.3),0_0_100px_rgba(34,197,94,0.1)] before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/5 before:to-transparent"></div>
           
-          {/* Subtle animated elements */}
-          <div className="absolute inset-0 overflow-hidden rounded-2xl">
-            <div className="absolute top-2 left-2 text-green-400/5 text-sm animate-bounce" style={{animationDelay: '0s'}}>🥕</div>
-            <div className="absolute top-3 right-3 text-orange-400/5 text-sm animate-bounce" style={{animationDelay: '1s'}}>🍅</div>
-            <div className="absolute bottom-3 right-2 text-red-400/5 text-sm animate-bounce" style={{animationDelay: '0.5s'}}>🍎</div>
-            
-            {/* Grid dots pattern */}
-            <div className="absolute inset-0 opacity-3 rounded-2xl">
-              <div className="w-full h-full" style={{
-                backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
-                backgroundSize: '20px 20px'
-              }}></div>
-            </div>
-          </div>
-          
-          {/* Subtle glow effect */}
-          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-green-500/5 rounded-full blur-xl"></div>
+          {/* Subtle glow effects */}
+          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-green-500/10 rounded-full blur-xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-white/5 rounded-full blur-lg"></div>
 
-          {/* Close button */}
+          {/* Close button with smooth transitions */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-green-400/20 text-green-400/60 hover:text-green-400 hover:bg-black/50 transition-all duration-300"
+            className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 text-white/60 hover:text-white hover:bg-black/40 hover:border-white/20 transition-all duration-300 hover:scale-110"
           >
             <X className="h-3 w-3" />
           </button>
 
-          {/* Main content */}
+          {/* Main content with consistent typography */}
           <div className="relative z-10 p-6">
             {/* Hidden title and description for accessibility */}
             <DialogTitle className="sr-only">
@@ -197,25 +183,25 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
             </DialogDescription>
 
             <div className="text-center space-y-3 mb-6">
-              <div className="mx-auto w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.3)] animate-fade-in">
-                <span className="text-lg font-bold text-black">F2M</span>
+              <div className="mx-auto w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] animate-fade-in hover:scale-105 transition-transform duration-300">
+                <span className="text-lg font-bold text-black font-display">F2M</span>
               </div>
-              <h2 className="text-xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] animate-fade-in" style={{animationDelay: '0.1s'}}>
+              <h2 className="text-xl font-bold text-white font-display drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] animate-fade-in" style={{animationDelay: '0.1s'}}>
                 {role ? `${getRoleTitle()} Portal` : 'Welcome'}
               </h2>
             </div>
 
             <Tabs defaultValue={defaultMode} className="space-y-4">
-              <TabsList className="grid w-full grid-cols-2 bg-black/40 border border-green-400/20 animate-fade-in" style={{animationDelay: '0.2s'}}>
+              <TabsList className="grid w-full grid-cols-2 bg-black/30 backdrop-blur-sm border border-white/10 animate-fade-in" style={{animationDelay: '0.2s'}}>
                 <TabsTrigger 
                   value="login" 
-                  className="text-sm font-medium text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300"
+                  className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans"
                 >
                   Login
                 </TabsTrigger>
                 <TabsTrigger 
                   value="signup" 
-                  className="text-sm font-medium text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300"
+                  className="text-sm font-medium text-white/70 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300 hover:text-white font-sans"
                 >
                   Sign Up
                 </TabsTrigger>
@@ -224,7 +210,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
               {error && (
                 <Alert variant="destructive" className="bg-red-900/20 border-red-500/50 backdrop-blur-sm animate-fade-in">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertDescription className="text-red-200 text-sm">{error}</AlertDescription>
+                  <AlertDescription className="text-red-200 text-sm font-sans">{error}</AlertDescription>
                 </Alert>
               )}
 

@@ -17,10 +17,10 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({
     <div className="space-y-3">
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-green-400/20" />
+          <span className="w-full border-t border-white/20" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-black/40 px-2 text-gray-400 font-medium">Or continue with</span>
+          <span className="bg-black/40 backdrop-blur-sm px-2 text-white/60 font-medium font-sans">Or continue with</span>
         </div>
       </div>
 
@@ -29,7 +29,7 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({
           variant="outline"
           onClick={onGoogleLogin}
           disabled={isLoading}
-          className="w-full bg-black/30 border border-green-400/30 text-white hover:bg-black/50 hover:border-green-400 h-9 transition-all duration-300 shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] text-xs"
+          className="w-full bg-black/20 backdrop-blur-sm border border-white/20 text-white hover:bg-black/30 hover:border-white/30 h-9 transition-all duration-300 shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] text-xs font-sans hover:scale-105"
         >
           <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -44,7 +44,7 @@ const SocialLoginButtons: React.FC<SocialLoginButtonsProps> = ({
           variant="outline"
           onClick={onFacebookLogin}
           disabled={isLoading}
-          className="w-full bg-black/30 border border-green-400/30 text-white hover:bg-black/50 hover:border-green-400 h-9 transition-all duration-300 shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] text-xs"
+          className="w-full bg-black/20 backdrop-blur-sm border border-white/20 text-white hover:bg-black/30 hover:border-white/30 h-9 transition-all duration-300 shadow-[0_0_15px_rgba(34,197,94,0.1)] hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] text-xs font-sans hover:scale-105"
         >
           <svg className="w-4 h-4 mr-1" fill="#1877F2" viewBox="0 0 24 24">
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
