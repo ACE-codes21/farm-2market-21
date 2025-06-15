@@ -28,11 +28,18 @@ export interface CartItem extends Product {
 }
 
 export interface Order {
-  id: number;
-  items: CartItem[];
-  total: number;
-  date: string;
-  status: 'pending' | 'confirmed' | 'delivered';
+  id: string; // uuid
+  created_at: string;
+  status: 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+  total_amount: number;
+  order_items: {
+    quantity: number;
+    price: number;
+    products: {
+      name: string;
+      images: string[] | null;
+    } | null;
+  }[];
 }
 
 export interface VendorStats {

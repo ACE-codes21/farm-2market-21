@@ -9,7 +9,7 @@ export const useCheckout = () => {
 
   const checkoutMutation = useMutation({
     mutationFn: async (items: { id: string; quantity: number }[]) => {
-      const { error } = await supabase.rpc('decrement_product_stock', {
+      const { data, error } = await supabase.rpc('create_order_and_decrement_stock', {
         items_to_buy: items,
       });
 
@@ -30,10 +30,12 @@ export const useCheckout = () => {
         });
         throw new Error(error.message);
       }
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['vendor-products'] });
+      queryClient.invalidateQueries({ queryKey: ['vendor-orders'] });
     },
   });
 

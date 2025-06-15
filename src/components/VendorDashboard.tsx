@@ -31,10 +31,10 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   const { toast } = useToast();
 
   const stats: VendorStats = {
-    totalSales: orders.reduce((sum, order) => sum + order.total, 0),
+    totalSales: orders.reduce((sum, order) => sum + order.total_amount, 0),
     totalProducts: products.length,
     totalOrders: orders.length,
-    totalRevenue: orders.reduce((sum, order) => sum + order.total, 0)
+    totalRevenue: orders.reduce((sum, order) => sum + order.total_amount, 0)
   };
 
   const handleEditProductClick = (product: Product) => {

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { CartSheet } from '@/components/CartSheet';
 import { WishlistSheet } from '@/components/WishlistSheet';
@@ -13,10 +12,9 @@ import { Sparkles } from 'lucide-react';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
-  onPurchase: (items: CartItem[]) => void;
 }
 
-const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchase }) => {
+const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
@@ -56,7 +54,6 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
   }
 
   const handleCheckout = async () => {
-    onPurchase(cart);
     await clearCart();
   };
 

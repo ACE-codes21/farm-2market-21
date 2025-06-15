@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import VendorDashboard from '@/components/VendorDashboard';
-import { useAppContext } from '@/contexts/AppContext';
 import { useVendorProducts } from '@/hooks/useVendorProducts';
+import { useVendorOrders } from '@/hooks/useVendorOrders';
 
 const VendorPortal = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState<'vendor' | 'buyer' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { orders } = useAppContext();
+  const { data: orders, isLoading: isLoadingOrders } = useVendorOrders();
   const { 
     products, 
     isLoadingProducts, 
@@ -99,7 +99,7 @@ const VendorPortal = () => {
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  if (isLoading || isLoadingProducts) {
+  if (isLoading || isLoadingProducts || isLoadingOrders) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -116,7 +116,7 @@ const VendorPortal = () => {
     return (
       <VendorDashboard 
         products={products}
-        orders={orders}
+        orders={orders || []}
         onAddProduct={addProduct}
         onEditProduct={editProduct}
         onDeleteProduct={deleteProduct}

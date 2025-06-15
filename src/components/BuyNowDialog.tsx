@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -13,13 +12,11 @@ import { useCheckout } from '@/hooks/useCheckout';
 
 interface BuyNowDialogProps {
   product: Product;
-  onPurchase: (quantity: number, couponCode?: string, paymentMethod?: string) => void;
   children: React.ReactNode;
 }
 
 export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ 
   product, 
-  onPurchase, 
   children 
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -79,7 +76,6 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
       // Simulate payment processing
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      onPurchase(selectedQuantity, appliedCoupon?.code, selectedPaymentMethod);
       setOrderPlaced(true);
       
       // Reset after showing success
