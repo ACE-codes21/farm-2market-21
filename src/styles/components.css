@@ -1,0 +1,17 @@
+
+/* Farm2Market specific utilities */
+.farm-gradient {
+  @apply bg-gradient-to-br from-green-50 via-orange-50 to-yellow-50;
+}
+
+.vendor-gradient {
+  @apply bg-gradient-to-r from-green-600 to-green-700;
+}
+
+.buyer-gradient {
+  @apply bg-gradient-to-r from-orange-500 to-orange-600;
+}
+
+.market-gradient {
+  @apply bg-gradient-to-r from-yellow-500 to-yellow-600;
+}
