@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -26,55 +27,16 @@ const AuthModal: React.FC<AuthModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Check if user is already logged in
-  useEffect(() => {
-    const checkAuth = async () => {
-      const {
-        data: {
-          session
-        }
-      } = await supabase.auth.getSession();
-      if (session) {
-        onClose();
-      }
-    };
-    if (isOpen) {
-      checkAuth();
-    }
-  }, [isOpen, onClose]);
-
-  // Helper to get intended role for UI text
   const getRoleTitle = () => {
     if (role === 'vendor') return 'Vendor';
     if (role === 'buyer') return 'Buyer';
     return 'User';
   };
 
-  // Helper: fetch user role from profiles table by email
-  const fetchUserRole = async (email: string): Promise<'vendor' | 'buyer' | null> => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('email', email)
-      .maybeSingle();
-
-    if (error || !data) return null;
-    return data.role === 'vendor' ? 'vendor' : 'buyer';
-  };
-
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     setError('');
     try {
-      // Get user's account role from profiles before login (to block mismatches early)
-      const userRole = await fetchUserRole(email);
-
-      if (userRole && role && userRole !== role) {
-        setError(`This account is registered as a ${userRole}. You cannot log in as a ${role}.`);
-        setIsLoading(false);
-        return;
-      }
-
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -82,15 +44,9 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       if (loginError) throw loginError;
 
-      // Save intended userSession to localStorage
-      if (role) {
-        const userSession = { email, role, isAuthenticated: true };
-        localStorage.setItem('userSession', JSON.stringify(userSession));
-      }
-
       toast({
         title: "Welcome back!",
-        description: "You've successfully logged in."
+        description: `You've successfully logged in as a ${getRoleTitle().toLowerCase()}.`
       });
       onClose();
     } catch (error: any) {
@@ -109,12 +65,11 @@ const AuthModal: React.FC<AuthModalProps> = ({
     setIsLoading(true);
     setError('');
     try {
-      // Actually save to user_metadata and profiles.role
       const { error: signupError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
             role
@@ -124,15 +79,9 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       if (signupError) throw signupError;
 
-      // Save role-local session
-      if (role) {
-        const userSession = { email, role, isAuthenticated: true };
-        localStorage.setItem('userSession', JSON.stringify(userSession));
-      }
-
       toast({
         title: "Account created!",
-        description: "Please check your email to verify your account."
+        description: `Welcome to Farm2Market! You've signed up as a ${getRoleTitle().toLowerCase()}.`
       });
       onClose();
     } catch (error: any) {
@@ -151,12 +100,10 @@ const AuthModal: React.FC<AuthModalProps> = ({
     setIsLoading(true);
     setError('');
     try {
-      // Social login intent stores intended role as query param only, can't enforce fully, but let's try
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
-          queryParams: role ? { role } : undefined
+          redirectTo: `${window.location.origin}/`
         }
       });
       if (error) throw error;
@@ -197,8 +144,17 @@ const AuthModal: React.FC<AuthModalProps> = ({
               {role ? `${getRoleTitle()} Authentication` : 'Welcome to Farm2Market'}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              {role ? `Continue as a ${getRoleTitle().toLowerCase()} to access your dashboard` : 'Connect with local vendors and buyers in your community'}
+              {role ? `Continue as a ${getRoleTitle().toLowerCase()}` : 'Connect with local vendors and buyers in your community'}
             </DialogDescription>
+
+            {/* Role indicator */}
+            {role && (
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-green-400/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm">
+                  {getRoleTitle()} Registration
+                </div>
+              </div>
+            )}
 
             <Tabs defaultValue={defaultMode} className="space-y-6">
               {/* Enhanced tabs with better emphasis */}

@@ -40,7 +40,7 @@ const Homepage: React.FC = () => {
       {/* Hero Section with Background */}
       <div className="relative min-h-screen">
         <HeroBackground />
-        <NavigationHeader />
+        <NavigationHeader onOpenAuthModal={openAuthModal} />
         <HeroSection />
       </div>
 
