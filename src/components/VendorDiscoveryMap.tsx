@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, Clock, Navigation, Filter } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { VendorProductsPage } from './VendorProductsPage';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+
 interface Vendor {
   id: string;
   name: string;
@@ -19,6 +23,7 @@ interface Vendor {
   isOnline: boolean;
   estimatedDelivery: string;
 }
+
 const mockVendors: Vendor[] = [{
   id: '1',
   name: 'Rajesh Kumar Farm',
@@ -85,15 +90,51 @@ const mockVendors: Vendor[] = [{
   isOnline: true,
   estimatedDelivery: '12-18 min'
 }];
+
 export const VendorDiscoveryMap: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [maxDistance, setMaxDistance] = useState('5');
   const [selectedVendor, setSelectedVendor] = useState<string | null>(null);
-  const filteredVendors = mockVendors.filter(vendor => {
+
+  const { data: realVendors = [] } = useQuery({
+    queryKey: ['vendors'],
+    queryFn: async (): Promise<Vendor[]> => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .eq('role', 'vendor');
+
+      if (error) {
+        console.error('Error fetching vendors:', error);
+        return [];
+      }
+
+      return data.map(profile => ({
+        id: profile.id,
+        name: profile.full_name || 'Unnamed Vendor',
+        category: 'Fresh Produce',
+        distance: parseFloat((Math.random() * 5 + 0.5).toFixed(1)),
+        rating: parseFloat((4.0 + Math.random()).toFixed(1)),
+        freshness: 'Fresh',
+        location: { lat: 28.6139, lng: 77.2090 },
+        isOnline: true,
+        estimatedDelivery: `${Math.floor(Math.random() * 10) + 15}-${Math.floor(Math.random() * 10) + 25} min`,
+      }));
+    }
+  });
+
+  const allVendors = useMemo(() => {
+    const mockVendorNames = new Set(mockVendors.map(v => v.name));
+    const uniqueRealVendors = realVendors.filter(v => v.name && !mockVendorNames.has(v.name));
+    return [...mockVendors, ...uniqueRealVendors];
+  }, [realVendors]);
+
+  const filteredVendors = allVendors.filter(vendor => {
     const categoryMatch = selectedCategory === 'all' || vendor.category.toLowerCase().includes(selectedCategory);
     const distanceMatch = vendor.distance <= parseFloat(maxDistance);
     return categoryMatch && distanceMatch;
   });
+
   const getFreshnessColor = (freshness: string) => {
     switch (freshness) {
       case 'Ultra Fresh':
