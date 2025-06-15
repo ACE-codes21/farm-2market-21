@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import VendorDashboard from '@/components/VendorDashboard';
 import { useVendorProducts } from '@/hooks/useVendorProducts';
 import { useVendorOrders } from '@/hooks/useVendorOrders';
+import { VendorDashboardSkeleton } from '@/components/vendor/VendorDashboardSkeleton';
 
 const VendorPortal = () => {
   const navigate = useNavigate();
@@ -100,14 +100,7 @@ const VendorPortal = () => {
   }, [navigate]);
 
   if (isLoading || isLoadingProducts || isLoadingOrders) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Vendor Portal...</p>
-        </div>
-      </div>
-    );
+    return <VendorDashboardSkeleton />;
   }
 
   console.log('Rendering vendor portal with role:', userRole);
