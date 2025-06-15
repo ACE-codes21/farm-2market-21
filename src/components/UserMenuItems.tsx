@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -32,34 +31,22 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to logout. Please try again.",
-          variant: "destructive",
-        });
-        return;
-      }
+    const { error } = await supabase.auth.signOut();
 
-      localStorage.removeItem('userSession');
-      
-      toast({
-        title: "Success",
-        description: "You have been logged out successfully.",
-      });
-
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        title: "Error",
-        description: "An unexpected error occurred during logout.",
-        variant: "destructive",
-      });
+    if (error) {
+      // Log the error for debugging but don't show a disruptive toast.
+      // The session might already be invalid, which is fine for the user's goal of logging out.
+      console.error('Supabase sign out error:', error.message);
     }
+
+    localStorage.removeItem('userSession');
+    
+    toast({
+      title: "Success",
+      description: "You have been logged out successfully.",
+    });
+
+    navigate('/');
   };
 
   const handleMenuAction = (action: string) => {
