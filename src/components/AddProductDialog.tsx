@@ -89,28 +89,30 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="name">Product Name</Label>
-            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
+            <Label htmlFor="name" className="text-slate-300">Product Name</Label>
+            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="price">Price (₹)</Label>
-              <Input id="price" type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required />
+              <Label htmlFor="price" className="text-slate-300">Price (₹)</Label>
+              <Input id="price" type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
             <div>
-              <Label htmlFor="stock">Stock Quantity</Label>
-              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required />
+              <Label htmlFor="stock" className="text-slate-300">Stock Quantity</Label>
+              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category" className="text-slate-300">Category</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
-              <SelectContent>
+              <SelectTrigger className="w-full bg-slate-900/50 border-slate-700 text-white focus:ring-green-500">
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent className="bg-slate-800 border-slate-700 text-white">
                 {categories.map((category) => (
-                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                  <SelectItem key={category} value={category} className="cursor-pointer data-[highlighted]:bg-slate-700">{category}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -118,18 +120,18 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Label htmlFor="expiryDate" className="text-slate-300">Expiry Date</Label>
               <DatePicker date={expiryDate} setDate={setExpiryDate} />
             </div>
             <div>
-              <Label htmlFor="barcode">Barcode (Optional)</Label>
-              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} />
+              <Label htmlFor="barcode" className="text-slate-300">Barcode (Optional)</Label>
+              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description">Description</Label>
-            <Textarea id="description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe your product..." rows={3} />
+            <Label htmlFor="description" className="text-slate-300">Description</Label>
+            <Textarea id="description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe your product..." rows={3} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
