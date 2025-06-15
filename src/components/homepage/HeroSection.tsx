@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart, Store } from 'lucide-react';
@@ -82,4 +81,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
     </section>;
 };
+
 export default HeroSection;
