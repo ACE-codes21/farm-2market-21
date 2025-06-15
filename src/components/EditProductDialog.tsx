@@ -9,6 +9,9 @@ import { categories } from '@/data/market';
 import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { DatePicker } from '@/components/ui/DatePicker';
+import { ImageUploader } from './ImageUploader';
+import { supabase } from '@/integrations/supabase/client';
+import { useUserSession } from '@/hooks/useUserSession';
 
 interface EditProductDialogProps {
   isOpen: boolean;
@@ -28,10 +31,12 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
     price: '',
     stock: '',
     category: '',
-    images: [''],
     barcode: '',
   });
   const [expiryDate, setExpiryDate] = useState<Date | undefined>();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const user = useUserSession();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -41,14 +46,14 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
         price: product.price.toString(),
         stock: product.stock.toString(),
         category: product.category,
-        images: product.images,
         barcode: product.barcode || '',
       });
       setExpiryDate(product.expiryDate ? new Date(product.expiryDate) : undefined);
+      setImageFile(null);
     }
   }, [product]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!product || !formData.name || !formData.price || !formData.stock || !formData.category) {
@@ -60,22 +65,63 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
       return;
     }
 
-    onEditProduct({
-      name: formData.name,
-      price: parseFloat(formData.price),
-      stock: parseInt(formData.stock),
-      category: formData.category,
-      images: formData.images.filter(img => img.trim() !== ''),
-      expiryDate: expiryDate?.toISOString(),
-      barcode: formData.barcode,
-    });
+    setIsSubmitting(true);
 
-    toast({
-      title: "Product Updated",
-      description: "Product has been successfully updated.",
-    });
+    try {
+      let imageUrls = product?.images || [];
+      if (imageFile) {
+        if (!user) {
+          toast({ title: "Authentication Error", description: "You must be logged in to update an image.", variant: "destructive" });
+          setIsSubmitting(false);
+          return;
+        }
 
-    onOpenChange(false);
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+        const filePath = `${user.id}/${fileName}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('product-images')
+          .upload(filePath, imageFile);
+          
+        if (uploadError) throw uploadError;
+        
+        const { data: urlData } = supabase.storage
+          .from('product-images')
+          .getPublicUrl(filePath);
+          
+        if (urlData.publicUrl) {
+          imageUrls = [urlData.publicUrl];
+        } else {
+          throw new Error("Could not get public URL for the image.");
+        }
+      }
+
+      onEditProduct({
+        name: formData.name,
+        price: parseFloat(formData.price),
+        stock: parseInt(formData.stock),
+        category: formData.category,
+        images: imageUrls,
+        expiryDate: expiryDate?.toISOString(),
+        barcode: formData.barcode,
+      });
+
+      toast({
+        title: "Product Updated",
+        description: "Product has been successfully updated.",
+      });
+
+      onOpenChange(false);
+    } catch (error: any) {
+      toast({
+        title: "Error updating product",
+        description: error.message || "There was a problem updating your product.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,6 +131,11 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <ImageUploader 
+            onFileSelect={setImageFile} 
+            reset={!isOpen}
+            initialPreviewUrl={product?.images?.[0]} 
+          />
           <div>
             <Label htmlFor="name">Product Name *</Label>
             <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
@@ -127,11 +178,11 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" className="btn-hover-glow">
-              Update Product
+            <Button type="submit" className="btn-hover-glow" disabled={isSubmitting}>
+              {isSubmitting ? 'Updating...' : 'Update Product'}
             </Button>
           </div>
         </form>

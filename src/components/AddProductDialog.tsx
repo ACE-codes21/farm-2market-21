@@ -182,7 +182,7 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="secondary" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button type="submit" className="bg-green-600 hover:bg-green-700 btn-hover-glow" disabled={isSubmitting}>

@@ -9,16 +9,23 @@ interface ImageUploaderProps {
   onFileSelect: (file: File | null) => void;
   className?: string;
   reset?: boolean;
+  initialPreviewUrl?: string | null;
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect, className = '', reset }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect, className = '', reset, initialPreviewUrl }) => {
+  const [preview, setPreview] = useState<string | null>(initialPreviewUrl || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (initialPreviewUrl && (!fileInputRef.current || !fileInputRef.current.files || fileInputRef.current.files.length === 0)) {
+      setPreview(initialPreviewUrl);
+    }
+  }, [initialPreviewUrl]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
-      if (preview) {
+      if (preview && preview.startsWith('blob:')) {
         URL.revokeObjectURL(preview);
       }
       onFileSelect(selectedFile);
@@ -26,19 +33,19 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect, clas
       setPreview(previewUrl);
     } else {
       onFileSelect(null);
-      if (preview) {
+      if (preview && preview.startsWith('blob:')) {
         URL.revokeObjectURL(preview);
       }
-      setPreview(null);
+      setPreview(initialPreviewUrl || null);
     }
   };
 
   const removeImage = () => {
     onFileSelect(null);
-    if (preview) {
+    if (preview && preview.startsWith('blob:')) {
       URL.revokeObjectURL(preview);
     }
-    setPreview(null);
+    setPreview(initialPreviewUrl || null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -46,7 +53,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onFileSelect, clas
 
   useEffect(() => {
     if (reset) {
-      removeImage();
+      if (preview && preview.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
+      setPreview(null);
+      if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+      }
     }
   }, [reset]);
 
