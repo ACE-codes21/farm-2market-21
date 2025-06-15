@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Inter and Poppins - clean, modern fonts similar to the screenshot */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+/* Import Nunito Sans - a rounded, friendly Google font */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
 
 /* Modern design system with earthy Farm2Market colors */
 
@@ -77,7 +77,7 @@
       hsl(var(--secondary)/0.5) 50%, 
       hsl(var(--accent)/0.2) 100%);
     min-height: 100vh;
-    font-family: 'Inter', 'system-ui', sans-serif;
+    font-family: 'Nunito Sans', 'Inter', sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
