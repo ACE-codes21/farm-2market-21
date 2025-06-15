@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { VendorDashboardHeader } from '@/components/vendor/VendorDashboardHeader';
 import ReviewInsights from '@/components/notifications/ReviewInsights';
@@ -7,24 +6,55 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import BuyerReviewCard from '@/components/notifications/BuyerReviewCard';
-import { buyerReviews as initialBuyerReviews, emergencyAlerts as initialEmergencyAlerts, systemNotifications as initialSystemUpdates } from '@/data/notifications';
+import { BuyerReview, EmergencyAlert, SystemNotification } from '@/data/notifications';
 import SystemUpdates from '@/components/notifications/SystemUpdates';
 import { Star, AlertTriangle, Bell } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { getUnreadNotifications, markAllAsRead, markAsRead } from '@/lib/notificationManager';
 
 const NotificationsPage = () => {
     const { toast } = useToast();
 
-    const [reviews, setReviews] = useState(initialBuyerReviews);
-    const [alerts, setAlerts] = useState(initialEmergencyAlerts);
-    const [updates, setUpdates] = useState(initialSystemUpdates);
+    const [reviews, setReviews] = useState<BuyerReview[]>([]);
+    const [alerts, setAlerts] = useState<EmergencyAlert[]>([]);
+    const [updates, setUpdates] = useState<SystemNotification[]>([]);
+
+    useEffect(() => {
+        const { reviews, alerts, updates } = getUnreadNotifications();
+        setReviews(reviews);
+        setAlerts(alerts);
+        setUpdates(updates);
+    }, []);
 
     useEffect(() => {
         const totalCount = reviews.length + alerts.length + updates.length;
         window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: totalCount } }));
     }, [reviews, alerts, updates]);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const newReview: BuyerReview = {
+                id: `review-${Date.now()}`,
+                buyerName: "Random User",
+                buyerTag: "First-time Buyer",
+                productName: "Magic Beans",
+                productImage: "/placeholder.svg",
+                rating: 5,
+                feedback: "This is a randomly generated notification to show real-time updates!",
+                timestamp: "Just now",
+            };
+            setReviews(currentReviews => [newReview, ...currentReviews]);
+            toast({
+                title: "New Review Received!",
+                description: "You have a new review from a customer.",
+            });
+        }, Math.random() * 5000 + 7000); // 7-12 seconds
+
+        return () => clearTimeout(timer);
+    }, [toast]);
+
     const handleMarkAllAsRead = () => {
+        markAllAsRead();
         setReviews([]);
         setAlerts([]);
         setUpdates([]);
@@ -35,6 +65,7 @@ const NotificationsPage = () => {
     };
 
     const handleReply = (reviewId: string) => {
+        markAsRead(reviewId);
         setReviews(currentReviews => currentReviews.filter(r => r.id !== reviewId));
     };
 

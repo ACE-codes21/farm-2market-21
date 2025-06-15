@@ -28,11 +28,14 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   const [isAddProductDialogOpen, setAddProductDialogOpen] = useState(false);
   const { toast } = useToast();
 
+  const maintenanceCost = 2000;
+  const totalSales = orders.reduce((sum, order) => sum + order.total_amount, 0);
+
   const stats: VendorStats = {
-    totalSales: orders.reduce((sum, order) => sum + order.total_amount, 0),
+    totalSales: totalSales,
     totalProducts: products.length,
     totalOrders: orders.length,
-    totalRevenue: orders.reduce((sum, order) => sum + order.total_amount, 0)
+    totalRevenue: totalSales - maintenanceCost
   };
 
   const handleEditProductClick = (product: Product) => {

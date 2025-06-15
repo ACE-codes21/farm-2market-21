@@ -1,20 +1,19 @@
-
 import React, { useState, useEffect } from 'react';
 import { UserMenu } from '../UserMenu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import { buyerReviews, emergencyAlerts, systemNotifications } from '@/data/notifications';
+import { getUnreadNotifications } from '@/lib/notificationManager';
 
 interface VendorDashboardHeaderProps {
   // onRoleChange is no longer passed as it's handled in UserMenuItems
 }
 export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () => {
-  const [notificationCount, setNotificationCount] = useState(
-    buyerReviews.length + emergencyAlerts.length + systemNotifications.length
-  );
+  const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
+    setNotificationCount(getUnreadNotifications().count);
+
     const handleNotificationsUpdate = (event: CustomEvent) => {
       if (typeof event.detail.count === 'number') {
         setNotificationCount(event.detail.count);
@@ -64,7 +63,7 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
                   <Link to="/vendor/notifications" className="relative">
                     <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Notifications</NavigationMenuLink>
                     {notificationCount > 0 && (
-                      <Badge variant="destructive" className="absolute top-1 right-[-8px] h-5 w-5 flex items-center justify-center p-0 text-xs rounded-full">
+                      <Badge variant="destructive" className="absolute top-1.5 right-[-4px] h-[18px] w-[18px] flex items-center justify-center p-0 text-[10px] rounded-full">
                         {notificationCount}
                       </Badge>
                     )}
