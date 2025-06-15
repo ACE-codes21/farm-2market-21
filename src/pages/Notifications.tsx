@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VendorDashboardHeader } from '@/components/vendor/VendorDashboardHeader';
 import ReviewInsights from '@/components/notifications/ReviewInsights';
 import EmergencyAlerts from '@/components/notifications/EmergencyAlerts';
@@ -18,6 +18,11 @@ const NotificationsPage = () => {
     const [reviews, setReviews] = useState(initialBuyerReviews);
     const [alerts, setAlerts] = useState(initialEmergencyAlerts);
     const [updates, setUpdates] = useState(initialSystemUpdates);
+
+    useEffect(() => {
+        const totalCount = reviews.length + alerts.length + updates.length;
+        window.dispatchEvent(new CustomEvent('notifications-updated', { detail: { count: totalCount } }));
+    }, [reviews, alerts, updates]);
 
     const handleMarkAllAsRead = () => {
         setReviews([]);
