@@ -26,6 +26,43 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  const generateAIResponse = (userMessage: string): string => {
+    const message = userMessage.toLowerCase();
+    
+    // Order-related queries
+    if (message.includes('order') || message.includes('buy') || message.includes('purchase')) {
+      return t('ai_chat.responses.how_to_order');
+    }
+    
+    // Vendor finding queries
+    if (message.includes('vendor') || message.includes('seller') || message.includes('find') || message.includes('near')) {
+      return t('ai_chat.responses.find_vendors');
+    }
+    
+    // Dashboard help
+    if (message.includes('dashboard') || message.includes('navigate') || message.includes('use')) {
+      return t('ai_chat.responses.dashboard_help');
+    }
+    
+    // Payment queries
+    if (message.includes('payment') || message.includes('pay') || message.includes('card') || message.includes('upi')) {
+      return t('ai_chat.responses.payment_help');
+    }
+    
+    // Vendor features
+    if (message.includes('vendor features') || message.includes('selling') || message.includes('business')) {
+      return t('ai_chat.responses.vendor_features');
+    }
+    
+    // Greetings
+    if (message.includes('hello') || message.includes('hi') || message.includes('help')) {
+      return t('ai_chat.responses.general_help');
+    }
+    
+    // Default response
+    return t('ai_chat.responses.general_help');
+  };
+
   const handleSendMessage = () => {
     if (inputValue.trim() === '') return;
 
@@ -34,12 +71,15 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
     setInputValue('');
     setIsLoading(true);
 
-    // Mock AI response
+    // Generate AI response based on user input
     setTimeout(() => {
-      const aiResponse: Message = { role: 'ai', content: t('ai_chat.mock_response') };
+      const aiResponse: Message = { 
+        role: 'ai', 
+        content: generateAIResponse(inputValue)
+      };
       setMessages(prev => [...prev, aiResponse]);
       setIsLoading(false);
-    }, 1500);
+    }, 1000);
   };
   
   useEffect(() => {
@@ -85,7 +125,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
                       : 'bg-slate-800 text-slate-300'
                   )}
                 >
-                  <p className="text-sm">{message.content}</p>
+                  <p className="text-sm whitespace-pre-line">{message.content}</p>
                 </div>
               </div>
             ))}

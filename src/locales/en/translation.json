@@ -1,3 +1,4 @@
+
 {
   "nav": {
     "nav_features": "Features",
@@ -192,7 +193,12 @@
     "sales_summary": {
       "total_revenue": "Total Revenue",
       "total_sales": "Total Sales",
-      "customers": "Customers"
+      "customers": "Customers",
+      "new_customers": "New Customers",
+      "orders_placed": "Orders Placed",
+      "products_sold": "Products Sold",
+      "top_selling_product": "Top Selling Product",
+      "customer_satisfaction": "Customer Satisfaction"
     }
   },
   "finance_dashboard": {
@@ -221,8 +227,15 @@
   "ai_chat": {
     "title": "AI Assistant",
     "tooltip": "Chat with our AI Assistant",
-    "welcome_message": "Hello! How can I help you today?",
-    "mock_response": "Thanks for your question! I'm still in training and can't provide a full answer right now, but I'm learning fast. Please check back later!",
-    "placeholder": "Ask a question..."
+    "welcome_message": "Hello! I'm your Farm2Market AI assistant. I can help you with:\n\n• How to place orders\n• Finding vendors near you\n• Understanding platform features\n• Managing your dashboard\n• Payment and delivery queries\n\nWhat would you like to know?",
+    "placeholder": "Ask me anything about Farm2Market...",
+    "responses": {
+      "how_to_order": "To place an order:\n1. Browse products in the 'Discover Market' tab\n2. Click on a product you like\n3. Select quantity and click 'Buy Now'\n4. Choose payment method and complete checkout\n\nYour order will be confirmed and you can track it in 'My Orders'!",
+      "find_vendors": "To find vendors:\n1. Go to 'Discover Vendors' tab\n2. Use the map view to see vendors near you\n3. Filter by product type or rating\n4. Click on vendor profiles to see their products\n\nYou can also contact vendors directly through their profiles!",
+      "dashboard_help": "Your dashboard has 3 main sections:\n• **Products**: Browse and buy from local vendors\n• **Vendors**: Find and connect with sellers\n• **Orders**: Track your purchase history\n\nUse the search and filter options to find exactly what you need!",
+      "payment_help": "We accept multiple payment methods:\n• Credit/Debit Cards\n• UPI payments\n• Digital wallets\n\nAll payments are secure and encrypted. You'll receive confirmation once payment is processed.",
+      "vendor_features": "As a vendor, you can:\n• Manage products and inventory\n• Track sales and analytics\n• Access finance and loan schemes\n• Use government services portal\n• View customer orders and feedback",
+      "general_help": "I'm here to help with any Farm2Market questions! You can ask me about:\n• Platform features\n• How to use different sections\n• Payment and orders\n• Vendor tools\n• Technical support\n\nJust type your question and I'll do my best to help!"
+    }
   }
 }
