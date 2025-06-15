@@ -61,7 +61,7 @@ const VendorPortal = () => {
           setUserRole('vendor');
         } else {
           console.log('User is not a vendor, redirecting to buyer dashboard');
-          navigate('/dashboard');
+          navigate('/buyer');
           return;
         }
         
