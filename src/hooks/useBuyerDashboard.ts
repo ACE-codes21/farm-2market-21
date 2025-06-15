@@ -59,10 +59,13 @@ export const useBuyerDashboard = () => {
       const freshnessMatch = advancedFilters.freshness === 'all' || 
         (advancedFilters.freshness === 'fresh-pick' && product.isFreshPick) ||
         (advancedFilters.freshness === 'regular' && !product.isFreshPick);
-      const estimatedDeliveryTime = Math.floor(Math.random() * 35) + 10;
-      const deliveryTimeMatch = estimatedDeliveryTime <= advancedFilters.maxDeliveryTime;
       
-      return categoryMatch && searchMatch && priceMatch && ratingMatch && freshnessMatch && deliveryTimeMatch;
+      // The delivery time filter was based on a random number, causing unstable product lists.
+      // It's being removed to ensure a consistent user experience.
+      // const estimatedDeliveryTime = Math.floor(Math.random() * 35) + 10;
+      // const deliveryTimeMatch = estimatedDeliveryTime <= advancedFilters.maxDeliveryTime;
+      
+      return categoryMatch && searchMatch && priceMatch && ratingMatch && freshnessMatch;
     });
 
     if (sortOptions.field !== 'none') {

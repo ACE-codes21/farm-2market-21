@@ -40,7 +40,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
   const { toast } = useToast();
 
   useEffect(() => {
-    if (product) {
+    if (isOpen && product) {
       setFormData({
         name: product.name,
         price: product.price.toString(),
@@ -51,7 +51,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
       setExpiryDate(product.expiryDate ? new Date(product.expiryDate) : undefined);
       setImageFile(null);
     }
-  }, [product]);
+  }, [product, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

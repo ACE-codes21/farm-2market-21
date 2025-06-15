@@ -34,7 +34,7 @@ export const VendorStatsGrid: React.FC<VendorStatsGridProps> = ({ stats }) => {
                 <p className="text-sm font-medium text-slate-400">{stat.title}</p>
                 <p className={cn(
                   "text-3xl font-bold",
-                  stat.key === 'totalRevenue' && stats.totalRevenue < 0 ? 'text-red-500' : 'text-white'
+                  stat.key === 'totalRevenue' && stats.totalRevenue < 0 ? 'text-rose-400' : 'text-white'
                 )}>
                   {stat.value}
                 </p>
