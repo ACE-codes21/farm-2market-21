@@ -22,8 +22,8 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-orange-500 rounded-lg"></div>
-              <span className="text-xl font-bold gradient-text">Farm2Market</span>
+              
+              <span className="text-xl font-bold gradient-text text-gray-50">Farm2Market</span>
             </div>
           </div>
 
