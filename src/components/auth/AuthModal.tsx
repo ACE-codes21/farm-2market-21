@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, X } from 'lucide-react';
@@ -153,81 +153,69 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
     return 'User';
   };
 
-  const getDescription = () => {
-    if (role) {
-      return `Continue as a ${getRoleTitle().toLowerCase()} to access your dashboard`;
-    }
-    return 'Connect with local vendors and buyers in your community';
-  };
-
-  const getTitle = () => {
-    if (role) {
-      return `${getRoleTitle()} Authentication`;
-    }
-    return 'Welcome to Farm2Market';
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md p-0 bg-transparent border-none overflow-hidden">
+      <DialogContent className="max-w-sm p-0 bg-transparent border-none overflow-hidden">
         <div className="relative">
           {/* Dark gradient background matching landing page */}
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl"></div>
           
-          {/* Animated floating elements */}
-          <div className="absolute inset-0 overflow-hidden rounded-3xl">
-            {/* Floating farm/market icons */}
-            <div className="absolute top-4 left-4 text-green-400/10 text-lg animate-bounce" style={{animationDelay: '0s'}}>🥕</div>
-            <div className="absolute top-8 right-6 text-orange-400/10 text-xl animate-bounce" style={{animationDelay: '1s'}}>🍅</div>
-            <div className="absolute bottom-8 right-4 text-red-400/10 text-lg animate-bounce" style={{animationDelay: '0.5s'}}>🍎</div>
-            <div className="absolute bottom-4 left-6 text-purple-400/10 text-xl animate-bounce" style={{animationDelay: '1.5s'}}>🍆</div>
+          {/* Subtle animated elements */}
+          <div className="absolute inset-0 overflow-hidden rounded-2xl">
+            <div className="absolute top-2 left-2 text-green-400/5 text-sm animate-bounce" style={{animationDelay: '0s'}}>🥕</div>
+            <div className="absolute top-3 right-3 text-orange-400/5 text-sm animate-bounce" style={{animationDelay: '1s'}}>🍅</div>
+            <div className="absolute bottom-3 right-2 text-red-400/5 text-sm animate-bounce" style={{animationDelay: '0.5s'}}>🍎</div>
             
             {/* Grid dots pattern */}
-            <div className="absolute inset-0 opacity-5 rounded-3xl">
+            <div className="absolute inset-0 opacity-3 rounded-2xl">
               <div className="w-full h-full" style={{
                 backgroundImage: 'radial-gradient(circle, #10b981 1px, transparent 1px)',
-                backgroundSize: '30px 30px'
+                backgroundSize: '20px 20px'
               }}></div>
             </div>
           </div>
           
-          {/* Subtle glow effects */}
-          <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-green-500/5 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-orange-500/5 rounded-full blur-2xl"></div>
+          {/* Subtle glow effect */}
+          <div className="absolute top-1/4 left-1/4 w-20 h-20 bg-green-500/5 rounded-full blur-xl"></div>
 
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/30 backdrop-blur-sm border border-green-400/20 text-green-400/60 hover:text-green-400 hover:bg-black/50 transition-all duration-300"
+            className="absolute top-3 right-3 z-20 p-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-green-400/20 text-green-400/60 hover:text-green-400 hover:bg-black/50 transition-all duration-300"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3 w-3" />
           </button>
 
           {/* Main content */}
-          <div className="relative z-10 p-8">
-            <div className="text-center space-y-4 mb-8">
-              <div className="mx-auto w-16 h-16 bg-gradient-to-br from-green-600 to-green-400 rounded-2xl flex items-center justify-center shadow-[0_0_30px_rgba(34,197,94,0.4)] animate-fade-in">
-                <span className="text-2xl font-bold text-black">F2M</span>
+          <div className="relative z-10 p-6">
+            {/* Hidden title and description for accessibility */}
+            <DialogTitle className="sr-only">
+              {role ? `${getRoleTitle()} Authentication` : 'Welcome to Farm2Market'}
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              {role ? `Continue as a ${getRoleTitle().toLowerCase()} to access your dashboard` : 'Connect with local vendors and buyers in your community'}
+            </DialogDescription>
+
+            <div className="text-center space-y-3 mb-6">
+              <div className="mx-auto w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.3)] animate-fade-in">
+                <span className="text-lg font-bold text-black">F2M</span>
               </div>
-              <h2 className="text-2xl font-bold text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] animate-fade-in" style={{animationDelay: '0.1s'}}>
-                {getTitle()}
+              <h2 className="text-xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] animate-fade-in" style={{animationDelay: '0.1s'}}>
+                {role ? `${getRoleTitle()} Portal` : 'Welcome'}
               </h2>
-              <p className="text-gray-300 animate-fade-in" style={{animationDelay: '0.2s'}}>
-                {getDescription()}
-              </p>
             </div>
 
-            <Tabs defaultValue={defaultMode} className="space-y-6">
-              <TabsList className="grid w-full grid-cols-2 bg-black/50 border border-green-400/20 animate-fade-in" style={{animationDelay: '0.3s'}}>
+            <Tabs defaultValue={defaultMode} className="space-y-4">
+              <TabsList className="grid w-full grid-cols-2 bg-black/40 border border-green-400/20 animate-fade-in" style={{animationDelay: '0.2s'}}>
                 <TabsTrigger 
                   value="login" 
-                  className="font-semibold text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300"
+                  className="text-sm font-medium text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300"
                 >
                   Login
                 </TabsTrigger>
                 <TabsTrigger 
                   value="signup" 
-                  className="font-semibold text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_20px_rgba(34,197,94,0.5)] transition-all duration-300"
+                  className="text-sm font-medium text-gray-300 data-[state=active]:bg-green-500 data-[state=active]:text-black data-[state=active]:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all duration-300"
                 >
                   Sign Up
                 </TabsTrigger>
@@ -236,7 +224,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
               {error && (
                 <Alert variant="destructive" className="bg-red-900/20 border-red-500/50 backdrop-blur-sm animate-fade-in">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertDescription className="text-red-200">{error}</AlertDescription>
+                  <AlertDescription className="text-red-200 text-sm">{error}</AlertDescription>
                 </Alert>
               )}
 
@@ -248,7 +236,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, role, defaultMod
                 <SignupForm onSubmit={handleSignup} isLoading={isLoading} />
               </TabsContent>
 
-              <div className="animate-fade-in" style={{animationDelay: '0.5s'}}>
+              <div className="animate-fade-in" style={{animationDelay: '0.4s'}}>
                 <SocialLoginButtons
                   onGoogleLogin={() => handleSocialLogin('google')}
                   onFacebookLogin={() => handleSocialLogin('facebook')}
