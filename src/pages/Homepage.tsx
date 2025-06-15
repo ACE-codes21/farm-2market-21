@@ -1,22 +1,20 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, Users, TrendingUp, Shield, Star, ArrowRight, LogIn, UserPlus } from 'lucide-react';
-import LoginSignupModal from '@/components/LoginSignupModal';
 
 const Homepage: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<'vendor' | 'buyer' | null>(null);
+  const navigate = useNavigate();
 
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
-    setSelectedRole(role);
-    setShowModal(true);
+    // Redirect to auth page with role parameter
+    navigate(`/auth?role=${role}&mode=signup`);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedRole(null);
+  const handleBrowseMarket = () => {
+    // Allow browsing market without authentication (demo mode)
+    navigate('/demo');
   };
 
   return (
@@ -58,6 +56,13 @@ const Homepage: React.FC = () => {
           </Button>
         </Link>
       </div>
+
+      {/* Site Logo */}
+      <div className="absolute top-4 left-4 z-20">
+        <h1 className="text-2xl font-bold text-green-700">
+          <span className="text-orange-600">Farm</span>2Market
+        </h1>
+      </div>
       
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
         <div className="max-w-6xl mx-auto text-center">
@@ -83,7 +88,7 @@ const Homepage: React.FC = () => {
                 className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
               >
                 <Store className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
-                I am a Vendor
+                Sell with us
                 <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
               <Button 
@@ -92,20 +97,19 @@ const Homepage: React.FC = () => {
                 className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
               >
                 <ShoppingBag className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
-                I am a Buyer
+                Shop Now
                 <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
-              <Link to="/demo">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-2 border-yellow-600 text-yellow-700 hover:bg-yellow-50 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
-                >
-                  <Users className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
-                  Browse Market
-                  <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </Button>
-              </Link>
+              <Button 
+                onClick={handleBrowseMarket}
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-yellow-600 text-yellow-700 hover:bg-yellow-50 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 px-8 py-4 text-lg font-semibold rounded-2xl group"
+              >
+                <Users className="mr-3 h-6 w-6 group-hover:rotate-12 transition-transform duration-300" />
+                Browse Market
+                <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </Button>
             </div>
           </div>
 
@@ -176,22 +180,34 @@ const Homepage: React.FC = () => {
                   Get Started Today →
                 </Button>
               </Link>
-              <Link to="/demo">
-                <Button variant="ghost" className="text-gray-700 hover:bg-white/50 font-semibold px-6 py-3 rounded-xl transition-all duration-300">
-                  Try Demo Version
-                </Button>
-              </Link>
+              <Button 
+                onClick={handleBrowseMarket}
+                variant="ghost" 
+                className="text-gray-700 hover:bg-white/50 font-semibold px-6 py-3 rounded-xl transition-all duration-300"
+              >
+                Try Demo Version
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Login/Signup Modal */}
-      <LoginSignupModal 
-        isOpen={showModal}
-        onClose={handleCloseModal}
-        role={selectedRole}
-      />
+      {/* Footer */}
+      <footer className="relative z-10 bg-white/80 backdrop-blur-sm border-t border-gray-200 py-6">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-lg font-bold text-gray-800">
+                <span className="text-orange-600">Farm</span>2Market
+              </h3>
+              <p className="text-sm text-gray-600">Connecting Communities Through Commerce</p>
+            </div>
+            <div className="text-sm text-gray-600">
+              Built at <span className="font-semibold text-green-600">Make4Lucknow 2025</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
