@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,16 +11,55 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User, Settings, Shield, Info, LogOut } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserMenuProps {
   onLogout: () => void;
 }
 
 export const UserMenu: React.FC<UserMenuProps> = ({ onLogout }) => {
-  const handleMenuAction = (action: string) => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleMenuAction = async (action: string) => {
     switch (action) {
       case 'logout':
-        onLogout();
+        try {
+          // Sign out from Supabase
+          const { error } = await supabase.auth.signOut();
+          
+          if (error) {
+            console.error('Logout error:', error);
+            toast({
+              title: "Error",
+              description: "Failed to logout. Please try again.",
+              variant: "destructive",
+            });
+            return;
+          }
+
+          // Clear localStorage
+          localStorage.removeItem('userSession');
+          
+          toast({
+            title: "Success",
+            description: "You have been logged out successfully.",
+          });
+
+          // Navigate to homepage
+          navigate('/');
+          
+          // Call the onLogout callback to update parent component state
+          onLogout();
+        } catch (error) {
+          console.error('Unexpected logout error:', error);
+          toast({
+            title: "Error",
+            description: "An unexpected error occurred during logout.",
+            variant: "destructive",
+          });
+        }
         break;
       case 'profile':
         console.log('Opening profile section');
