@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import HeroBackground from '@/components/homepage/HeroBackground';
 import NavigationHeader from '@/components/homepage/NavigationHeader';
 import HeroSection from '@/components/homepage/HeroSection';
-import FeaturesSection from '@/components/homepage/FeaturesSection';
-import StatsSection from '@/components/homepage/StatsSection';
-import CTASection from '@/components/homepage/CTASection';
+import DynamicFeaturesSection from '@/components/homepage/DynamicFeaturesSection';
+import AboutUsSection from '@/components/homepage/AboutUsSection';
+import ContactSection from '@/components/homepage/ContactSection';
 import AuthModal from '@/components/auth/AuthModal';
 import SignupOnlyModal from '@/components/auth/SignupOnlyModal';
 
@@ -69,10 +68,10 @@ const Homepage: React.FC = () => {
         <HeroSection onOpenAuthModal={openAuthModal} />
       </div>
 
-      {/* Additional Sections */}
-      <FeaturesSection />
-      <StatsSection />
-      <CTASection onOpenAuthModal={openAuthModal} />
+      {/* --- NEW: Cinematic Walkthrough Sections --- */}
+      <DynamicFeaturesSection />
+      <AboutUsSection />
+      <ContactSection />
 
       {/* Regular Auth Modal (for login) */}
       <AuthModal 
