@@ -28,9 +28,21 @@ export const useBuyerDashboard = () => {
       }
       
       return data.map((p: any) => ({
-        ...p,
         id: p.id,
+        name: p.name,
         price: Number(p.price),
+        rating: p.rating,
+        reviews: p.reviews,
+        images: p.images,
+        category: p.category,
+        stock: p.stock,
+        description: p.description,
+        vendor_id: p.vendor_id,
+        expiryDate: p.expiry_date,
+        restockReminder: p.restock_reminder,
+        barcode: p.barcode,
+        isFreshPick: p.is_fresh_pick,
+        freshPickExpiresAt: p.fresh_pick_expires_at,
         vendor: p.vendor ? { name: p.vendor.full_name, phone: p.vendor.phone, upiId: p.vendor.upi_id, upiQrCode: p.vendor.upi_qr_code } : undefined,
       }));
     },
@@ -38,7 +50,7 @@ export const useBuyerDashboard = () => {
 
   const [filters, setFilters] = useState({ category: 'all', searchQuery: '' });
   const [advancedFilters, setAdvancedFilters] = useState<FilterOptions>({
-    priceRange: [0, 500],
+    priceRange: [0, 5000],
     minRating: 0,
     freshness: 'all' as const,
     maxDeliveryTime: 60
