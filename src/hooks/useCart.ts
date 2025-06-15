@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, CartItem } from '@/types';
+import { useCheckout } from './useCheckout';
 
 export const useCart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const checkoutMutation = useCheckout();
 
   const addToCart = (product: Product, quantity: number = 1) => {
     if (product.stock <= 0) {
@@ -81,12 +83,13 @@ export const useCart = () => {
     }
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
+    if (cartItems.length === 0) {
+        return;
+    }
+    const itemsToBuy = cartItems.map(item => ({ id: item.id, quantity: item.quantity }));
+    await checkoutMutation.mutateAsync(itemsToBuy);
     setCartItems([]);
-    toast({
-      title: "Checkout Successful",
-      description: "Your order has been placed.",
-    });
   };
 
   const cartTotalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);

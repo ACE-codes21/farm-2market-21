@@ -14,7 +14,7 @@ interface CartSheetProps {
   onUpdateQuantity: (productId: string, quantity: number) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCheckout: () => void;
+  onCheckout: () => Promise<void>;
 }
 
 export const CartSheet: React.FC<CartSheetProps> = ({
@@ -45,25 +45,34 @@ export const CartSheet: React.FC<CartSheetProps> = ({
 
   const handleCheckout = async () => {
     setIsProcessing(true);
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     
-    // Simulate checkout processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    onCheckout();
-    setOrderPlaced(true);
-    setIsProcessing(false);
-    setShowPaymentOptions(false);
-    
-    toast({
-      title: "Order Placed Successfully!",
-      description: `Your order of ${cartItems.length} items has been confirmed.`
-    });
-    
-    // Reset after showing success
-    setTimeout(() => {
-      setOrderPlaced(false);
-      onOpenChange(false);
-    }, 2000);
+    try {
+      await onCheckout();
+      
+      // Simulate checkout processing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setOrderPlaced(true);
+      setShowPaymentOptions(false);
+      
+      toast({
+        title: "Order Placed Successfully!",
+        description: `Your order of ${totalItems} items has been confirmed.`
+      });
+      
+      // Reset after showing success
+      setTimeout(() => {
+        setOrderPlaced(false);
+        onOpenChange(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Checkout from cart failed:", error);
+      // Toast is handled in useCheckout hook
+      setShowPaymentOptions(false);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleBackToCart = () => {

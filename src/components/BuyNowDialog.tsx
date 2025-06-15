@@ -9,6 +9,7 @@ import { Zap, CreditCard, Smartphone, Wallet, Tag, Check, X, CheckCircle } from 
 import { Product } from '@/types';
 import { QuantitySelector } from './QuantitySelector';
 import { useToast } from '@/hooks/use-toast';
+import { useCheckout } from '@/hooks/useCheckout';
 
 interface BuyNowDialogProps {
   product: Product;
@@ -29,6 +30,7 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const { toast } = useToast();
+  const checkoutMutation = useCheckout();
 
   // Mock coupons for demo
   const availableCoupons = [
@@ -71,22 +73,28 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({
 
   const handlePurchase = async () => {
     setIsProcessing(true);
-    
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    onPurchase(selectedQuantity, appliedCoupon?.code, selectedPaymentMethod);
-    setOrderPlaced(true);
-    setIsProcessing(false);
-    
-    // Reset after showing success
-    setTimeout(() => {
-      setOpen(false);
-      setOrderPlaced(false);
-      setSelectedQuantity(1);
-      setCouponCode('');
-      setAppliedCoupon(null);
-    }, 2000);
+    try {
+      await checkoutMutation.mutateAsync([{ id: product.id, quantity: selectedQuantity }]);
+      
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      onPurchase(selectedQuantity, appliedCoupon?.code, selectedPaymentMethod);
+      setOrderPlaced(true);
+      
+      // Reset after showing success
+      setTimeout(() => {
+        setOpen(false);
+        setOrderPlaced(false);
+        setSelectedQuantity(1);
+        setCouponCode('');
+        setAppliedCoupon(null);
+        setIsProcessing(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Buy Now failed:", error);
+      setIsProcessing(false);
+    }
   };
 
   if (orderPlaced) {
