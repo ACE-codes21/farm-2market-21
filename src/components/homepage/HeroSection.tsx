@@ -50,6 +50,15 @@ const HeroSection: React.FC = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/0 via-green-400/20 to-green-400/0 animate-pulse"></div>
             </div>
 
+            {/* Inspirational Intro Line */}
+            <div className="mb-4">
+              <h2 className="text-2xl md:text-4xl font-black text-white leading-tight tracking-wide">
+                <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] animate-pulse">
+                  REVOLUTIONIZING LOCAL FOOD MARKETS
+                </span>
+              </h2>
+            </div>
+
             {/* Main Heading */}
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
               <span className="text-green-400 drop-shadow-[0_0_30px_rgba(34,197,94,0.8)] animate-pulse">Farm</span>
