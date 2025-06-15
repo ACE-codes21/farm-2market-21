@@ -46,11 +46,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   const isPremium = product.rating >= 4.6;
 
-  const handlePurchase = (quantity: number, couponCode?: string, paymentMethod?: string) => {
-    console.log('Order placed:', { product, quantity, couponCode, paymentMethod });
-    // This will be handled by the parent component
-  };
-
   return (
     <Card 
       className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-500 hover:scale-[1.02] hover:bg-white/10"
@@ -179,7 +174,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {/* Buy Now Button - Primary */}
             <BuyNowDialog 
               product={product}
-              onPurchase={handlePurchase}
             >
               <Button 
                 className={`flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25 ${

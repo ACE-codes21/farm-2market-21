@@ -1,5 +1,3 @@
-import { Product, CartItem, VendorStats } from './index';
-
 export interface Product {
   id: string; // was number
   name: string;
