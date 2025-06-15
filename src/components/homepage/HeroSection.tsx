@@ -47,7 +47,7 @@ const HeroSection: React.FC = () => {
     icon: Users,
     text: "Community First",
     color: "purple"
-  }];
+  }] as const;
 
   return (
     <>
@@ -108,12 +108,12 @@ const HeroSection: React.FC = () => {
                   red: "from-red-500/20 to-red-400/10 border-red-400/30 text-red-300 shadow-red-500/20",
                   blue: "from-blue-500/20 to-blue-400/10 border-blue-400/30 text-blue-300 shadow-blue-500/20",
                   purple: "from-purple-500/20 to-purple-400/10 border-purple-400/30 text-purple-300 shadow-purple-500/20"
-                };
+                } as const;
                 
                 return (
                   <div
                     key={index}
-                    className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${colorClasses[feature.color as keyof typeof colorClasses]} border rounded-full text-sm font-medium backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
+                    className={`inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r ${colorClasses[feature.color]} border rounded-full text-sm font-medium backdrop-blur-sm shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300`}
                     style={{ animationDelay: `${0.4 + index * 0.1}s` }}
                   >
                     <IconComponent className="h-4 w-4" />
