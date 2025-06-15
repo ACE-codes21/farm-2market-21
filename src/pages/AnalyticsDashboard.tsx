@@ -1,16 +1,13 @@
-
 import { VendorDashboardHeader } from '@/components/vendor/VendorDashboardHeader';
 import { SalesSummaryCard } from '@/components/analytics/SalesSummaryCard';
 import { TimeAnalyticsChart } from '@/components/analytics/TimeAnalyticsChart';
 import { AIBusinessTips } from '@/components/analytics/AIBusinessTips';
 import { ProductTrendCard } from '@/components/analytics/ProductTrendCard';
-import { PredictiveInsightBanner } from '@/components/analytics/PredictiveInsightBanner';
 import {
   salesSummary,
   timeAnalyticsData,
   aiBusinessTips,
   productTrends,
-  predictiveInsight,
 } from '@/data/analytics';
 import { Separator } from '@/components/ui/separator';
 
@@ -54,13 +51,6 @@ const AnalyticsDashboard = () => {
                 ))}
             </div>
         </div>
-
-        <Separator className="my-8 bg-slate-700/50" />
-
-        <div className="animate-fade-in-up" style={{animationDelay: '1.2s'}}>
-            <PredictiveInsightBanner message={predictiveInsight.message} />
-        </div>
-
       </main>
     </div>
   );

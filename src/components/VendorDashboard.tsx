@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats } from '@/types';
@@ -8,7 +7,6 @@ import { VendorDashboardHeader } from './vendor/VendorDashboardHeader';
 import { VendorStatsGrid } from './vendor/VendorStatsGrid';
 import { VendorProductsTable } from './vendor/VendorProductsTable';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
-import { DemandForecastPanel } from './vendor/DemandForecastPanel';
 
 interface VendorDashboardProps {
   products: Product[];
@@ -70,8 +68,8 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
         
         <VendorStatsGrid stats={stats} />
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-          <div className="lg:col-span-2 flex flex-col gap-8">
+        <div className="mt-8">
+          <div className="flex flex-col gap-8">
             <VendorProductsTable 
               products={products}
               onAddProductClick={() => setAddProductDialogOpen(true)}
@@ -80,9 +78,6 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
               onDeleteProduct={handleDeleteProduct}
             />
             <VendorRecentOrders orders={orders} />
-          </div>
-          <div className="lg:col-span-1">
-            <DemandForecastPanel />
           </div>
         </div>
       </main>

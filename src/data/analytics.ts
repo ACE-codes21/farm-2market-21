@@ -1,4 +1,3 @@
-
 import { IndianRupee, Clock, Leaf, LucideIcon } from 'lucide-react';
 
 export const salesSummary: {
@@ -93,7 +92,3 @@ export const productTrends = [
     image: '/placeholder.svg'
   }
 ];
-
-export const predictiveInsight = {
-    message: "Expected revenue boost this week: ~₹5,230 if current trends continue.",
-};
