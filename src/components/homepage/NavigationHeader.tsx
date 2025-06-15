@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuGroup
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, User, LogOut, Shield, Settings, Info } from "lucide-react";
+import { ChevronDown, User, LogOut, Shield, Settings, Info, Menu, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +25,7 @@ const NavigationHeader: React.FC = () => {
   const [selectedLang, setSelectedLang] = useState("en");
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<{ name?: string; email?: string; } | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const getSessionAndProfile = async () => {
@@ -32,7 +33,6 @@ const NavigationHeader: React.FC = () => {
       setSession(session);
 
       if (session?.user) {
-        // Try to get name/email; fallback to email if no name
         setProfile({
           name: session.user.user_metadata?.full_name || session.user.user_metadata?.name,
           email: session.user.email,
@@ -64,157 +64,186 @@ const NavigationHeader: React.FC = () => {
     setProfile(null);
   };
 
-  // Aesthetic styles
-  const barClass =
-    "sticky top-0 w-full z-30 bg-white/60 backdrop-blur-lg shadow-md ring-1 ring-white/40 border-b border-white/20";
-  const containerClass =
-    "max-w-6xl mx-auto px-3 sm:px-6 flex items-center justify-between min-h-[52px]";
-  const logoClass =
-    "h-8 w-8 flex items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow-inner";
-  const navClass =
-    "hidden md:flex flex-1 justify-center items-center gap-1.5";
-  const navLink =
-    "px-2 py-0.5 text-sm font-semibold rounded transition-colors text-gray-700 hover:bg-green-100";
-  const rightClass = "flex items-center gap-2";
+  const handleNavClick = (section: string) => {
+    console.log(`Navigate to ${section}`);
+    setMobileMenuOpen(false);
+  };
+
+  const navItems = [
+    { name: "Home", href: "#home" },
+    { name: "Why Us?", href: "#why-us" },
+    { name: "How It Works", href: "#how-it-works" },
+    { name: "Pricing", href: "#pricing" },
+    { name: "Resources", href: "#resources" },
+    { name: "Support", href: "#support" },
+  ];
 
   return (
-    <header className={barClass}>
-      <div className={containerClass}>
-        {/* F2M Logo */}
-        <div className={logoClass}>
-          <span className="flex items-center select-none font-display text-base font-extrabold tracking-tight">
-            <span className="text-green-500" style={{fontWeight:700}}>F</span>
-            <span className="mx-[1px] text-white font-bold">2</span>
-            <span className="text-orange-400">M</span>
-          </span>
-        </div>
+    <header className="sticky top-0 w-full z-50 backdrop-blur-xl bg-black/20 border-b border-green-500/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow-lg ring-2 ring-green-400/30">
+              <span className="flex items-center select-none font-display text-lg font-extrabold tracking-tight">
+                <span className="text-green-400 neon-text" style={{fontWeight:700}}>F</span>
+                <span className="mx-[1px] text-white font-bold neon-text">2</span>
+                <span className="text-orange-400 neon-text">M</span>
+              </span>
+            </div>
+          </div>
 
-        {/* Center nav */}
-        <nav className={navClass}>
-          <span className={navLink}>Home</span>
-          <span className={navLink}>Why Us?</span>
-          <span className={navLink}>How It Works</span>
-          <span className={navLink}>Pricing</span>
-          <span className={navLink + " hidden xl:inline"}>Resources</span>
-          <span className={navLink + " hidden xl:inline"}>Support</span>
-        </nav>
-
-        {/* Right controls */}
-        <div className={rightClass}>
-          {/* Language Selector */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8">
+            {navItems.map((item) => (
               <button
-                className="flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-semibold text-gray-700 bg-white/70 hover:bg-green-100 transition focus:outline-none focus:ring-1 focus:ring-green-300"
-                aria-label="Select Language"
+                key={item.name}
+                onClick={() => handleNavClick(item.name)}
+                className="text-white/90 hover:text-green-400 px-3 py-2 text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-green-400/20 rounded-lg hover:bg-green-500/10"
               >
-                <span>{LANGUAGES.find(l => l.code === selectedLang)?.name || "Language"}</span>
-                <ChevronDown className="h-4 w-4 text-gray-500 ml-0.5" aria-hidden="true" />
+                {item.name}
               </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuLabel>Select language</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {LANGUAGES.map(lang => (
-                <DropdownMenuItem
-                  key={lang.code}
-                  onClick={() => setSelectedLang(lang.code)}
-                  className={cn(
-                    "cursor-pointer text-sm",
-                    lang.code === selectedLang && "bg-green-100 font-bold"
-                  )}
-                >
-                  {lang.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            ))}
+          </nav>
 
-          {/* Me/User Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className="flex items-center px-1.5 py-1.5 rounded-lg focus:outline-none group bg-white/60 hover:bg-green-50 border border-transparent focus:ring-1 focus:ring-green-400 transition"
-                aria-label="Account"
+          {/* Right Side Controls */}
+          <div className="flex items-center space-x-4">
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center space-x-1 px-3 py-2 text-sm font-medium text-white/90 hover:text-green-400 transition-all duration-300 rounded-lg hover:bg-green-500/10">
+                  <span>{LANGUAGES.find(l => l.code === selectedLang)?.name}</span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                align="end" 
+                className="w-40 bg-black/90 backdrop-blur-xl border border-green-500/30 shadow-2xl shadow-green-500/20"
               >
-                <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-orange-400 flex items-center justify-center mr-1 shadow-sm">
-                  <User className="h-4 w-4 text-white" />
-                </div>
-                <span className="hidden sm:inline text-gray-800 text-sm font-medium mr-1">Me</span>
-                <ChevronDown className="h-3.5 w-3.5 text-gray-500 group-hover:text-green-400 transition" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              {session && profile ? (
-                <>
-                  <DropdownMenuLabel className="font-semibold text-sm py-2">
-                    {profile.name || "Signed in"}
-                  </DropdownMenuLabel>
-                  <div className="flex items-center gap-3 px-4 py-1">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-orange-400 flex items-center justify-center shadow">
-                      <User className="h-4 w-4 text-white" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs text-gray-800">{profile.name || "User"}</span>
-                      <span className="text-[11px] text-gray-500">{profile.email}</span>
-                    </div>
+                <DropdownMenuLabel className="text-green-400">Language</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-green-500/30" />
+                {LANGUAGES.map(lang => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => setSelectedLang(lang.code)}
+                    className={cn(
+                      "cursor-pointer text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors",
+                      lang.code === selectedLang && "bg-green-500/20 text-green-400"
+                    )}
+                  >
+                    {lang.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Profile/Auth Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 hover:from-green-500/30 hover:to-green-600/30 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/20">
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-400 to-green-500 flex items-center justify-center shadow-lg">
+                    <User className="h-4 w-4 text-white" />
                   </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-green-50">
-                      <User className="h-4 w-4 text-green-500" />
-                      <span>Profile</span>
+                  <ChevronDown className="h-4 w-4 text-white/70" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                align="end" 
+                className="w-56 bg-black/90 backdrop-blur-xl border border-green-500/30 shadow-2xl shadow-green-500/20"
+              >
+                {session && profile ? (
+                  <>
+                    <DropdownMenuLabel className="text-green-400 font-semibold">
+                      {profile.name || "Welcome"}
+                    </DropdownMenuLabel>
+                    <div className="flex items-center gap-3 px-4 py-2">
+                      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-400 to-green-500 flex items-center justify-center">
+                        <User className="h-4 w-4 text-white" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm text-white/90">{profile.name || "User"}</span>
+                        <span className="text-xs text-white/60">{profile.email}</span>
+                      </div>
+                    </div>
+                    <DropdownMenuSeparator className="bg-green-500/30" />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem className="text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors cursor-pointer">
+                        <User className="h-4 w-4 mr-2 text-green-400" />
+                        Dashboard
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors cursor-pointer">
+                        <Settings className="h-4 w-4 mr-2 text-green-400" />
+                        Settings
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator className="bg-green-500/30" />
+                    <DropdownMenuItem
+                      className="text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors cursor-pointer"
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-lime-50">
-                      <Shield className="h-4 w-4 text-lime-500" />
-                      <span>Security</span>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuLabel className="text-green-400">Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-green-500/30" />
+                    <DropdownMenuItem
+                      className="text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors cursor-pointer"
+                      onClick={() => window.location.href = "/auth"}
+                    >
+                      <User className="h-4 w-4 mr-2 text-green-400" />
+                      Login
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-orange-50">
-                      <Settings className="h-4 w-4 text-orange-500" />
-                      <span>Account Settings</span>
+                    <DropdownMenuItem
+                      className="text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors cursor-pointer"
+                      onClick={() => window.location.href = "/auth"}
+                    >
+                      <Shield className="h-4 w-4 mr-2 text-green-400" />
+                      Sign Up
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-50">
-                      <Info className="h-4 w-4 text-blue-400" />
-                      <span>About</span>
+                    <DropdownMenuItem
+                      className="text-white/90 hover:bg-green-500/20 hover:text-green-400 transition-colors cursor-pointer"
+                      onClick={() => window.location.href = "/dashboard"}
+                    >
+                      <Settings className="h-4 w-4 mr-2 text-green-400" />
+                      Dashboard
                     </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="flex items-center gap-2 px-4 py-2 text-red-600 cursor-pointer hover:bg-red-50"
-                    onClick={handleLogout}
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </DropdownMenuItem>
-                </>
-              ) : (
-                <>
-                  <DropdownMenuLabel>Not signed in</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    onClick={async () => {
-                      // Redirect to login page
-                      window.location.href = "/login";
-                    }}
-                  >
-                    Sign In
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-      {/* Mobile nav */}
-      <nav className="flex md:hidden gap-1 items-center justify-center px-2 pb-1 pt-2">
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Home</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Why Us?</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">How It Works</span>
-        <span className="px-2 py-1 text-xs rounded text-gray-700 hover:bg-green-50 transition cursor-pointer">Pricing</span>
-      </nav>
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-lg text-white/90 hover:text-green-400 hover:bg-green-500/10 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-green-500/20">
+            <div className="flex flex-col space-y-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavClick(item.name)}
+                  className="text-left px-4 py-3 text-white/90 hover:text-green-400 hover:bg-green-500/10 rounded-lg transition-all duration-300 font-medium"
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 };
+
 export default NavigationHeader;
