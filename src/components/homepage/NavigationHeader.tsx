@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogIn } from 'lucide-react';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { UserDropdown } from '@/components/UserDropdown';
+import { supabase } from '@/integrations/supabase/client';
 
 interface NavigationHeaderProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -11,6 +12,33 @@ interface NavigationHeaderProps {
 
 const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [user, setUser] = React.useState<any>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // Get initial session
+    const getInitialSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    };
+
+    getInitialSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+        setIsLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLoginClick = () => {
+    onOpenAuthModal('buyer', 'login');
+  };
 
   return (
     <header className="absolute top-0 left-0 right-0 z-20 p-6">
@@ -36,7 +64,23 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
           
           <div className="flex items-center space-x-4">
             <LanguageSelector />
-            <UserDropdown />
+            
+            {!isLoading && (
+              <>
+                {user ? (
+                  <UserDropdown />
+                ) : (
+                  <Button
+                    onClick={handleLoginClick}
+                    variant="ghost"
+                    className="text-white hover:bg-white/10 flex items-center gap-2"
+                  >
+                    <LogIn className="h-4 w-4" />
+                    <span>Log In</span>
+                  </Button>
+                )}
+              </>
+            )}
           </div>
         </div>
 
@@ -64,7 +108,23 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
               
               <div className="pt-4 space-y-3 flex flex-col items-start">
                 <LanguageSelector />
-                <UserDropdown />
+                
+                {!isLoading && (
+                  <>
+                    {user ? (
+                      <UserDropdown />
+                    ) : (
+                      <Button
+                        onClick={handleLoginClick}
+                        variant="ghost"
+                        className="text-white hover:bg-white/10 flex items-center gap-2 p-0"
+                      >
+                        <LogIn className="h-4 w-4" />
+                        <span>Log In</span>
+                      </Button>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>

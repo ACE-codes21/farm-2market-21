@@ -25,6 +25,29 @@ import { useToast } from '@/hooks/use-toast';
 
 export const UserDropdown: React.FC = () => {
   const { toast } = useToast();
+  const [user, setUser] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Don't render if user is not authenticated
+  if (!user) {
+    return null;
+  }
 
   const handleLogout = async () => {
     try {
@@ -122,6 +145,16 @@ export const UserDropdown: React.FC = () => {
     }
   };
 
+  const getUserDisplayName = () => {
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name;
+    }
+    if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'User';
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -132,7 +165,7 @@ export const UserDropdown: React.FC = () => {
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-500 to-green-400 flex items-center justify-center">
             <User className="h-4 w-4 text-white" />
           </div>
-          <span className="hidden sm:inline">Account</span>
+          <span className="hidden sm:inline">{getUserDisplayName()}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
@@ -140,7 +173,7 @@ export const UserDropdown: React.FC = () => {
         className="w-64 bg-white border border-gray-200 shadow-lg z-50"
       >
         <DropdownMenuLabel className="font-bold text-lg py-3">
-          My Account
+          Welcome, {getUserDisplayName()}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         
