@@ -12,6 +12,7 @@ import { useWishlist } from '@/hooks/useWishlist';
 import { useAppContext } from '@/contexts/AppContext';
 import { Sparkles, Map, Grid3x3, List } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { FilterOptions, SortOptions } from '@/components/AdvancedFilters';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
@@ -21,6 +22,16 @@ interface BuyerDashboardProps {
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchase }) => {
   const { products } = useAppContext();
   const [filters, setFilters] = useState({ category: 'all', searchQuery: '' });
+  const [advancedFilters, setAdvancedFilters] = useState<FilterOptions>({
+    priceRange: [0, 500],
+    minRating: 0,
+    freshness: 'all' as const,
+    maxDeliveryTime: 60
+  });
+  const [sortOptions, setSortOptions] = useState<SortOptions>({
+    field: 'none',
+    direction: 'asc'
+  });
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [activeTab, setActiveTab] = useState<'products' | 'vendors'>('products');
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -30,12 +41,37 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
   const { wishlistItems: wishlist, handleAddToWishlist: addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   const filteredProducts = useMemo(() => {
-    return products.filter(product => {
+    let filtered = products.filter(product => {
       const categoryMatch = filters.category === 'all' || product.category === filters.category;
       const searchMatch = product.name.toLowerCase().includes(filters.searchQuery.toLowerCase());
-      return categoryMatch && searchMatch;
+      const priceMatch = product.price >= advancedFilters.priceRange[0] && product.price <= advancedFilters.priceRange[1];
+      const ratingMatch = product.rating >= advancedFilters.minRating;
+      const freshnessMatch = advancedFilters.freshness === 'all' || 
+        (advancedFilters.freshness === 'fresh-pick' && product.isFreshPick) ||
+        (advancedFilters.freshness === 'regular' && !product.isFreshPick);
+      // Note: Delivery time would be calculated based on vendor location vs user location in a real app
+      // For now, we'll simulate with a random delivery time between 10-45 minutes
+      const estimatedDeliveryTime = Math.floor(Math.random() * 35) + 10;
+      const deliveryTimeMatch = estimatedDeliveryTime <= advancedFilters.maxDeliveryTime;
+      
+      return categoryMatch && searchMatch && priceMatch && ratingMatch && freshnessMatch && deliveryTimeMatch;
     });
-  }, [products, filters]);
+
+    // Apply sorting
+    if (sortOptions.field !== 'none') {
+      filtered.sort((a, b) => {
+        let comparison = 0;
+        if (sortOptions.field === 'price') {
+          comparison = a.price - b.price;
+        } else if (sortOptions.field === 'rating') {
+          comparison = a.rating - b.rating;
+        }
+        return sortOptions.direction === 'desc' ? -comparison : comparison;
+      });
+    }
+
+    return filtered;
+  }, [products, filters, advancedFilters, sortOptions]);
 
   const handleRemoveFromWishlist = (product: Product) => {
     removeFromWishlist(product);
@@ -122,6 +158,10 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
               onSearchQueryChange={(searchQuery) => setFilters(f => ({ ...f, searchQuery }))}
               viewMode={viewMode}
               onViewModeChange={setViewMode}
+              filters={advancedFilters}
+              onFiltersChange={setAdvancedFilters}
+              sortOptions={sortOptions}
+              onSortChange={setSortOptions}
             />
             <div className="mt-6">
               <ProductList
@@ -135,7 +175,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange, onPurchas
                 <div className="text-center py-16">
                   <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
                     <p className="text-2xl font-semibold text-white mb-3">No products found</p>
-                    <p className="text-slate-300">Try adjusting your search or category filters</p>
+                    <p className="text-slate-300">Try adjusting your search or filters</p>
                   </div>
                 </div>
               )}
