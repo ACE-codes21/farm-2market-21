@@ -20,6 +20,7 @@ export interface Product {
   barcode?: string | null;
   isFreshPick?: boolean | null;
   freshPickExpiresAt?: string | null;
+  created_at?: string;
 }
 
 export interface CartItem extends Product {
@@ -53,4 +54,11 @@ export interface VendorStats {
   totalProducts: number;
   totalOrders: number;
   totalRevenue: number;
+}
+
+export interface StatChanges {
+  sales: number;
+  products: number;
+  orders: number;
+  revenue: number;
 }

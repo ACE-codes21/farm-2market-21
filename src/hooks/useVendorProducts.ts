@@ -38,6 +38,7 @@ export const useVendorProducts = () => {
         barcode: p.barcode,
         isFreshPick: p.is_fresh_pick,
         freshPickExpiresAt: p.fresh_pick_expires_at,
+        created_at: p.created_at,
       }));
     },
     enabled: !!user,

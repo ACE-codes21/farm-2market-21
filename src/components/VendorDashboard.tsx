@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Product, Order, VendorStats } from '@/types';
+import { Product, Order, VendorStats, StatChanges } from '@/types';
 import { AddProductDialog } from './AddProductDialog';
 import { EditProductDialog } from './EditProductDialog';
 import { VendorDashboardHeader } from './vendor/VendorDashboardHeader';
 import { VendorStatsGrid } from './vendor/VendorStatsGrid';
-import { VendorProductsTable } from './vendor/VendorProductsTable';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
+import { subDays, isAfter } from 'date-fns';
 
 interface VendorDashboardProps {
   products: Product[];
@@ -29,13 +29,41 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   const { toast } = useToast();
 
   const maintenanceCost = 2000;
-  const totalSales = orders.reduce((sum, order) => sum + order.total_amount, 0);
+  const totalSales = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
 
   const stats: VendorStats = {
     totalSales: totalSales,
     totalProducts: products.length,
     totalOrders: orders.length,
     totalRevenue: totalSales - maintenanceCost
+  };
+
+  const now = new Date();
+  const sevenDaysAgo = subDays(now, 7);
+  const fourteenDaysAgo = subDays(now, 14);
+
+  const currentOrders = orders.filter(o => o.created_at && isAfter(new Date(o.created_at), sevenDaysAgo));
+  const previousOrders = orders.filter(o => o.created_at && isAfter(new Date(o.created_at), fourteenDaysAgo) && !isAfter(new Date(o.created_at), sevenDaysAgo));
+  const newProducts = products.filter(p => p.created_at && isAfter(new Date(p.created_at), sevenDaysAgo));
+  
+  const currentSales = currentOrders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+  const previousSales = previousOrders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+  
+  const calculatePercentageChange = (current: number, previous: number) => {
+    if (previous === 0) {
+      return current > 0 ? 100 : 0;
+    }
+    if (current === previous) {
+      return 0;
+    }
+    return Math.round(((current - previous) / previous) * 100);
+  };
+  
+  const statChanges: StatChanges = {
+    sales: calculatePercentageChange(currentSales, previousSales),
+    orders: calculatePercentageChange(currentOrders.length, previousOrders.length),
+    products: newProducts.length,
+    revenue: calculatePercentageChange(currentSales, previousSales)
   };
 
   const handleEditProductClick = (product: Product) => {
@@ -69,7 +97,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
           <p className="text-slate-400">Manage your products and track your business performance</p>
         </div>
         
-        <VendorStatsGrid stats={stats} />
+        <VendorStatsGrid stats={stats} changes={statChanges} />
         
         <div className="mt-8">
           <div className="flex flex-col gap-8">
