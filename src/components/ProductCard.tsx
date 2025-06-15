@@ -39,17 +39,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     if (isHovered && product.images.length > 1) {
       interval = setInterval(() => {
         setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-      }, 2500); // Slower slideshow - 2.5 seconds
+      }, 2500);
     }
     return () => clearInterval(interval);
   }, [isHovered, product.images.length]);
 
-  // Only show premium badge for ratings 4.6 and above
   const isPremium = product.rating >= 4.6;
 
   return (
     <Card 
-      className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg card-hover-elevate card-hover-glow relative focus-ring"
+      className="group overflow-hidden rounded-xl border border-slate-600/30 bg-slate-800/40 backdrop-blur-lg shadow-lg hover:shadow-2xl hover:shadow-green-500/10 transition-all duration-300 hover:scale-[1.02] focus-ring"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -64,17 +63,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <img 
             src={product.images[currentImageIndex]} 
             alt={`${product.name} - ${product.category} available for ₹${product.price}`}
-            className="w-full h-56 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="w-full h-40 object-cover transition-transform duration-500 ease-out group-hover:scale-110"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Wishlist Button */}
           <Button 
             size="icon"
             variant="ghost"
-            className={`absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 backdrop-blur-sm btn-hover-elevate transition-all duration-300 shadow-lg focus-ring ${
-              isInWishlist ? 'text-red-500' : 'text-gray-600 hover:text-red-500'
+            className={`absolute top-2 right-2 h-8 w-8 rounded-full bg-slate-800/80 backdrop-blur-sm transition-all duration-300 shadow-lg focus-ring ${
+              isInWishlist ? 'text-red-400' : 'text-slate-300 hover:text-red-400'
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -82,28 +81,28 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             }}
             aria-label={isInWishlist ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
           >
-            <Heart className={`h-5 w-5 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
+            <Heart className={`h-4 w-4 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
           </Button>
 
           {/* Fresh Pick Badge */}
           {product.isFreshPick && product.freshPickExpiresAt && (
-            <div className="absolute top-3 left-3">
+            <div className="absolute top-2 left-2">
               <FreshPickBadge expiresAt={product.freshPickExpiresAt} />
             </div>
           )}
 
-          {/* Premium Badge - Only for high rated items */}
+          {/* Premium Badge */}
           {isPremium && !product.isFreshPick && (
-            <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
+            <div className="absolute top-2 left-2 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full px-2 py-1 flex items-center gap-1 shadow-lg">
               <Sparkles className="h-3 w-3 text-white" aria-hidden="true" />
               <span className="text-xs font-bold text-white">Premium</span>
             </div>
           )}
         </div>
         
-        <div className="p-5">
-          <div className="flex items-center justify-between mb-3">
-            <Badge variant="secondary" className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-700 rounded-md">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <Badge variant="secondary" className="text-xs font-medium px-2 py-0.5 bg-slate-700/50 text-slate-200 border-slate-600/30 rounded-md">
               {product.category}
             </Badge>
             {product.vendor && (
@@ -111,7 +110,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="flex items-center gap-1 text-xs px-2 py-1 h-7 rounded-lg border-gray-300 hover:border-green-500 hover:text-green-600 transition-colors btn-hover-elevate focus-ring"
+                  className="flex items-center gap-1 text-xs px-2 py-1 h-6 rounded-lg border-slate-600/30 hover:border-green-500 hover:text-green-400 transition-colors bg-slate-800/50 text-slate-300"
                   aria-label={`Contact vendor ${product.vendor.name} for ${product.name}`}
                 >
                   <MessageCircle className="h-3 w-3" aria-hidden="true" />
@@ -121,53 +120,53 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </div>
 
-          <h3 className="font-semibold text-lg text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-green-600 transition-colors">
+          <h3 className="font-semibold text-base text-white mb-2 line-clamp-2 leading-tight group-hover:text-green-400 transition-colors">
             {product.name}
           </h3>
           
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-3 mb-3">
             <div className="flex items-center" role="img" aria-label={`Rating: ${product.rating} out of 5 stars`}>
               {[...Array(5)].map((_, i) => (
                 <Star 
                   key={i} 
-                  className={`h-4 w-4 ${
+                  className={`h-3 w-3 ${
                     i < Math.floor(product.rating) 
                       ? 'text-yellow-400 fill-current' 
-                      : 'text-gray-300'
+                      : 'text-slate-500'
                   }`}
                   aria-hidden="true"
                 /> 
               ))}
             </div>
-            <span className="text-sm text-gray-600 font-medium">
+            <span className="text-sm text-slate-300 font-medium">
               {product.rating}
             </span>
-            <span className="text-xs text-gray-600">
-              ({product.reviews} reviews)
+            <span className="text-xs text-slate-400">
+              ({product.reviews})
             </span>
           </div>
           
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-2xl font-bold text-gray-900" aria-label={`Price: ${product.price} rupees`}>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xl font-bold text-white" aria-label={`Price: ${product.price} rupees`}>
               ₹{product.price}
             </span>
             {product.stock <= 5 && product.stock > 0 && (
-              <span className="text-xs font-medium text-orange-600 bg-orange-100 px-2 py-1 rounded-full" role="status">
-                Only {product.stock} left
+              <span className="text-xs font-medium text-orange-400 bg-orange-500/20 px-2 py-1 rounded-full border border-orange-500/30" role="status">
+                {product.stock} left
               </span>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             {/* Add to Cart Button */}
             <AddToCartDialog 
               product={product} 
               onAddToCart={onAddToCart}
             >
               <Button 
-                className={`w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all duration-200 btn-hover-elevate btn-hover-glow focus-ring ${
-                  product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-gray-400 hover:bg-gray-400' : ''
+                className={`w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-green-500/25 focus-ring ${
+                  product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-slate-600 hover:bg-slate-600' : ''
                 }`}
                 disabled={product.stock === 0}
                 aria-label={product.stock === 0 ? `${product.name} is out of stock` : `Add ${product.name} to cart`}
@@ -184,11 +183,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <ContactVendorDialog product={product}>
                   <Button 
                     variant="outline"
-                    className="flex items-center gap-2 text-sm py-2 rounded-lg border-blue-300 text-blue-600 hover:bg-blue-50 hover:border-blue-500 transition-colors btn-hover-elevate focus-ring"
+                    className="flex items-center gap-1 text-xs py-1.5 rounded-lg border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-blue-500/50 hover:text-blue-400 transition-colors bg-slate-800/30"
                     aria-label={`Contact vendor ${product.vendor.name}`}
                   >
-                    <Phone className="h-4 w-4" aria-hidden="true" />
-                    Call/Chat
+                    <Phone className="h-3 w-3" aria-hidden="true" />
+                    Call
                   </Button>
                 </ContactVendorDialog>
               )}
@@ -198,11 +197,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <ContactVendorDialog product={product}>
                   <Button 
                     variant="outline"
-                    className="flex items-center gap-2 text-sm py-2 rounded-lg border-purple-300 text-purple-600 hover:bg-purple-50 hover:border-purple-500 transition-colors btn-hover-elevate focus-ring"
+                    className="flex items-center gap-1 text-xs py-1.5 rounded-lg border-slate-600/30 text-slate-300 hover:bg-slate-700/50 hover:border-purple-500/50 hover:text-purple-400 transition-colors bg-slate-800/30"
                     aria-label="Pay via UPI"
                   >
-                    <CreditCard className="h-4 w-4" aria-hidden="true" />
-                    Pay UPI
+                    <CreditCard className="h-3 w-3" aria-hidden="true" />
+                    UPI
                   </Button>
                 </ContactVendorDialog>
               )}
