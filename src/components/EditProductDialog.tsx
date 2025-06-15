@@ -124,9 +124,11 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
     }
   };
 
+  const inputStyles = "bg-slate-900/50 border-slate-700";
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px] dark-glass-effect border-slate-700 text-white">
+      <DialogContent className="sm:max-w-md dark-glass-effect border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
@@ -138,24 +140,24 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
           />
           <div>
             <Label htmlFor="name">Product Name *</Label>
-            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
+            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className={inputStyles} />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div >
               <Label htmlFor="price">Price (₹) *</Label>
-              <Input id="price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required />
+              <Input id="price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required className={inputStyles} />
             </div>
             <div>
               <Label htmlFor="stock">Stock Quantity *</Label>
-              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required />
+              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required className={inputStyles} />
             </div>
           </div>
 
           <div>
             <Label htmlFor="category">Category *</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+              <SelectTrigger className={inputStyles}><SelectValue placeholder="Select category" /></SelectTrigger>
               <SelectContent>
                 {categories.filter(cat => cat.value !== 'all').map((category) => (
                   <SelectItem key={category.value} value={category.value}>
@@ -173,7 +175,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
             </div>
             <div>
               <Label htmlFor="barcode">Barcode (Optional)</Label>
-              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} />
+              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} className={inputStyles} />
             </div>
           </div>
 
