@@ -19,7 +19,8 @@ export const useBuyerDashboard = () => {
             upi_id,
             upi_qr_code
           )
-        `);
+        `)
+        .gt('stock', 0);
 
       if (error) {
         console.error('Error fetching products:', error);

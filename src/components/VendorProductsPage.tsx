@@ -26,7 +26,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
   // Get products from this vendor
   const vendorProducts = useMemo(() => {
     return products.filter(product => 
-      product.vendor?.name === vendorName
+      product.vendor?.name === vendorName && product.stock > 0
     );
   }, [products, vendorName]);
 
