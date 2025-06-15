@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Heart, Package } from 'lucide-react';
 import { UserMenu } from './UserMenu';
 import { useTranslation } from 'react-i18next';
-
 interface BuyerHeaderProps {
   onCartOpen: () => void;
   onWishlistOpen: () => void;
@@ -20,7 +18,9 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
   wishlistCount,
   onOrdersClick
 }) => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   return <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/95 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
@@ -36,9 +36,7 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
 
           <div className="flex items-center space-x-4">
             {/* Orders Button */}
-            {onOrdersClick && <Button variant="ghost" size="sm" onClick={onOrdersClick} className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2">
-                <Package className="h-5 w-5" />
-              </Button>}
+            {onOrdersClick}
             
             {/* Wishlist Button */}
             <Button variant="ghost" size="sm" onClick={onWishlistOpen} className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2">
