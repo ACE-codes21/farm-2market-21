@@ -66,11 +66,11 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent 
-        className="w-64 p-4 dark-modern-card border border-slate-600/30 shadow-2xl bg-slate-800" 
+        className="w-60 p-3 dark-modern-card border border-slate-600/30 shadow-2xl bg-slate-800" 
         align="end"
         sideOffset={8}
       >
-        <div className="space-y-4">
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-white">Filters</h3>
             <Button 
