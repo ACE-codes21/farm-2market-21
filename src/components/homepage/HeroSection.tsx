@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowRight, Sparkles, Leaf, Heart, Truck, Users } from 'lucide-react';
@@ -41,28 +40,36 @@ const HeroSection: React.FC = () => {
   return (
     <>
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="space-y-8 animate-fade-in">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="space-y-12 animate-fade-in">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/10 via-green-400/15 to-green-500/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] transition-all duration-500 transform hover:scale-105">
               <Sparkles className="h-4 w-4 animate-pulse" />
-              Connecting Communities Through Fresh Food
+              Our Capital, Your Success
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/0 via-green-400/20 to-green-400/0 animate-pulse"></div>
             </div>
 
-            {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              <span className="text-green-400 drop-shadow-[0_0_30px_rgba(34,197,94,0.8)] animate-pulse">Farm</span>
-              <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">2</span>
-              <span className="text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">Market</span>
-            </h1>
+            {/* Main Heading - Large and Bold like the screenshot */}
+            <div className="space-y-6">
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-none tracking-tight">
+                <span className="block">No Time Limit</span>
+                <span className="block">
+                  <span className="text-green-400 drop-shadow-[0_0_30px_rgba(34,197,94,0.8)]">Prop</span>
+                  <span className="text-white"> </span>
+                  <span className="text-green-400 drop-shadow-[0_0_30px_rgba(34,197,94,0.8)]">Firm</span>
+                </span>
+                <span className="block text-5xl md:text-7xl lg:text-8xl mt-4">
+                  Conquer the market
+                </span>
+              </h1>
+            </div>
 
-            {/* Subtitle */}
+            {/* Original Subtitle - Keep intact */}
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in" style={{animationDelay: '0.2s'}}>
               Empowering <span className="text-orange-400 font-semibold">vendors</span>. Nourishing <span className="text-green-400 font-semibold">neighborhoods</span>.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Keep original design */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
               <Button 
                 onClick={() => openAuthModal('buyer', 'signup')} 
@@ -86,7 +93,7 @@ const HeroSection: React.FC = () => {
               </Button>
             </div>
 
-            {/* Enhanced Feature Pills */}
+            {/* Enhanced Feature Pills - Keep original */}
             <div className="flex flex-wrap justify-center gap-6 pt-16">
               {features.map((feature, index) => {
                 const IconComponent = feature.icon;
