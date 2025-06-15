@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowRight, Sparkles, Leaf, Heart, Truck, Users } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
+
 const HeroSection: React.FC = () => {
   const [authModal, setAuthModal] = useState<{
     isOpen: boolean;
@@ -46,26 +47,27 @@ const HeroSection: React.FC = () => {
   return <>
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="space-y-8 animate-fade-in">
+          <div className="space-y-6 animate-fade-in">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/10 via-green-400/15 to-green-500/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.2)] hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] transition-all duration-500 transform hover:scale-105">
               <Sparkles className="h-4 w-4 animate-pulse" />
-              Connecting Communities Through Fresh Food
+              REVOLUTIONIZING LOCAL FOOD MARKETS
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400/0 via-green-400/20 to-green-400/0 animate-pulse"></div>
             </div>
 
-            {/* Inspirational Intro Line */}
-            <div className="mb-4">
+            {/* Inspirational Intro Line with slower glow */}
+            <div className="mb-2">
               <h2 className="text-2xl md:text-4xl font-black text-white leading-tight tracking-wide">
-                <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] animate-pulse text-7xl">Fresh from the</span>
+                <span className="bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(255,255,255,0.8)] animate-pulse text-7xl" style={{animationDuration: '3s'}}>Fresh from the</span>
               </h2>
             </div>
 
-            {/* Main Heading */}
+            {/* Main Heading with slower, more aesthetic glow */}
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              <span className="text-green-400 drop-shadow-[0_0_30px_rgba(34,197,94,0.8)] animate-pulse text-8xl">Farm</span>
-              
-              
+              <span className="text-green-400 drop-shadow-[0_0_40px_rgba(34,197,94,1)] text-8xl" style={{
+                textShadow: '0 0 20px rgba(34,197,94,0.8), 0 0 40px rgba(34,197,94,0.6), 0 0 60px rgba(34,197,94,0.4)',
+                animation: 'pulseGlow 4s ease-in-out infinite alternate'
+              }}>Farm</span>
             </h1>
 
             {/* Subtitle */}
@@ -119,4 +121,5 @@ const HeroSection: React.FC = () => {
       <AuthModal isOpen={authModal.isOpen} onClose={closeAuthModal} role={authModal.role} defaultMode={authModal.mode} />
     </>;
 };
+
 export default HeroSection;
