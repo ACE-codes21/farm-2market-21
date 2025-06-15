@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ShoppingBag, Store, ArrowDown } from 'lucide-react';
 
 const HeroSection: React.FC = () => {
+  console.log('HeroSection component is rendering');
   const navigate = useNavigate();
   
   const handleRoleSelect = (role: 'vendor' | 'buyer') => {
@@ -57,8 +58,8 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Browse Market Demo - positioned above scroll arrow */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20">
+      {/* Browse Market Demo */}
+      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20">
         <Button 
           onClick={() => navigate('/demo')} 
           variant="ghost" 
@@ -68,8 +69,8 @@ const HeroSection: React.FC = () => {
         </Button>
       </div>
 
-      {/* Animated scroll down arrow - positioned at very bottom */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+      {/* Animated scroll down arrow */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
         <ArrowDown className="h-6 w-6 text-green-400/60 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
       </div>
     </>
