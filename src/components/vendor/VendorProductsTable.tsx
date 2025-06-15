@@ -13,8 +13,8 @@ interface VendorProductsTableProps {
   products: Product[];
   onAddProductClick: () => void;
   onEditProduct: (product: Product) => void;
-  onUpdateProduct: (productId: number, updatedProduct: Partial<Product>) => void;
-  onDeleteProduct: (productId: number) => void;
+  onUpdateProduct: (productId: string, updatedProduct: Partial<Product>) => void;
+  onDeleteProduct: (productId: string) => void;
 }
 
 export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({

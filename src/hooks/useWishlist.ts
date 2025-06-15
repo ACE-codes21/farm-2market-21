@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product } from '@/types';
@@ -36,7 +35,7 @@ export const useWishlist = () => {
     });
   };
 
-  const isInWishlist = (productId: number) => {
+  const isInWishlist = (productId: string) => {
     return wishlistItems.some(item => item.id === productId);
   };
 

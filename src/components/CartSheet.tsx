@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 
 interface CartSheetProps {
   cartItems: CartItem[];
-  onUpdateQuantity: (productId: number, quantity: number) => void;
+  onUpdateQuantity: (productId: string, quantity: number) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCheckout: () => void;

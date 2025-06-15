@@ -7,10 +7,10 @@ interface AppContextType {
   products: Product[];
   orders: Order[];
   addProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
-  editProduct: (productId: number, updatedProduct: Partial<Product>) => void;
-  deleteProduct: (productId: number) => void;
+  editProduct: (productId: string, updatedProduct: Partial<Product>) => void;
+  deleteProduct: (productId: string) => void;
   addOrder: (items: CartItem[]) => void;
-  updateProductStock: (productId: number, quantityUsed: number) => void;
+  updateProductStock: (productId: string, quantityUsed: number) => void;
   cleanupExpiredProducts: () => void;
 }
 
@@ -53,7 +53,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setProducts(prevProducts => {
       const newProduct: Product = {
         ...newProductData,
-        id: prevProducts.length > 0 ? Math.max(...prevProducts.map(p => p.id)) + 1 : 1,
+        id: `local-${new Date().getTime()}`, // Switched to string ID
         rating: 0,
         reviews: 0,
       };
@@ -61,7 +61,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     });
   };
 
-  const editProduct = (productId: number, updatedProduct: Partial<Product>) => {
+  const editProduct = (productId: string, updatedProduct: Partial<Product>) => {
     setProducts(prevProducts =>
       prevProducts.map(product =>
         product.id === productId
@@ -71,13 +71,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
   };
 
-  const deleteProduct = (productId: number) => {
+  const deleteProduct = (productId: string) => {
     setProducts(prevProducts => 
       prevProducts.filter(product => product.id !== productId)
     );
   };
 
-  const updateProductStock = (productId: number, quantityUsed: number) => {
+  const updateProductStock = (productId: string, quantityUsed: number) => {
     setProducts(prevProducts =>
       prevProducts.map(product =>
         product.id === productId

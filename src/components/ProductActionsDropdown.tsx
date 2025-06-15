@@ -13,7 +13,7 @@ import { Product } from '@/types';
 interface ProductActionsDropdownProps {
   product: Product;
   onEdit: (product: Product) => void;
-  onDelete: (productId: number) => void;
+  onDelete: (productId: string) => void;
 }
 
 export const ProductActionsDropdown: React.FC<ProductActionsDropdownProps> = ({

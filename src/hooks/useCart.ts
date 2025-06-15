@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, CartItem } from '@/types';
@@ -47,7 +46,7 @@ export const useCart = () => {
     });
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: string) => {
     setCartItems(prev => prev.filter(item => item.id !== productId));
     toast({
       variant: 'destructive',
@@ -56,7 +55,7 @@ export const useCart = () => {
     });
   };
 
-  const updateCartQuantity = (productId: number, newQuantity: number) => {
+  const updateCartQuantity = (productId: string, newQuantity: number) => {
     if (newQuantity <= 0) {
         setCartItems(prev => prev.filter(item => item.id !== productId));
         toast({

@@ -14,7 +14,7 @@ interface EditProductDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   product: Product | null;
-  onEditProduct: (productId: number, updatedProduct: Partial<Product>) => void;
+  onEditProduct: (updatedProduct: Partial<Product>) => void;
 }
 
 export const EditProductDialog: React.FC<EditProductDialogProps> = ({
@@ -60,7 +60,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
       return;
     }
 
-    onEditProduct(product.id, {
+    onEditProduct({
       name: formData.name,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock),
