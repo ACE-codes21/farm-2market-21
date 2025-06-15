@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { CartSheet } from '@/components/CartSheet';
 import { WishlistSheet } from '@/components/WishlistSheet';
@@ -9,6 +10,7 @@ import { useBuyerDashboard } from '@/hooks/useBuyerDashboard';
 import { DashboardTabs } from '@/components/buyer/DashboardTabs';
 import { DashboardContent } from '@/components/buyer/DashboardContent';
 import { Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
@@ -17,6 +19,7 @@ interface BuyerDashboardProps {
 const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const { t } = useTranslation();
 
   const { 
     cartItems: cart, 
@@ -72,7 +75,7 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({ onRoleChange }) => {
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
           <Sparkles className="h-4 w-4 text-white animate-pulse" />
           <span className="text-white font-medium text-sm tracking-wide">
-            🌿 Welcome to Farm2Market | Fresh from the Street
+            {t('buyer_dashboard.welcome_banner')}
           </span>
           <Sparkles className="h-4 w-4 text-white animate-pulse" />
         </div>

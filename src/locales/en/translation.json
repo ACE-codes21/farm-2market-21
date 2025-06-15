@@ -3,5 +3,25 @@
   "nav_features": "Features",
   "nav_about": "About",
   "nav_contact": "Contact",
-  "nav_login": "Log In"
+  "nav_login": "Log In",
+  "fresh_pick_badge": {
+    "fresh_pick": "FRESH PICK",
+    "expired": "EXPIRED"
+  },
+  "buyer_header": {
+    "farm": "Farm",
+    "tomarket": "2Market"
+  },
+  "add_to_cart_dialog": {
+    "title": "Add to Cart",
+    "each": "each",
+    "available": "available",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal:",
+    "cancel": "Cancel",
+    "add_to_cart": "Add to Cart"
+  },
+  "buyer_dashboard": {
+    "welcome_banner": "🌿 Welcome to Farm2Market | Fresh from the Street"
+  }
 }
