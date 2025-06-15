@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats } from '@/types';
@@ -14,8 +13,8 @@ interface VendorDashboardProps {
   products: Product[];
   orders: Order[];
   onAddProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
-  onEditProduct: (productId: number, updatedProduct: Partial<Product>) => void;
-  onDeleteProduct: (productId: number) => void;
+  onEditProduct: (productId: string, updatedProduct: Partial<Product>) => void;
+  onDeleteProduct: (productId: string) => void;
 }
 
 const VendorDashboard: React.FC<VendorDashboardProps> = ({ 
@@ -42,11 +41,11 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
     setIsEditProductOpen(true);
   };
 
-  const handleUpdateProduct = (productId: number, updatedProduct: Partial<Product>) => {
+  const handleUpdateProduct = (productId: string, updatedProduct: Partial<Product>) => {
     onEditProduct(productId, updatedProduct);
   };
   
-  const handleDeleteProduct = (productId: number) => {
+  const handleDeleteProduct = (productId: string) => {
     const product = products.find(p => p.id === productId);
     if (product) {
       onDeleteProduct(productId);
@@ -93,12 +92,12 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
         onAddProduct={onAddProduct} 
       />
 
-      <EditProductDialog
+      {selectedProduct && <EditProductDialog
         isOpen={isEditProductOpen}
         onOpenChange={setIsEditProductOpen}
         product={selectedProduct}
-        onEditProduct={onEditProduct}
-      />
+        onEditProduct={(updatedProduct) => onEditProduct(selectedProduct.id, updatedProduct)}
+      />}
     </div>
   );
 };

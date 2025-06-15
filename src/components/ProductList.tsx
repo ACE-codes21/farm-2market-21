@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Product } from '@/types';
 import { ProductCard } from './ProductCard';
@@ -8,7 +7,7 @@ interface ProductListProps {
   viewMode: 'grid' | 'list';
   onAddToCart: (product: Product, quantity: number) => void;
   onAddToWishlist: (product: Product) => void;
-  isInWishlist: (productId: number) => boolean;
+  isInWishlist: (productId: string) => boolean;
 }
 
 export const ProductList: React.FC<ProductListProps> = ({
