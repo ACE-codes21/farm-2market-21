@@ -26,7 +26,7 @@ const Auth: React.FC = () => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate('/buyer');
+        navigate('/');
       }
     };
     checkAuth();
@@ -78,10 +78,8 @@ const Auth: React.FC = () => {
         description: "You've successfully logged in.",
       });
       
-      // Navigate to buyer dashboard after a short delay to ensure localStorage is set
-      setTimeout(() => {
-        navigate('/buyer');
-      }, 100);
+      // Navigate to homepage instead of buyer dashboard
+      navigate('/');
     } catch (error: any) {
       setError(error.message);
       toast({
@@ -103,7 +101,7 @@ const Auth: React.FC = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/buyer`,
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
             role: roleFromUrl,
@@ -129,10 +127,8 @@ const Auth: React.FC = () => {
         description: "Please check your email to verify your account.",
       });
       
-      // Navigate to buyer dashboard after a short delay to ensure localStorage is set
-      setTimeout(() => {
-        navigate('/buyer');
-      }, 100);
+      // Navigate to homepage instead of buyer dashboard
+      navigate('/');
     } catch (error: any) {
       setError(error.message);
       toast({
@@ -153,7 +149,7 @@ const Auth: React.FC = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/buyer`,
+          redirectTo: `${window.location.origin}/`,
           queryParams: roleFromUrl ? { role: roleFromUrl } : undefined,
         }
       });

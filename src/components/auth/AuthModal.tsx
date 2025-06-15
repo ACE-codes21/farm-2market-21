@@ -71,10 +71,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       
       onClose();
       
-      // Navigate to dashboard
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 100);
+      // No automatic redirect - user will use the buttons on homepage
     } catch (error: any) {
       setError(error.message || 'Login failed.');
       toast({
@@ -98,7 +95,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
             role: role || 'buyer'
@@ -123,10 +120,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       
       onClose();
       
-      // Navigate to dashboard
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 100);
+      // No automatic redirect - user will use the buttons on homepage
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
       toast({
@@ -147,7 +141,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}/`,
           queryParams: role ? { role } : undefined
         }
       });
