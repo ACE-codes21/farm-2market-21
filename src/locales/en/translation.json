@@ -1,244 +1,66 @@
+
 {
-  "nav": {
-    "nav_features": "Features",
-    "nav_about": "About",
-    "nav_contact": "Contact",
-    "nav_login": "Log In"
-  },
-  "auth_modal": {
-    "title": "Authentication",
-    "subtitle": "Please log in to continue",
-    "email": "Email",
-    "password": "Password",
-    "login": "Log In",
-    "signup": "Sign Up",
-    "forgot_password": "Forgot Password",
-    "reset_password": "Reset Password",
-    "confirm_password": "Confirm Password",
-    "submit": "Submit",
-    "cancel": "Cancel"
-  },
-  "signup_only_modal": {
-    "title": "Sign Up",
-    "subtitle": "Please sign up to continue",
-    "email": "Email",
-    "password": "Password",
-    "confirm_password": "Confirm Password",
-    "submit": "Submit",
-    "cancel": "Cancel"
-  },
-  "hero_section": {
-    "badge": "Connecting Local Communities Through Fresh Food",
-    "heading_1": "From",
-    "heading_farm": "Farm",
-    "heading_2": "to Your",
-    "heading_market": "Market",
-    "subheading_1": "Empowering",
-    "subheading_vendors": "vendors",
-    "subheading_2": ". Nourishing",
-    "subheading_neighbourhoods": "neighbourhoods",
-    "go_to_market": "Go to Market",
-    "go_to_dashboard": "Go to Dashboard",
-    "shop_now": "Shop Now",
-    "sell_with_us": "Sell with Us",
-    "stats": {
-      "farmers": "Local Farmers",
-      "customers": "Happy Customers",
-      "cities": "Cities Covered"
-    }
-  },
-  "features_section": {
-    "heading": "Why Choose",
-    "heading_highlight": "Farm2Market?",
-    "subheading": "Experience the future of local commerce with our innovative platform connecting communities",
-    "features": {
-      "fresh_organic": {
-        "title": "Fresh & Organic",
-        "description": "Direct from farm to your table, ensuring maximum freshness and quality"
-      },
-      "easy_shopping": {
-        "title": "Easy Shopping",
-        "description": "Browse, order, and receive fresh produce with just a few clicks"
-      },
-      "community_driven": {
-        "title": "Community Driven",
-        "description": "Supporting local farmers and building stronger communities"
-      },
-      "fair_pricing": {
-        "title": "Fair Pricing",
-        "description": "Transparent pricing that benefits both farmers and consumers"
-      },
-      "local_network": {
-        "title": "Local Network",
-        "description": "Connect with vendors in your neighborhood and surrounding areas"
-      },
-      "quick_delivery": {
-        "title": "Quick Delivery",
-        "description": "Fast and reliable delivery to ensure freshness is maintained"
-      }
-    }
-  },
-  "stats_section": {
-    "heading": "Growing",
-    "heading_highlight": "Together",
-    "subheading": "Join thousands of vendors and customers who trust Farm2Market for their fresh produce needs",
-    "stats": {
-      "vendors": "Local Vendors",
-      "customers": "Happy Customers",
-      "orders": "Orders Delivered",
-      "satisfaction": "Satisfaction Rate"
-    }
-  },
-  "cta_section": {
-    "badge": "Ready to Transform Your Food Journey?",
-    "heading_1": "Start Your",
-    "heading_2": "Farm2Market",
-    "heading_3": "Journey Today",
-    "description": "Whether you're a vendor looking to reach more customers or a buyer seeking fresh, local produce, we're here to connect you with your community.",
-    "start_shopping": "Start Shopping",
-    "start_selling": "Start Selling"
+  "welcome": "Welcome",
+  "login": "Login",
+  "signup": "Sign Up",
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm Password",
+  "full_name": "Full Name",
+  "phone": "Phone Number",
+  "role": "Role",
+  "buyer": "Buyer",
+  "vendor": "Vendor",
+  "already_have_account": "Already have an account?",
+  "dont_have_account": "Don't have an account?",
+  "cart_sheet": {
+    "cart_title": "Shopping Cart ({{count}} item)",
+    "cart_title_plural": "Shopping Cart ({{count}} items)",
+    "empty_cart_title": "Your cart is empty",
+    "empty_cart_desc": "Looks like you haven't added anything to your cart yet",
+    "continue_shopping": "Continue Shopping",
+    "order_summary": "Order Summary",
+    "items_count": "{{count}} item",
+    "items_count_plural": "{{count}} items",
+    "delivery": "Delivery",
+    "free": "FREE",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "shipping_note": "Taxes and shipping calculated at checkout",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "choose_payment": "Choose Payment Method",
+    "back_to_cart": "← Back to Cart",
+    "pay": "Pay ₹{{total}}",
+    "place_order": "Place Order",
+    "processing": "Processing...",
+    "order_placed_success": "Order Placed Successfully!",
+    "order_placed_pending": "Order Placed - Pending Confirmation",
+    "order_confirmed": "Your order for {{count}} item has been confirmed.",
+    "order_confirmed_plural": "Your order for {{count}} items has been confirmed.",
+    "order_placed_title": "Order Placed Successfully!",
+    "order_placed_desc": "Thank you for your order. We'll start preparing it right away.",
+    "total_paid": "Total paid: ₹{{total}}"
   },
   "buy_now_dialog": {
-    "quick_checkout": "Quick Checkout",
-    "each": "each",
-    "available": "available",
+    "buy_now": "Buy Now",
+    "product_details": "Product Details",
     "quantity": "Quantity",
     "coupon_code": "Coupon Code",
     "apply": "Apply",
-    "coupon_applied": "Coupon Applied!",
-    "discount_applied": "{{discount}}% discount applied",
-    "invalid_coupon": "Invalid Coupon",
-    "invalid_coupon_desc": "Please enter a valid coupon code",
-    "payment_method": "Payment Method",
     "order_summary": "Order Summary",
-    "subtotal_items": "Subtotal ({{count}} items)",
+    "subtotal_items": "Subtotal ({{count}} item)",
+    "subtotal_items_plural": "Subtotal ({{count}} items)",
     "discount_code": "Discount ({{code}})",
     "total": "Total",
-    "cancel": "Cancel",
-    "complete_purchase": "Complete Purchase ₹{{total}}",
-    "processing": "Processing...",
-    "order_placed_success": "Order Placed Successfully!",
-    "order_confirmed": "Your order for {{productName}} has been confirmed.",
-    "order_total": "Order total: ₹{{total}}",
+    "payment_method": "Payment Method",
     "payment_methods": {
       "card": "Credit/Debit Card",
       "upi": "UPI Payment",
       "wallet": "Digital Wallet"
     },
-    "coupons": {
-      "fresh10_desc": "10% off on fresh items",
-      "welcome20_desc": "20% off for new users",
-      "bulk5_desc": "5% off on bulk orders"
-    }
-  },
-  "cart_sheet": {
-    "cart_title": "Cart ({{count}})",
-    "subtotal": "Subtotal",
-    "shipping_note": "Shipping & taxes calculated at checkout.",
-    "proceed_to_checkout": "Proceed to Checkout",
-    "empty_cart_title": "Your cart is empty",
-    "empty_cart_desc": "Add items to your cart to get started.",
-    "continue_shopping": "Continue Shopping",
-    "choose_payment": "Choose Payment Method",
-    "back_to_cart": "← Back",
-    "order_summary": "Order Summary",
-    "items_count": "Items ({{count}})",
-    "delivery": "Delivery",
-    "free": "Free",
-    "total": "Total",
-    "pay": "Pay ₹{{total}}",
-    "processing": "Processing...",
+    "place_order": "Place Order",
     "order_placed_success": "Order Placed Successfully!",
-    "order_confirmed": "Your order of {{count}} items has been confirmed.",
-    "order_placed_title": "Order Placed!",
-    "order_placed_desc": "Your cart items have been ordered successfully.",
-    "total_paid": "Total: ₹{{total}}"
-  },
-  "fresh_for_badge": {
-    "na": "N/A",
-    "expired": "Expired"
-  },
-  "dashboard_tabs": {
-    "discover_market": "Discover Local Market",
-    "discover_vendors": "Discover Vendors",
-    "my_orders": "My Orders",
-    "products_desc": "Find fresh produce and authentic items from local street vendors",
-    "vendors_desc": "Find fresh products from local vendors around you",
-    "orders_desc": "Track your orders and view order history",
-    "tabs": {
-      "products": "Products",
-      "vendors": "Vendors",
-      "orders": "Orders"
-    }
-  },
-  "vendor_dashboard_header": {
-    "dashboard": "Dashboard",
-    "finance": "Finance",
-    "ai_analytics": "AI Analytics",
-    "services": "Services"
-  },
-  "buyer_header": {
-    "farm": "Farm",
-    "tomarket": "2Market"
-  },
-  "dashboard_page": {
-    "loading": "Loading Dashboard..."
-  },
-  "not_found_page": {
-    "title": "404",
-    "description": "Oops! Page not found",
-    "return_home": "Return to Home"
-  },
-  "analytics_dashboard": {
-    "title": "AI Analytics",
-    "subtitle": "Smart insights to grow your business.",
-    "product_trends": "Product Trends",
-    "sales_summary": {
-      "total_revenue": "Total Revenue",
-      "total_sales": "Total Sales",
-      "customers": "Customers",
-      "new_customers": "New Customers",
-      "orders_placed": "Orders Placed",
-      "products_sold": "Products Sold",
-      "top_selling_product": "Top Selling Product",
-      "customer_satisfaction": "Customer Satisfaction"
-    }
-  },
-  "finance_dashboard": {
-    "title": "Finance Hub",
-    "subtitle": "Your financial health at a glance. Access credit, track loans, and grow your business.",
-    "available_loan_schemes": "Available Loan Schemes"
-  },
-  "services_dashboard": {
-    "title": "Services Hub",
-    "subtitle": "Your one-stop portal for government schemes, licenses, and support.",
-    "tabs": {
-      "schemes": "Schemes",
-      "eligibility": "Eligibility",
-      "tracker": "Tracker",
-      "documents": "Documents",
-      "ai_assist": "AI Assistant"
-    }
-  },
-  "vendor_stats_grid": {
-    "total_sales": "Total Sales",
-    "total_products": "Total Products",
-    "orders": "Orders",
-    "revenue": "Revenue",
-    "last_7_days": "{{change}} in last 7 days"
-  },
-  "ai_chat": {
-    "title": "AI Assistant",
-    "tooltip": "Chat with our AI Assistant",
-    "welcome_message": "Hello! I'm your Farm2Market AI assistant. I can help you with:\n\n• How to place orders\n• Finding vendors near you\n• Understanding platform features\n• Managing your dashboard\n• Payment and delivery queries\n\nWhat would you like to know?",
-    "placeholder": "Ask me anything about Farm2Market...",
-    "responses": {
-      "how_to_order": "To place an order:\n1. Browse products in the 'Discover Market' tab\n2. Click on a product you like\n3. Select quantity and click 'Buy Now'\n4. Choose payment method and complete checkout\n\nYour order will be confirmed and you can track it in 'My Orders'!",
-      "find_vendors": "To find vendors:\n1. Go to 'Discover Vendors' tab\n2. Use the map view to see vendors near you\n3. Filter by product type or rating\n4. Click on vendor profiles to see their products\n\nYou can also contact vendors directly through their profiles!",
-      "dashboard_help": "Your dashboard has 3 main sections:\n• **Products**: Browse and buy from local vendors\n• **Vendors**: Find and connect with sellers\n• **Orders**: Track your purchase history\n\nUse the search and filter options to find exactly what you need!",
-      "payment_help": "We accept multiple payment methods:\n• Credit/Debit Cards\n• UPI payments\n• Digital wallets\n\nAll payments are secure and encrypted. You'll receive confirmation once payment is processed.",
-      "vendor_features": "As a vendor, you can:\n• Manage products and inventory\n• Track sales and analytics\n• Access finance and loan schemes\n• Use government services portal\n• View customer orders and feedback",
-      "general_help": "I'm here to help with any Farm2Market questions! You can ask me about:\n• Platform features\n• How to use different sections\n• Payment and orders\n• Vendor tools\n• Technical support\n\nJust type your question and I'll do my best to help!"
-    }
+    "order_confirmed": "Your order for {{productName}} has been confirmed and will be delivered soon.",
+    "order_total": "Order Total: ₹{{total}}"
   }
 }

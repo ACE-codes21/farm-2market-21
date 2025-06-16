@@ -17,7 +17,7 @@ interface CartSheetProps {
   onUpdateQuantity: (productId: string, quantity: number) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onCheckout: () => Promise<void>;
+  onCheckout: (paymentMethod?: string) => Promise<void>;
 }
 
 export const CartSheet: React.FC<CartSheetProps> = ({
@@ -46,7 +46,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({
     setIsProcessing(true);
     
     try {
-      await onCheckout();
+      await onCheckout(selectedPaymentMethod);
       
       // Simulate checkout processing
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -54,8 +54,12 @@ export const CartSheet: React.FC<CartSheetProps> = ({
       setOrderPlaced(true);
       setShowPaymentOptions(false);
       
+      const orderMessage = selectedPaymentMethod === 'cod' 
+        ? t('cart_sheet.order_placed_pending')
+        : t('cart_sheet.order_placed_success');
+      
       toast({
-        title: t('cart_sheet.order_placed_success'),
+        title: orderMessage,
         description: t('cart_sheet.order_confirmed', { count: totalItems })
       });
       
@@ -120,7 +124,9 @@ export const CartSheet: React.FC<CartSheetProps> = ({
               onClick={handleCheckout}
               disabled={isProcessing}
             >
-              {isProcessing ? t('cart_sheet.processing') : t('cart_sheet.pay', { total: total.toFixed(2) })}
+              {isProcessing ? t('cart_sheet.processing') : 
+               selectedPaymentMethod === 'cod' ? t('cart_sheet.place_order') : 
+               t('cart_sheet.pay', { total: total.toFixed(2) })}
             </Button>
           </SheetFooter>
         </SheetContent>

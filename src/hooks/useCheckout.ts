@@ -8,7 +8,13 @@ export const useCheckout = () => {
   const { toast } = useToast();
 
   const checkoutMutation = useMutation({
-    mutationFn: async (items: { id: string; quantity: number }[]) => {
+    mutationFn: async ({ items, paymentMethod }: { 
+      items: { id: string; quantity: number }[], 
+      paymentMethod: string 
+    }) => {
+      // Determine order status based on payment method
+      const orderStatus = paymentMethod === 'cod' ? 'pending' : 'delivered';
+      
       const { data, error } = await supabase.rpc('create_order_and_decrement_stock', {
         items_to_buy: items,
       });
@@ -30,6 +36,15 @@ export const useCheckout = () => {
         });
         throw new Error(error.message);
       }
+
+      // Update order status based on payment method
+      if (data && paymentMethod !== 'cod') {
+        await supabase
+          .from('orders')
+          .update({ status: orderStatus })
+          .eq('id', data);
+      }
+
       return data;
     },
     onSuccess: () => {

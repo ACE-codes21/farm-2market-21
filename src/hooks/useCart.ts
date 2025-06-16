@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, CartItem } from '@/types';
@@ -83,12 +84,12 @@ export const useCart = () => {
     }
   };
 
-  const clearCart = async () => {
+  const clearCart = async (paymentMethod: string = 'card') => {
     if (cartItems.length === 0) {
         return;
     }
     const itemsToBuy = cartItems.map(item => ({ id: item.id, quantity: item.quantity }));
-    await checkoutMutation.mutateAsync(itemsToBuy);
+    await checkoutMutation.mutateAsync({ items: itemsToBuy, paymentMethod });
     setCartItems([]);
   };
 
