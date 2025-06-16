@@ -76,7 +76,7 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
                     <div className="flex items-center gap-2">
                       {product.name}
                       {mostDemanded?.id === product.id && (
-                        <Flame className="h-4 w-4 text-orange-500" title="Most Demanded" />
+                        <Flame className="h-4 w-4 text-orange-500" />
                       )}
                       {isProductFresh(product) && (
                         <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">

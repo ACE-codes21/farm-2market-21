@@ -81,14 +81,16 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({
 
       {/* Filters */}
       <ProductFilters
-        filters={filters}
-        setFilters={setFilters}
-        advancedFilters={advancedFilters}
-        setAdvancedFilters={setAdvancedFilters}
-        sortOptions={sortOptions}
-        setSortOptions={setSortOptions}
+        selectedCategory={filters.category}
+        onCategoryChange={(category) => setFilters({ ...filters, category })}
         viewMode={viewMode}
-        setViewMode={setViewMode}
+        onViewModeChange={setViewMode}
+        searchQuery={filters.searchQuery}
+        onSearchQueryChange={(searchQuery) => setFilters({ ...filters, searchQuery })}
+        filters={advancedFilters}
+        onFiltersChange={setAdvancedFilters}
+        sortOptions={sortOptions}
+        onSortChange={setSortOptions}
       />
 
       {/* Products List */}
