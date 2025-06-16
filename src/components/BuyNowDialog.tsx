@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -47,7 +46,8 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
   const paymentMethods = [
     { id: 'card', name: t('buy_now_dialog.payment_methods.card'), icon: CreditCard, color: 'blue' },
     { id: 'upi', name: t('buy_now_dialog.payment_methods.upi'), icon: Smartphone, color: 'green' },
-    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' }
+    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' },
+    { id: 'cod', name: 'Pay on Delivery', icon: Wallet, color: 'orange' }
   ];
 
   const subtotal = product.price * selectedQuantity;
@@ -79,7 +79,10 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
   const handlePurchase = async () => {
     setIsProcessing(true);
     try {
-      await checkoutMutation.mutateAsync([{ id: product.id, quantity: selectedQuantity }]);
+      await checkoutMutation.mutateAsync({ 
+        items: [{ id: product.id, quantity: selectedQuantity }], 
+        paymentMethod: selectedPaymentMethod 
+      });
       
       await new Promise(resolve => setTimeout(resolve, 1000));
       

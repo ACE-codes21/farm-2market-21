@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Clock, CreditCard, Eye, MessageCircle } from 'lucide-react';
 import { useVendorProfiles } from '@/hooks/useVendorProfiles';
-import { ContactVendorDialog } from '@/components/ContactVendorDialog';
 import { VendorProductsPage } from '@/components/VendorProductsPage';
 
 interface Vendor {
@@ -22,7 +21,6 @@ interface Vendor {
 
 export const VendorMapView: React.FC = () => {
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
-  const [showContactDialog, setShowContactDialog] = useState(false);
   const [showVendorProducts, setShowVendorProducts] = useState(false);
   const { data: vendorProfiles } = useVendorProfiles();
 
@@ -74,13 +72,17 @@ export const VendorMapView: React.FC = () => {
   };
 
   const handleContact = () => {
-    setShowContactDialog(true);
+    if (selectedVendor?.phone) {
+      const message = `Hi! I found your business on Farm2Market. I'm interested in your products.`;
+      const whatsappUrl = `https://wa.me/${selectedVendor.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
   };
 
   if (showVendorProducts && selectedVendor) {
     return (
       <VendorProductsPage 
-        vendorId={selectedVendor.id}
+        vendorName={selectedVendor.name}
         onBack={() => setShowVendorProducts(false)}
       />
     );
@@ -227,17 +229,6 @@ export const VendorMapView: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-
-      {/* Contact Dialog */}
-      {selectedVendor && (
-        <ContactVendorDialog
-          open={showContactDialog}
-          onOpenChange={setShowContactDialog}
-          vendorName={selectedVendor.name}
-          vendorPhone={selectedVendor.phone}
-          vendorEmail={selectedVendor.email}
-        />
-      )}
     </div>
   );
 };

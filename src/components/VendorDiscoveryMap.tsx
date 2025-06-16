@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, Clock, Navigation, Filter } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { VendorProductsPage } from './VendorProductsPage';
+import { ContactVendorDialog } from './ContactVendorDialog';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -22,6 +23,8 @@ interface Vendor {
   };
   isOnline: boolean;
   estimatedDelivery: string;
+  phone?: string;
+  email?: string;
 }
 
 const mockVendors: Vendor[] = [{
@@ -36,7 +39,9 @@ const mockVendors: Vendor[] = [{
     lng: 77.2090
   },
   isOnline: true,
-  estimatedDelivery: '15-20 min'
+  estimatedDelivery: '15-20 min',
+  phone: '+91-9876543210',
+  email: 'rajesh@farm.com'
 }, {
   id: '2',
   name: 'Spice Route',
@@ -49,7 +54,9 @@ const mockVendors: Vendor[] = [{
     lng: 77.2095
   },
   isOnline: true,
-  estimatedDelivery: '20-25 min'
+  estimatedDelivery: '20-25 min',
+  phone: '+91-8765432109',
+  email: 'info@spiceroute.com'
 }, {
   id: '3',
   name: 'Dairy Fresh',
@@ -62,7 +69,9 @@ const mockVendors: Vendor[] = [{
     lng: 77.2085
   },
   isOnline: false,
-  estimatedDelivery: 'Offline'
+  estimatedDelivery: 'Offline',
+  phone: '+91-7654321098',
+  email: 'contact@dairyfresh.com'
 }, {
   id: '4',
   name: 'Tropical Fruits Hub',
@@ -75,7 +84,9 @@ const mockVendors: Vendor[] = [{
     lng: 77.2100
   },
   isOnline: true,
-  estimatedDelivery: '18-25 min'
+  estimatedDelivery: '18-25 min',
+  phone: '+91-6543210987',
+  email: 'tropical@fruits.com'
 }, {
   id: '5',
   name: 'Street Food Express',
@@ -88,13 +99,17 @@ const mockVendors: Vendor[] = [{
     lng: 77.2080
   },
   isOnline: true,
-  estimatedDelivery: '12-18 min'
+  estimatedDelivery: '12-18 min',
+  phone: '+91-5432109876',
+  email: 'street@food.com'
 }];
 
 export const VendorDiscoveryMap: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [maxDistance, setMaxDistance] = useState('5');
   const [selectedVendor, setSelectedVendor] = useState<string | null>(null);
+  const [contactVendor, setContactVendor] = useState<Vendor | null>(null);
+  const [showContactDialog, setShowContactDialog] = useState(false);
 
   const { data: realVendors = [] } = useQuery({
     queryKey: ['vendors'],
@@ -115,10 +130,12 @@ export const VendorDiscoveryMap: React.FC = () => {
         category: 'Fresh Produce',
         distance: parseFloat((Math.random() * 5 + 0.5).toFixed(1)),
         rating: parseFloat((4.0 + Math.random()).toFixed(1)),
-        freshness: 'Fresh',
+        freshness: 'Fresh' as const,
         location: { lat: 28.6139, lng: 77.2090 },
         isOnline: true,
         estimatedDelivery: `${Math.floor(Math.random() * 10) + 15}-${Math.floor(Math.random() * 10) + 25} min`,
+        phone: `+91-${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+        email: `${profile.full_name?.toLowerCase().replace(/\s+/g, '')}@vendor.com`
       }));
     }
   });
@@ -145,18 +162,26 @@ export const VendorDiscoveryMap: React.FC = () => {
         return 'bg-orange-500';
     }
   };
+
   const handleViewProducts = (vendorName: string) => {
     setSelectedVendor(vendorName);
   };
+
   const handleBackToVendors = () => {
     setSelectedVendor(null);
   };
+
+  const handleContactVendor = (vendor: Vendor) => {
+    setContactVendor(vendor);
+    setShowContactDialog(true);
+  };
+
   if (selectedVendor) {
     return <VendorProductsPage vendorName={selectedVendor} onBack={handleBackToVendors} />;
   }
-  return <div className="space-y-6">
-      
 
+  return (
+    <div className="space-y-6">
       {/* Filters */}
       <div className="dark-glass-effect rounded-2xl p-6 border border-slate-600/30">
         <div className="flex items-center gap-4 mb-4">
@@ -204,7 +229,8 @@ export const VendorDiscoveryMap: React.FC = () => {
       <div className="space-y-4">
         <h4 className="text-xl font-semibold text-white">Vendors Near You ({filteredVendors.length})</h4>
         <div className="grid gap-4">
-          {filteredVendors.map(vendor => <Card key={vendor.id} className="dark-modern-card border-slate-600/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
+          {filteredVendors.map(vendor => (
+            <Card key={vendor.id} className="dark-modern-card border-slate-600/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-300">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -234,13 +260,41 @@ export const VendorDiscoveryMap: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <Button className={`${vendor.isOnline ? 'premium-button' : 'bg-slate-600 text-slate-300 cursor-not-allowed'}`} disabled={!vendor.isOnline} onClick={() => vendor.isOnline && handleViewProducts(vendor.name)}>
-                    {vendor.isOnline ? 'View Products' : 'Offline'}
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      className={`${vendor.isOnline ? 'premium-button' : 'bg-slate-600 text-slate-300 cursor-not-allowed'}`} 
+                      disabled={!vendor.isOnline} 
+                      onClick={() => vendor.isOnline && handleViewProducts(vendor.name)}
+                    >
+                      {vendor.isOnline ? 'View Products' : 'Offline'}
+                    </Button>
+                    {vendor.isOnline && (
+                      <Button 
+                        variant="outline"
+                        className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                        onClick={() => handleContactVendor(vendor)}
+                      >
+                        Contact
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </CardContent>
-            </Card>)}
+            </Card>
+          ))}
         </div>
       </div>
-    </div>;
+
+      {/* Contact Dialog */}
+      {contactVendor && (
+        <ContactVendorDialog
+          open={showContactDialog}
+          onOpenChange={setShowContactDialog}
+          vendorName={contactVendor.name}
+          vendorPhone={contactVendor.phone || ''}
+          vendorEmail={contactVendor.email}
+        />
+      )}
+    </div>
+  );
 };

@@ -1,27 +1,32 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Phone, MessageCircle, ExternalLink, MapPin } from 'lucide-react';
-import { Product } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 
 interface ContactVendorDialogProps {
-  product: Product;
-  children: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  vendorName: string;
+  vendorPhone: string;
+  vendorEmail?: string;
 }
 
 export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
-  product,
-  children
+  open,
+  onOpenChange,
+  vendorName,
+  vendorPhone,
+  vendorEmail
 }) => {
   const { toast } = useToast();
 
   const handleWhatsAppContact = () => {
-    if (product.vendor?.phone) {
-      const message = `Hi! I'm interested in ${product.name} from your Farm2Market listing. Price: ₹${product.price}`;
-      const whatsappUrl = `https://wa.me/${product.vendor.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+    if (vendorPhone) {
+      const message = `Hi! I'm interested in your products from Farm2Market.`;
+      const whatsappUrl = `https://wa.me/${vendorPhone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
       toast({
         title: "Opening WhatsApp",
@@ -31,8 +36,8 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
   };
 
   const handlePhoneCall = () => {
-    if (product.vendor?.phone) {
-      window.location.href = `tel:${product.vendor.phone}`;
+    if (vendorPhone) {
+      window.location.href = `tel:${vendorPhone}`;
       toast({
         title: "Opening Phone",
         description: "Initiating call to vendor"
@@ -42,7 +47,6 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
 
   const handleViewOnMap = () => {
     // Generate a mock location based on vendor name for demo purposes
-    // In a real app, this would come from the vendor's actual location data
     const mockLocations = [
       { lat: 28.6139, lng: 77.2090, name: "Connaught Place, Delhi" },
       { lat: 28.6507, lng: 77.2334, name: "Chandni Chowk, Delhi" },
@@ -53,32 +57,25 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
     const randomLocation = mockLocations[Math.floor(Math.random() * mockLocations.length)];
     
     // Open in Google Maps with the vendor location
-    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${randomLocation.lat},${randomLocation.lng}&query_place_id=${encodeURIComponent(product.vendor?.name || 'Vendor Location')}`;
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${randomLocation.lat},${randomLocation.lng}&query_place_id=${encodeURIComponent(vendorName || 'Vendor Location')}`;
     window.open(mapsUrl, '_blank');
     
     toast({
       title: "Opening Maps",
-      description: `Showing ${product.vendor?.name || 'vendor'}'s location on map`
+      description: `Showing ${vendorName || 'vendor'}'s location on map`
     });
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-xl border border-slate-600/30 shadow-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 mb-3 text-white font-display">
             Contact Vendor
             <Badge variant="secondary" className="text-xs bg-slate-700/50 text-slate-300 border-slate-600/30">
-              {product.vendor?.name || 'Vendor'}
+              {vendorName || 'Vendor'}
             </Badge>
           </DialogTitle>
-          <div className="text-sm text-slate-300 space-y-1 bg-slate-700/30 p-3 rounded-lg border border-slate-600/30">
-            <p>Product: <span className="font-medium text-white">{product.name}</span></p>
-            <p>Price: <span className="font-medium text-white">₹{product.price}</span></p>
-          </div>
         </DialogHeader>
         
         <div className="space-y-6">
@@ -107,7 +104,7 @@ export const ContactVendorDialog: React.FC<ContactVendorDialogProps> = ({
                 <Phone className="h-5 w-5 text-blue-400" />
                 <div className="text-left">
                   <div className="font-medium">Call Vendor</div>
-                  <div className="text-xs text-slate-400">{product.vendor?.phone || 'Contact number'}</div>
+                  <div className="text-xs text-slate-400">{vendorPhone || 'Contact number'}</div>
                 </div>
                 <ExternalLink className="h-4 w-4 ml-auto text-slate-400" />
               </Button>
