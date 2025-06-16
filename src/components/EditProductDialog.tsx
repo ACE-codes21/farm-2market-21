@@ -128,23 +128,26 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md dark-glass-effect border-slate-700 text-white">
+      <DialogContent className="sm:max-w-md dark-glass-effect border-slate-700 text-white max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <ImageUploader 
-            onFileSelect={setImageFile} 
-            reset={!isOpen}
-            initialPreviewUrl={product?.images?.[0]} 
-          />
+          <div className="h-32">
+            <ImageUploader 
+              onFileSelect={setImageFile} 
+              reset={!isOpen}
+              initialPreviewUrl={product?.images?.[0]} 
+            />
+          </div>
+          
           <div>
             <Label htmlFor="name">Product Name *</Label>
             <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className={inputStyles} />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div >
+            <div>
               <Label htmlFor="price">Price (₹) *</Label>
               <Input id="price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required className={inputStyles} />
             </div>
@@ -170,7 +173,7 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Label htmlFor="expiryDate" className="text-slate-300">Expiry Date</Label>
               <DatePicker date={expiryDate} setDate={setExpiryDate} />
             </div>
             <div>
@@ -180,10 +183,10 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting} className="border-slate-600 text-slate-300 hover:bg-slate-700">
               Cancel
             </Button>
-            <Button type="submit" className="btn-hover-glow" disabled={isSubmitting}>
+            <Button type="submit" className="btn-hover-glow bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
               {isSubmitting ? 'Updating...' : 'Update Product'}
             </Button>
           </div>

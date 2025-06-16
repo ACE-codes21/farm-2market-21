@@ -2,12 +2,13 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus } from 'lucide-react';
+import { Plus, Flame } from 'lucide-react';
 import { Product } from '@/types';
 import { ProductActionsDropdown } from '@/components/ProductActionsDropdown';
 import { Switch } from '@/components/ui/switch';
 import { FreshForBadge } from './FreshForBadge';
-import { format } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
+import { format, isAfter, subHours } from 'date-fns';
 
 interface VendorProductsTableProps {
   products: Product[];
@@ -28,6 +29,23 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
     onUpdateProduct(product.id, { restockReminder: checked });
   };
 
+  const getMostDemandedProduct = () => {
+    // Simple logic: product with highest stock reduction (assuming initial stock was higher)
+    // In a real app, this would be based on actual sales data
+    return products.reduce((prev, current) => 
+      (prev.stock < current.stock) ? prev : current
+    );
+  };
+
+  const mostDemanded = products.length > 0 ? getMostDemandedProduct() : null;
+
+  const isProductFresh = (product: Product) => {
+    if (!product.created_at) return false;
+    const createdDate = new Date(product.created_at);
+    const twentyFourHoursAgo = subHours(new Date(), 24);
+    return isAfter(createdDate, twentyFourHoursAgo);
+  };
+
   return (
     <Card className="dark-glass-effect border-slate-700 animate-fade-in">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -46,6 +64,7 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
                 <th scope="col" className="py-3 px-6">Stock</th>
                 <th scope="col" className="py-3 px-6">Expiry Date</th>
                 <th scope="col" className="py-3 px-6">Fresh For</th>
+                <th scope="col" className="py-3 px-6">Status</th>
                 <th scope="col" className="py-3 px-6">Restock Reminder</th>
                 <th scope="col" className="py-3 px-6 text-right">Actions</th>
               </tr>
@@ -53,13 +72,42 @@ export const VendorProductsTable: React.FC<VendorProductsTableProps> = ({
             <tbody>
               {products.map((product) => (
                 <tr key={product.id} className="border-b border-slate-700 hover:bg-slate-800/50 transition-colors duration-300">
-                  <td className="py-4 px-6 font-medium text-white whitespace-nowrap">{product.name}</td>
-                  <td className="py-4 px-6">{product.stock} units</td>
+                  <td className="py-4 px-6 font-medium text-white whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      {product.name}
+                      {mostDemanded?.id === product.id && (
+                        <Flame className="h-4 w-4 text-orange-500" title="Most Demanded" />
+                      )}
+                      {isProductFresh(product) && (
+                        <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">
+                          Fresh
+                        </Badge>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-4 px-6">
+                    <span className={product.stock < 10 ? 'text-orange-400 font-medium' : ''}>{product.stock} units</span>
+                  </td>
                   <td className="py-4 px-6">
                     {product.expiryDate ? format(new Date(product.expiryDate), 'dd MMM yyyy') : 'N/A'}
                   </td>
                   <td className="py-4 px-6">
                     <FreshForBadge expiryDate={product.expiryDate} />
+                  </td>
+                  <td className="py-4 px-6">
+                    {product.stock < 5 ? (
+                      <Badge variant="destructive" className="bg-red-500/20 text-red-400 border-red-500/30">
+                        Low Stock
+                      </Badge>
+                    ) : product.stock < 10 ? (
+                      <Badge variant="secondary" className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
+                        Running Low
+                      </Badge>
+                    ) : (
+                      <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
+                        In Stock
+                      </Badge>
+                    )}
                   </td>
                   <td className="py-4 px-6">
                     <Switch

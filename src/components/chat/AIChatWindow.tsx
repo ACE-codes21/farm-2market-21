@@ -149,7 +149,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
           <Input
             type="text"
             placeholder={t('ai_chat.placeholder')}
-            className="dark-input"
+            className="bg-slate-800/80 border-slate-600/50 text-white placeholder:text-slate-400 focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}

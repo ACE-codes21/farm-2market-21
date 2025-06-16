@@ -28,6 +28,17 @@ export const VendorMapView: React.FC = () => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
+  const handleViewProducts = () => {
+    // TODO: Navigate to vendor products page
+    console.log('View products for vendor:', selectedVendor?.full_name);
+  };
+
+  const handleContact = () => {
+    if (selectedVendor?.phone) {
+      window.open(`tel:${selectedVendor.phone}`, '_blank');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="space-y-6">
@@ -129,7 +140,7 @@ export const VendorMapView: React.FC = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-slate-300 bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8">
                     <MapPin className="h-16 w-16 mx-auto mb-4 text-green-400" />
-                    <div className="text-xl font-semibold mb-2">Interactive Map Coming Soon</div>
+                    <div className="text-xl font-semibold mb-2">Interactive Map</div>
                     <div className="text-sm text-slate-400 mb-4">Click on the green pins to view vendor details</div>
                     {vendors && vendors.length > 0 && (
                       <Badge variant="secondary" className="bg-green-500/10 text-green-400 border-green-500/20">
@@ -270,10 +281,17 @@ export const VendorMapView: React.FC = () => {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button className="flex-1 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 text-white border-0">
+                  <Button 
+                    className="flex-1 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-600 hover:to-green-500 text-white border-0"
+                    onClick={handleViewProducts}
+                  >
                     View Products
                   </Button>
-                  <Button variant="outline" className="border-slate-600/30 bg-slate-700/30 text-white hover:bg-slate-600/50">
+                  <Button 
+                    variant="outline" 
+                    className="border-slate-600/30 bg-slate-700/30 text-white hover:bg-slate-600/50"
+                    onClick={handleContact}
+                  >
                     Contact
                   </Button>
                 </div>

@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose }
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { ShoppingCart, Plus, Minus, X, CheckCircle, CreditCard, Smartphone, Wallet } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, X, CheckCircle, CreditCard, Smartphone, Wallet, Truck } from 'lucide-react';
 import { CartItem } from '@/types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
@@ -38,7 +38,8 @@ export const CartSheet: React.FC<CartSheetProps> = ({
   const paymentMethods = [
     { id: 'card', name: t('buy_now_dialog.payment_methods.card'), icon: CreditCard, color: 'blue' },
     { id: 'upi', name: t('buy_now_dialog.payment_methods.upi'), icon: Smartphone, color: 'green' },
-    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' }
+    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' },
+    { id: 'cod', name: 'Pay on Delivery', icon: Truck, color: 'orange' }
   ];
 
   const handleInitiateCheckout = () => {
@@ -163,7 +164,8 @@ export const CartSheet: React.FC<CartSheetProps> = ({
                       <Icon className={`h-5 w-5 ${
                         method.color === 'blue' ? 'text-blue-400' :
                         method.color === 'green' ? 'text-green-400' :
-                        'text-purple-400'
+                        method.color === 'purple' ? 'text-purple-400' :
+                        'text-orange-400'
                       }`} />
                       <span className="font-medium">{method.name}</span>
                       {selectedPaymentMethod === method.id && (
