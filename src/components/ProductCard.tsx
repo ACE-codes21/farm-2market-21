@@ -210,9 +210,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <ContactVendorDialog
           open={showContactDialog}
           onOpenChange={setShowContactDialog}
-          vendorName={product.vendor.name}
-          vendorPhone={product.vendor.phone}
-          vendorEmail={product.vendor.email}
+          vendorName={product.vendor.name || 'Vendor'}
+          vendorPhone={product.vendor.phone || ''}
         />
       )}
     </Card>
