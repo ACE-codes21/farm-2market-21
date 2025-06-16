@@ -1,33 +1,38 @@
 
 {
+  "welcome": "स्वागत",
+  "login": "लॉग इन करें",
+  "signup": "साइन अप करें",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "confirm_password": "पासवर्ड की पुष्टि करें",
+  "full_name": "पूरा नाम",
+  "phone": "फोन नंबर",
+  "role": "भूमिका",
+  "buyer": "खरीदार",
+  "vendor": "विक्रेता",
+  "already_have_account": "पहले से खाता है?",
+  "dont_have_account": "खाता नहीं है?",
   "nav": {
     "nav_features": "विशेषताएँ",
     "nav_about": "हमारे बारे में",
     "nav_contact": "संपर्क",
-    "nav_login": "लॉग इन करें"
-  },
-  "auth_modal": {
-    "title": "लॉग इन",
-    "subtitle": "प्रत्येक बार लॉग इन करें",
-    "email": "ईमेल",
-    "password": "पासवर्ड",
-    "login": "लॉग इन",
-    "forgot_password": "पासवर्ड भुगतान करें",
-    "signup": "साइपन करें"
-  },
-  "signup_only_modal": {
-    "title": "साइपन",
-    "subtitle": "प्रत्येक बार साइपन करें",
-    "email": "ईमेल",
-    "password": "पासवर्ड",
-    "signup": "साइपन"
+    "nav_login": "लॉग इन करें",
+    "home": "होम",
+    "buyer_dashboard": "खरीदार डैशबोर्ड",
+    "vendor_portal": "विक्रेता पोर्टल",
+    "auth": "प्रमाणीकरण",
+    "logout": "लॉग आउट",
+    "switch_to_vendor": "विक्रेता में बदलें",
+    "switch_to_buyer": "खरीदार में बदलें",
+    "notifications": "सूचनाएं"
   },
   "hero_section": {
     "badge": "ताजा भोजन के माध्यम से स्थानीय समुदायों को जोड़ना",
-    "heading_1": "फार्म",
+    "heading_1": "खेत",
     "heading_farm": "से",
     "heading_2": "आपके",
-    "heading_market": "मार्केट तक",
+    "heading_market": "बाजार तक",
     "subheading_1": "सशक्तिकरण",
     "subheading_vendors": "विक्रेताओं",
     "subheading_2": "। पोषण",
@@ -36,6 +41,10 @@
     "go_to_dashboard": "डैशबोर्ड पर जाएं",
     "shop_now": "अभी खरीदें",
     "sell_with_us": "हमारे साथ बेचें",
+    "title": "ताजा उपज के लिए आपका बाजार",
+    "subtitle": "स्थानीय विक्रेताओं के साथ जुड़ें और अपनी जरूरतों के लिए सबसे अच्छे सौदे खोजें।",
+    "buyer_button": "खरीदार के रूप में शुरू करें",
+    "vendor_button": "विक्रेता के रूप में रजिस्टर करें",
     "stats": {
       "farmers": "स्थानीय किसान",
       "customers": "खुश ग्राहक",
@@ -93,61 +102,96 @@
     "start_shopping": "खरीदारी शुरू करें",
     "start_selling": "बिक्री शुरू करें"
   },
+  "auth_modal": {
+    "title": "प्रमाणीकरण",
+    "subtitle": "जारी रखने के लिए साइन इन करें",
+    "login": "लॉग इन",
+    "signup": "साइन अप",
+    "buyer": "खरीदार",
+    "vendor": "विक्रेता",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "forgot_password": "पासवर्ड भूल गए?",
+    "no_account": "खाता नहीं है?",
+    "already_have_account": "पहले से खाता है?",
+    "login_failed": "लॉग इन विफल। कृपया अपनी साख जांचें।",
+    "signup_failed": "साइन अप विफल। कृपया अपनी जानकारी जांचें और पुनः प्रयास करें।",
+    "signup_success": "साइन अप सफल! कृपया साइन इन करें।",
+    "login_success": "लॉग इन सफल!",
+    "logout": "लॉग आउट"
+  },
+  "signup_only_modal": {
+    "title": "विक्रेता के रूप में साइन अप करें",
+    "description": "विक्रेता खाता बनाने के लिए अपना ईमेल पता दर्ज करें।",
+    "email_placeholder": "अपना ईमेल पता दर्ज करें",
+    "signup_button": "विक्रेता के रूप में साइन अप करें",
+    "success_message": "साइन अप सफल! अपना खाता सक्रिय करने के लिए ईमेल में लिंक देखें।",
+    "error_message": "साइन अप विफल। कृपया अपनी जानकारी जांचें और पुनः प्रयास करें।"
+  },
+  "cart_sheet": {
+    "cart_title": "शॉपिंग कार्ट ({{count}} आइटम)",
+    "cart_title_plural": "शॉपिंग कार्ट ({{count}} आइटम)",
+    "empty_cart_title": "आपकी कार्ट खाली है",
+    "empty_cart_desc": "लगता है आपने अभी तक अपनी कार्ट में कुछ नहीं जोड़ा है",
+    "continue_shopping": "खरीदारी जारी रखें",
+    "order_summary": "ऑर्डर सारांश",
+    "items_count": "{{count}} आइटम",
+    "items_count_plural": "{{count}} आइटम",
+    "delivery": "डिलीवरी",
+    "free": "मुफ़्त",
+    "total": "कुल",
+    "subtotal": "उप-योग",
+    "shipping_note": "चेकआउट पर कर और शिपिंग की गणना की जाती है",
+    "proceed_to_checkout": "चेकआउट के लिए आगे बढ़ें",
+    "choose_payment": "भुगतान विधि चुनें",
+    "back_to_cart": "← कार्ट पर वापस जाएं",
+    "pay": "भुगतान करें ₹{{total}}",
+    "place_order": "ऑर्डर दें",
+    "processing": "प्रसंस्करण...",
+    "order_placed_success": "ऑर्डर सफलतापूर्वक दिया गया!",
+    "order_placed_pending": "ऑर्डर दिया गया - पुष्टि की प्रतीक्षा में",
+    "order_confirmed": "{{count}} आइटम के लिए आपका ऑर्डर पुष्ट हो गया है।",
+    "order_confirmed_plural": "{{count}} आइटम के लिए आपका ऑर्डर पुष्ट हो गया है।",
+    "order_placed_title": "ऑर्डर सफलतापूर्वक दिया गया!",
+    "order_placed_desc": "आपके ऑर्डर के लिए धन्यवाद। हम इसे तुरंत तैयार करना शुरू करेंगे।",
+    "total_paid": "कुल भुगतान: ₹{{total}}"
+  },
   "buy_now_dialog": {
+    "buy_now": "अभी खरीदें",
     "quick_checkout": "त्वरित चेकआउट",
+    "product_details": "उत्पाद विवरण",
     "each": "प्रत्येक",
     "available": "उपलब्ध",
     "quantity": "मात्रा",
     "coupon_code": "कूपन कोड",
     "apply": "लागू करें",
-    "coupon_applied": "कूपन लागू किया गया!",
-    "discount_applied": "{{discount}}% छूट लागू की गई",
-    "invalid_coupon": "अमान्य कूपन",
-    "invalid_coupon_desc": "कृपया एक वैध कूपन कोड दर्ज करें",
-    "payment_method": "भुगतान विधि",
     "order_summary": "ऑर्डर सारांश",
     "subtotal_items": "उप-योग ({{count}} आइटम)",
+    "subtotal_items_plural": "उप-योग ({{count}} आइटम)",
     "discount_code": "छूट ({{code}})",
     "total": "कुल",
-    "cancel": "रद्द करें",
-    "complete_purchase": "खरीद पूरी करें ₹{{total}}",
-    "processing": "प्रसंस्करण हो रहा है...",
-    "order_placed_success": "ऑर्डर सफलतापूर्वक दिया गया!",
-    "order_confirmed": "{{productName}} के लिए आपका ऑर्डर पुष्टि हो गया है।",
-    "order_total": "कुल ऑर्डर: ₹{{total}}",
+    "payment_method": "भुगतान विधि",
     "payment_methods": {
       "card": "क्रेडिट/डेबिट कार्ड",
       "upi": "यूपीआई भुगतान",
       "wallet": "डिजिटल वॉलेट"
     },
-    "coupons": {
-      "fresh10_desc": "ताजा वस्तुओं पर 10% की छूट",
-      "welcome20_desc": "नए उपयोगकर्ताओं के लिए 20% की छूट",
-      "bulk5_desc": "थोक ऑर्डर पर 5% की छूट"
-    }
-  },
-  "cart_sheet": {
-    "cart_title": "कार्ट ({{count}})",
-    "subtotal": "उप-योग",
-    "shipping_note": "शिपिंग और कर चेकआउट पर गणना की जाती है।",
-    "proceed_to_checkout": "चेकआउट के लिए आगे बढ़ें",
-    "empty_cart_title": "आपकी कार्ट खाली है",
-    "empty_cart_desc": "शुरू करने के लिए अपनी कार्ट में आइटम जोड़ें।",
-    "continue_shopping": "खरीदारी जारी रखें",
-    "choose_payment": "भुगतान विधि चुनें",
-    "back_to_cart": "← कार्ट पर वापस जाएं",
-    "order_summary": "ऑर्डर सारांश",
-    "items_count": "आइटम ({{count}})",
-    "delivery": "डिलीवरी",
-    "free": "मुफ़्त",
-    "total": "कुल",
-    "pay": "भुगतान करें ₹{{total}}",
-    "processing": "प्रसंस्करण हो रहा है...",
+    "place_order": "ऑर्डर दें",
+    "cancel": "रद्द करें",
+    "complete_purchase": "खरीद पूरी करें ₹{{total}}",
+    "processing": "प्रसंस्करण...",
     "order_placed_success": "ऑर्डर सफलतापूर्वक दिया गया!",
-    "order_confirmed": "आपके {{count}} आइटम का ऑर्डर पुष्टि हो गया है।",
-    "order_placed_title": "ऑर्डर दिया गया!",
-    "order_placed_desc": "आपकी कार्ट के आइटम सफलतापूर्वक ऑर्डर कर दिए गए हैं।",
-    "total_paid": "कुल: ₹{{total}}"
+    "order_confirmed": "{{productName}} के लिए आपका ऑर्डर पुष्ट हो गया है और जल्द ही डिलीवर हो जाएगा।",
+    "order_total": "ऑर्डर कुल: ₹{{total}}",
+    "coupon_applied": "कूपन लागू किया गया!",
+    "discount_applied": "{{discount}}% छूट लागू की गई",
+    "invalid_coupon": "अमान्य कूपन",
+    "invalid_coupon_desc": "कृपया एक वैध कूपन कोड दर्ज करें",
+    "coupons": {
+      "fresh10_desc": "ताजा वस्तुओं पर 10% छूट",
+      "welcome20_desc": "नए उपयोगकर्ताओं के लिए 20% छूट",
+      "bulk5_desc": "थोक ऑर्डर पर 5% छूट"
+    }
   },
   "fresh_for_badge": {
     "na": "लागू नहीं",
@@ -166,20 +210,6 @@
       "orders": "ऑर्डर"
     }
   },
-  "vendor_dashboard_header": {
-    "dashboard": "डैशबोर्ड",
-    "finance": "वित्त",
-    "ai_analytics": "एआई एनालिटिक्स",
-    "services": "सेवाएं"
-  },
-  "dashboard_page": {
-    "loading": "डैशबोर्ड लोड हो रहा है..."
-  },
-  "not_found_page": {
-    "title": "404",
-    "description": "उफ़! पृष्ठ नहीं मिला",
-    "return_home": "होम पर लौटें"
-  },
   "analytics_dashboard": {
     "title": "एआई एनालिटिक्स",
     "subtitle": "अपने व्यवसाय को बढ़ाने के लिए स्मार्ट अंतर्दृष्टि।",
@@ -197,7 +227,7 @@
   },
   "finance_dashboard": {
     "title": "वित्त हब",
-    "subtitle": "आपकी वित्तीय सेहत एक नज़र में। क्रेडिट एक्सेस करें, ऋण ट्रैक करें, और अपना व्यवसाय बढ़ाएं।",
+    "subtitle": "एक नजर में आपका वित्तीय स्वास्थ्य। क्रेडिट एक्सेस करें, ऋण ट्रैक करें, और अपना व्यवसाय बढ़ाएं।",
     "available_loan_schemes": "उपलब्ध ऋण योजनाएं"
   },
   "services_dashboard": {
@@ -211,12 +241,30 @@
       "ai_assist": "एआई सहायक"
     }
   },
+  "vendor_dashboard_header": {
+    "dashboard": "डैशबोर्ड",
+    "finance": "वित्त",
+    "ai_analytics": "एआई एनालिटिक्स",
+    "services": "सेवाएं",
+    "search": "खोजें...",
+    "notifications": "सूचनाएं",
+    "profile": "प्रोफ़ाइल",
+    "logout": "लॉग आउट"
+  },
   "vendor_stats_grid": {
     "total_sales": "कुल बिक्री",
     "total_products": "कुल उत्पाद",
     "orders": "ऑर्डर",
     "revenue": "राजस्व",
     "last_7_days": "पिछले 7 दिनों में {{change}}"
+  },
+  "dashboard_page": {
+    "loading": "डैशबोर्ड लोड हो रहा है..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "उफ़! पृष्ठ नहीं मिला",
+    "return_home": "होम पर लौटें"
   },
   "ai_chat": {
     "title": "एआई सहायक",
@@ -229,7 +277,7 @@
       "dashboard_help": "आपके डैशबोर्ड में 3 मुख्य खंड हैं:\n• **उत्पाद**: स्थानीय विक्रेताओं से ब्राउज़ करें और खरीदें\n• **विक्रेता**: विक्रेताओं को खोजें और जुड़ें\n• **ऑर्डर**: अपने खरीदारी इतिहास को ट्रैक करें\n\nजो चाहिए वो खोजने के लिए सर्च और फ़िल्टर विकल्पों का उपयोग करें!",
       "payment_help": "हम कई भुगतान विधियाँ स्वीकार करते हैं:\n• क्रेडिट/डेबिट कार्ड\n• UPI भुगतान\n• डिजिटल वॉलेट\n\nसभी भुगतान सुरक्षित और एन्क्रिप्टेड हैं। भुगतान प्रोसेस होने पर आपको कन्फर्मेशन मिलेगा।",
       "vendor_features": "विक्रेता के रूप में, आप कर सकते हैं:\n• उत्पाद और इन्वेंटरी प्रबंधित करना\n• बिक्री और एनालिटिक्स ट्रैक करना\n• वित्त और ऋण योजनाओं तक पहुंच\n• सरकारी सेवा पोर्टल का उपयोग\n• ग्राहक ऑर्डर और फीडबैक देखना",
-      "general_help": "मैं किसी भी Farm2Market सवाल में मदद के लिए यहाँ हूँ! आप मुझसे पूछ सकते हैं:\n• प्लेटफॉर्म की सुविधाओं के बारे में\n• विभिन्न सेक्शन कैसे उपयोग करें\n• भुगतान और ऑर्डर\n• विक्रेता टूल्स\n• तकनीकी सहायता\n\nबस अपना सवाल टाइप करें और मैं मदद करने की पूरी कोशिश करूंगा!"
+      "general_help": "मैं Farm2Market के किसी भी सवाल में मदद के लिए यहाँ हूँ! आप मुझसे पूछ सकते हैं:\n• प्लेटफॉर्म की सुविधाओं के बारे में\n• विभिन्न अनुभागों का उपयोग कैसे करें\n• भुगतान और ऑर्डर\n• विक्रेता उपकरण\n• तकनीकी सहायता\n\nअपना सवाल टाइप करें और मैं मदद करने की पूरी कोशिश करूंगा!"
     }
   }
 }

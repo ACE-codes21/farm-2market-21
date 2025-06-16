@@ -13,6 +13,121 @@
   "vendor": "Vendor",
   "already_have_account": "Already have an account?",
   "dont_have_account": "Don't have an account?",
+  "nav": {
+    "nav_features": "Features",
+    "nav_about": "About",
+    "nav_contact": "Contact",
+    "nav_login": "Login",
+    "home": "Home",
+    "buyer_dashboard": "Buyer Dashboard",
+    "vendor_portal": "Vendor Portal",
+    "auth": "Auth",
+    "logout": "Logout",
+    "switch_to_vendor": "Switch to Vendor",
+    "switch_to_buyer": "Switch to Buyer",
+    "notifications": "Notifications"
+  },
+  "hero_section": {
+    "badge": "Connecting local communities through fresh food",
+    "heading_1": "From",
+    "heading_farm": "Farm",
+    "heading_2": "to Your",
+    "heading_market": "Market",
+    "subheading_1": "Empowering",
+    "subheading_vendors": "vendors",
+    "subheading_2": ". Nourishing",
+    "subheading_neighbourhoods": "neighbourhoods",
+    "go_to_market": "Go to Market",
+    "go_to_dashboard": "Go to Dashboard",
+    "shop_now": "Shop Now",
+    "sell_with_us": "Sell With Us",
+    "title": "Your marketplace for fresh produce",
+    "subtitle": "Connect with local vendors and find the best deals for your needs.",
+    "buyer_button": "Start as Buyer",
+    "vendor_button": "Register as Vendor",
+    "stats": {
+      "farmers": "Local Farmers",
+      "customers": "Happy Customers",
+      "cities": "Cities Covered"
+    }
+  },
+  "features_section": {
+    "heading": "Why Choose",
+    "heading_highlight": "Farm2Market?",
+    "subheading": "Experience the future of local commerce with our innovative platform that connects communities",
+    "features": {
+      "fresh_organic": {
+        "title": "Fresh & Organic",
+        "description": "Farm-to-table fresh produce delivered straight to your doorstep, ensuring maximum freshness and quality"
+      },
+      "easy_shopping": {
+        "title": "Easy Shopping",
+        "description": "Browse, order, and receive fresh produce in just a few clicks with our intuitive platform"
+      },
+      "community_driven": {
+        "title": "Community Driven",
+        "description": "Supporting local farmers and building stronger communities through direct connections"
+      },
+      "fair_pricing": {
+        "title": "Fair Pricing",
+        "description": "Transparent pricing that benefits both farmers and consumers with no hidden costs"
+      },
+      "local_network": {
+        "title": "Local Network",
+        "description": "Connect with vendors in your neighborhood and surrounding areas for the freshest options"
+      },
+      "quick_delivery": {
+        "title": "Quick Delivery",
+        "description": "Fast and reliable delivery to maintain freshness and meet your schedule"
+      }
+    }
+  },
+  "stats_section": {
+    "heading": "Growing",
+    "heading_highlight": "Together",
+    "subheading": "Join thousands of vendors and customers who trust Farm2Market for their fresh produce needs",
+    "stats": {
+      "vendors": "Local Vendors",
+      "customers": "Happy Customers",
+      "orders": "Orders Delivered",
+      "satisfaction": "Satisfaction Rate"
+    }
+  },
+  "cta_section": {
+    "badge": "Ready to transform your food journey?",
+    "heading_1": "Start Your",
+    "heading_2": "Farm2Market",
+    "heading_3": "Journey Today",
+    "description": "Whether you're a vendor looking to reach more customers or a buyer seeking fresh, local produce, we're here to connect you with your community.",
+    "start_shopping": "Start Shopping",
+    "start_selling": "Start Selling"
+  },
+  "auth_modal": {
+    "title": "Authentication",
+    "subtitle": "Sign in to continue",
+    "login": "Login",
+    "signup": "Sign Up",
+    "buyer": "Buyer",
+    "vendor": "Vendor",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot password?",
+    "no_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "login_failed": "Login failed. Please check your credentials.",
+    "signup_failed": "Signup failed. Please check your information and try again.",
+    "signup_success": "Signup successful! Please sign in.",
+    "login_success": "Login successful!",
+    "logout": "Logout"
+  },
+  "signup_only_modal": {
+    "title": "Sign up as Vendor",
+    "description": "Enter your email address to create a vendor account.",
+    "email_placeholder": "Enter your email address",
+    "signup_button": "Sign up as Vendor",
+    "success_message": "Signup successful! Please check your email for a link to activate your account.",
+    "error_message": "Signup failed. Please check your information and try again."
+  },
   "cart_sheet": {
     "cart_title": "Shopping Cart ({{count}} item)",
     "cart_title_plural": "Shopping Cart ({{count}} items)",
@@ -43,7 +158,10 @@
   },
   "buy_now_dialog": {
     "buy_now": "Buy Now",
+    "quick_checkout": "Quick Checkout",
     "product_details": "Product Details",
+    "each": "each",
+    "available": "available",
     "quantity": "Quantity",
     "coupon_code": "Coupon Code",
     "apply": "Apply",
@@ -59,8 +177,107 @@
       "wallet": "Digital Wallet"
     },
     "place_order": "Place Order",
+    "cancel": "Cancel",
+    "complete_purchase": "Complete Purchase ₹{{total}}",
+    "processing": "Processing...",
     "order_placed_success": "Order Placed Successfully!",
     "order_confirmed": "Your order for {{productName}} has been confirmed and will be delivered soon.",
-    "order_total": "Order Total: ₹{{total}}"
+    "order_total": "Order Total: ₹{{total}}",
+    "coupon_applied": "Coupon applied!",
+    "discount_applied": "{{discount}}% discount applied",
+    "invalid_coupon": "Invalid coupon",
+    "invalid_coupon_desc": "Please enter a valid coupon code",
+    "coupons": {
+      "fresh10_desc": "10% off on fresh items",
+      "welcome20_desc": "20% off for new users",
+      "bulk5_desc": "5% off on bulk orders"
+    }
+  },
+  "fresh_for_badge": {
+    "na": "N/A",
+    "expired": "Expired"
+  },
+  "dashboard_tabs": {
+    "discover_market": "Discover Local Market",
+    "discover_vendors": "Discover Vendors",
+    "my_orders": "My Orders",
+    "products_desc": "Find fresh produce and authentic items from local street vendors",
+    "vendors_desc": "Discover fresh products from local vendors near you",
+    "orders_desc": "Track your orders and view order history",
+    "tabs": {
+      "products": "Products",
+      "vendors": "Vendors",
+      "orders": "Orders"
+    }
+  },
+  "analytics_dashboard": {
+    "title": "AI Analytics",
+    "subtitle": "Smart insights to grow your business.",
+    "product_trends": "Product Trends",
+    "sales_summary": {
+      "total_revenue": "Total Revenue",
+      "total_sales": "Total Sales",
+      "customers": "Customers",
+      "new_customers": "New Customers",
+      "orders_placed": "Orders Placed",
+      "products_sold": "Products Sold",
+      "top_selling_product": "Top Selling Product",
+      "customer_satisfaction": "Customer Satisfaction"
+    }
+  },
+  "finance_dashboard": {
+    "title": "Finance Hub",
+    "subtitle": "Your financial health at a glance. Access credit, track loans, and grow your business.",
+    "available_loan_schemes": "Available Loan Schemes"
+  },
+  "services_dashboard": {
+    "title": "Services Hub",
+    "subtitle": "Your one-stop portal for government schemes, licenses, and support.",
+    "tabs": {
+      "schemes": "Schemes",
+      "eligibility": "Eligibility",
+      "tracker": "Tracker",
+      "documents": "Documents",
+      "ai_assist": "AI Assist"
+    }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "Dashboard",
+    "finance": "Finance",
+    "ai_analytics": "AI Analytics",
+    "services": "Services",
+    "search": "Search...",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "vendor_stats_grid": {
+    "total_sales": "Total Sales",
+    "total_products": "Total Products",
+    "orders": "Orders",
+    "revenue": "Revenue",
+    "last_7_days": "{{change}} in the last 7 days"
+  },
+  "dashboard_page": {
+    "loading": "Loading dashboard..."
+  },
+  "not_found_page": {
+    "title": "404",
+    "description": "Oops! Page not found",
+    "return_home": "Return Home"
+  },
+  "ai_chat": {
+    "title": "AI Assistant",
+    "tooltip": "Chat with our AI assistant",
+    "welcome_message": "Hello! I'm your Farm2Market AI assistant. I can help you with:\n\n• How to place orders\n• Finding vendors near you\n• Understanding platform features\n• Managing your dashboard\n• Payment and delivery questions\n\nWhat would you like to know?",
+    "placeholder": "Ask anything about Farm2Market...",
+    "responses": {
+      "how_to_order": "To place an order:\n1. Browse products in the 'Discover Local Market' tab\n2. Click on a product you like\n3. Select quantity and click 'Buy Now'\n4. Choose payment method and complete checkout\n\nYour order will be confirmed and you can track it in 'My Orders'!",
+      "find_vendors": "To find vendors:\n1. Go to the 'Discover Vendors' tab\n2. Use the map view to see vendors near you\n3. Filter by product type or rating\n4. Click on vendor profiles to see their products\n\nYou can also contact vendors directly through their profiles!",
+      "dashboard_help": "Your dashboard has 3 main sections:\n• **Products**: Browse and buy from local vendors\n• **Vendors**: Find and connect with vendors\n• **Orders**: Track your purchase history\n\nUse the search and filter options to find exactly what you need!",
+      "payment_help": "We accept multiple payment methods:\n• Credit/Debit Cards\n• UPI Payments\n• Digital Wallets\n\nAll payments are secure and encrypted. You'll get confirmation once payment is processed.",
+      "vendor_features": "As a vendor, you can:\n• Manage products and inventory\n• Track sales and analytics\n• Access finance and loan schemes\n• Use the government services portal\n• View customer orders and feedback",
+      "general_help": "I'm here to help with any Farm2Market question! You can ask me about:\n• Platform features\n• How to use different sections\n• Payment and orders\n• Vendor tools\n• Technical support\n\nType your question and I'll do my best to help!"
+    }
   }
 }
