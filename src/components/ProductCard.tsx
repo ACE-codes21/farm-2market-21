@@ -24,6 +24,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [showContactDialog, setShowContactDialog] = useState(false);
 
   // Check if fresh pick is expired
   const isFreshPickExpired = product.isFreshPick && product.freshPickExpiresAt && 
@@ -112,17 +113,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Contact Vendor - Only show on hover */}
           {product.vendor && (
             <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <ContactVendorDialog product={product}>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="flex items-center gap-2 text-sm px-3 py-2 h-8 rounded-xl bg-black/30 backdrop-blur-md border border-white/20 hover:border-green-400 hover:text-green-400 transition-all text-white"
-                  aria-label={`Contact vendor ${product.vendor.name} for ${product.name}`}
-                >
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  Contact
-                </Button>
-              </ContactVendorDialog>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex items-center gap-2 text-sm px-3 py-2 h-8 rounded-xl bg-black/30 backdrop-blur-md border border-white/20 hover:border-green-400 hover:text-green-400 transition-all text-white"
+                aria-label={`Contact vendor ${product.vendor.name} for ${product.name}`}
+                onClick={() => setShowContactDialog(true)}
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                Contact
+              </Button>
             </div>
           )}
         </div>
@@ -204,6 +204,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
       </CardContent>
+
+      {/* Contact Vendor Dialog */}
+      {product.vendor && (
+        <ContactVendorDialog
+          open={showContactDialog}
+          onOpenChange={setShowContactDialog}
+          vendorName={product.vendor.name}
+          vendorPhone={product.vendor.phone}
+          vendorEmail={product.vendor.email}
+        />
+      )}
     </Card>
   );
 };
