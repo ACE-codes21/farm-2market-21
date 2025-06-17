@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,71 +5,76 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Clock, CreditCard, Eye, MessageCircle } from 'lucide-react';
 import { useVendorProfiles } from '@/hooks/useVendorProfiles';
 import { VendorProductsPage } from '@/components/VendorProductsPage';
-
 interface Vendor {
   id: string;
   name: string;
   phone: string;
-  location: { lat: number; lng: number };
+  location: {
+    lat: number;
+    lng: number;
+  };
   address: string;
   lastUpdated: string;
   distance: string;
   upiId?: string;
   email?: string;
 }
-
 export const VendorMapView: React.FC = () => {
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
   const [showVendorProducts, setShowVendorProducts] = useState(false);
-  const { data: vendorProfiles } = useVendorProfiles();
+  const {
+    data: vendorProfiles
+  } = useVendorProfiles();
 
   // Mock vendors with locations for demonstration
-  const vendors: Vendor[] = [
-    {
-      id: '1',
-      name: 'Fresh Farm Market',
-      phone: '+91-9876543210',
-      location: { lat: 28.6139, lng: 77.2090 },
-      address: '123 Market Street, Delhi',
-      lastUpdated: '2 hours ago',
-      distance: '0.8 km',
-      upiId: 'freshfarm@paytm',
-      email: 'contact@freshfarm.com'
+  const vendors: Vendor[] = [{
+    id: '1',
+    name: 'Fresh Farm Market',
+    phone: '+91-9876543210',
+    location: {
+      lat: 28.6139,
+      lng: 77.2090
     },
-    {
-      id: '2',
-      name: 'Organic Valley',
-      phone: '+91-8765432109',
-      location: { lat: 28.7041, lng: 77.1025 },
-      address: '456 Green Avenue, Delhi',
-      lastUpdated: '4 hours ago',
-      distance: '1.2 km',
-      upiId: 'organicvalley@gpay',
-      email: 'info@organicvalley.com'
+    address: '123 Market Street, Delhi',
+    lastUpdated: '2 hours ago',
+    distance: '0.8 km',
+    upiId: 'freshfarm@paytm',
+    email: 'contact@freshfarm.com'
+  }, {
+    id: '2',
+    name: 'Organic Valley',
+    phone: '+91-8765432109',
+    location: {
+      lat: 28.7041,
+      lng: 77.1025
     },
-    {
-      id: '3',
-      name: 'Local Grocery Hub',
-      phone: '+91-7654321098',
-      location: { lat: 28.5355, lng: 77.3910 },
-      address: '789 Local Market, Delhi',
-      lastUpdated: '1 hour ago',
-      distance: '2.1 km',
-      upiId: 'localgrocery@phonepe',
-      email: 'support@localgrocery.com'
-    }
-  ];
-
+    address: '456 Green Avenue, Delhi',
+    lastUpdated: '4 hours ago',
+    distance: '1.2 km',
+    upiId: 'organicvalley@gpay',
+    email: 'info@organicvalley.com'
+  }, {
+    id: '3',
+    name: 'Local Grocery Hub',
+    phone: '+91-7654321098',
+    location: {
+      lat: 28.5355,
+      lng: 77.3910
+    },
+    address: '789 Local Market, Delhi',
+    lastUpdated: '1 hour ago',
+    distance: '2.1 km',
+    upiId: 'localgrocery@phonepe',
+    email: 'support@localgrocery.com'
+  }];
   const handleVendorSelect = (vendor: Vendor) => {
     setSelectedVendor(vendor);
   };
-
   const handleViewProducts = () => {
     if (selectedVendor) {
       setShowVendorProducts(true);
     }
   };
-
   const handleContact = () => {
     if (selectedVendor?.phone) {
       const message = `Hi! I found your business on Farm2Market. I'm interested in your products.`;
@@ -78,18 +82,10 @@ export const VendorMapView: React.FC = () => {
       window.open(whatsappUrl, '_blank');
     }
   };
-
   if (showVendorProducts && selectedVendor) {
-    return (
-      <VendorProductsPage 
-        vendorName={selectedVendor.name}
-        onBack={() => setShowVendorProducts(false)}
-      />
-    );
+    return <VendorProductsPage vendorName={selectedVendor.name} onBack={() => setShowVendorProducts(false)} />;
   }
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Interactive Map */}
         <Card className="dark-glass-effect border-slate-600/30">
@@ -109,19 +105,10 @@ export const VendorMapView: React.FC = () => {
                 </div>
                 
                 {/* Vendor markers */}
-                {vendors.map((vendor, index) => (
-                  <div
-                    key={vendor.id}
-                    className={`absolute w-6 h-6 bg-green-500 rounded-full border-2 border-white cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:bg-green-400 transition-colors ${
-                      selectedVendor?.id === vendor.id ? 'ring-4 ring-green-300' : ''
-                    }`}
-                    style={{
-                      left: `${30 + index * 25}%`,
-                      top: `${40 + index * 15}%`
-                    }}
-                    onClick={() => handleVendorSelect(vendor)}
-                  />
-                ))}
+                {vendors.map((vendor, index) => <div key={vendor.id} className={`absolute w-6 h-6 bg-green-500 rounded-full border-2 border-white cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:bg-green-400 transition-colors ${selectedVendor?.id === vendor.id ? 'ring-4 ring-green-300' : ''}`} style={{
+                left: `${30 + index * 25}%`,
+                top: `${40 + index * 15}%`
+              }} onClick={() => handleVendorSelect(vendor)} />)}
               </div>
             </div>
           </CardContent>
@@ -135,8 +122,7 @@ export const VendorMapView: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {selectedVendor ? (
-              <div className="space-y-4">
+            {selectedVendor ? <div className="space-y-4">
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-2">{selectedVendor.name}</h3>
                   <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
@@ -160,38 +146,26 @@ export const VendorMapView: React.FC = () => {
                     <span>Last updated: {selectedVendor.lastUpdated}</span>
                   </div>
                   
-                  {selectedVendor.upiId && (
-                    <div className="flex items-center gap-3 text-slate-300">
+                  {selectedVendor.upiId && <div className="flex items-center gap-3 text-slate-300">
                       <CreditCard className="h-4 w-4 text-purple-400" />
                       <span>UPI ID: {selectedVendor.upiId}</span>
-                    </div>
-                  )}
+                    </div>}
                 </div>
 
                 <div className="flex gap-3 pt-4">
-                  <Button 
-                    onClick={handleViewProducts}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                  >
+                  <Button onClick={handleViewProducts} className="flex-1 bg-green-600 hover:bg-green-700 text-white">
                     <Eye className="h-4 w-4 mr-2" />
                     View Products
                   </Button>
-                  <Button 
-                    onClick={handleContact}
-                    variant="outline"
-                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-700"
-                  >
+                  <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 hover:bg-slate-700 text-gray-300">
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Contact
                   </Button>
                 </div>
-              </div>
-            ) : (
-              <div className="text-center py-8">
+              </div> : <div className="text-center py-8">
                 <MapPin className="h-12 w-12 mx-auto mb-4 text-slate-500" />
                 <p className="text-slate-400">Click on a vendor marker to view details</p>
-              </div>
-            )}
+              </div>}
           </CardContent>
         </Card>
       </div>
@@ -203,16 +177,7 @@ export const VendorMapView: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {vendors.map((vendor) => (
-              <div
-                key={vendor.id}
-                className={`p-4 rounded-lg border cursor-pointer transition-all hover:bg-slate-700/50 ${
-                  selectedVendor?.id === vendor.id
-                    ? 'border-green-500/50 bg-green-500/10'
-                    : 'border-slate-600/30 bg-slate-800/30'
-                }`}
-                onClick={() => handleVendorSelect(vendor)}
-              >
+            {vendors.map(vendor => <div key={vendor.id} className={`p-4 rounded-lg border cursor-pointer transition-all hover:bg-slate-700/50 ${selectedVendor?.id === vendor.id ? 'border-green-500/50 bg-green-500/10' : 'border-slate-600/30 bg-slate-800/30'}`} onClick={() => handleVendorSelect(vendor)}>
                 <h4 className="font-medium text-white mb-2">{vendor.name}</h4>
                 <div className="space-y-1 text-sm text-slate-400">
                   <div className="flex items-center gap-2">
@@ -224,11 +189,9 @@ export const VendorMapView: React.FC = () => {
                     <span>{vendor.lastUpdated}</span>
                   </div>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>;
 };
