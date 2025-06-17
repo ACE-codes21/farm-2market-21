@@ -1,180 +1,72 @@
+
 {
-  "welcome": "Welcome",
-  "login": "Login",
-  "signup": "Sign Up",
-  "email": "Email",
-  "password": "Password",
-  "confirm_password": "Confirm Password",
-  "full_name": "Full Name",
-  "phone": "Phone Number",
-  "role": "Role",
-  "buyer": "Buyer",
-  "vendor": "Vendor",
-  "already_have_account": "Already have an account?",
-  "dont_have_account": "Don't have an account?",
-  "todays_earnings": "Today's Earnings",
-  "buyer_header": {
-    "farm": "Farm",
-    "tomarket": "2Market"
-  },
-  "nav": {
-    "nav_features": "Features",
-    "nav_about": "About",
-    "nav_contact": "Contact",
-    "nav_login": "Log In",
-    "home": "Home",
-    "buyer_dashboard": "Buyer Dashboard",
-    "vendor_portal": "Vendor Portal",
-    "auth": "Auth",
-    "logout": "Logout",
-    "switch_to_vendor": "Switch to Vendor",
-    "switch_to_buyer": "Switch to Buyer",
-    "notifications": "Notifications"
-  },
-  "hero_section": {
-    "badge": "🌟 Connecting Communities Through Fresh Food",
-    "heading_1": "From Local",
-    "heading_farm": "Farm",
-    "heading_2": "to Your",
-    "heading_market": "Market",
-    "subheading_1": "Discover and connect with trusted",
-    "subheading_vendors": "local vendors",
-    "subheading_2": " in your",
-    "subheading_neighbourhoods": " neighbourhoods",
-    "go_to_market": "Go to Market",
-    "go_to_dashboard": "Go to Dashboard",
-    "shop_now": "Shop Now",
-    "sell_with_us": "Sell With Us",
-    "title": "From Local Farm to Your Market",
-    "subtitle": "Discover and connect with trusted local vendors in your neighbourhoods.",
-    "buyer_button": "Shop Now",
-    "vendor_button": "Sell With Us",
-    "stats": {
-      "vendors": "Local Vendors",
-      "products": "Fresh Products",
-      "customers": "Happy Customers"
-    }
-  },
-  "features_section": {
-    "heading": "Why Choose",
-    "heading_highlight": "Farm2Market",
-    "subheading": "Connecting communities through fresh, local produce with technology that makes shopping and selling simple.",
-    "features": {
-      "fresh_produce": {
-        "title": "Fresh Produce",
-        "description": "Direct from local farms to your table. Always fresh, always local."
-      },
-      "trusted_vendors": {
-        "title": "Trusted Vendors",
-        "description": "Verified local vendors with ratings and reviews from your community."
-      },
-      "easy_ordering": {
-        "title": "Easy Ordering",
-        "description": "Simple, intuitive interface makes ordering your favorites quick and easy."
-      }
-    }
-  },
-  "stats_section": {
-    "heading": "Growing",
-    "heading_highlight": "Together",
-    "subheading": "Join thousands of satisfied customers and vendors in our growing community marketplace.",
-    "stats": {
-      "vendors": "Local Vendors",
-      "products": "Fresh Products",
-      "customers": "Happy Customers",
-      "orders": "Orders Delivered"
-    }
-  },
-  "cta_section": {
-    "badge": "🚀 Ready to Get Started?",
-    "heading_1": "Join",
-    "heading_2": "Farm2Market",
-    "heading_3": "Today",
-    "description": "Whether you're looking to buy fresh produce or sell your harvest, we're here to connect you with your local community.",
-    "start_shopping": "Start Shopping",
-    "start_selling": "Start Selling"
-  },
-  "auth_modal": {
-    "title": "Welcome to Farm2Market",
-    "subtitle": "Connect with local vendors and buyers in your community",
-    "login": "Login",
-    "signup": "Sign Up",
-    "buyer": "Buyer",
-    "vendor": "Vendor",
-    "email": "Email",
-    "password": "Password",
-    "forgot_password": "Forgot Password?",
-    "no_account": "Don't have an account?",
-    "have_account": "Already have an account?"
-  },
   "dashboard_page": {
-    "loading": "Loading your dashboard..."
-  },
-  "dashboard_tabs": {
-    "discover_market": "Discover Market",
-    "discover_vendors": "Discover Vendors",
-    "my_orders": "My Orders",
-    "products_desc": "Browse fresh local products",
-    "vendors_desc": "Find trusted local vendors",
-    "orders_desc": "Track your order history",
-    "tabs": {
-      "products": "Products",
-      "vendors": "Vendors",
-      "orders": "Orders"
-    }
-  },
-  "vendor_dashboard_header": {
-    "dashboard": "Dashboard",
-    "finance": "Finance",
-    "ai_analytics": "AI Analytics",
-    "services": "Services",
-    "notifications": "Notifications"
-  },
-  "vendor_stats_grid": {
-    "total_sales": "Total Sales",
-    "total_products": "Total Products",
-    "orders": "Orders",
-    "revenue": "Revenue",
-    "last_7_days": "Added in last 7 days: {change}"
+    "loading": "Loading..."
   },
   "not_found_page": {
     "title": "Page Not Found",
-    "description": "The page you're looking for doesn't exist.",
+    "message": "Sorry, the page you are looking for does not exist.",
     "go_home": "Go Home"
   },
   "analytics_dashboard": {
-    "title": "Analytics Dashboard",
-    "subtitle": "Track your business performance",
-    "sales_overview": "Sales Overview",
-    "product_performance": "Product Performance",
-    "customer_insights": "Customer Insights",
-    "product_trends": "Product Trends",
     "sales_summary": {
       "todays_earnings": "Today's Earnings",
       "top_selling_product": "Top Selling Product",
       "most_active_time": "Most Active Time"
     }
   },
-  "finance_dashboard": {
-    "title": "Finance Dashboard",
-    "subtitle": "Manage your finances",
-    "total_revenue": "Total Revenue",
-    "expenses": "Expenses",
-    "profit_margin": "Profit Margin",
-    "credit_score": "Credit Score"
+  "add_to_cart_dialog": {
+    "title": "Add to Cart",
+    "each": "each",
+    "available": "available",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "cancel": "Cancel",
+    "add_to_cart": "Add to Cart"
   },
-  "services_dashboard": {
-    "title": "Services Dashboard",
-    "subtitle": "Access government services",
-    "available_schemes": "Available Schemes",
-    "application_status": "Application Status",
-    "document_manager": "Document Manager",
-    "tabs": {
-      "schemes": "Schemes",
-      "eligibility": "Eligibility",
-      "tracker": "Tracker",
-      "documents": "Documents",
-      "ai_assist": "AI Assistant"
+  "buy_now_dialog": {
+    "each": "each",
+    "available": "available",
+    "quantity": "Quantity",
+    "cancel": "Cancel",
+    "complete_purchase": "Complete Purchase",
+    "quick_checkout": "Quick Checkout",
+    "order_summary": "Order Summary",
+    "subtotal_items": "Subtotal ({{count}} items)",
+    "discount_code": "Discount ({{code}})",
+    "total": "Total",
+    "order_placed_success": "Order Placed Successfully!",
+    "order_confirmed": "Your order for {{productName}} has been confirmed.",
+    "order_total": "Order Total: ₹{{total}}",
+    "coupons": {
+      "fresh10_desc": "10% off on fresh produce",
+      "welcome20_desc": "20% off for new customers",
+      "bulk5_desc": "5% off on bulk orders"
+    },
+    "payment_methods": {
+      "card": "Credit/Debit Card",
+      "upi": "UPI",
+      "wallet": "Digital Wallet"
     }
+  },
+  "cart_sheet": {
+    "cart_title": "Your Cart ({{count}} items)",
+    "cart_title_0": "Your Cart",
+    "cart_title_1": "Your Cart (1 item)",
+    "cart_title_other": "Your Cart ({{count}} items)",
+    "subtotal": "Subtotal",
+    "shipping_note": "Shipping and taxes calculated at checkout",
+    "proceed_to_checkout": "Proceed to Checkout",
+    "empty_cart_title": "Your cart is empty",
+    "empty_cart_desc": "Add some products to get started!",
+    "continue_shopping": "Continue Shopping",
+    "choose_payment": "Choose Payment Method",
+    "back_to_cart": "← Back to Cart",
+    "place_order": "Place Order",
+    "pay": "Pay ₹{{total}}",
+    "processing": "Processing...",
+    "order_placed_pending": "Order Placed (Payment Pending)",
+    "order_placed_success": "Order Placed Successfully!",
+    "order_confirmed": "Your order has been confirmed with {{count}} items."
   }
 }
