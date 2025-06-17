@@ -55,7 +55,7 @@ const fetchProductTrends = async (vendorId: string): Promise<ProductTrendData[]>
         orders!inner(created_at, status)
       `)
       .eq('product_id', product.id)
-      .eq('orders.status', 'completed')
+      .eq('orders.status', 'delivered')
       .gte('orders.created_at', sevenDaysAgo.toISOString());
 
     if (orderItemsError) continue;

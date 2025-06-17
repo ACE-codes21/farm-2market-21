@@ -25,7 +25,7 @@ const fetchVendorAnalytics = async (vendorId: string): Promise<AnalyticsData> =>
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'completed')
+    .eq('status', 'delivered')
     .gte('created_at', new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString())
     .order('created_at', { ascending: true });
 

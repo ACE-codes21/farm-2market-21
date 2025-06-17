@@ -23,7 +23,7 @@ const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'completed')
+    .eq('status', 'delivered')
     .gte('created_at', sevenDaysAgo.toISOString());
 
   if (error) {

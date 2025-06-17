@@ -35,7 +35,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'completed')
+    .eq('status', 'delivered')
     .gte('created_at', today.toISOString())
     .lt('created_at', tomorrow.toISOString());
 
@@ -57,7 +57,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'completed')
+    .eq('status', 'delivered')
     .gte('created_at', yesterday.toISOString())
     .lt('created_at', today.toISOString());
 
