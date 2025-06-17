@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tag, Check, X } from 'lucide-react';
@@ -28,19 +27,17 @@ export const CouponSection: React.FC<CouponSectionProps> = ({
   handleRemoveCoupon,
   availableCoupons,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <div className="space-y-4">
       <label className="text-sm font-medium text-white flex items-center gap-2">
         <Tag className="h-4 w-4" />
-        {t('buy_now_dialog.coupon_code')}
+        Coupon Code
       </label>
 
       {!appliedCoupon ? (
         <div className="flex gap-2">
           <Input
-            placeholder={t('buy_now_dialog.coupon_code')}
+            placeholder="Coupon Code"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
             className="bg-slate-700/50 border-slate-600/30 text-white placeholder:text-slate-400"
@@ -51,7 +48,7 @@ export const CouponSection: React.FC<CouponSectionProps> = ({
             disabled={!couponCode.trim()}
             className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white"
           >
-            {t('buy_now_dialog.apply')}
+            Apply
           </Button>
         </div>
       ) : (
