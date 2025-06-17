@@ -157,7 +157,7 @@ export const VendorMapView: React.FC = () => {
                     <Eye className="h-4 w-4 mr-2" />
                     View Products
                   </Button>
-                  <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 hover:bg-slate-700 text-black-300">
+                  <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 hover:bg-slate-700 text-gray-300">
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Contact
                   </Button>
