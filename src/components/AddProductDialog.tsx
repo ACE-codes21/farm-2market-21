@@ -11,16 +11,20 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { ImageUploader } from './ImageUploader';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserSession } from '@/hooks/useUserSession';
-
 interface AddProductDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onAddProduct: (product: Omit<Product, 'id' | 'rating' | 'reviews'>) => void;
 }
-
-export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOpenChange, onAddProduct }) => {
+export const AddProductDialog: React.FC<AddProductDialogProps> = ({
+  isOpen,
+  onOpenChange,
+  onAddProduct
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const user = useUserSession();
   const [formData, setFormData] = useState({
     name: '',
@@ -28,58 +32,56 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
     category: '',
     stock: '',
     description: '',
-    barcode: '',
+    barcode: ''
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [expiryDate, setExpiryDate] = useState<Date | undefined>();
-
-  const categories = [
-    'Vegetables', 'Fruits', 'Dairy', 'Snacks', 'Spices', 
-    'Sweeteners', 'Beverages', 'Grains', 'Herbs'
-  ];
-
+  const categories = ['Vegetables', 'Fruits', 'Dairy', 'Snacks', 'Spices', 'Sweeteners', 'Beverages', 'Grains', 'Herbs'];
   const resetForm = () => {
-    setFormData({ name: '', price: '', category: '', stock: '', description: '', barcode: '' });
+    setFormData({
+      name: '',
+      price: '',
+      category: '',
+      stock: '',
+      description: '',
+      barcode: ''
+    });
     setImageFile(null);
     setExpiryDate(undefined);
-  }
-
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
     if (!user) {
-        toast({ title: "Authentication Error", description: "You must be logged in to add a product.", variant: "destructive" });
-        setIsSubmitting(false);
-        return;
+      toast({
+        title: "Authentication Error",
+        description: "You must be logged in to add a product.",
+        variant: "destructive"
+      });
+      setIsSubmitting(false);
+      return;
     }
-
     try {
       let imageUrls: string[] = [];
       if (imageFile) {
         const fileExt = imageFile.name.split('.').pop();
         const fileName = `${user.id}-${Date.now()}.${fileExt}`;
         const filePath = `${user.id}/${fileName}`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(filePath, imageFile);
-          
+        const {
+          error: uploadError
+        } = await supabase.storage.from('product-images').upload(filePath, imageFile);
         if (uploadError) {
           throw uploadError;
         }
-        
-        const { data: urlData } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(filePath);
-          
+        const {
+          data: urlData
+        } = supabase.storage.from('product-images').getPublicUrl(filePath);
         if (urlData.publicUrl) {
           imageUrls.push(urlData.publicUrl);
         } else {
-            throw new Error("Could not get public URL for the image.");
+          throw new Error("Could not get public URL for the image.");
         }
       }
-
       const newProduct: Omit<Product, 'id' | 'rating' | 'reviews'> = {
         name: formData.name,
         price: parseFloat(formData.price),
@@ -97,13 +99,11 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           upiQrCode: "https://images.unsplash.com/photo-1617647905505-96c37d50bb99?w=300&h=300&fit=crop"
         }
       };
-
       onAddProduct(newProduct);
-      
       toast({
         title: "Item listed successfully! 🎉",
         description: `${formData.name} has been added to your inventory.`,
-        duration: 5000,
+        duration: 5000
       });
 
       // Reset form and close dialog
@@ -113,22 +113,19 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
       toast({
         title: "Error adding item",
         description: error.message || "There was a problem adding your item. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-  
   const handleDialogChange = (open: boolean) => {
     if (!open) {
       resetForm();
     }
     onOpenChange(open);
-  }
-
-  return (
-    <Dialog open={isOpen} onOpenChange={handleDialogChange}>
+  };
+  return <Dialog open={isOpen} onOpenChange={handleDialogChange}>
       <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto dark-glass-effect border-slate-700 text-white">
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
@@ -137,30 +134,40 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           <ImageUploader onFileSelect={setImageFile} reset={!isOpen} />
           <div>
             <Label htmlFor="name" className="text-slate-300">Product Name</Label>
-            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
+            <Input id="name" value={formData.name} onChange={e => setFormData({
+            ...formData,
+            name: e.target.value
+          })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="price" className="text-slate-300">Price (₹)</Label>
-              <Input id="price" type="number" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
+              <Input id="price" type="number" value={formData.price} onChange={e => setFormData({
+              ...formData,
+              price: e.target.value
+            })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
             <div>
               <Label htmlFor="stock" className="text-slate-300">Stock Quantity</Label>
-              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
+              <Input id="stock" type="number" value={formData.stock} onChange={e => setFormData({
+              ...formData,
+              stock: e.target.value
+            })} required className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
           </div>
 
           <div>
             <Label htmlFor="category" className="text-slate-300">Category</Label>
-            <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+            <Select value={formData.category} onValueChange={value => setFormData({
+            ...formData,
+            category: value
+          })}>
               <SelectTrigger className="w-full bg-slate-900/50 border-slate-700 text-white focus:ring-green-500">
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                {categories.map((category) => (
-                  <SelectItem key={category} value={category} className="cursor-pointer data-[highlighted]:bg-slate-700">{category}</SelectItem>
-                ))}
+                {categories.map(category => <SelectItem key={category} value={category} className="cursor-pointer data-[highlighted]:bg-slate-700">{category}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
@@ -172,17 +179,23 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
             </div>
             <div>
               <Label htmlFor="barcode" className="text-slate-300">Barcode (Optional)</Label>
-              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
+              <Input id="barcode" value={formData.barcode} onChange={e => setFormData({
+              ...formData,
+              barcode: e.target.value
+            })} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
             </div>
           </div>
 
           <div>
             <Label htmlFor="description" className="text-slate-300">Description</Label>
-            <Textarea id="description" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe your product..." rows={3} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
+            <Textarea id="description" value={formData.description} onChange={e => setFormData({
+            ...formData,
+            description: e.target.value
+          })} placeholder="Describe your product..." rows={3} className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-400 focus:ring-green-500" />
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting} className="text-gray-50 bg-[#8e0000]">
               Cancel
             </Button>
             <Button type="submit" className="bg-green-600 hover:bg-green-700 btn-hover-glow" disabled={isSubmitting}>
@@ -191,6 +204,5 @@ export const AddProductDialog: React.FC<AddProductDialogProps> = ({ isOpen, onOp
           </div>
         </form>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
