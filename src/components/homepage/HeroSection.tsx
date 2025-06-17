@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart, Store, User, Settings } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useTranslation } from 'react-i18next';
 
 interface HeroSectionProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -19,7 +18,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -115,7 +113,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
               <ShoppingCart className="h-6 w-6 mr-3 relative z-10" />
-              <span className="relative z-10">{t('hero_section.go_to_market')}</span>
+              <span className="relative z-10">Go to Market</span>
               <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
             </Button>
           </div>
@@ -130,7 +128,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400/0 via-orange-400/15 to-orange-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
               <Settings className="h-6 w-6 mr-3 relative z-10" />
-              <span className="relative z-10">{t('hero_section.go_to_dashboard')}</span>
+              <span className="relative z-10">Go to Dashboard</span>
               <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
             </Button>
           </div>
@@ -147,7 +145,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         >
           <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
           <ShoppingCart className="h-6 w-6 mr-3 relative z-10" />
-          <span className="relative z-10">{t('hero_section.shop_now')}</span>
+          <span className="relative z-10">Shop Now</span>
           <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
         </Button>
 
@@ -158,7 +156,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         >
           <div className="absolute inset-0 bg-gradient-to-r from-orange-400/0 via-orange-400/15 to-orange-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
           <Store className="h-6 w-6 mr-3 relative z-10" />
-          <span className="relative z-10">{t('hero_section.sell_with_us')}</span>
+          <span className="relative z-10">Sell with Us</span>
           <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
         </Button>
       </div>
@@ -172,7 +170,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/10 via-green-400/15 to-green-500/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.2)] mb-8">
             <span className="animate-pulse">🌱</span>
-            {t('hero_section.badge')}
+            Fresh • Local • Sustainable
           </div>
 
           {/* Main Heading */}

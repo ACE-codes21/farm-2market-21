@@ -10,7 +10,6 @@ import { useBuyerDashboard } from '@/hooks/useBuyerDashboard';
 import { DashboardTabs } from '@/components/buyer/DashboardTabs';
 import { DashboardContent } from '@/components/buyer/DashboardContent';
 import { Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface BuyerDashboardProps {
   onRoleChange: () => void;
@@ -21,7 +20,6 @@ const BuyerDashboard: React.FC<BuyerDashboardProps> = ({
 }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-  const { t } = useTranslation();
 
   const {
     cartItems: cart,

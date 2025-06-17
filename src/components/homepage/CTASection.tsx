@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface CTASectionProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -11,7 +10,6 @@ interface CTASectionProps {
 const CTASection: React.FC<CTASectionProps> = ({ onOpenAuthModal }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -47,19 +45,19 @@ const CTASection: React.FC<CTASectionProps> = ({ onOpenAuthModal }) => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500/10 via-green-400/15 to-green-500/10 border border-green-400/30 rounded-full text-green-400 text-sm font-medium backdrop-blur-sm shadow-[0_0_30px_rgba(34,197,94,0.2)] mb-8">
             <Sparkles className="h-4 w-4 animate-pulse" />
-            {t('cta_section.badge')}
+            Join the Movement
           </div>
 
           {/* Heading */}
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-            {t('cta_section.heading_1')} <span className="text-green-400">{t('cta_section.heading_2')}</span>
+            Ready to <span className="text-green-400">Transform</span>
             <br />
-            {t('cta_section.heading_3')}
+            Your Market Experience?
           </h2>
 
           {/* Description */}
           <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            {t('cta_section.description')}
+            Join thousands of vendors and buyers who are already experiencing the future of local commerce.
           </p>
 
           {/* CTA Buttons */}
@@ -69,7 +67,7 @@ const CTASection: React.FC<CTASectionProps> = ({ onOpenAuthModal }) => {
               className="group relative px-10 py-5 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-black font-bold text-xl rounded-2xl border-2 border-green-400 shadow-[0_0_40px_rgba(34,197,94,0.6)] hover:shadow-[0_0_60px_rgba(34,197,94,0.9)] transform hover:scale-110 transition-all duration-300 min-w-[220px] overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-              <span className="relative z-10">{t('cta_section.start_shopping')}</span>
+              <span className="relative z-10">Start Shopping</span>
               <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
             </Button>
 
@@ -79,7 +77,7 @@ const CTASection: React.FC<CTASectionProps> = ({ onOpenAuthModal }) => {
               className="group relative px-10 py-5 bg-transparent hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-orange-400/10 text-white font-bold text-xl rounded-2xl border-2 border-white/30 hover:border-orange-400 shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:shadow-[0_0_50px_rgba(251,146,60,0.7)] transform hover:scale-110 transition-all duration-300 min-w-[220px] overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-orange-400/0 via-orange-400/15 to-orange-400/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-              <span className="relative z-10">{t('cta_section.start_selling')}</span>
+              <span className="relative z-10">Start Selling</span>
               <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-2 transition-transform relative z-10" />
             </Button>
           </div>
