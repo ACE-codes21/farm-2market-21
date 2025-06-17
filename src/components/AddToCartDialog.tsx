@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/types';
 import { QuantitySelector } from './QuantitySelector';
-import { useTranslation } from 'react-i18next';
 
 interface AddToCartDialogProps {
   product: Product;
@@ -20,7 +19,6 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [open, setOpen] = useState(false);
-  const { t } = useTranslation();
 
   const handleAddToCart = () => {
     onAddToCart(selectedQuantity);
@@ -35,7 +33,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
       </DialogTrigger>
       <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-xl border border-slate-600/30 shadow-2xl">
         <DialogHeader>
-          <DialogTitle className="text-white font-display">{t('add_to_cart_dialog.title')}</DialogTitle>
+          <DialogTitle className="text-white font-display">Add to Cart</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
@@ -47,13 +45,13 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
             />
             <div className="flex-1">
               <h3 className="font-medium text-white">{product.name}</h3>
-              <p className="text-sm text-slate-300">₹{product.price} {t('add_to_cart_dialog.each')}</p>
-              <p className="text-sm text-slate-400">{product.stock} {t('add_to_cart_dialog.available')}</p>
+              <p className="text-sm text-slate-300">₹{product.price} each</p>
+              <p className="text-sm text-slate-400">{product.stock} available</p>
             </div>
           </div>
 
           <div className="space-y-3">
-            <label className="text-sm font-medium text-white">{t('add_to_cart_dialog.quantity')}</label>
+            <label className="text-sm font-medium text-white">Quantity</label>
             <QuantitySelector
               max={product.stock}
               onQuantityChange={setSelectedQuantity}
@@ -63,7 +61,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
 
           <div className="bg-slate-700/30 p-4 rounded-xl border border-slate-600/30">
             <div className="flex justify-between text-sm">
-              <span className="text-slate-300">{t('add_to_cart_dialog.subtotal')}</span>
+              <span className="text-slate-300">Subtotal</span>
               <span className="font-medium text-white">₹{(product.price * selectedQuantity).toFixed(2)}</span>
             </div>
           </div>
@@ -71,7 +69,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
 
         <DialogFooter className="gap-3">
           <Button variant="outline" onClick={() => setOpen(false)} className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white">
-            {t('add_to_cart_dialog.cancel')}
+            Cancel
           </Button>
           <Button 
             onClick={handleAddToCart} 
@@ -79,7 +77,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
             className="bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200"
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            {t('add_to_cart_dialog.add_to_cart')}
+            Add to Cart
           </Button>
         </DialogFooter>
       </DialogContent>
