@@ -100,15 +100,15 @@ export const VendorMapView: React.FC = () => {
                   <div className="text-center text-white">
                     <MapPin className="h-12 w-12 mx-auto mb-4 text-green-400" />
                     <p className="text-lg font-medium">Interactive Map</p>
-                    <p className="text-slate-400 text-sm">Vendor locations displayed here</p>
+                    <p className="text-slate-400 text-sm">Coming Soon</p>
                   </div>
                 </div>
                 
                 {/* Vendor markers */}
-                {vendors.map((vendor, index) => <div key={vendor.id} className={`absolute w-6 h-6 bg-green-500 rounded-full border-2 border-white cursor-pointer transform -translate-x-1/2 -translate-y-1/2 hover:bg-green-400 transition-colors ${selectedVendor?.id === vendor.id ? 'ring-4 ring-green-300' : ''}`} style={{
+                {vendors.map((vendor, index) => <div key={vendor.id} style={{
                 left: `${30 + index * 25}%`,
                 top: `${40 + index * 15}%`
-              }} onClick={() => handleVendorSelect(vendor)} />)}
+              }} onClick={() => handleVendorSelect(vendor)} className="" />)}
               </div>
             </div>
           </CardContent>
@@ -157,7 +157,7 @@ export const VendorMapView: React.FC = () => {
                     <Eye className="h-4 w-4 mr-2" />
                     View Products
                   </Button>
-                  <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 hover:bg-slate-700 text-gray-300">
+                  <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 text-zinc-300 bg-slate-700 hover:bg-slate-600">
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Contact
                   </Button>
