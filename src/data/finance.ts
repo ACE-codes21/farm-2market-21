@@ -8,6 +8,12 @@ export interface LoanScheme {
   status: 'Approved' | 'Pending' | 'Not Applied';
 }
 
+export interface VendorActivityData {
+  totalOrders: number;
+  returnRate: number;
+  avgRating: number;
+}
+
 export const loanSchemes: LoanScheme[] = [
   {
     id: 'pmsvanidhi',
@@ -30,6 +36,33 @@ export const loanSchemes: LoanScheme[] = [
 ];
 
 export const creditScore = 780;
+
+// Mock vendor activity data for trust level calculation
+export const vendorActivityData: VendorActivityData = {
+  totalOrders: 127,
+  returnRate: 2.3,
+  avgRating: 4.6
+};
+
+// Calculate trust level based on activity data
+export const calculateTrustLevel = (activityData: VendorActivityData): number => {
+  let trustLevel = 0;
+  
+  // Base trust from order count (0-2 stars)
+  if (activityData.totalOrders >= 50) trustLevel += 1;
+  if (activityData.totalOrders >= 100) trustLevel += 1;
+  
+  // Trust from low return rate (0-1 star)
+  if (activityData.returnRate < 5) trustLevel += 1;
+  
+  // Trust from high rating (0-2 stars)
+  if (activityData.avgRating >= 4.0) trustLevel += 1;
+  if (activityData.avgRating >= 4.5) trustLevel += 1;
+  
+  return Math.min(trustLevel, 5);
+};
+
+export const trustLevel = calculateTrustLevel(vendorActivityData);
 
 export const repaymentData = {
   installments: [
