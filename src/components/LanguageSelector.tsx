@@ -8,11 +8,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Globe } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 export const LanguageSelector: React.FC = () => {
-  const { i18n } = useTranslation();
-
   const languages = [
     { code: 'en', name: 'English' },
     { code: 'hi', name: 'हिन्दी' },
@@ -22,10 +19,9 @@ export const LanguageSelector: React.FC = () => {
   ];
 
   const handleLanguageChange = (languageCode: string) => {
-    i18n.changeLanguage(languageCode);
+    // Showcase only - no functionality
+    console.log(`Selected language: ${languageCode}`);
   };
-
-  const currentLanguageName = languages.find(lang => i18n.language.startsWith(lang.code))?.name || 'English';
 
   return (
     <DropdownMenu>
@@ -35,7 +31,7 @@ export const LanguageSelector: React.FC = () => {
           className="text-white hover:bg-white/10 flex items-center gap-2"
         >
           <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline">{currentLanguageName}</span>
+          <span className="hidden sm:inline">English</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
