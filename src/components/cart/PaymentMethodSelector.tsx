@@ -2,7 +2,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { CreditCard, Smartphone, Wallet, Truck, CheckCircle } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface PaymentMethod {
   id: string;
@@ -20,18 +19,16 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
   selectedPaymentMethod,
   onSelectPaymentMethod,
 }) => {
-  const { t } = useTranslation();
-
   const paymentMethods: PaymentMethod[] = [
-    { id: 'card', name: t('buy_now_dialog.payment_methods.card'), icon: CreditCard, color: 'blue' },
-    { id: 'upi', name: t('buy_now_dialog.payment_methods.upi'), icon: Smartphone, color: 'green' },
-    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' },
+    { id: 'card', name: 'Credit/Debit Card', icon: CreditCard, color: 'blue' },
+    { id: 'upi', name: 'UPI Payment', icon: Smartphone, color: 'green' },
+    { id: 'wallet', name: 'Digital Wallet', icon: Wallet, color: 'purple' },
     { id: 'cod', name: 'Pay on Delivery', icon: Truck, color: 'orange' }
   ];
 
   return (
     <div className="space-y-4">
-      <h4 className="font-medium text-white">{t('buy_now_dialog.payment_method')}</h4>
+      <h4 className="font-medium text-white">Payment Method</h4>
       <div className="space-y-3">
         {paymentMethods.map((method) => {
           const Icon = method.icon;
