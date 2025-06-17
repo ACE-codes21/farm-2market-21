@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart, Store, User, Settings } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useTranslation } from 'react-i18next';
+
 interface HeroSectionProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
 }
+
 const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenAuthModal
 }) => {
@@ -151,10 +153,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
-            {t('hero_section.heading_1')} <span className="text-green-400">{t('hero_section.heading_farm')}</span> {t('hero_section.heading_2')}
+            From <span className="text-green-400">Farm</span> to Your
             <br />
             <span className="bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-500 bg-clip-text text-transparent">
-              {t('hero_section.heading_market')}
+              Market
             </span>
           </h1>
 
@@ -174,4 +176,5 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
     </section>;
 };
+
 export default HeroSection;
