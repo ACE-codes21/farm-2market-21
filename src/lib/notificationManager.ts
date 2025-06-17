@@ -27,12 +27,15 @@ export const getUnreadNotifications = () => {
     const unreadAlerts = emergencyAlerts.filter(n => !readIds.includes(n.id));
     const unreadUpdates = systemNotifications.filter(n => !readIds.includes(n.id));
     
-    return {
+    const result = {
         reviews: unreadReviews,
         alerts: unreadAlerts,
         updates: unreadUpdates,
         count: unreadReviews.length + unreadAlerts.length + unreadUpdates.length
     };
+    
+    console.log('getUnreadNotifications result:', result);
+    return result;
 };
 
 export const markAllAsRead = () => {
@@ -44,12 +47,24 @@ export const markAllAsRead = () => {
     const currentReadIds = getReadIds();
     const newReadIds = Array.from(new Set([...currentReadIds, ...allIds]));
     setReadIds(newReadIds);
+    
+    // Dispatch custom event to update notification count
+    console.log('markAllAsRead: dispatching notifications-updated event');
+    window.dispatchEvent(new CustomEvent('notifications-updated', { 
+        detail: { count: 0 } 
+    }));
 };
 
 export const markAsRead = (id: string) => {
     const readIds = getReadIds();
     if (!readIds.includes(id)) {
         setReadIds([...readIds, id]);
+        
+        // Dispatch custom event to update notification count
+        const newCount = getUnreadNotifications().count;
+        console.log('markAsRead: dispatching notifications-updated event with count:', newCount);
+        window.dispatchEvent(new CustomEvent('notifications-updated', { 
+            detail: { count: newCount } 
+        }));
     }
 };
-

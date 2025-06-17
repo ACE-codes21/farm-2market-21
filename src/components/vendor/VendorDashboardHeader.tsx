@@ -16,20 +16,28 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
   const { t } = useTranslation();
 
   useEffect(() => {
-    setNotificationCount(getUnreadNotifications().count);
+    console.log('VendorDashboardHeader: initializing notification count');
+    const initialCount = getUnreadNotifications().count;
+    console.log('VendorDashboardHeader: initial notification count:', initialCount);
+    setNotificationCount(initialCount);
 
     const handleNotificationsUpdate = (event: CustomEvent) => {
+      console.log('VendorDashboardHeader: received notifications-updated event:', event.detail);
       if (typeof event.detail.count === 'number') {
         setNotificationCount(event.detail.count);
       }
     };
 
+    console.log('VendorDashboardHeader: adding event listener');
     window.addEventListener('notifications-updated', handleNotificationsUpdate as EventListener);
 
     return () => {
+      console.log('VendorDashboardHeader: removing event listener');
       window.removeEventListener('notifications-updated', handleNotificationsUpdate as EventListener);
     };
   }, []);
+
+  console.log('VendorDashboardHeader: rendering with notification count:', notificationCount);
 
   return <header className="dark-glass-effect border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -111,6 +111,33 @@
   "dashboard_page": {
     "loading": "మీ డాష్‌బోర్డ్ లోడ్ అవుతోంది..."
   },
+  "dashboard_tabs": {
+    "discover_market": "మార్కెట్ కనుగొనండి",
+    "discover_vendors": "విక్రేతలను కనుగొనండి",
+    "my_orders": "నా ఆర్డర్లు",
+    "products_desc": "తాజా స్థానిక ఉత్పత్తులను బ్రౌజ్ చేయండి",
+    "vendors_desc": "విశ్వసనీయ స్థానిక విక్రేతలను కనుగొనండి",
+    "orders_desc": "మీ ఆర్డర్ చరిత్రను ట్రాక్ చేయండి",
+    "tabs": {
+      "products": "ఉత్పత్తులు",
+      "vendors": "విక్రేతలు",
+      "orders": "ఆర్డర్లు"
+    }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "డాష్‌బోర్డ్",
+    "finance": "ఫైనాన్స్",
+    "ai_analytics": "AI అనలిటిక్స్",
+    "services": "సేవలు",
+    "notifications": "నోటిఫికేషన్లు"
+  },
+  "vendor_stats_grid": {
+    "total_sales": "మొత్తం అమ్మకాలు",
+    "total_products": "మొత్తం ఉత్పత్తులు",
+    "orders": "ఆర్డర్లు",
+    "revenue": "ఆదాయం",
+    "last_7_days": "గత 7 రోజుల్లో జోడించారు: {change}"
+  },
   "not_found_page": {
     "title": "పేజీ దొరకలేదు",
     "description": "మీరు వెతుకుతున్న పేజీ లేదు.",
@@ -136,6 +163,13 @@
     "subtitle": "ప్రభుత్వ సేవలను యాక్సెస్ చేయండి",
     "available_schemes": "అందుబాటులో ఉన్న పథకాలు",
     "application_status": "దరఖాస్తు స్థితి",
-    "document_manager": "డాక్యుమెంట్ మేనేజర్"
+    "document_manager": "డాక్యుమెంట్ మేనేజర్",
+    "tabs": {
+      "schemes": "పథకాలు",
+      "eligibility": "అర్హత",
+      "tracker": "ట్రాకర్",
+      "documents": "డాక్యుమెంట్లు",
+      "ai_assist": "AI సహాయకుడు"
+    }
   }
 }

@@ -111,6 +111,33 @@
   "dashboard_page": {
     "loading": "আপনার ড্যাশবোর্ড লোড হচ্ছে..."
   },
+  "dashboard_tabs": {
+    "discover_market": "বাজার আবিষ্কার করুন",
+    "discover_vendors": "বিক্রেতা আবিষ্কার করুন",
+    "my_orders": "আমার অর্ডার",
+    "products_desc": "তাজা স্থানীয় পণ্য ব্রাউজ করুন",
+    "vendors_desc": "বিশ্বস্ত স্থানীয় বিক্রেতা খুঁজুন",
+    "orders_desc": "আপনার অর্ডার ইতিহাস ট্র্যাক করুন",
+    "tabs": {
+      "products": "পণ্য",
+      "vendors": "বিক্রেতা",
+      "orders": "অর্ডার"
+    }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "ড্যাশবোর্ড",
+    "finance": "ফিন্যান্স",
+    "ai_analytics": "AI অ্যানালিটিক্স",
+    "services": "সেবা",
+    "notifications": "বিজ্ঞপ্তি"
+  },
+  "vendor_stats_grid": {
+    "total_sales": "মোট বিক্রয়",
+    "total_products": "মোট পণ্য",
+    "orders": "অর্ডার",
+    "revenue": "রাজস্ব",
+    "last_7_days": "গত ৭ দিনে যোগ করা হয়েছে: {change}"
+  },
   "not_found_page": {
     "title": "পেজ পাওয়া যায়নি",
     "description": "আপনি যে পেজটি খুঁজছেন তা বিদ্যমান নেই।",
@@ -136,6 +163,13 @@
     "subtitle": "সরকারি সেবা অ্যাক্সেস করুন",
     "available_schemes": "উপলব্ধ স্কিম",
     "application_status": "আবেদনের অবস্থা",
-    "document_manager": "ডকুমেন্ট ম্যানেজার"
+    "document_manager": "ডকুমেন্ট ম্যানেজার",
+    "tabs": {
+      "schemes": "স্কিম",
+      "eligibility": "যোগ্যতা",
+      "tracker": "ট্র্যাকার",
+      "documents": "ডকুমেন্ট",
+      "ai_assist": "AI সহায়ক"
+    }
   }
 }

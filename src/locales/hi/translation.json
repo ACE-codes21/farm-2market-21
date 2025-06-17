@@ -81,7 +81,7 @@
     "subheading": "हमारे बढ़ते कम्युनिटी मार्केटप्लेस में हजारों संतुष्ट ग्राहकों और विक्रेताओं में शामिल हों।",
     "stats": {
       "vendors": "स्थानीय विक्रेता",
-      "products": "ताजा उत्पाد",
+      "products": "ताजा उत्पाद",
       "customers": "खुश ग्राहक",
       "orders": "डिलीवर किए गए ऑर्डर"
     }
@@ -130,6 +130,13 @@
     "ai_analytics": "AI एनालिटिक्स",
     "services": "सेवाएं",
     "notifications": "सूचनाएं"
+  },
+  "vendor_stats_grid": {
+    "total_sales": "कुल बिक्री",
+    "total_products": "कुल उत्पाद",
+    "orders": "ऑर्डर",
+    "revenue": "राजस्व",
+    "last_7_days": "पिछले 7 दिनों में जोड़े गए: {change}"
   },
   "not_found_page": {
     "title": "पेज नहीं मिला",

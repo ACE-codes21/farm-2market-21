@@ -131,6 +131,13 @@
     "services": "Services",
     "notifications": "Notifications"
   },
+  "vendor_stats_grid": {
+    "total_sales": "Total Sales",
+    "total_products": "Total Products",
+    "orders": "Orders",
+    "revenue": "Revenue",
+    "last_7_days": "Added in last 7 days: {change}"
+  },
   "not_found_page": {
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist.",
