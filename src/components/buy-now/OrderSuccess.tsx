@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { CheckCircle } from 'lucide-react';
 import { DialogContent } from '@/components/ui/dialog';
 
@@ -10,8 +9,6 @@ interface OrderSuccessProps {
 }
 
 export const OrderSuccess: React.FC<OrderSuccessProps> = ({ productName, total }) => {
-  const { t } = useTranslation();
-
   return (
     <DialogContent className="sm:max-w-md bg-slate-800/95 backdrop-blur-xl border border-slate-600/30 shadow-2xl">
       <div className="text-center p-6 space-y-4">
@@ -19,9 +16,9 @@ export const OrderSuccess: React.FC<OrderSuccessProps> = ({ productName, total }
           <CheckCircle className="h-8 w-8 text-green-400" />
         </div>
         <div>
-          <h3 className="text-xl font-semibold text-white">{t('buy_now_dialog.order_placed_success')}</h3>
-          <p className="text-slate-300 mt-2">{t('buy_now_dialog.order_confirmed', { productName: productName })}</p>
-          <p className="text-sm text-slate-400 mt-1">{t('buy_now_dialog.order_total', { total: total.toFixed(2) })}</p>
+          <h3 className="text-xl font-semibold text-white">Order Placed Successfully!</h3>
+          <p className="text-slate-300 mt-2">Your order for {productName} has been confirmed</p>
+          <p className="text-sm text-slate-400 mt-1">Total: ₹{total.toFixed(2)}</p>
         </div>
       </div>
     </DialogContent>
