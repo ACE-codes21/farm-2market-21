@@ -47,7 +47,7 @@ const fetchTopSellingProduct = async (vendorId: string): Promise<TopProductData 
       )
     `)
     .eq('products.vendor_id', vendorId)
-    .eq('orders.status', 'delivered')
+    .in('orders.status', ['pending', 'confirmed', 'delivered'])
     .gte('orders.created_at', sevenDaysAgo.toISOString());
 
   if (error) {

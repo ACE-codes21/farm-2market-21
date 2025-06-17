@@ -47,7 +47,7 @@ const fetchProductTrends = async (vendorId: string): Promise<ProductTrendData[]>
   const productTrends: ProductTrendData[] = [];
 
   for (const product of products) {
-    // Get sales data for this product over the last 7 days
+    // Get sales data for this product over the last 7 days - include pending, confirmed, and delivered
     const { data: orderItems, error: orderItemsError } = await supabase
       .from('order_items')
       .select(`
@@ -55,7 +55,7 @@ const fetchProductTrends = async (vendorId: string): Promise<ProductTrendData[]>
         orders!inner(created_at, status)
       `)
       .eq('product_id', product.id)
-      .eq('orders.status', 'delivered')
+      .in('orders.status', ['pending', 'confirmed', 'delivered'])
       .gte('orders.created_at', sevenDaysAgo.toISOString());
 
     if (orderItemsError) continue;

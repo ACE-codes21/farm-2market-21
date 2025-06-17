@@ -24,7 +24,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
     yesterday: yesterday.toISOString()
   });
 
-  // Get today's earnings
+  // Get today's earnings - include pending, confirmed, and delivered orders
   const { data: todaysOrders, error: todaysError } = await supabase
     .from('orders')
     .select(`
@@ -35,7 +35,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'delivered')
+    .in('status', ['pending', 'confirmed', 'delivered'])
     .gte('created_at', today.toISOString())
     .lt('created_at', tomorrow.toISOString());
 
@@ -46,7 +46,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
 
   console.log('Today\'s orders:', todaysOrders);
 
-  // Get yesterday's earnings
+  // Get yesterday's earnings - include pending, confirmed, and delivered orders
   const { data: yesterdaysOrders, error: yesterdaysError } = await supabase
     .from('orders')
     .select(`
@@ -57,7 +57,7 @@ const fetchTodaysEarnings = async (vendorId: string): Promise<EarningsData> => {
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'delivered')
+    .in('status', ['pending', 'confirmed', 'delivered'])
     .gte('created_at', yesterday.toISOString())
     .lt('created_at', today.toISOString());
 

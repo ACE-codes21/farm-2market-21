@@ -1,4 +1,3 @@
-
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserSession } from './useUserSession';
@@ -13,7 +12,7 @@ interface AnalyticsData {
 const fetchVendorAnalytics = async (vendorId: string): Promise<AnalyticsData> => {
   console.log('Fetching vendor analytics for vendor:', vendorId);
   
-  // Get all orders for the vendor in the last 6 months
+  // Get all orders for the vendor in the last 6 months - include pending, confirmed, and delivered
   const { data: allOrders, error } = await supabase
     .from('orders')
     .select(`
@@ -25,7 +24,7 @@ const fetchVendorAnalytics = async (vendorId: string): Promise<AnalyticsData> =>
       )
     `)
     .eq('order_items.products.vendor_id', vendorId)
-    .eq('status', 'delivered')
+    .in('status', ['pending', 'confirmed', 'delivered'])
     .gte('created_at', new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString())
     .order('created_at', { ascending: true });
 
