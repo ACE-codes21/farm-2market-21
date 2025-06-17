@@ -4,6 +4,8 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChartConfig, ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { ArrowUp, ArrowDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface TimeAnalyticsChartProps {
   data: {
@@ -11,6 +13,7 @@ interface TimeAnalyticsChartProps {
     weekly: any[];
     monthly: any[];
   };
+  percentageChange?: number;
 }
 
 const chartConfig = {
@@ -24,7 +27,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export const TimeAnalyticsChart: React.FC<TimeAnalyticsChartProps> = ({ data }) => {
+export const TimeAnalyticsChart: React.FC<TimeAnalyticsChartProps> = ({ data, percentageChange = 0 }) => {
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily');
 
   const chartData = data[timeframe];
@@ -34,7 +37,24 @@ export const TimeAnalyticsChart: React.FC<TimeAnalyticsChartProps> = ({ data }) 
   return (
     <Card className="dark-modern-card border-green-500/20 shadow-green-500/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-medium text-white">Sales Analytics</CardTitle>
+        <div className="flex flex-col">
+          <CardTitle className="text-lg font-medium text-white">Sales Analytics</CardTitle>
+          {percentageChange !== 0 && (
+            <div className="flex items-center gap-1 mt-1">
+              {percentageChange > 0 ? (
+                <ArrowUp className="h-3 w-3 text-green-500" />
+              ) : (
+                <ArrowDown className="h-3 w-3 text-red-500" />
+              )}
+              <span className={cn(
+                "text-xs font-medium",
+                percentageChange > 0 ? 'text-green-500' : 'text-red-500'
+              )}>
+                {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs previous period
+              </span>
+            </div>
+          )}
+        </div>
         <div className="flex gap-2">
           <Button variant={timeframe === 'daily' ? 'default' : 'ghost'} size="sm" onClick={() => setTimeframe('daily')} className="text-white">Daily</Button>
           <Button variant={timeframe === 'weekly' ? 'default' : 'ghost'} size="sm" onClick={() => setTimeframe('weekly')} className="text-white">Weekly</Button>
