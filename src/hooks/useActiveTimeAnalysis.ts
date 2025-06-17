@@ -38,8 +38,8 @@ const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData
     return { timeWindow: '10 AM - 12 PM', orderCount: 0 };
   }
 
-  // Count orders by 2-hour windows
-  const hourlyCount = new Array(12).fill(0); // 12 windows of 2 hours each
+  // Count orders by 2-hour windows (12 windows for 24 hours)
+  const hourlyCount = new Array(12).fill(0);
 
   data.forEach(order => {
     const date = new Date(order.created_at);
@@ -63,9 +63,9 @@ const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData
     }
   });
 
-  // Convert window index to time string
+  // Convert window index to time string with proper AM/PM formatting
   const startHour = mostActiveWindow * 2;
-  const endHour = startHour + 2;
+  const endHour = (startHour + 2) % 24;
   
   const formatHour = (hour: number) => {
     if (hour === 0) return '12 AM';

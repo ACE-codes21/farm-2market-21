@@ -11,7 +11,6 @@ import { useTopSellingProduct } from '@/hooks/useTopSellingProduct';
 import { useActiveTimeAnalysis } from '@/hooks/useActiveTimeAnalysis';
 import { useProductTrends } from '@/hooks/useProductTrends';
 import { IndianRupee, Clock, Leaf } from 'lucide-react';
-import { aiBusinessTips } from '@/data/analytics';
 
 const AnalyticsDashboard = () => {
   const { data: analyticsData, isLoading: analyticsLoading } = useVendorAnalytics();
@@ -77,7 +76,7 @@ const AnalyticsDashboard = () => {
             )}
           </div>
           <div className="lg:col-span-2 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-            <AIBusinessTips tips={aiBusinessTips} />
+            <AIBusinessTips />
           </div>
         </div>
         
