@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import './i18n';
 
-import Index from "./pages/Index";
+import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
-import VendorDashboard from "./pages/VendorDashboard";
+import VendorPortal from "./pages/VendorPortal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,9 +54,9 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/buyer" element={<Dashboard />} />
-            <Route path="/vendor" element={<VendorDashboard />} />
+            <Route path="/vendor" element={<VendorPortal />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
