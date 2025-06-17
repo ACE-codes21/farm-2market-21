@@ -20,7 +20,7 @@ const NotFound = () => {
         <h1 className="text-6xl font-bold mb-4 gradient-text animate-pulse">{t('not_found_page.title')}</h1>
         <p className="text-xl text-slate-300 mb-8">{t('not_found_page.description')}</p>
         <a href="/" className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105">
-          {t('not_found_page.return_home')}
+          {t('not_found_page.go_home')}
         </a>
       </div>
     </div>

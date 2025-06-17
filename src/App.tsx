@@ -14,6 +14,7 @@ import VendorPortal from "./pages/VendorPortal";
 import FinanceDashboard from "./pages/FinanceDashboard";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import ServicesDashboard from "./pages/ServicesDashboard";
+import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ const App = () => {
             <Route path="/vendor/finance" element={<FinanceDashboard />} />
             <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
             <Route path="/vendor/services" element={<ServicesDashboard />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
