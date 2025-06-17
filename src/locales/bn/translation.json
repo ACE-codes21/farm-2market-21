@@ -8,11 +8,56 @@
     "message": "দুঃখিত, আপনি যে পেজটি খুঁজছেন তা বিদ্যমান নেই।",
     "go_home": "হোমে যান"
   },
+  "nav": {
+    "nav_features": "বৈশিষ্ট্য",
+    "nav_about": "আমাদের সম্পর্কে",
+    "nav_contact": "যোগাযোগ",
+    "nav_login": "লগইন"
+  },
+  "hero_section": {
+    "badge": "স্থানীয় সম্প্রদায়কে সংযুক্ত করা",
+    "shop_now": "এখনই কিনুন",
+    "sell_with_us": "আমাদের সাথে বিক্রি করুন",
+    "go_to_market": "মার্কেটে যান",
+    "go_to_dashboard": "ড্যাশবোর্ডে যান"
+  },
+  "dashboard_tabs": {
+    "tabs": {
+      "products": "পণ্য",
+      "vendors": "বিক্রেতা",
+      "orders": "অর্ডার"
+    },
+    "discover_market": "মার্কেট আবিষ্কার করুন",
+    "discover_vendors": "বিক্রেতা আবিষ্কার করুন",
+    "my_orders": "আমার অর্ডার",
+    "products_desc": "স্থানীয় বিক্রেতাদের কাছ থেকে তাজা পণ্য ব্রাউজ করুন",
+    "vendors_desc": "আপনার কাছাকাছি স্থানীয় বিক্রেতাদের খুঁজুন এবং সংযুক্ত হন",
+    "orders_desc": "আপনার সাম্প্রতিক ক্রয় এবং অর্ডারের ইতিহাস ট্র্যাক করুন"
+  },
   "analytics_dashboard": {
+    "title": "অ্যানালিটিক্স ড্যাশবোর্ড",
+    "subtitle": "আপনার ব্যবসার পারফরম্যান্স এবং বৃদ্ধি ট্র্যাক করুন",
+    "product_trends": "পণ্যের ট্রেন্ড",
     "sales_summary": {
       "todays_earnings": "আজকের আয়",
       "top_selling_product": "সর্বাধিক বিক্রিত পণ্য",
       "most_active_time": "সবচেয়ে সক্রিয় সময়"
+    }
+  },
+  "finance_dashboard": {
+    "title": "ফিন্যান্স ড্যাশবোর্ড",
+    "subtitle": "আপনার আর্থিক স্বাস্থ্য এবং সুযোগগুলি পরিচালনা করুন",
+    "available_loan_schemes": "উপলব্ধ ঋণের স্কিম"
+  },
+  "services_dashboard": {
+    "title": "সরকারি সেবা",
+    "subtitle": "স্কিমগুলি অ্যাক্সেস করুন, আবেদন ট্র্যাক করুন এবং সহায়তা পান",
+    "tabs": {
+      "schemes": "স্কিম",
+      "eligibility": "যোগ্যতা",
+      "tracker": "ট্র্যাকার",
+      "documents": "নথি",
+      "ai_assist": "AI সহায়ক"
     }
   },
   "add_to_cart_dialog": {
@@ -35,6 +80,7 @@
     "subtotal_items": "উপমোট ({{count}} টি আইটেম)",
     "discount_code": "ছাড় ({{code}})",
     "total": "মোট",
+    "payment_method": "পেমেন্ট পদ্ধতি",
     "order_placed_success": "অর্ডার সফলভাবে দেওয়া হয়েছে!",
     "order_confirmed": "{{productName}} এর জন্য আপনার অর্ডার নিশ্চিত হয়েছে।",
     "order_total": "অর্ডার মোট: ₹{{total}}",

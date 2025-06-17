@@ -8,11 +8,56 @@
     "message": "क्षमा करें, आप जो पेज खोज रहे हैं वह मौजूद नहीं है।",
     "go_home": "होम पर जाएं"
   },
+  "nav": {
+    "nav_features": "विशेषताएं",
+    "nav_about": "हमारे बारे में",
+    "nav_contact": "संपर्क",
+    "nav_login": "लॉगिन"
+  },
+  "hero_section": {
+    "badge": "स्थानीय समुदायों को जोड़ना",
+    "shop_now": "अभी खरीदें",
+    "sell_with_us": "हमारे साथ बेचें",
+    "go_to_market": "बाज़ार में जाएं",
+    "go_to_dashboard": "डैशबोर्ड पर जाएं"
+  },
+  "dashboard_tabs": {
+    "tabs": {
+      "products": "उत्पाद",
+      "vendors": "विक्रेता",
+      "orders": "ऑर्डर"
+    },
+    "discover_market": "बाज़ार खोजें",
+    "discover_vendors": "विक्रेता खोजें",
+    "my_orders": "मेरे ऑर्डर",
+    "products_desc": "स्थानीय विक्रेताओं से ताजे उत्पाद देखें",
+    "vendors_desc": "अपने आस-पास के स्थानीय विक्रेताओं को खोजें और जुड़ें",
+    "orders_desc": "अपनी हाल की खरीदारी और ऑर्डर इतिहास ट्रैक करें"
+  },
   "analytics_dashboard": {
+    "title": "एनालिटिक्स डैशबोर्ड",
+    "subtitle": "अपने व्यापार के प्रदर्शन और विकास को ट्रैक करें",
+    "product_trends": "उत्पाद ट्रेंड",
     "sales_summary": {
       "todays_earnings": "आज की कमाई",
       "top_selling_product": "सबसे ज्यादा बिकने वाला उत्पाद",
       "most_active_time": "सबसे सक्रिय समय"
+    }
+  },
+  "finance_dashboard": {
+    "title": "वित्त डैशबोर्ड",
+    "subtitle": "अपनी वित्तीय स्वास्थ्य और अवसरों का प्रबंधन करें",
+    "available_loan_schemes": "उपलब्ध ऋण योजनाएं"
+  },
+  "services_dashboard": {
+    "title": "सरकारी सेवाएं",
+    "subtitle": "योजनाओं तक पहुंच, आवेदनों को ट्रैक करें और समर्थन प्राप्त करें",
+    "tabs": {
+      "schemes": "योजनाएं",
+      "eligibility": "पात्रता",
+      "tracker": "ट्रैकर",
+      "documents": "दस्तावेज",
+      "ai_assist": "AI सहायक"
     }
   },
   "add_to_cart_dialog": {
@@ -35,6 +80,7 @@
     "subtotal_items": "उप-योग ({{count}} वस्तुएं)",
     "discount_code": "छूट ({{code}})",
     "total": "कुल",
+    "payment_method": "भुगतान विधि",
     "order_placed_success": "ऑर्डर सफलतापूर्वक दिया गया!",
     "order_confirmed": "{{productName}} के लिए आपका ऑर्डर पुष्ट हो गया है।",
     "order_total": "ऑर्डर कुल: ₹{{total}}",

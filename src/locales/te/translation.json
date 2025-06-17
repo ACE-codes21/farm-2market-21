@@ -8,11 +8,56 @@
     "message": "క్షమించండి, మీరు వెతుకుతున్న పేజీ లేదు.",
     "go_home": "హోమ్‌కు వెళ్లండి"
   },
+  "nav": {
+    "nav_features": "లక్షణాలు",
+    "nav_about": "మా గురించి",
+    "nav_contact": "సంప్రదింపు",
+    "nav_login": "లాగిన్"
+  },
+  "hero_section": {
+    "badge": "స్థానిక సమాజాలను కలుపుట",
+    "shop_now": "ఇప్పుడే షాప్ చేయండి",
+    "sell_with_us": "మాతో అమ్మండి",
+    "go_to_market": "మార్కెట్‌కు వెళ్లండి",
+    "go_to_dashboard": "డాష్‌బోర్డ్‌కు వెళ్లండి"
+  },
+  "dashboard_tabs": {
+    "tabs": {
+      "products": "ఉత్పత్తులు",
+      "vendors": "విక్రేతలు",
+      "orders": "ఆర్డర్లు"
+    },
+    "discover_market": "మార్కెట్ కనుగొనండి",
+    "discover_vendors": "విక్రేతలను కనుగొనండి",
+    "my_orders": "నా ఆర్డర్లు",
+    "products_desc": "స్థానిక విక్రేతల నుండి తాజా ఉత్పత్తులను బ్రౌజ్ చేయండి",
+    "vendors_desc": "మీ చుట్టూ ఉన్న స్థానిక విక్రేతలను కనుగొనండి మరియు కనెక్ట్ అవ్వండి",
+    "orders_desc": "మీ ఇటీవలి కొనుగోళ్లు మరియు ఆర్డర్ చరిత్రను ట్రాక్ చేయండి"
+  },
   "analytics_dashboard": {
+    "title": "అనలిటిక్స్ డాష్‌బోర్డ్",
+    "subtitle": "మీ వ్యాపార పనితీరు మరియు వృద్ధిని ట్రాక్ చేయండి",
+    "product_trends": "ఉత్పత్తి ట్రెండ్లు",
     "sales_summary": {
       "todays_earnings": "నేటి ఆదాయం",
       "top_selling_product": "అధికంగా అమ్మకమైన ఉత్పత్తి",
       "most_active_time": "అత్యంత చురుకైన సమయం"
+    }
+  },
+  "finance_dashboard": {
+    "title": "ఫైనాన్స్ డాష్‌బోర్డ్",
+    "subtitle": "మీ ఆర్థిక ఆరోగ్యం మరియు అవకాశాలను నిర్వహించండి",
+    "available_loan_schemes": "అందుబాటులో ఉన్న రుణ పథకాలు"
+  },
+  "services_dashboard": {
+    "title": "ప్రభుత్వ సేవలు",
+    "subtitle": "పథకాలను యాక్సెస్ చేయండి, దరఖాస్తులను ట్రాక్ చేయండి మరియు మద్దతు పొందండి",
+    "tabs": {
+      "schemes": "పథకాలు",
+      "eligibility": "అర్హత",
+      "tracker": "ట్రాకర్",
+      "documents": "పత్రాలు",
+      "ai_assist": "AI అసిస్టెంట్"
     }
   },
   "add_to_cart_dialog": {
@@ -35,6 +80,7 @@
     "subtotal_items": "ఉప మొత్తం ({{count}} వస్తువులు)",
     "discount_code": "తగ్గింపు ({{code}})",
     "total": "మొత్తం",
+    "payment_method": "చెల్లింపు పద్ధతి",
     "order_placed_success": "ఆర్డర్ విజయవంతంగా ఇవ్వబడింది!",
     "order_confirmed": "{{productName}} కోసం మీ ఆర్డర్ నిర్ధారించబడింది.",
     "order_total": "ఆర్డర్ మొత్తం: ₹{{total}}",

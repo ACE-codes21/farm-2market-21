@@ -8,11 +8,56 @@
     "message": "Sorry, the page you are looking for does not exist.",
     "go_home": "Go Home"
   },
+  "nav": {
+    "nav_features": "Features",
+    "nav_about": "About",
+    "nav_contact": "Contact",
+    "nav_login": "Login"
+  },
+  "hero_section": {
+    "badge": "Connecting Communities Locally",
+    "shop_now": "Shop Now",
+    "sell_with_us": "Sell With Us",
+    "go_to_market": "Go to Market",
+    "go_to_dashboard": "Go to Dashboard"
+  },
+  "dashboard_tabs": {
+    "tabs": {
+      "products": "Products",
+      "vendors": "Vendors", 
+      "orders": "Orders"
+    },
+    "discover_market": "Discover Market",
+    "discover_vendors": "Discover Vendors",
+    "my_orders": "My Orders",
+    "products_desc": "Browse fresh products from local vendors",
+    "vendors_desc": "Find and connect with local vendors near you",
+    "orders_desc": "Track your recent purchases and order history"
+  },
   "analytics_dashboard": {
+    "title": "Analytics Dashboard",
+    "subtitle": "Track your business performance and growth",
+    "product_trends": "Product Trends",
     "sales_summary": {
       "todays_earnings": "Today's Earnings",
       "top_selling_product": "Top Selling Product",
       "most_active_time": "Most Active Time"
+    }
+  },
+  "finance_dashboard": {
+    "title": "Finance Dashboard",
+    "subtitle": "Manage your financial health and opportunities",
+    "available_loan_schemes": "Available Loan Schemes"
+  },
+  "services_dashboard": {
+    "title": "Government Services",
+    "subtitle": "Access schemes, track applications, and get support",
+    "tabs": {
+      "schemes": "Schemes",
+      "eligibility": "Eligibility",
+      "tracker": "Tracker",
+      "documents": "Documents",
+      "ai_assist": "AI Assistant"
     }
   },
   "add_to_cart_dialog": {
@@ -35,6 +80,7 @@
     "subtotal_items": "Subtotal ({{count}} items)",
     "discount_code": "Discount ({{code}})",
     "total": "Total",
+    "payment_method": "Payment Method",
     "order_placed_success": "Order Placed Successfully!",
     "order_confirmed": "Your order for {{productName}} has been confirmed.",
     "order_total": "Order Total: ₹{{total}}",
