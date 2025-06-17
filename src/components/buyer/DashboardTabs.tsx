@@ -2,7 +2,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Map, Grid3x3, Package } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 type ActiveTab = 'products' | 'vendors' | 'orders';
 
@@ -12,25 +11,24 @@ interface DashboardTabsProps {
 }
 
 export const DashboardTabs: React.FC<DashboardTabsProps> = ({ activeTab, setActiveTab }) => {
-  const { t } = useTranslation();
   const tabConfig = {
-    products: { label: t('dashboard_tabs.tabs.products'), icon: Grid3x3 },
-    vendors: { label: t('dashboard_tabs.tabs.vendors'), icon: Map },
-    orders: { label: t('dashboard_tabs.tabs.orders'), icon: Package },
+    products: { label: 'Products', icon: Grid3x3 },
+    vendors: { label: 'Vendors', icon: Map },
+    orders: { label: 'Orders', icon: Package },
   };
 
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
         <h2 className="text-3xl font-bold font-display gradient-text mb-2">
-          {activeTab === 'products' && t('dashboard_tabs.discover_market')}
-          {activeTab === 'vendors' && t('dashboard_tabs.discover_vendors')}
-          {activeTab === 'orders' && t('dashboard_tabs.my_orders')}
+          {activeTab === 'products' && 'Discover Fresh Market'}
+          {activeTab === 'vendors' && 'Discover Vendors'}
+          {activeTab === 'orders' && 'My Orders'}
         </h2>
         <p className="text-slate-300">
-          {activeTab === 'products' && t('dashboard_tabs.products_desc')}
-          {activeTab === 'vendors' && t('dashboard_tabs.vendors_desc')}
-          {activeTab === 'orders' && t('dashboard_tabs.orders_desc')}
+          {activeTab === 'products' && 'Browse fresh produce from local farmers'}
+          {activeTab === 'vendors' && 'Find trusted vendors in your area'}
+          {activeTab === 'orders' && 'Track your current and past orders'}
         </p>
       </div>
 

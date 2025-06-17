@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { UserMenu } from '../UserMenu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Link } from 'react-router-dom';
@@ -13,7 +11,6 @@ interface VendorDashboardHeaderProps {
 }
 export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () => {
   const [notificationCount, setNotificationCount] = useState(0);
-  const { t } = useTranslation();
 
   useEffect(() => {
     console.log('VendorDashboardHeader: initializing notification count');
@@ -53,22 +50,22 @@ export const VendorDashboardHeader: React.FC<VendorDashboardHeaderProps> = () =>
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <Link to="/vendor">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.dashboard')}</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Dashboard</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/finance">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.finance')}</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Finance</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/analytics">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.ai_analytics')}</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>AI Analytics</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <Link to="/vendor/services">
-                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>{t('vendor_dashboard_header.services')}</NavigationMenuLink>
+                    <NavigationMenuLink className={`${navigationMenuTriggerStyle()} nav-link-animated-underline bg-transparent text-slate-300 hover:bg-transparent hover:text-white`}>Services</NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
               </NavigationMenuList>
