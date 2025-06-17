@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 
@@ -22,11 +21,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   setSelectedPaymentMethod,
   paymentMethods,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <div className="space-y-4">
-      <label className="text-sm font-medium text-white">{t('buy_now_dialog.payment_method')}</label>
+      <label className="text-sm font-medium text-white">Payment Method</label>
       <div className="grid grid-cols-1 gap-2">
         {paymentMethods.map((method) => {
           const Icon = method.icon;
