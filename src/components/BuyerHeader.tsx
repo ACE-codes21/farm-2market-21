@@ -39,7 +39,16 @@ export const BuyerHeader: React.FC<BuyerHeaderProps> = ({
 
           <div className="flex items-center space-x-4">
             {/* Orders Button */}
-            {onOrdersClick}
+            {onOrdersClick && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onOrdersClick}
+                className="relative text-slate-300 hover:text-white hover:bg-slate-700/50 p-2"
+              >
+                <Package className="h-5 w-5" />
+              </Button>
+            )}
             
             {/* Wishlist Button */}
             <Button
