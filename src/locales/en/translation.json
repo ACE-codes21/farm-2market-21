@@ -160,6 +160,15 @@
     "order_placed_desc": "Thank you for your order. We'll start preparing it right away.",
     "total_paid": "Total paid: ₹{{total}}"
   },
+  "add_to_cart_dialog": {
+    "title": "Add to Cart",
+    "each": "each",
+    "available": "in stock",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "cancel": "Cancel",
+    "add_to_cart": "Add to Cart"
+  },
   "buy_now_dialog": {
     "buy_now": "Buy Now",
     "quick_checkout": "Quick Checkout",
