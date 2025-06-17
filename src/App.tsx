@@ -11,6 +11,9 @@ import './i18n';
 import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
 import VendorPortal from "./pages/VendorPortal";
+import FinanceDashboard from "./pages/FinanceDashboard";
+import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import ServicesDashboard from "./pages/ServicesDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -57,6 +60,9 @@ const App = () => {
             <Route path="/" element={<Homepage />} />
             <Route path="/buyer" element={<Dashboard />} />
             <Route path="/vendor" element={<VendorPortal />} />
+            <Route path="/vendor/finance" element={<FinanceDashboard />} />
+            <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
+            <Route path="/vendor/services" element={<ServicesDashboard />} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
