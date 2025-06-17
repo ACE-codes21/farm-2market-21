@@ -6,7 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/auth/LoginForm';
 import SignupForm from '@/components/auth/SignupForm';
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
@@ -25,7 +24,6 @@ const AuthModal: React.FC<AuthModalProps> = ({
   defaultMode = 'login'
 }) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 

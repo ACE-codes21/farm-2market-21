@@ -5,7 +5,6 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
 import SignupForm from '@/components/auth/SignupForm';
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
 
@@ -21,7 +20,6 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
   role
 }) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -71,15 +69,7 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
       });
       
       onClose();
-      
-      // Navigate to appropriate role-based route after a short delay
-      setTimeout(() => {
-        if (role === 'vendor') {
-          navigate('/vendor');
-        } else {
-          navigate('/buyer');
-        }
-      }, 1000);
+      // Stay on homepage - user can use role-based buttons to navigate
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
       toast({
@@ -99,12 +89,10 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
     try {
       console.log('Social login with role:', role);
       
-      const redirectUrl = role === 'vendor' ? '/vendor' : '/buyer';
-      
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}${redirectUrl}`,
+          redirectTo: `${window.location.origin}/`,
           queryParams: {
             role: role
           }
