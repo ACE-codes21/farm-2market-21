@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Map, Grid3x3, Package } from 'lucide-react';
+import { Map, Grid3x3 } from 'lucide-react';
 
-type ActiveTab = 'products' | 'vendors' | 'orders';
+type ActiveTab = 'products' | 'vendors';
 
 interface DashboardTabsProps {
   activeTab: ActiveTab;
@@ -14,7 +14,6 @@ export const DashboardTabs: React.FC<DashboardTabsProps> = ({ activeTab, setActi
   const tabConfig = {
     products: { label: 'Products', icon: Grid3x3 },
     vendors: { label: 'Vendors', icon: Map },
-    orders: { label: 'Orders', icon: Package },
   };
 
   return (
@@ -23,12 +22,10 @@ export const DashboardTabs: React.FC<DashboardTabsProps> = ({ activeTab, setActi
         <h2 className="text-3xl font-bold font-display gradient-text mb-2">
           {activeTab === 'products' && 'Discover Fresh Market'}
           {activeTab === 'vendors' && 'Discover Vendors'}
-          {activeTab === 'orders' && 'My Orders'}
         </h2>
         <p className="text-slate-300">
           {activeTab === 'products' && 'Browse fresh produce from local farmers'}
           {activeTab === 'vendors' && 'Find trusted vendors in your area'}
-          {activeTab === 'orders' && 'Track your current and past orders'}
         </p>
       </div>
 
