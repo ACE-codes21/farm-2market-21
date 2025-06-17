@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -162,7 +163,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-            {t('hero_section.subheading_1')} <span className="text-orange-400">{t('hero_section.subheading_vendors')}</span>{t('hero_section.subheading_2')} <span className="text-green-400">{t('hero_section.subheading_neighbourhoods')}</span>.
+            Empowering <span className="text-orange-400">vendors</span>. Nourishing <span className="text-green-400">neighbourhoods</span>.
           </p>
 
           {/* CTA Buttons */}
