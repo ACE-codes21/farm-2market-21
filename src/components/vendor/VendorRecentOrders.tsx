@@ -25,7 +25,7 @@ export const VendorRecentOrders: React.FC<VendorRecentOrdersProps> = ({
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-lg text-stone-300">₹{order.total_amount || 0}</p>
-                  <Badge variant="default" className="bg-green-500/20 text-green-400 border-green-500/30 capitalize">
+                  <Badge variant="default" className="text-green-400 border-green-500/30 capitalize bg-slate-800">
                     {order.status}
                   </Badge>
                 </div>

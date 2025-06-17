@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -12,33 +11,32 @@ import { DatePicker } from '@/components/ui/DatePicker';
 import { ImageUploader } from './ImageUploader';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserSession } from '@/hooks/useUserSession';
-
 interface EditProductDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   product: Product | null;
   onEditProduct: (updatedProduct: Partial<Product>) => void;
 }
-
 export const EditProductDialog: React.FC<EditProductDialogProps> = ({
   isOpen,
   onOpenChange,
   product,
-  onEditProduct,
+  onEditProduct
 }) => {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
     stock: '',
     category: '',
-    barcode: '',
+    barcode: ''
   });
   const [expiryDate, setExpiryDate] = useState<Date | undefined>();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const user = useUserSession();
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     if (isOpen && product) {
       setFormData({
@@ -46,57 +44,51 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
         price: product.price.toString(),
         stock: product.stock.toString(),
         category: product.category,
-        barcode: product.barcode || '',
+        barcode: product.barcode || ''
       });
       setExpiryDate(product.expiryDate ? new Date(product.expiryDate) : undefined);
       setImageFile(null);
     }
   }, [product, isOpen]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!product || !formData.name || !formData.price || !formData.stock || !formData.category) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Please fill in all required fields.",
+        description: "Please fill in all required fields."
       });
       return;
     }
-
     setIsSubmitting(true);
-
     try {
       let imageUrls = product?.images || [];
       if (imageFile) {
         if (!user) {
-          toast({ title: "Authentication Error", description: "You must be logged in to update an image.", variant: "destructive" });
+          toast({
+            title: "Authentication Error",
+            description: "You must be logged in to update an image.",
+            variant: "destructive"
+          });
           setIsSubmitting(false);
           return;
         }
-
         const fileExt = imageFile.name.split('.').pop();
         const fileName = `${user.id}-${Date.now()}.${fileExt}`;
         const filePath = `${user.id}/${fileName}`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from('product-images')
-          .upload(filePath, imageFile);
-          
+        const {
+          error: uploadError
+        } = await supabase.storage.from('product-images').upload(filePath, imageFile);
         if (uploadError) throw uploadError;
-        
-        const { data: urlData } = supabase.storage
-          .from('product-images')
-          .getPublicUrl(filePath);
-          
+        const {
+          data: urlData
+        } = supabase.storage.from('product-images').getPublicUrl(filePath);
         if (urlData.publicUrl) {
           imageUrls = [urlData.publicUrl];
         } else {
           throw new Error("Could not get public URL for the image.");
         }
       }
-
       onEditProduct({
         name: formData.name,
         price: parseFloat(formData.price),
@@ -104,69 +96,70 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
         category: formData.category,
         images: imageUrls,
         expiryDate: expiryDate?.toISOString(),
-        barcode: formData.barcode,
+        barcode: formData.barcode
       });
-
       toast({
         title: "Product Updated",
-        description: "Product has been successfully updated.",
+        description: "Product has been successfully updated."
       });
-
       onOpenChange(false);
     } catch (error: any) {
       toast({
         title: "Error updating product",
         description: error.message || "There was a problem updating your product.",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const inputStyles = "bg-slate-900/50 border-slate-700";
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+  return <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md dark-glass-effect border-slate-700 text-white max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="h-32">
-            <ImageUploader 
-              onFileSelect={setImageFile} 
-              reset={!isOpen}
-              initialPreviewUrl={product?.images?.[0]} 
-            />
+            <ImageUploader onFileSelect={setImageFile} reset={!isOpen} initialPreviewUrl={product?.images?.[0]} />
           </div>
           
           <div>
             <Label htmlFor="name">Product Name *</Label>
-            <Input id="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className={inputStyles} />
+            <Input id="name" value={formData.name} onChange={e => setFormData({
+            ...formData,
+            name: e.target.value
+          })} required className={inputStyles} />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label htmlFor="price">Price (₹) *</Label>
-              <Input id="price" type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} required className={inputStyles} />
+              <Input id="price" type="number" step="0.01" value={formData.price} onChange={e => setFormData({
+              ...formData,
+              price: e.target.value
+            })} required className={inputStyles} />
             </div>
             <div>
               <Label htmlFor="stock">Stock Quantity *</Label>
-              <Input id="stock" type="number" value={formData.stock} onChange={(e) => setFormData({ ...formData, stock: e.target.value })} required className={inputStyles} />
+              <Input id="stock" type="number" value={formData.stock} onChange={e => setFormData({
+              ...formData,
+              stock: e.target.value
+            })} required className={inputStyles} />
             </div>
           </div>
 
           <div>
             <Label htmlFor="category">Category *</Label>
-            <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+            <Select value={formData.category} onValueChange={value => setFormData({
+            ...formData,
+            category: value
+          })}>
               <SelectTrigger className={inputStyles}><SelectValue placeholder="Select category" /></SelectTrigger>
               <SelectContent>
-                {categories.filter(cat => cat.value !== 'all').map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
+                {categories.filter(cat => cat.value !== 'all').map(category => <SelectItem key={category.value} value={category.value}>
                     {category.label}
-                  </SelectItem>
-                ))}
+                  </SelectItem>)}
               </SelectContent>
             </Select>
           </div>
@@ -178,12 +171,15 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
             </div>
             <div>
               <Label htmlFor="barcode">Barcode (Optional)</Label>
-              <Input id="barcode" value={formData.barcode} onChange={(e) => setFormData({ ...formData, barcode: e.target.value })} className={inputStyles} />
+              <Input id="barcode" value={formData.barcode} onChange={e => setFormData({
+              ...formData,
+              barcode: e.target.value
+            })} className={inputStyles} />
             </div>
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting} className="border-slate-600 text-slate-300 hover:bg-slate-700">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isSubmitting} className="border-slate-600 text-slate-50 bg-red-950 hover:bg-red-800">
               Cancel
             </Button>
             <Button type="submit" className="btn-hover-glow bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
@@ -192,6 +188,5 @@ export const EditProductDialog: React.FC<EditProductDialogProps> = ({
           </div>
         </form>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
