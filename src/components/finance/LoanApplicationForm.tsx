@@ -83,7 +83,7 @@ export const LoanApplicationForm: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <Card className="dark-modern-card border-green-500/20 shadow-green-500/10">
+      <Card className="bg-slate-800/50 backdrop-blur-lg border border-green-500/30 shadow-xl rounded-xl">
         <CardContent className="p-6 text-center">
           <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white mb-2">Application Submitted Successfully!</h3>
@@ -92,7 +92,7 @@ export const LoanApplicationForm: React.FC = () => {
           </p>
           <Button 
             onClick={() => setIsSubmitted(false)}
-            className="premium-button"
+            className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
           >
             Submit Another Application
           </Button>
@@ -102,14 +102,12 @@ export const LoanApplicationForm: React.FC = () => {
   }
 
   return (
-    <Card className="dark-modern-card card-hover-elevate">
+    <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
       <CardHeader>
-        <div className="flex items-center gap-2">
+        <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
           <FileText className="h-5 w-5 text-green-400" />
-          <CardTitle className="text-xl font-bold font-display gradient-text">
-            Loan Application Form
-          </CardTitle>
-        </div>
+          Loan Application
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -119,7 +117,7 @@ export const LoanApplicationForm: React.FC = () => {
               id="vendorName"
               value={formData.vendorName}
               onChange={(e) => handleInputChange('vendorName', e.target.value)}
-              className="dark-elegant-input"
+              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
               placeholder="Enter your business name"
             />
             {errors.vendorName && (
@@ -127,34 +125,36 @@ export const LoanApplicationForm: React.FC = () => {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="aadharNumber" className="text-slate-300">Aadhar Number</Label>
-            <Input
-              id="aadharNumber"
-              value={formData.aadharNumber}
-              onChange={(e) => handleInputChange('aadharNumber', e.target.value)}
-              className="dark-elegant-input"
-              placeholder="Enter 12-digit Aadhar number"
-              maxLength={12}
-            />
-            {errors.aadharNumber && (
-              <p className="text-red-400 text-sm">{errors.aadharNumber}</p>
-            )}
-          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="aadharNumber" className="text-slate-300">Aadhar Number</Label>
+              <Input
+                id="aadharNumber"
+                value={formData.aadharNumber}
+                onChange={(e) => handleInputChange('aadharNumber', e.target.value)}
+                className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
+                placeholder="12-digit Aadhar"
+                maxLength={12}
+              />
+              {errors.aadharNumber && (
+                <p className="text-red-400 text-sm">{errors.aadharNumber}</p>
+              )}
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="phone" className="text-slate-300">Phone Number</Label>
-            <Input
-              id="phone"
-              value={formData.phone}
-              onChange={(e) => handleInputChange('phone', e.target.value)}
-              className="dark-elegant-input"
-              placeholder="Enter 10-digit phone number"
-              maxLength={10}
-            />
-            {errors.phone && (
-              <p className="text-red-400 text-sm">{errors.phone}</p>
-            )}
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-slate-300">Phone Number</Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
+                placeholder="10-digit phone"
+                maxLength={10}
+              />
+              {errors.phone && (
+                <p className="text-red-400 text-sm">{errors.phone}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -163,7 +163,7 @@ export const LoanApplicationForm: React.FC = () => {
               id="purpose"
               value={formData.purpose}
               onChange={(e) => handleInputChange('purpose', e.target.value)}
-              className="dark-elegant-input"
+              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
               placeholder="Describe the purpose of the loan"
               rows={3}
             />
@@ -179,7 +179,7 @@ export const LoanApplicationForm: React.FC = () => {
               type="number"
               value={formData.loanAmount}
               onChange={(e) => handleInputChange('loanAmount', e.target.value)}
-              className="dark-elegant-input"
+              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
               placeholder="Enter amount in rupees"
               min="1"
               max="50000"
@@ -192,7 +192,7 @@ export const LoanApplicationForm: React.FC = () => {
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            className="premium-button w-full"
+            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
           >
             {isSubmitting ? 'Submitting...' : 'Submit Application'}
           </Button>

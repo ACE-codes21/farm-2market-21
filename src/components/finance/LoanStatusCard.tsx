@@ -18,17 +18,17 @@ const statusConfig = {
   'Under Review': {
     icon: Clock,
     color: 'bg-yellow-500/10 text-yellow-400 border-yellow-400/20',
-    badgeVariant: 'secondary' as const
+    badgeClass: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'
   },
   'Approved': {
     icon: CheckCircle,
     color: 'bg-green-500/10 text-green-400 border-green-400/20',
-    badgeVariant: 'default' as const
+    badgeClass: 'bg-green-500/20 text-green-300 border-green-500/30'
   },
   'Disbursed': {
     icon: CreditCard,
     color: 'bg-blue-500/10 text-blue-400 border-blue-400/20',
-    badgeVariant: 'default' as const
+    badgeClass: 'bg-blue-500/20 text-blue-300 border-blue-500/30'
   }
 };
 
@@ -65,31 +65,30 @@ export const LoanStatusCard: React.FC = () => {
   };
 
   return (
-    <Card className="dark-modern-card card-hover-elevate">
+    <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-xl font-bold font-display gradient-text">
+        <CardTitle className="text-xl font-bold text-white">
           Loan Status Tracker
         </CardTitle>
         <Button 
           onClick={handleVisitGovernmentSite}
           variant="outline"
           size="sm"
-          className="dark-elegant-input text-slate-300 hover:text-white"
+          className="bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white"
         >
           <ExternalLink className="h-4 w-4 mr-2" />
           Official Portal
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
-        {dummyLoanData.map((loan, index) => {
+        {dummyLoanData.map((loan) => {
           const config = statusConfig[loan.status];
           const StatusIcon = config.icon;
           
           return (
             <div 
               key={loan.id}
-              className={`p-4 rounded-xl border animate-fade-in-up ${config.color}`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className={`p-4 rounded-lg border ${config.color}`}
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -98,7 +97,7 @@ export const LoanStatusCard: React.FC = () => {
                     {loan.scheme}
                   </span>
                 </div>
-                <Badge variant={config.badgeVariant}>
+                <Badge className={`${config.badgeClass} border`}>
                   {loan.status}
                 </Badge>
               </div>

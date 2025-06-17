@@ -15,9 +15,9 @@ interface CreditScoreWidgetProps {
 }
 
 const getScoreColor = (score: number) => {
-  if (score < 600) return 'text-red-500';
-  if (score < 700) return 'text-yellow-500';
-  if (score < 800) return 'text-green-500';
+  if (score < 600) return 'text-red-400';
+  if (score < 700) return 'text-yellow-400';
+  if (score < 800) return 'text-green-400';
   return 'text-emerald-400';
 };
 
@@ -46,20 +46,22 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
   activityData 
 }) => {
   return (
-    <Card className="dark-modern-card card-hover-glow border-green-500/20 shadow-green-500/10">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-slate-300">Credit Score</CardTitle>
-        <TrendingUp className="h-4 w-4 text-green-400" />
+    <Card className="h-full bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
+        <CardTitle className="text-lg font-semibold text-white">Credit Score</CardTitle>
+        <TrendingUp className="h-5 w-5 text-green-400" />
       </CardHeader>
-      <CardContent>
-        <div className={cn("text-5xl font-bold font-display", getScoreColor(score))} style={{ textShadow: '0 0 10px hsl(var(--primary))' }}>
-          {score}
+      <CardContent className="space-y-4">
+        <div className="text-center">
+          <div className={cn("text-4xl font-bold font-display mb-1", getScoreColor(score))}>
+            {score}
+          </div>
+          <p className="text-sm text-slate-400">{getScoreLabel(score)}</p>
         </div>
-        <p className="text-xs text-slate-400 mt-2">{getScoreLabel(score)}</p>
         
-        <div className="mt-4 pt-4 border-t border-slate-700/50">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-slate-300">Your Trust Level:</span>
+        <div className="pt-3 border-t border-slate-700/50">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-white">Trust Level</span>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
@@ -71,14 +73,16 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
               </Tooltip>
             </TooltipProvider>
           </div>
-          <div className="flex items-center mt-1">
-            {renderStars(trustLevel)}
-            <span className="ml-2 text-xs text-slate-400">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {renderStars(trustLevel)}
+            </div>
+            <span className="text-sm text-slate-400">
               ({trustLevel}/5)
             </span>
           </div>
           <div className="text-xs text-slate-500 mt-2">
-            Based on {activityData.totalOrders} orders, {activityData.returnRate}% return rate, {activityData.avgRating}★ rating
+            {activityData.totalOrders} orders • {activityData.returnRate}% returns • {activityData.avgRating}★ rating
           </div>
         </div>
       </CardContent>

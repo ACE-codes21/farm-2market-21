@@ -10,16 +10,16 @@ interface LoanSchemeCardProps {
   scheme: LoanScheme;
 }
 
-const getStatusBadgeVariant = (status: LoanScheme['status']) => {
+const getStatusBadgeClass = (status: LoanScheme['status']) => {
   switch (status) {
     case 'Approved':
-      return 'default';
+      return 'bg-green-500/20 text-green-300 border-green-500/30';
     case 'Pending':
-      return 'secondary';
+      return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
     case 'Not Applied':
-      return 'destructive';
+      return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
     default:
-      return 'default';
+      return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
   }
 };
 
@@ -44,27 +44,31 @@ export const LoanSchemeCard: React.FC<LoanSchemeCardProps> = ({
   };
   
   return (
-    <Card className="dark-modern-card card-hover-elevate flex flex-col justify-between animate-fade-in-up">
+    <Card className="h-full bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl flex flex-col">
       <CardHeader>
         <div className="flex justify-between items-start">
-            <CardTitle className="text-xl font-bold font-display gradient-text">{scheme.title}</CardTitle>
-            <Badge variant={getStatusBadgeVariant(scheme.status)} className="whitespace-nowrap">
-                {getStatusEmoji(scheme.status)}
-            </Badge>
+          <CardTitle className="text-lg font-bold text-white">{scheme.title}</CardTitle>
+          <Badge className={`${getStatusBadgeClass(scheme.status)} border whitespace-nowrap`}>
+            {getStatusEmoji(scheme.status)}
+          </Badge>
         </div>
-        <CardDescription className="text-slate-400 pt-2">{scheme.description}</CardDescription>
+        <CardDescription className="text-slate-400">{scheme.description}</CardDescription>
       </CardHeader>
-      <CardFooter className="flex justify-end gap-2 mt-auto">
+      <CardFooter className="flex flex-col gap-2 mt-auto">
         {scheme.status === 'Not Applied' && (
-          <Button className="premium-button w-full sm:w-auto">
+          <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white">
             Apply Now
           </Button>
         )}
         {scheme.status !== 'Approved' && (
           <>
-            <Button variant="outline" onClick={handleUploadClick} className="dark-elegant-input w-full sm:w-auto text-zinc-50 bg-gray-900 hover:bg-gray-800">
+            <Button 
+              variant="outline" 
+              onClick={handleUploadClick} 
+              className="w-full bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white"
+            >
               <Upload className="mr-2 h-4 w-4" />
-              Upload Docs
+              Upload Documents
             </Button>
             <input type="file" ref={fileInputRef} className="hidden" multiple />
           </>

@@ -19,50 +19,51 @@ const FinanceDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-gray-200">
       <VendorDashboardHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
-        <div className="mb-8 animate-fade-in-up">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Header */}
+        <div className="mb-8">
           <h2 className="text-3xl font-bold font-display gradient-text mb-2">Finance Dashboard</h2>
           <p className="text-slate-400">Manage your financial health and opportunities</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-1 flex flex-col gap-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                <CreditScoreWidget 
-                  score={creditScore} 
-                  trustLevel={trustLevel}
-                  activityData={vendorActivityData}
-                />
-                <QuickTips tips={quickTips} />
-            </div>
-            <div className="lg:col-span-2 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-                <RepaymentTracker data={repaymentData} />
-            </div>
+        {/* Top Section: Credit Score & Quick Overview */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className="lg:col-span-1">
+            <CreditScoreWidget 
+              score={creditScore} 
+              trustLevel={trustLevel}
+              activityData={vendorActivityData}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            <QuickTips tips={quickTips} />
+          </div>
+          <div className="lg:col-span-1">
+            <RepaymentTracker data={repaymentData} />
+          </div>
         </div>
 
-        {/* Loan Application & Status Section */}
-        <div className="mt-12">
-            <h3 className="text-2xl font-bold font-display text-white mb-6 animate-fade-in-up" style={{animationDelay: '0.6s'}}>
-              Loan Application & Status
-            </h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="animate-fade-in-up" style={{animationDelay: '0.8s'}}>
-                    <LoanApplicationForm />
-                </div>
-                <div className="animate-fade-in-up" style={{animationDelay: '1.0s'}}>
-                    <LoanStatusCard />
-                </div>
-            </div>
+        {/* Loan Management Section */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold font-display text-white mb-6">
+            Loan Application & Management
+          </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <LoanApplicationForm />
+            <LoanStatusCard />
+          </div>
         </div>
 
-        <div className="mt-12">
-            <h3 className="text-2xl font-bold font-display text-white mb-6 animate-fade-in-up" style={{animationDelay: '1.2s'}}>Available Loan Schemes</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                {loanSchemes.map((scheme, index) => (
-                    <div key={scheme.id} className="animate-fade-in-up" style={{animationDelay: `${1.4 + index * 0.2}s`}}>
-                      <LoanSchemeCard scheme={scheme} />
-                    </div>
-                ))}
-            </div>
+        {/* Available Schemes Section */}
+        <div>
+          <h3 className="text-2xl font-bold font-display text-white mb-6">
+            Available Loan Schemes
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {loanSchemes.map((scheme) => (
+              <LoanSchemeCard key={scheme.id} scheme={scheme} />
+            ))}
+          </div>
         </div>
       </main>
     </div>
