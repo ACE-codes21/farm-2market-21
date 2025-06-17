@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { ProductList } from '@/components/ProductList';
 import { ProductFilters, FilterOptions, SortOptions } from '@/components/ProductFilters';
 import { VendorMapView } from './VendorMapView';
+import { OrdersPage } from '@/components/OrdersPage';
 import { Product } from '@/types';
 
 interface DashboardContentProps {
-  activeTab: 'products' | 'vendors';
+  activeTab: 'products' | 'vendors' | 'orders';
   isLoadingProducts: boolean;
   filteredProducts: Product[];
   viewMode: 'grid' | 'list';
@@ -49,6 +50,10 @@ export const DashboardContent: React.FC<DashboardContentProps> = ({
 }) => {
   if (activeTab === 'vendors') {
     return <VendorMapView />;
+  }
+
+  if (activeTab === 'orders') {
+    return <OrdersPage />;
   }
 
   return (
