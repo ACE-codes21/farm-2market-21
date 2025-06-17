@@ -1,33 +1,27 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { Product } from '@/types';
 import { QuantitySelector } from './QuantitySelector';
-
 interface AddToCartDialogProps {
   product: Product;
   onAddToCart: (quantity: number) => void;
   children: React.ReactNode;
 }
-
-export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ 
-  product, 
-  onAddToCart, 
-  children 
+export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
+  product,
+  onAddToCart,
+  children
 }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [open, setOpen] = useState(false);
-
   const handleAddToCart = () => {
     onAddToCart(selectedQuantity);
     setOpen(false);
     setSelectedQuantity(1);
   };
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
+  return <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -38,11 +32,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
         
         <div className="space-y-6">
           <div className="flex gap-4">
-            <img 
-              src={product.images[0]} 
-              alt={product.name}
-              className="w-20 h-20 rounded-xl object-cover ring-1 ring-slate-600/30"
-            />
+            <img src={product.images[0]} alt={product.name} className="w-20 h-20 rounded-xl object-cover ring-1 ring-slate-600/30" />
             <div className="flex-1">
               <h3 className="font-medium text-white">{product.name}</h3>
               <p className="text-sm text-slate-300">₹{product.price} each</p>
@@ -52,11 +42,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
 
           <div className="space-y-3">
             <label className="text-sm font-medium text-white">Quantity</label>
-            <QuantitySelector
-              max={product.stock}
-              onQuantityChange={setSelectedQuantity}
-              initialQuantity={1}
-            />
+            <QuantitySelector max={product.stock} onQuantityChange={setSelectedQuantity} initialQuantity={1} />
           </div>
 
           <div className="bg-slate-700/30 p-4 rounded-xl border border-slate-600/30">
@@ -71,16 +57,11 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({
           <Button variant="outline" onClick={() => setOpen(false)} className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white">
             Cancel
           </Button>
-          <Button 
-            onClick={handleAddToCart} 
-            disabled={product.stock === 0}
-            className="bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200"
-          >
+          <Button onClick={handleAddToCart} disabled={product.stock === 0} className="bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 bg-green-500 hover:bg-green-400">
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>
         </DialogFooter>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
