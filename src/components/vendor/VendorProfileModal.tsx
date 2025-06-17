@@ -65,7 +65,6 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
       }
 
       if (data) {
-        // Use type assertion to access the new fields
         const profileData = data as any;
         setProfile({
           full_name: profileData.full_name || '',
@@ -80,7 +79,6 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
-      // Fallback for when new columns don't exist yet
       setProfile({
         full_name: '',
         email: user.email || '',
@@ -99,7 +97,6 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
 
     setLoading(true);
     try {
-      // Only update columns that exist
       const updateData: any = {
         full_name: profile.full_name,
         phone: profile.phone,
@@ -107,11 +104,13 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
         upi_id: profile.upi_id
       };
 
-      // Try to add location fields if they exist
+      if (profile.address) {
+        updateData.address = profile.address;
+      }
+
       if (profile.latitude && profile.longitude) {
         updateData.latitude = profile.latitude;
         updateData.longitude = profile.longitude;
-        updateData.address = profile.address;
         updateData.location_updated_at = new Date().toISOString();
       }
 
