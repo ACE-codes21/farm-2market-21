@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Sparkles } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface FreshPickBadgeProps {
   expiresAt: string;
@@ -10,7 +9,6 @@ interface FreshPickBadgeProps {
 }
 
 export const FreshPickBadge: React.FC<FreshPickBadgeProps> = ({ expiresAt, className = '' }) => {
-  const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState<string>('');
   const [isExpired, setIsExpired] = useState(false);
 
@@ -22,7 +20,7 @@ export const FreshPickBadge: React.FC<FreshPickBadgeProps> = ({ expiresAt, class
 
       if (timeDiff <= 0) {
         setIsExpired(true);
-        setTimeLeft(t('fresh_pick_badge.expired'));
+        setTimeLeft('Expired');
         return;
       }
 
@@ -40,7 +38,7 @@ export const FreshPickBadge: React.FC<FreshPickBadgeProps> = ({ expiresAt, class
     const interval = setInterval(updateTimer, 60000); // Update every minute
 
     return () => clearInterval(interval);
-  }, [expiresAt, t]);
+  }, [expiresAt]);
 
   if (isExpired) {
     return null;
@@ -51,7 +49,7 @@ export const FreshPickBadge: React.FC<FreshPickBadgeProps> = ({ expiresAt, class
       className={`glass-effect bg-gradient-to-r from-orange-500 to-red-500 text-white border-none shadow-lg flex items-center gap-1 animate-pulse ${className}`}
     >
       <Sparkles className="h-3 w-3" />
-      <span className="font-bold text-xs">{t('fresh_pick_badge.fresh_pick')}</span>
+      <span className="font-bold text-xs">Fresh Pick</span>
       <Clock className="h-3 w-3" />
       <span className="text-xs">{timeLeft}</span>
     </Badge>
