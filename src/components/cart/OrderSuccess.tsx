@@ -2,7 +2,6 @@
 import React from 'react';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { CheckCircle } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface OrderSuccessProps {
   open: boolean;
@@ -15,8 +14,6 @@ export const OrderSuccess: React.FC<OrderSuccessProps> = ({
   onOpenChange,
   total,
 }) => {
-  const { t } = useTranslation();
-
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg bg-slate-900/95 backdrop-blur-xl border-l border-slate-600/30">
@@ -26,9 +23,9 @@ export const OrderSuccess: React.FC<OrderSuccessProps> = ({
               <CheckCircle className="h-10 w-10 text-green-400" />
             </div>
             <div>
-              <h3 className="text-2xl font-semibold text-white">{t('cart_sheet.order_placed_title')}</h3>
-              <p className="text-slate-300 mt-2">{t('cart_sheet.order_placed_desc')}</p>
-              <p className="text-sm text-slate-400 mt-1">{t('cart_sheet.total_paid', { total: total.toFixed(2) })}</p>
+              <h3 className="text-2xl font-semibold text-white">Order Placed!</h3>
+              <p className="text-slate-300 mt-2">Your order has been successfully placed.</p>
+              <p className="text-sm text-slate-400 mt-1">Total paid: ₹{total.toFixed(2)}</p>
             </div>
           </div>
         </div>
