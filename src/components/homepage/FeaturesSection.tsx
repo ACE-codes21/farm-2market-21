@@ -1,12 +1,10 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Leaf, ShoppingCart, Users, TrendingUp, MapPin, Clock } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 const FeaturesSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,38 +26,38 @@ const FeaturesSection: React.FC = () => {
   const features = [
     {
       icon: Leaf,
-      title: t('features_section.features.fresh_organic.title'),
-      description: t('features_section.features.fresh_organic.description'),
+      title: 'Fresh & Organic',
+      description: 'Get the freshest organic produce directly from local farmers',
       color: "green"
     },
     {
       icon: ShoppingCart,
-      title: t('features_section.features.easy_shopping.title'),
-      description: t('features_section.features.easy_shopping.description'),
+      title: 'Easy Shopping',
+      description: 'Simple and intuitive shopping experience with secure payments',
       color: "blue"
     },
     {
       icon: Users,
-      title: t('features_section.features.community_driven.title'),
-      description: t('features_section.features.community_driven.description'),
+      title: 'Community Driven',
+      description: 'Connect with local farmers and support your community',
       color: "purple"
     },
     {
       icon: TrendingUp,
-      title: t('features_section.features.fair_pricing.title'),
-      description: t('features_section.features.fair_pricing.description'),
+      title: 'Fair Pricing',
+      description: 'Transparent pricing that benefits both farmers and customers',
       color: "orange"
     },
     {
       icon: MapPin,
-      title: t('features_section.features.local_network.title'),
-      description: t('features_section.features.local_network.description'),
+      title: 'Local Network',
+      description: 'Find vendors and farmers in your local area',
       color: "red"
     },
     {
       icon: Clock,
-      title: t('features_section.features.quick_delivery.title'),
-      description: t('features_section.features.quick_delivery.description'),
+      title: 'Quick Delivery',
+      description: 'Fast and reliable delivery of fresh produce to your doorstep',
       color: "indigo"
     }
   ];
@@ -88,10 +86,10 @@ const FeaturesSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            {t('features_section.heading')} <span className="text-green-400">{t('features_section.heading_highlight')}</span>
+            Why Choose <span className="text-green-400">Farm2Market</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            {t('features_section.subheading')}
+            Experience the best of farm-to-table freshness with our innovative platform
           </p>
         </div>
 

@@ -1,13 +1,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { TrendingUp, Users, ShoppingBag, Award } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 const StatsSection: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [counters, setCounters] = useState({ vendors: 0, customers: 0, orders: 0, satisfaction: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
 
   const finalValues = { vendors: 500, customers: 10000, orders: 50000, satisfaction: 98 };
 
@@ -72,7 +70,7 @@ const StatsSection: React.FC = () => {
       icon: Users,
       value: counters.vendors,
       suffix: '+',
-      label: t('stats_section.stats.vendors'),
+      label: 'Trusted Vendors',
       color: 'green',
       gradient: 'from-green-500/30 to-emerald-400/10',
       border: 'border-green-400/40',
@@ -82,7 +80,7 @@ const StatsSection: React.FC = () => {
       icon: ShoppingBag,
       value: counters.customers,
       suffix: '+',
-      label: t('stats_section.stats.customers'),
+      label: 'Happy Customers',
       color: 'blue',
       gradient: 'from-blue-500/30 to-cyan-400/10',
       border: 'border-blue-400/40',
@@ -92,7 +90,7 @@ const StatsSection: React.FC = () => {
       icon: TrendingUp,
       value: counters.orders,
       suffix: '+',
-      label: t('stats_section.stats.orders'),
+      label: 'Orders Completed',
       color: 'purple',
       gradient: 'from-purple-500/30 to-pink-400/10',
       border: 'border-purple-400/40',
@@ -102,7 +100,7 @@ const StatsSection: React.FC = () => {
       icon: Award,
       value: counters.satisfaction,
       suffix: '%',
-      label: t('stats_section.stats.satisfaction'),
+      label: 'Customer Satisfaction',
       color: 'orange',
       gradient: 'from-orange-500/30 to-yellow-400/10',
       border: 'border-orange-400/40',
@@ -130,10 +128,10 @@ const StatsSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-green-400 via-white to-orange-400 bg-clip-text text-transparent">
-            {t('stats_section.heading')} <span className="text-green-400">{t('stats_section.heading_highlight')}</span>
+            Our Impact <span className="text-green-400">by Numbers</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            {t('stats_section.subheading')}
+            See how we're making a difference in connecting farmers with customers
           </p>
         </div>
 

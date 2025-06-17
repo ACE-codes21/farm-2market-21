@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { X, Send, Bot } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
 interface Message {
@@ -18,9 +17,8 @@ interface AIChatWindowProps {
 }
 
 const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
-  const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'ai', content: t('ai_chat.welcome_message') }
+    { role: 'ai', content: 'Hello! I\'m here to help you with any questions about Farm2Market. How can I assist you today?' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -31,36 +29,36 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
     
     // Order-related queries
     if (message.includes('order') || message.includes('buy') || message.includes('purchase')) {
-      return t('ai_chat.responses.how_to_order');
+      return 'To place an order, browse through our product listings, add items to your cart, and proceed to checkout. You can pay using various methods including cards and UPI.';
     }
     
     // Vendor finding queries
     if (message.includes('vendor') || message.includes('seller') || message.includes('find') || message.includes('near')) {
-      return t('ai_chat.responses.find_vendors');
+      return 'You can find vendors near you using our map view in the "Vendors" tab. Filter by location, product type, and other criteria to find the perfect match.';
     }
     
     // Dashboard help
     if (message.includes('dashboard') || message.includes('navigate') || message.includes('use')) {
-      return t('ai_chat.responses.dashboard_help');
+      return 'The dashboard has several tabs: Products (browse and buy), Vendors (find sellers), Wishlist (saved items), and Orders (track purchases). Use the top navigation to switch between sections.';
     }
     
     // Payment queries
     if (message.includes('payment') || message.includes('pay') || message.includes('card') || message.includes('upi')) {
-      return t('ai_chat.responses.payment_help');
+      return 'We accept multiple payment methods including credit/debit cards, UPI, and digital wallets. All payments are secure and processed through encrypted channels.';
     }
     
     // Vendor features
     if (message.includes('vendor features') || message.includes('selling') || message.includes('business')) {
-      return t('ai_chat.responses.vendor_features');
+      return 'As a vendor, you can list products, manage inventory, track orders, view analytics, and access financial tools. Switch to vendor mode to explore these features.';
     }
     
     // Greetings
     if (message.includes('hello') || message.includes('hi') || message.includes('help')) {
-      return t('ai_chat.responses.general_help');
+      return 'Hello! I can help you with ordering products, finding vendors, navigating the dashboard, payment methods, and vendor features. What would you like to know?';
     }
     
     // Default response
-    return t('ai_chat.responses.general_help');
+    return 'I can help you with ordering, finding vendors, payment methods, and using the platform. Could you please be more specific about what you need help with?';
   };
 
   const handleSendMessage = () => {
@@ -99,7 +97,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
       <CardHeader className="flex flex-row items-center justify-between p-4 border-b border-slate-700 flex-shrink-0">
         <div className="flex items-center gap-2">
           <Bot className="text-green-400" />
-          <CardTitle className="text-lg font-bold">{t('ai_chat.title')}</CardTitle>
+          <CardTitle className="text-lg font-bold">AI Assistant</CardTitle>
         </div>
         <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
           <X className="h-4 w-4" />
@@ -148,7 +146,7 @@ const AIChatWindow: React.FC<AIChatWindowProps> = ({ onClose }) => {
         <div className="flex w-full items-center space-x-2">
           <Input
             type="text"
-            placeholder={t('ai_chat.placeholder')}
+            placeholder="Ask me anything about Farm2Market..."
             className="bg-slate-800/80 border-slate-600/50 text-white placeholder:text-slate-400 focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}

@@ -3,11 +3,9 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MessageSquare } from 'lucide-react';
 import AIChatWindow from './AIChatWindow';
-import { useTranslation } from 'react-i18next';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const FloatingChatButton: React.FC = () => {
-    const { t } = useTranslation();
     const [isChatOpen, setIsChatOpen] = useState(false);
 
     const toggleChat = () => {
@@ -27,7 +25,7 @@ const FloatingChatButton: React.FC = () => {
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>{t('ai_chat.tooltip')}</p>
+                    <p>Chat with AI Assistant</p>
                 </TooltipContent>
             </Tooltip>
 
