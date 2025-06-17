@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,12 +16,12 @@ import {
   Heart,
   CreditCard,
   HelpCircle,
-  Bell,
-  MapPin
+  Bell
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { VendorProfileModal } from './vendor/VendorProfileModal';
+import { BuyerProfileModal } from './buyer/BuyerProfileModal';
 import { useUserSession } from '@/hooks/useUserSession';
 import type { User } from '@supabase/supabase-js';
 
@@ -58,17 +59,7 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
   };
 
   const handleProfileClick = () => {
-    // Check if user is a vendor
-    const userRole = user.user_metadata?.role || localStorage.getItem('userSession') && JSON.parse(localStorage.getItem('userSession')!).role;
-    
-    if (userRole === 'vendor') {
-      setIsProfileModalOpen(true);
-    } else {
-      toast({
-        title: "Profile",
-        description: "Profile section coming soon!",
-      });
-    }
+    setIsProfileModalOpen(true);
   };
 
   const handleMenuAction = (action: string) => {
@@ -112,7 +103,6 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
         >
           <UserIcon className="h-5 w-5 text-slate-300 group-hover:text-green-400" />
           <span>Profile</span>
-          {isVendor && <MapPin className="ml-auto h-5 w-5 text-green-400" />}
         </DropdownMenuItem>
         
         <DropdownMenuItem
@@ -186,8 +176,13 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({ user, displayName 
         </DropdownMenuItem>
       </DropdownMenuContent>
 
-      {isVendor && (
+      {isVendor ? (
         <VendorProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+        />
+      ) : (
+        <BuyerProfileModal
           isOpen={isProfileModalOpen}
           onClose={() => setIsProfileModalOpen(false)}
         />

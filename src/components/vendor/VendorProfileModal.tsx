@@ -162,11 +162,16 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center justify-between">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-[#212A34]/95 border border-slate-600/40 backdrop-blur-xl text-white">
+          <DialogHeader className="border-b border-slate-700/30 pb-4">
+            <DialogTitle className="flex items-center justify-between text-2xl font-bold bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
               <span>Vendor Profile</span>
-              <Button variant="ghost" size="icon" onClick={onClose}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={onClose}
+                className="text-slate-400 hover:text-white hover:bg-slate-700/50"
+              >
                 <X className="h-4 w-4" />
               </Button>
             </DialogTitle>
@@ -176,16 +181,16 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
             {/* Avatar Section */}
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">
-                <Avatar className="h-24 w-24">
+                <Avatar className="h-24 w-24 ring-2 ring-green-500/30">
                   <AvatarImage src={profile.avatar_url || undefined} />
-                  <AvatarFallback className="text-xl bg-green-100 text-green-700">
+                  <AvatarFallback className="text-xl bg-gradient-to-br from-green-500/20 to-green-600/20 text-green-300 border border-green-500/20">
                     {getUserInitials()}
                   </AvatarFallback>
                 </Avatar>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full"
+                  className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full bg-slate-700/80 border-slate-600/50 hover:bg-slate-600/80 text-green-400"
                   onClick={() => {
                     toast({
                       title: "Coming Soon",
@@ -199,44 +204,47 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
             </div>
 
             {/* Basic Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
+                <Label htmlFor="fullName" className="text-slate-200 font-medium">Full Name</Label>
                 <Input
                   id="fullName"
                   value={profile.full_name || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, full_name: e.target.value }))}
                   placeholder="Enter your full name"
+                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-slate-200 font-medium">Email</Label>
                 <Input
                   id="email"
                   value={profile.email || ''}
                   disabled
-                  className="bg-gray-50"
+                  className="bg-slate-600/30 border-slate-600/30 text-slate-300 cursor-not-allowed"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone" className="text-slate-200 font-medium">Phone Number</Label>
                 <Input
                   id="phone"
                   value={profile.phone || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, phone: e.target.value }))}
                   placeholder="Enter your phone number"
+                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="upiId">UPI ID</Label>
+                <Label htmlFor="upiId" className="text-slate-200 font-medium">UPI ID</Label>
                 <Input
                   id="upiId"
                   value={profile.upi_id || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, upi_id: e.target.value }))}
                   placeholder="Enter your UPI ID"
+                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
             </div>
@@ -244,12 +252,12 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
             {/* Location Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label>Location</Label>
+                <Label className="text-slate-200 font-medium">Business Location</Label>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setShowLocationPicker(true)}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 bg-slate-700/50 border-slate-600/50 text-green-400 hover:bg-slate-600/50 hover:text-green-300"
                 >
                   <MapPin className="h-4 w-4" />
                   {profile.latitude && profile.longitude ? 'Update Location' : 'Set Location'}
@@ -257,29 +265,38 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
+                <Label htmlFor="address" className="text-slate-200 font-medium">Business Address</Label>
                 <Input
                   id="address"
                   value={profile.address || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, address: e.target.value }))}
                   placeholder="Enter your business address"
+                  className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
 
               {profile.latitude && profile.longitude && (
-                <div className="text-sm text-gray-600 flex items-center gap-2">
-                  <MapPin className="h-4 w-4" />
-                  Coordinates: {profile.latitude.toFixed(6)}, {profile.longitude.toFixed(6)}
+                <div className="text-sm text-slate-400 flex items-center gap-2 p-3 bg-slate-700/30 rounded-lg border border-slate-600/30">
+                  <MapPin className="h-4 w-4 text-green-400" />
+                  <span>Coordinates: {profile.latitude.toFixed(6)}, {profile.longitude.toFixed(6)}</span>
                 </div>
               )}
             </div>
 
             {/* Save Button */}
-            <div className="flex justify-end space-x-2 pt-4">
-              <Button variant="outline" onClick={onClose}>
+            <div className="flex justify-end space-x-3 pt-6 border-t border-slate-700/30">
+              <Button 
+                variant="outline" 
+                onClick={onClose}
+                className="bg-transparent border-slate-600/50 text-slate-300 hover:bg-slate-700/50 hover:text-white"
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={loading} className="flex items-center gap-2">
+              <Button 
+                onClick={handleSave} 
+                disabled={loading} 
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium flex items-center gap-2 shadow-lg"
+              >
                 <Save className="h-4 w-4" />
                 {loading ? 'Saving...' : 'Save Profile'}
               </Button>
