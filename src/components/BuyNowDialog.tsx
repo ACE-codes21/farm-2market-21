@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { Product } from '@/types';
 import { QuantitySelector } from './QuantitySelector';
 import { useToast } from '@/hooks/use-toast';
 import { useCheckout } from '@/hooks/useCheckout';
-import { useTranslation } from 'react-i18next';
 import { ProductSummary } from './buy-now/ProductSummary';
 import { CouponSection } from './buy-now/CouponSection';
 import { PaymentMethods } from './buy-now/PaymentMethods';
@@ -26,7 +26,6 @@ type Coupon = {
 };
 
 export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children }) => {
-  const { t } = useTranslation();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
@@ -38,15 +37,15 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
   const checkoutMutation = useCheckout();
 
   const availableCoupons: Coupon[] = [
-    { code: 'FRESH10', discount: 10, description: t('buy_now_dialog.coupons.fresh10_desc') },
-    { code: 'WELCOME20', discount: 20, description: t('buy_now_dialog.coupons.welcome20_desc') },
-    { code: 'BULK5', discount: 5, description: t('buy_now_dialog.coupons.bulk5_desc') }
+    { code: 'FRESH10', discount: 10, description: 'Get 10% off on fresh produce' },
+    { code: 'WELCOME20', discount: 20, description: 'Welcome discount for new customers' },
+    { code: 'BULK5', discount: 5, description: 'Save 5% on bulk orders' }
   ];
 
   const paymentMethods = [
-    { id: 'card', name: t('buy_now_dialog.payment_methods.card'), icon: CreditCard, color: 'blue' },
-    { id: 'upi', name: t('buy_now_dialog.payment_methods.upi'), icon: Smartphone, color: 'green' },
-    { id: 'wallet', name: t('buy_now_dialog.payment_methods.wallet'), icon: Wallet, color: 'purple' },
+    { id: 'card', name: 'Credit/Debit Card', icon: CreditCard, color: 'blue' },
+    { id: 'upi', name: 'UPI Payment', icon: Smartphone, color: 'green' },
+    { id: 'wallet', name: 'Digital Wallet', icon: Wallet, color: 'purple' },
     { id: 'cod', name: 'Pay on Delivery', icon: Wallet, color: 'orange' }
   ];
 
@@ -59,14 +58,14 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
     if (coupon) {
       setAppliedCoupon(coupon);
       toast({
-        title: t('buy_now_dialog.coupon_applied'),
-        description: t('buy_now_dialog.discount_applied', { discount: coupon.discount })
+        title: 'Coupon Applied!',
+        description: `You saved ${coupon.discount}% on your order`
       });
     } else {
       toast({
         variant: "destructive",
-        title: t('buy_now_dialog.invalid_coupon'),
-        description: t('buy_now_dialog.invalid_coupon_desc')
+        title: 'Invalid Coupon',
+        description: 'Please check your coupon code and try again'
       });
     }
   };
@@ -118,7 +117,7 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
         <DialogHeader>
           <DialogTitle className="text-white font-display text-xl flex items-center gap-2">
             <Zap className="h-5 w-5 text-green-400" />
-            {t('buy_now_dialog.quick_checkout')}
+            Quick Checkout
           </DialogTitle>
         </DialogHeader>
         
@@ -126,7 +125,7 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
           <ProductSummary product={product} />
 
           <div className="space-y-3">
-            <label className="text-sm font-medium text-white">{t('buy_now_dialog.quantity')}</label>
+            <label className="text-sm font-medium text-white">Quantity</label>
             <QuantitySelector
               max={product.stock}
               onQuantityChange={setSelectedQuantity}
@@ -167,7 +166,7 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
             className="bg-slate-700/50 border-slate-600/30 text-slate-300 hover:bg-slate-600/50 hover:text-white"
             disabled={isProcessing}
           >
-            {t('buy_now_dialog.cancel')}
+            Cancel
           </Button>
           <Button 
             onClick={handlePurchase} 
@@ -175,7 +174,7 @@ export const BuyNowDialog: React.FC<BuyNowDialogProps> = ({ product, children })
             className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex-1"
           >
             <Zap className="mr-2 h-4 w-4" />
-            {isProcessing ? t('buy_now_dialog.processing') : t('buy_now_dialog.complete_purchase', { total: total.toFixed(2) })}
+            {isProcessing ? 'Processing...' : `Complete Purchase ₹${total.toFixed(2)}`}
           </Button>
         </DialogFooter>
       </DialogContent>
