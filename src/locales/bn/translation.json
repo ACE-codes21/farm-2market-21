@@ -1,4 +1,3 @@
-
 {
   "welcome": "স্বাগতম",
   "login": "লগ ইন",
@@ -148,7 +147,13 @@
     "subtitle": "আপনার ব্যবসার কর্মক্ষমতা ট্র্যাক করুন",
     "sales_overview": "বিক্রয় সংক্ষিপ্ত বিবরণ",
     "product_performance": "পণ্যের কর্মক্ষমতা",
-    "customer_insights": "গ্রাহক অন্তর্দৃষ্টি"
+    "customer_insights": "গ্রাহক অন্তর্দৃষ্টি",
+    "product_trends": "পণ্যের প্রবণতা",
+    "sales_summary": {
+      "todays_earnings": "আজকের আয়",
+      "top_selling_product": "সর্বাধিক বিক্রিত পণ্য",
+      "most_active_time": "সবচেয়ে সক্রিয় সময়"
+    }
   },
   "finance_dashboard": {
     "title": "ফিন্যান্স ড্যাশবোর্ড",

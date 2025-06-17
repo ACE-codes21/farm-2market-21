@@ -1,4 +1,3 @@
-
 {
   "welcome": "Welcome",
   "login": "Login",
@@ -148,7 +147,13 @@
     "subtitle": "Track your business performance",
     "sales_overview": "Sales Overview",
     "product_performance": "Product Performance",
-    "customer_insights": "Customer Insights"
+    "customer_insights": "Customer Insights",
+    "product_trends": "Product Trends",
+    "sales_summary": {
+      "todays_earnings": "Today's Earnings",
+      "top_selling_product": "Top Selling Product",
+      "most_active_time": "Most Active Time"
+    }
   },
   "finance_dashboard": {
     "title": "Finance Dashboard",

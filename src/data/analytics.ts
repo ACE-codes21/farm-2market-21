@@ -1,3 +1,4 @@
+
 import { IndianRupee, Clock, Leaf, LucideIcon } from 'lucide-react';
 
 export const salesSummary: {
@@ -15,12 +16,12 @@ export const salesSummary: {
     icon: IndianRupee,
   },
   {
-    title: "Top Selling Product",
+    title: "top_selling_product",
     value: "Organic Tomatoes",
     icon: Leaf,
   },
   {
-    title: "Most Active Time",
+    title: "most_active_time",
     value: "4 PM - 7 PM",
     icon: Clock,
   },

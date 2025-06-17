@@ -28,7 +28,7 @@ const AnalyticsDashboard = () => {
           {salesSummary.map((item, index) => (
             <SalesSummaryCard 
               key={index}
-              title={t(`analytics_dashboard.sales_summary.${item.title.toLowerCase().replace(/ /g, '_')}`)}
+              title={t(`analytics_dashboard.sales_summary.${item.title}`)}
               value={item.value}
               icon={item.icon}
               change={item.change}
