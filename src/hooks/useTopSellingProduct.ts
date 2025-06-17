@@ -27,29 +27,46 @@ const getCategoryIcon = (category: string): string => {
 };
 
 const fetchTopSellingProduct = async (vendorId: string): Promise<TopProductData | null> => {
+  console.log('Fetching top selling product for vendor:', vendorId);
+  
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
   const { data, error } = await supabase
     .from('order_items')
     .select(`
       quantity,
-      product_id,
-      products!inner(name, category, vendor_id),
-      orders!inner(created_at, status)
+      products!inner(
+        id,
+        name, 
+        category,
+        vendor_id
+      ),
+      orders!inner(
+        created_at, 
+        status
+      )
     `)
     .eq('products.vendor_id', vendorId)
     .eq('orders.status', 'completed')
     .gte('orders.created_at', sevenDaysAgo.toISOString());
 
-  if (error) throw error;
+  if (error) {
+    console.error('Error fetching top selling product:', error);
+    throw error;
+  }
 
-  if (!data || data.length === 0) return null;
+  console.log('Order items data:', data);
+
+  if (!data || data.length === 0) {
+    console.log('No order items found');
+    return null;
+  }
 
   // Aggregate quantities by product
   const productMap = new Map();
   
   data.forEach(item => {
-    const productId = item.product_id;
+    const productId = item.products.id;
     const productName = item.products.name;
     const productCategory = item.products.category;
     const quantity = item.quantity;
@@ -65,6 +82,8 @@ const fetchTopSellingProduct = async (vendorId: string): Promise<TopProductData 
     productMap.get(productId).totalQuantity += quantity;
   });
 
+  console.log('Product aggregation:', Array.from(productMap.entries()));
+
   // Find the product with highest total quantity
   let topProduct = null;
   let maxQuantity = 0;
@@ -76,12 +95,18 @@ const fetchTopSellingProduct = async (vendorId: string): Promise<TopProductData 
     }
   }
 
-  if (!topProduct) return null;
+  if (!topProduct) {
+    console.log('No top product found');
+    return null;
+  }
 
-  return {
+  const result = {
     ...topProduct,
     icon: getCategoryIcon(topProduct.category)
   };
+
+  console.log('Top selling product result:', result);
+  return result;
 };
 
 export const useTopSellingProduct = () => {
@@ -90,7 +115,7 @@ export const useTopSellingProduct = () => {
   return useQuery({
     queryKey: ['top-selling-product', user?.id],
     queryFn: () => fetchTopSellingProduct(user?.id || ''),
-    enabled: !!user,
+    enabled: !!user?.id,
     refetchInterval: 10 * 60 * 1000, // Refetch every 10 minutes
   });
 };

@@ -9,21 +9,32 @@ interface ActiveTimeData {
 }
 
 const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData> => {
+  console.log('Fetching active time analysis for vendor:', vendorId);
+  
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
   const { data, error } = await supabase
     .from('orders')
     .select(`
       created_at,
-      order_items!inner(product_id, products!inner(vendor_id))
+      order_items!inner(
+        quantity,
+        products!inner(vendor_id)
+      )
     `)
     .eq('order_items.products.vendor_id', vendorId)
     .eq('status', 'completed')
     .gte('created_at', sevenDaysAgo.toISOString());
 
-  if (error) throw error;
+  if (error) {
+    console.error('Error fetching active time analysis:', error);
+    throw error;
+  }
+
+  console.log('Active time analysis data:', data);
 
   if (!data || data.length === 0) {
+    console.log('No orders found for active time analysis');
     return { timeWindow: '10 AM - 12 PM', orderCount: 0 };
   }
 
@@ -38,6 +49,8 @@ const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData
       hourlyCount[windowIndex]++;
     }
   });
+
+  console.log('Hourly count distribution:', hourlyCount);
 
   // Find the window with most activity
   let maxCount = 0;
@@ -63,10 +76,13 @@ const fetchActiveTimeAnalysis = async (vendorId: string): Promise<ActiveTimeData
 
   const timeWindow = `${formatHour(startHour)} - ${formatHour(endHour)}`;
 
-  return {
+  const result = {
     timeWindow,
     orderCount: maxCount
   };
+
+  console.log('Active time analysis result:', result);
+  return result;
 };
 
 export const useActiveTimeAnalysis = () => {
@@ -75,7 +91,7 @@ export const useActiveTimeAnalysis = () => {
   return useQuery({
     queryKey: ['active-time-analysis', user?.id],
     queryFn: () => fetchActiveTimeAnalysis(user?.id || ''),
-    enabled: !!user,
+    enabled: !!user?.id,
     refetchInterval: 30 * 60 * 1000, // Refetch every 30 minutes
   });
 };
