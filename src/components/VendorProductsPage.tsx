@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Star, MapPin, Phone, Grid3x3, List } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Phone, Grid3x3, List, AlertCircle } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { useAppContext } from '@/contexts/AppContext';
 import { useCart } from '@/hooks/useCart';
@@ -23,20 +23,64 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
   const { addToCart } = useCart();
   const { handleAddToWishlist: addToWishlist, isInWishlist } = useWishlist();
 
-  // Get products from this vendor
+  // Get products from this vendor with better error handling
   const vendorProducts = useMemo(() => {
-    return products.filter(product => 
-      product.vendor?.name === vendorName && product.stock > 0
-    );
+    try {
+      if (!products || !Array.isArray(products)) {
+        console.warn('Products data is not available or not an array');
+        return [];
+      }
+      
+      return products.filter(product => {
+        if (!product || !product.vendor) {
+          return false;
+        }
+        return product.vendor.name === vendorName && product.stock > 0;
+      });
+    } catch (error) {
+      console.error('Error filtering vendor products:', error);
+      return [];
+    }
   }, [products, vendorName]);
 
-  // Get vendor info from first product
-  const vendorInfo = vendorProducts[0]?.vendor;
+  // Get vendor info from first product with fallback
+  const vendorInfo = vendorProducts.length > 0 ? vendorProducts[0]?.vendor : null;
 
   const handleAddToCart = (product: any, quantity: number) => {
-    addToCart(product, quantity);
+    try {
+      addToCart(product, quantity);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
   };
 
+  // Loading state
+  if (!products) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="outline" 
+            onClick={onBack}
+            className="dark-modern-card border-slate-600/30 text-white hover:bg-slate-700/50"
+          >
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Vendors
+          </Button>
+        </div>
+        
+        <div className="text-center py-16">
+          <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-4"></div>
+            <p className="text-2xl font-semibold text-white mb-3">Loading products...</p>
+            <p className="text-slate-300">Please wait while we fetch the vendor's products.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // No products found state
   if (vendorProducts.length === 0) {
     return (
       <div className="space-y-6">
@@ -53,8 +97,17 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
         
         <div className="text-center py-16">
           <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
+            <AlertCircle className="h-16 w-16 text-slate-400 mx-auto mb-4" />
             <p className="text-2xl font-semibold text-white mb-3">No products found</p>
-            <p className="text-slate-300">This vendor doesn't have any products listed yet.</p>
+            <p className="text-slate-300 mb-6">
+              {vendorName} doesn't have any products available at the moment.
+            </p>
+            <Button 
+              onClick={onBack}
+              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+            >
+              Browse Other Vendors
+            </Button>
           </div>
         </div>
       </div>

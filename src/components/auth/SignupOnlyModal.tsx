@@ -44,7 +44,7 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: fullName,
             role: role
@@ -70,9 +70,13 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
       
       onClose();
       
-      // Navigate to dashboard after a short delay
+      // Navigate to appropriate role-based route
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        if (role === 'vendor') {
+          window.location.href = '/vendor';
+        } else {
+          window.location.href = '/buyer';
+        }
       }, 100);
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
@@ -93,10 +97,12 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
     try {
       console.log('Social login with role:', role);
       
+      const redirectUrl = role === 'vendor' ? '/vendor' : '/buyer';
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: `${window.location.origin}${redirectUrl}`,
           queryParams: {
             role: role
           }

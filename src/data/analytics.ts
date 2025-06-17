@@ -8,7 +8,7 @@ export const salesSummary: {
   changeType?: 'increase' | 'decrease';
 }[] = [
   {
-    title: "Today's Earnings",
+    title: "todays_earnings",
     value: "₹2,450",
     change: "+12.5%",
     changeType: "increase",
