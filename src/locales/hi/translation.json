@@ -81,7 +81,7 @@
     "subheading": "हमारे बढ़ते कम्युनिटी मार्केटप्लेस में हजारों संतुष्ट ग्राहकों और विक्रेताओं में शामिल हों।",
     "stats": {
       "vendors": "स्थानीय विक्रेता",
-      "products": "ताजा उत्पाद",
+      "products": "ताजा उत्पाد",
       "customers": "खुश ग्राहक",
       "orders": "डिलीवर किए गए ऑर्डर"
     }
@@ -111,6 +111,26 @@
   "dashboard_page": {
     "loading": "आपका डैशबोर्ड लोड हो रहा है..."
   },
+  "dashboard_tabs": {
+    "discover_market": "बाजार खोजें",
+    "discover_vendors": "विक्रेता खोजें",
+    "my_orders": "मेरे ऑर्डर",
+    "products_desc": "ताजा स्थानीय उत्पाद ब्राउज़ करें",
+    "vendors_desc": "विश्वसनीय स्थानीय विक्रेता खोजें",
+    "orders_desc": "अपना ऑर्डर इतिहास ट्रैक करें",
+    "tabs": {
+      "products": "उत्पाद",
+      "vendors": "विक्रेता",
+      "orders": "ऑर्डर"
+    }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "डैशबोर्ड",
+    "finance": "वित्त",
+    "ai_analytics": "AI एनालिटिक्स",
+    "services": "सेवाएं",
+    "notifications": "सूचनाएं"
+  },
   "not_found_page": {
     "title": "पेज नहीं मिला",
     "description": "आप जो पेज खोज रहे हैं वह मौजूद नहीं है।",
@@ -136,6 +156,13 @@
     "subtitle": "सरकारी सेवाओं तक पहुंच",
     "available_schemes": "उपलब्ध योजनाएं",
     "application_status": "आवेदन स्थिति",
-    "document_manager": "दस्तावेज़ प्रबंधक"
+    "document_manager": "दस्तावेज़ प्रबंधक",
+    "tabs": {
+      "schemes": "योजनाएं",
+      "eligibility": "पात्रता",
+      "tracker": "ट्रैकर",
+      "documents": "दस्तावेज़",
+      "ai_assist": "AI सहायक"
+    }
   }
 }

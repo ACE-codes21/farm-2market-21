@@ -111,6 +111,26 @@
   "dashboard_page": {
     "loading": "Loading your dashboard..."
   },
+  "dashboard_tabs": {
+    "discover_market": "Discover Market",
+    "discover_vendors": "Discover Vendors",
+    "my_orders": "My Orders",
+    "products_desc": "Browse fresh local products",
+    "vendors_desc": "Find trusted local vendors",
+    "orders_desc": "Track your order history",
+    "tabs": {
+      "products": "Products",
+      "vendors": "Vendors",
+      "orders": "Orders"
+    }
+  },
+  "vendor_dashboard_header": {
+    "dashboard": "Dashboard",
+    "finance": "Finance",
+    "ai_analytics": "AI Analytics",
+    "services": "Services",
+    "notifications": "Notifications"
+  },
   "not_found_page": {
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist.",
@@ -136,6 +156,13 @@
     "subtitle": "Access government services",
     "available_schemes": "Available Schemes",
     "application_status": "Application Status",
-    "document_manager": "Document Manager"
+    "document_manager": "Document Manager",
+    "tabs": {
+      "schemes": "Schemes",
+      "eligibility": "Eligibility",
+      "tracker": "Tracker",
+      "documents": "Documents",
+      "ai_assist": "AI Assistant"
+    }
   }
 }
