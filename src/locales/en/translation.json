@@ -110,5 +110,32 @@
   },
   "dashboard_page": {
     "loading": "Loading your dashboard..."
+  },
+  "not_found_page": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist.",
+    "go_home": "Go Home"
+  },
+  "analytics_dashboard": {
+    "title": "Analytics Dashboard",
+    "subtitle": "Track your business performance",
+    "sales_overview": "Sales Overview",
+    "product_performance": "Product Performance",
+    "customer_insights": "Customer Insights"
+  },
+  "finance_dashboard": {
+    "title": "Finance Dashboard",
+    "subtitle": "Manage your finances",
+    "total_revenue": "Total Revenue",
+    "expenses": "Expenses",
+    "profit_margin": "Profit Margin",
+    "credit_score": "Credit Score"
+  },
+  "services_dashboard": {
+    "title": "Services Dashboard",
+    "subtitle": "Access government services",
+    "available_schemes": "Available Schemes",
+    "application_status": "Application Status",
+    "document_manager": "Document Manager"
   }
 }

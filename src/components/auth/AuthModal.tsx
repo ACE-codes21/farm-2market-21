@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from '@/components/auth/LoginForm';
 import SignupForm from '@/components/auth/SignupForm';
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
@@ -24,6 +25,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
   defaultMode = 'login'
 }) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -64,11 +66,11 @@ const AuthModal: React.FC<AuthModalProps> = ({
 
       toast({
         title: "Welcome back!",
-        description: "You've successfully logged in. Use the buttons on the homepage to navigate to your dashboard.",
+        description: "You've successfully logged in.",
       });
       
       onClose();
-      // No automatic redirect - user can use homepage buttons to navigate
+      // Stay on homepage - user can use role-based buttons to navigate
     } catch (error: any) {
       setError(error.message || 'Login failed.');
       toast({
@@ -115,7 +117,7 @@ const AuthModal: React.FC<AuthModalProps> = ({
       });
       
       onClose();
-      // No automatic redirect - user can use homepage buttons to navigate
+      // Stay on homepage - user can use role-based buttons to navigate
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
       toast({

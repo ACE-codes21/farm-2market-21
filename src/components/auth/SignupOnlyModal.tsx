@@ -5,6 +5,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, X } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import SignupForm from '@/components/auth/SignupForm';
 import SocialLoginButtons from '@/components/auth/SocialLoginButtons';
 
@@ -20,6 +21,7 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
   role
 }) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -70,14 +72,14 @@ const SignupOnlyModal: React.FC<SignupOnlyModalProps> = ({
       
       onClose();
       
-      // Navigate to appropriate role-based route
+      // Navigate to appropriate role-based route after a short delay
       setTimeout(() => {
         if (role === 'vendor') {
-          window.location.href = '/vendor';
+          navigate('/vendor');
         } else {
-          window.location.href = '/buyer';
+          navigate('/buyer');
         }
-      }, 100);
+      }, 1000);
     } catch (error: any) {
       setError(error.message || 'Signup failed.');
       toast({
