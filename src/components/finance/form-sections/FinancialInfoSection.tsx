@@ -7,8 +7,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 interface FinancialInfoSectionProps {
   formData: {
-    monthly_income: number;
-    monthly_expenses: number;
+    monthly_income?: number;
+    monthly_expenses?: number;
   };
   onInputChange: (field: string, value: number) => void;
 }

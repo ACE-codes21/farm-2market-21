@@ -9,9 +9,9 @@ interface PersonalInfoSectionProps {
   formData: {
     vendor_name: string;
     aadhar_number: string;
-    pan_number: string;
+    pan_number?: string;
     phone: string;
-    email: string;
+    email?: string;
   };
   errors: Record<string, string>;
   onInputChange: (field: string, value: string) => void;
@@ -88,7 +88,7 @@ export const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({
           </div>
           <Input
             id="panNumber"
-            value={formData.pan_number}
+            value={formData.pan_number || ''}
             onChange={(e) => onInputChange('pan_number', e.target.value.toUpperCase())}
             className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
             placeholder="ABCDE1234F"
@@ -127,7 +127,7 @@ export const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({
           <Input
             id="email"
             type="email"
-            value={formData.email}
+            value={formData.email || ''}
             onChange={(e) => onInputChange('email', e.target.value)}
             className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
             placeholder="your.email@example.com"
