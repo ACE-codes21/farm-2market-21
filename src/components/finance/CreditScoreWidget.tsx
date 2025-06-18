@@ -46,14 +46,11 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
 
   return (
     <TooltipProvider>
-      <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg border border-slate-700/50 shadow-xl">
+      <Card className="bg-slate-800/80 backdrop-blur-lg border border-slate-700/50 shadow-xl">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <CardTitle className="text-2xl font-bold text-white flex items-center gap-3">
-              <div className={cn(
-                "p-2 rounded-lg bg-gradient-to-br",
-                getScoreGradient(score)
-              )}>
+              <div className="p-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600">
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
               Credit Profile
@@ -101,7 +98,7 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
                     key={star} 
                     className={cn(
                       "h-4 w-4",
-                      star <= trustLevel ? "text-yellow-400 fill-yellow-400" : "text-slate-600"
+                      star <= trustLevel ? "text-green-400 fill-green-400" : "text-slate-600"
                     )} 
                   />
                 ))}

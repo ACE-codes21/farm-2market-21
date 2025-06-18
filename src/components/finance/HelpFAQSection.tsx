@@ -24,7 +24,7 @@ export const HelpFAQSection: React.FC = () => {
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
+            <div className="p-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600">
               <HelpCircle className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -32,7 +32,7 @@ export const HelpFAQSection: React.FC = () => {
               <p className="text-sm text-slate-400">Get support with your loan application</p>
             </div>
           </div>
-          <Badge variant="outline" className="text-blue-300 border-blue-400/30">
+          <Badge variant="outline" className="text-green-300 border-green-400/30">
             24/7 Support
           </Badge>
         </div>
@@ -43,7 +43,7 @@ export const HelpFAQSection: React.FC = () => {
           <Button
             variant="outline"
             onClick={handleContactSupport}
-            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white flex flex-col items-center gap-2"
+            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-green-600/20 hover:border-green-500/50 hover:text-white flex flex-col items-center gap-2"
           >
             <MessageCircle className="h-5 w-5" />
             <div className="text-center">
@@ -55,7 +55,7 @@ export const HelpFAQSection: React.FC = () => {
           <Button
             variant="outline"
             onClick={handleCallSupport}
-            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white flex flex-col items-center gap-2"
+            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-green-600/20 hover:border-green-500/50 hover:text-white flex flex-col items-center gap-2"
           >
             <Phone className="h-5 w-5" />
             <div className="text-center">
@@ -67,7 +67,7 @@ export const HelpFAQSection: React.FC = () => {
           <Button
             variant="outline"
             onClick={handleEmailSupport}
-            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white flex flex-col items-center gap-2"
+            className="h-auto p-4 bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-green-600/20 hover:border-green-500/50 hover:text-white flex flex-col items-center gap-2"
           >
             <Mail className="h-5 w-5" />
             <div className="text-center">
@@ -86,7 +86,7 @@ export const HelpFAQSection: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => window.open('/help', '_blank')}
-              className="text-blue-400 hover:text-blue-300"
+              className="text-green-400 hover:text-green-300 hover:bg-green-600/20"
             >
               <ExternalLink className="h-4 w-4 mr-1" />
               Help Center
