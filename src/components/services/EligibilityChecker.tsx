@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, HelpCircle, XCircle, AlertTriangle, Award, Target } from 'lucide-react';
+import { CheckCircle, HelpCircle, XCircle, AlertTriangle, Award, Target, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 
@@ -13,43 +13,50 @@ const questions = [
     id: 'q1', 
     text: 'Do you have a street vendor certificate (Certificate of Vending)?',
     weight: 3,
-    schemes: ['PM SVANidhi', 'Mudra Loan']
+    schemes: ['PM SVANidhi', 'Mudra Loan'],
+    hint: 'This certificate is issued by your local municipal authority and is essential for street vendor schemes.'
   },
   { 
     id: 'q2', 
     text: 'Have you availed a government-backed loan in the past 2 years?',
     weight: 2,
-    schemes: ['PM SVANidhi', 'Mudra Loan']
+    schemes: ['PM SVANidhi', 'Mudra Loan'],
+    hint: 'Previous loans may affect eligibility for new schemes. Be honest about your loan history.'
   },
   { 
     id: 'q3', 
     text: 'Is your Aadhaar card linked to your mobile number and bank account?',
     weight: 3,
-    schemes: ['All schemes']
+    schemes: ['All schemes'],
+    hint: 'Aadhaar linking is mandatory for most government schemes and ensures seamless verification.'
   },
   {
     id: 'q4',
     text: 'Do you have a PAN card?',
     weight: 2,
-    schemes: ['Mudra Loan', 'Udyog Aadhar', 'FSSAI Registration']
+    schemes: ['Mudra Loan', 'Udyog Aadhar', 'FSSAI Registration'],
+    hint: 'PAN card is required for higher loan amounts and business registrations.'
   },
   {
     id: 'q5',
     text: 'Are you involved in food business/street food vending?',
     weight: 2,
-    schemes: ['FSSAI Registration', 'PM SVANidhi']
+    schemes: ['FSSAI Registration', 'PM SVANidhi'],
+    hint: 'Food businesses require specific licenses and have access to targeted schemes.'
   },
   {
     id: 'q6',
     text: 'Do you have a valid bank account in your name?',
     weight: 3,
-    schemes: ['All schemes']
+    schemes: ['All schemes'],
+    hint: 'A bank account is essential for receiving loan amounts and maintaining financial records.'
   },
   {
     id: 'q7',
     text: 'Are you a member of any Self Help Group (SHG)?',
     weight: 1,
-    schemes: ['PM-SYM', 'Jan Dhan Yojana']
+    schemes: ['PM-SYM', 'Jan Dhan Yojana'],
+    hint: 'SHG membership provides additional benefits and easier access to certain schemes.'
   },
   {
     id: 'q8',
@@ -57,6 +64,7 @@ const questions = [
     weight: 2,
     schemes: ['PM SVANidhi', 'Mudra Loan'],
     type: 'select',
+    hint: 'Income range determines loan eligibility and scheme categorization.',
     options: [
       { value: 'below-10000', label: 'Below ₹10,000' },
       { value: '10000-25000', label: '₹10,000 - ₹25,000' },
@@ -67,7 +75,9 @@ const questions = [
 ];
 
 const EligibilityChecker: React.FC = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const [showResults, setShowResults] = useState(false);
   const [result, setResult] = useState<{
     status: 'eligible' | 'partially-eligible' | 'ineligible' | null;
     score: number;
@@ -80,10 +90,28 @@ const EligibilityChecker: React.FC = () => {
     recommendations: []
   });
 
+  const currentQuestion = questions[currentQuestionIndex];
+  const isLastQuestion = currentQuestionIndex === questions.length - 1;
+  const isFirstQuestion = currentQuestionIndex === 0;
+  const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const answeredQuestions = Object.keys(answers).length;
+
   const handleValueChange = (id: string, value: string) => {
     setAnswers(prev => ({ ...prev, [id]: value }));
   };
-  
+
+  const handleNext = () => {
+    if (!isLastQuestion) {
+      setCurrentQuestionIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (!isFirstQuestion) {
+      setCurrentQuestionIndex(prev => prev - 1);
+    }
+  };
+
   const checkEligibility = () => {
     let totalScore = 0;
     let maxScore = 0;
@@ -172,10 +200,23 @@ const EligibilityChecker: React.FC = () => {
       eligibleSchemes: [...new Set(eligibleSchemes)],
       recommendations
     });
+    setShowResults(true);
   };
 
-  const isCheckDisabled = Object.keys(answers).length !== questions.length;
-  const progressPercentage = (Object.keys(answers).length / questions.length) * 100;
+  const resetAssessment = () => {
+    setCurrentQuestionIndex(0);
+    setAnswers({});
+    setShowResults(false);
+    setResult({
+      status: null,
+      score: 0,
+      eligibleSchemes: [],
+      recommendations: []
+    });
+  };
+
+  const currentAnswer = answers[currentQuestion.id];
+  const canProceed = currentAnswer !== undefined && currentAnswer !== '';
 
   const getStatusConfig = (status: string) => {
     switch (status) {
@@ -190,100 +231,23 @@ const EligibilityChecker: React.FC = () => {
     }
   };
 
-  return (
-    <div className="space-y-6 mt-6">
-      {/* Header Card */}
-      <Card className="dark-modern-card animate-fade-in bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg border border-slate-600/50">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-3 text-xl text-white">
-            <div className="p-2 rounded-lg bg-green-500/20">
-              <Target className="h-6 w-6 text-green-400" />
-            </div>
-            Enhanced Eligibility Assessment
-          </CardTitle>
-          <p className="text-slate-300 leading-relaxed">
-            Complete our comprehensive assessment to discover your eligibility for government schemes and receive personalized recommendations.
-          </p>
-          
-          {/* Progress Bar */}
-          <div className="mt-4 space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-slate-400">Progress</span>
-              <span className="text-slate-300">{Object.keys(answers).length}/{questions.length} completed</span>
-            </div>
-            <Progress value={progressPercentage} className="h-2 bg-slate-700/50" />
-          </div>
-        </CardHeader>
-      </Card>
-
-      {/* Questions Card */}
-      <Card className="dark-modern-card animate-fade-in">
-        <CardContent className="p-6">
-          <div className="grid gap-6">
-            {questions.map((q, index) => (
-              <div key={q.id} className="p-4 rounded-lg bg-slate-800/30 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-200">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-medium text-slate-300">
-                    {index + 1}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-slate-200 mb-3 leading-relaxed">{q.text}</p>
-                    
-                    {q.type === 'select' ? (
-                      <select 
-                        value={answers[q.id] || ''} 
-                        onChange={(e) => handleValueChange(q.id, e.target.value)}
-                        className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
-                      >
-                        <option value="">Select your income range</option>
-                        {q.options?.map(option => (
-                          <option key={option.value} value={option.value}>{option.label}</option>
-                        ))}
-                      </select>
-                    ) : (
-                      <RadioGroup 
-                        onValueChange={(value) => handleValueChange(q.id, value)} 
-                        className="flex gap-6"
-                        value={answers[q.id] || ''}
-                      >
-                        <div className="flex items-center space-x-3">
-                          <RadioGroupItem value="yes" id={`${q.id}-yes`} className="border-slate-500 text-green-400" />
-                          <Label htmlFor={`${q.id}-yes`} className="text-slate-300 cursor-pointer">Yes</Label>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                          <RadioGroupItem value="no" id={`${q.id}-no`} className="border-slate-500 text-red-400" />
-                          <Label htmlFor={`${q.id}-no`} className="text-slate-300 cursor-pointer">No</Label>
-                        </div>
-                      </RadioGroup>
-                    )}
-                    
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      {q.schemes.map(scheme => (
-                        <Badge key={scheme} variant="outline" className="text-xs text-blue-300 border-blue-400/40 bg-blue-500/10 hover:bg-blue-500/20 transition-colors">
-                          {scheme}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+  if (showResults) {
+    return (
+      <div className="space-y-6 mt-6">
+        {/* Results Header */}
+        <Card className="dark-modern-card animate-fade-in bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg border border-slate-600/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3 text-xl text-white">
+              <div className="p-2 rounded-lg bg-green-500/20">
+                <Award className="h-6 w-6 text-green-400" />
               </div>
-            ))}
-          </div>
-        </CardContent>
-        
-        <CardFooter className="p-6 pt-0">
-          <Button 
-            onClick={checkEligibility} 
-            disabled={isCheckDisabled} 
-            className="w-full h-12 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isCheckDisabled ? `Complete ${questions.length - Object.keys(answers).length} more questions` : 'Analyze My Eligibility'}
-          </Button>
-        </CardFooter>
-      </Card>
+              Assessment Complete
+            </CardTitle>
+            <p className="text-slate-300">Your eligibility assessment results are ready</p>
+          </CardHeader>
+        </Card>
 
-      {/* Results Card */}
-      {result.status && (
+        {/* Results Card */}
         <Card className="dark-modern-card animate-fade-in">
           <CardContent className="p-6">
             <div className="space-y-6">
@@ -345,10 +309,150 @@ const EligibilityChecker: React.FC = () => {
                   </div>
                 </div>
               )}
+
+              <Button 
+                onClick={resetAssessment}
+                className="w-full bg-slate-700 hover:bg-slate-600 text-white"
+              >
+                Take Assessment Again
+              </Button>
             </div>
           </CardContent>
         </Card>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 mt-6">
+      {/* Header Card */}
+      <Card className="dark-modern-card animate-fade-in bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg border border-slate-600/50">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-3 text-xl text-white">
+            <div className="p-2 rounded-lg bg-green-500/20">
+              <Target className="h-6 w-6 text-green-400" />
+            </div>
+            Enhanced Eligibility Assessment
+          </CardTitle>
+          <p className="text-slate-300 leading-relaxed">
+            Answer {questions.length} questions to discover your eligibility for government schemes
+          </p>
+          
+          {/* Progress Bar */}
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-slate-400">Progress</span>
+              <span className="text-slate-300">
+                Question {currentQuestionIndex + 1} of {questions.length}
+              </span>
+            </div>
+            <Progress value={progressPercentage} className="h-2 bg-slate-700/50" />
+          </div>
+        </CardHeader>
+      </Card>
+
+      {/* Question Card */}
+      <Card className="dark-modern-card animate-fade-in">
+        <CardHeader>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center text-white font-bold">
+              {currentQuestionIndex + 1}
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-white mb-2">
+                {currentQuestion.text}
+              </h3>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                {currentQuestion.hint}
+              </p>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-6">
+          {/* Answer Options */}
+          <div className="space-y-4">
+            {currentQuestion.type === 'select' ? (
+              <select 
+                value={currentAnswer || ''} 
+                onChange={(e) => handleValueChange(currentQuestion.id, e.target.value)}
+                className="w-full p-4 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+              >
+                <option value="">Select your income range</option>
+                {currentQuestion.options?.map(option => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+              </select>
+            ) : (
+              <RadioGroup 
+                onValueChange={(value) => handleValueChange(currentQuestion.id, value)} 
+                className="space-y-3"
+                value={currentAnswer || ''}
+              >
+                <div className="flex items-center space-x-4 p-4 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors">
+                  <RadioGroupItem value="yes" id={`${currentQuestion.id}-yes`} className="border-slate-500 text-green-400" />
+                  <Label htmlFor={`${currentQuestion.id}-yes`} className="text-slate-300 cursor-pointer flex-1 text-lg">
+                    Yes
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-4 p-4 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors">
+                  <RadioGroupItem value="no" id={`${currentQuestion.id}-no`} className="border-slate-500 text-red-400" />
+                  <Label htmlFor={`${currentQuestion.id}-no`} className="text-slate-300 cursor-pointer flex-1 text-lg">
+                    No
+                  </Label>
+                </div>
+              </RadioGroup>
+            )}
+          </div>
+
+          {/* Relevant Schemes */}
+          <div className="p-4 bg-slate-800/30 rounded-lg border border-slate-700/50">
+            <p className="text-sm text-slate-400 mb-2">Relevant schemes:</p>
+            <div className="flex flex-wrap gap-2">
+              {currentQuestion.schemes.map(scheme => (
+                <Badge key={scheme} variant="outline" className="text-xs text-blue-300 border-blue-400/40 bg-blue-500/10">
+                  {scheme}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex justify-between items-center p-6">
+          <Button 
+            onClick={handlePrevious}
+            disabled={isFirstQuestion}
+            variant="outline"
+            className="flex items-center gap-2 bg-slate-700/50 border-slate-600 text-slate-300 hover:bg-slate-600 hover:text-white disabled:opacity-50"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+
+          <div className="text-sm text-slate-400">
+            {answeredQuestions} of {questions.length} answered
+          </div>
+
+          {isLastQuestion ? (
+            <Button 
+              onClick={checkEligibility}
+              disabled={!canProceed}
+              className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white disabled:opacity-50"
+            >
+              Complete Assessment
+            </Button>
+          ) : (
+            <Button 
+              onClick={handleNext}
+              disabled={!canProceed}
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white disabled:opacity-50"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
     </div>
   );
 };
