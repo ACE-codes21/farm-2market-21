@@ -77,8 +77,8 @@ export const LoanApplicationFormView: React.FC<LoanApplicationFormViewProps> = (
     ['loan_scheme_type', 'loan_amount', 'purpose'].includes(key)
   );
 
-  const personalInfoCompleted = formData.vendor_name && formData.aadhar_number && formData.phone;
-  const loanDetailsCompleted = formData.loan_scheme_type && formData.loan_amount && formData.purpose;
+  const personalInfoCompleted = !!(formData.vendor_name && formData.aadhar_number && formData.phone);
+  const loanDetailsCompleted = !!(formData.loan_scheme_type && formData.loan_amount && formData.purpose);
   const documentsUploaded = Object.values(formData.documents).some(file => file !== null);
 
   return (
