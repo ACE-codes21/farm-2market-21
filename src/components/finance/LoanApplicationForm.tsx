@@ -2,202 +2,208 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { FileText, CheckCircle } from 'lucide-react';
+import { PersonalInfoSection } from './form-sections/PersonalInfoSection';
+import { LoanDetailsSection } from './form-sections/LoanDetailsSection';
+import { FinancialInfoSection } from './form-sections/FinancialInfoSection';
+import { DocumentUploadSection } from './form-sections/DocumentUploadSection';
+import { LoanInsightsPanel } from './LoanInsightsPanel';
+import { useCreateLoanApplication, type LoanApplicationInput } from '@/hooks/useLoanApplications';
+import { useFormValidation } from './hooks/useFormValidation';
+import { FileText } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
-interface LoanApplicationData {
-  vendorName: string;
-  aadharNumber: string;
-  phone: string;
-  purpose: string;
-  loanAmount: string;
+interface FormData extends LoanApplicationInput {
+  documents: Record<string, File | null>;
 }
 
 export const LoanApplicationForm: React.FC = () => {
-  const [formData, setFormData] = useState<LoanApplicationData>({
-    vendorName: '',
-    aadharNumber: '',
+  const [formData, setFormData] = useState<FormData>({
+    vendor_name: '',
+    aadhar_number: '',
+    pan_number: '',
+    email: '',
     phone: '',
+    loan_scheme_type: '',
+    loan_amount: 0,
     purpose: '',
-    loanAmount: ''
+    monthly_income: 0,
+    monthly_expenses: 0,
+    documents: {
+      aadhar: null,
+      pan: null,
+      business_plan: null,
+      bank_statement: null,
+      caste_certificate: null
+    }
   });
-  const [errors, setErrors] = useState<Partial<LoanApplicationData>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateForm = (): boolean => {
-    const newErrors: Partial<LoanApplicationData> = {};
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submittedApplication, setSubmittedApplication] = useState<any>(null);
+  const { mutate: createApplication, isPending } = useCreateLoanApplication();
+  const { validateForm } = useFormValidation();
+  const { toast } = useToast();
 
-    if (!formData.vendorName.trim()) {
-      newErrors.vendorName = 'Vendor name is required';
+  const handleInputChange = (field: keyof FormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors(prev => ({ ...prev, [field]: '' }));
     }
+  };
 
-    if (!formData.aadharNumber.trim()) {
-      newErrors.aadharNumber = 'Aadhar number is required';
-    } else if (!/^\d{12}$/.test(formData.aadharNumber.replace(/\s/g, ''))) {
-      newErrors.aadharNumber = 'Aadhar number must be 12 digits';
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^\d{10}$/.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Phone number must be 10 digits';
-    }
-
-    if (!formData.purpose.trim()) {
-      newErrors.purpose = 'Purpose is required';
-    }
-
-    if (!formData.loanAmount.trim()) {
-      newErrors.loanAmount = 'Loan amount is required';
-    } else if (isNaN(Number(formData.loanAmount)) || Number(formData.loanAmount) <= 0) {
-      newErrors.loanAmount = 'Please enter a valid loan amount';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleDocumentUpload = (docType: string, file: File | null, fileName: string) => {
+    setFormData(prev => ({
+      ...prev,
+      documents: { ...prev.documents, [docType]: file }
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    const { isValid, errors: validationErrors } = validateForm(formData);
+    setErrors(validationErrors);
+    
+    if (!isValid) return;
 
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    // Mock document paths (in real implementation, upload to Supabase storage)
+    const documentPaths: Record<string, string> = {};
+    Object.entries(formData.documents).forEach(([key, file]) => {
+      if (file) {
+        documentPaths[key] = `documents/${Date.now()}-${file.name}`;
+      }
+    });
+
+    const applicationData: LoanApplicationInput = {
+      vendor_name: formData.vendor_name,
+      aadhar_number: formData.aadhar_number,
+      pan_number: formData.pan_number || undefined,
+      email: formData.email || undefined,
+      phone: formData.phone,
+      loan_scheme_type: formData.loan_scheme_type,
+      loan_amount: formData.loan_amount,
+      purpose: formData.purpose,
+      monthly_income: formData.monthly_income || undefined,
+      monthly_expenses: formData.monthly_expenses || undefined,
+      document_paths: documentPaths
+    };
+
+    createApplication(applicationData, {
+      onSuccess: (data) => {
+        setSubmittedApplication(data);
+        toast({
+          title: "Application Submitted Successfully!",
+          description: `Your application number is ${data.application_number}`,
+        });
+      },
+      onError: (error) => {
+        console.error('Error submitting application:', error);
+        toast({
+          variant: "destructive",
+          title: "Submission Failed",
+          description: "Please try again later or contact support.",
+        });
+      }
+    });
   };
 
-  const handleInputChange = (field: keyof LoanApplicationData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }));
-    }
+  const resetForm = () => {
+    setSubmittedApplication(null);
+    setFormData({
+      vendor_name: '',
+      aadhar_number: '',
+      pan_number: '',
+      email: '',
+      phone: '',
+      loan_scheme_type: '',
+      loan_amount: 0,
+      purpose: '',
+      monthly_income: 0,
+      monthly_expenses: 0,
+      documents: {
+        aadhar: null,
+        pan: null,
+        business_plan: null,
+        bank_statement: null,
+        caste_certificate: null
+      }
+    });
+    setErrors({});
   };
 
-  if (isSubmitted) {
+  if (submittedApplication) {
     return (
-      <Card className="bg-slate-800/50 backdrop-blur-lg border border-green-500/30 shadow-xl rounded-xl">
-        <CardContent className="p-6 text-center">
-          <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">Application Submitted Successfully!</h3>
-          <p className="text-slate-300 mb-4">
-            After loan application has been submitted successfully, view your personalized loan insights and recommendations instantly!
-          </p>
-          <Button 
-            onClick={() => setIsSubmitted(false)}
-            className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
-          >
-            Submit Another Application
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="space-y-6">
+        <LoanInsightsPanel
+          eligibilityScore={submittedApplication.eligibility_score || 0}
+          approvalLikelihood={submittedApplication.approval_likelihood || 0}
+          monthlyIncome={submittedApplication.monthly_income}
+          monthlyExpenses={submittedApplication.monthly_expenses}
+          loanAmount={submittedApplication.loan_amount}
+          loanScheme={submittedApplication.loan_scheme_type}
+        />
+        <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+          <CardContent className="p-6 text-center">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-white">Application Submitted Successfully!</h3>
+              <p className="text-slate-300">
+                Application Number: <span className="font-mono text-green-400">{submittedApplication.application_number}</span>
+              </p>
+              <Button 
+                onClick={resetForm}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+              >
+                Submit Another Application
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
-          <FileText className="h-5 w-5 text-green-400" />
-          Loan Application
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="vendorName" className="text-slate-300">Vendor Name</Label>
-            <Input
-              id="vendorName"
-              value={formData.vendorName}
-              onChange={(e) => handleInputChange('vendorName', e.target.value)}
-              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-              placeholder="Enter your business name"
+    <TooltipProvider>
+      <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
+            <FileText className="h-5 w-5 text-green-400" />
+            Enhanced Loan Application
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <PersonalInfoSection
+              formData={formData}
+              errors={errors}
+              onInputChange={handleInputChange}
             />
-            {errors.vendorName && (
-              <p className="text-red-400 text-sm">{errors.vendorName}</p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="aadharNumber" className="text-slate-300">Aadhar Number</Label>
-              <Input
-                id="aadharNumber"
-                value={formData.aadharNumber}
-                onChange={(e) => handleInputChange('aadharNumber', e.target.value)}
-                className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-                placeholder="12-digit Aadhar"
-                maxLength={12}
-              />
-              {errors.aadharNumber && (
-                <p className="text-red-400 text-sm">{errors.aadharNumber}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-slate-300">Phone Number</Label>
-              <Input
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-                placeholder="10-digit phone"
-                maxLength={10}
-              />
-              {errors.phone && (
-                <p className="text-red-400 text-sm">{errors.phone}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="purpose" className="text-slate-300">Loan Purpose</Label>
-            <Textarea
-              id="purpose"
-              value={formData.purpose}
-              onChange={(e) => handleInputChange('purpose', e.target.value)}
-              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-              placeholder="Describe the purpose of the loan"
-              rows={3}
+            
+            <LoanDetailsSection
+              formData={formData}
+              errors={errors}
+              onInputChange={handleInputChange}
             />
-            {errors.purpose && (
-              <p className="text-red-400 text-sm">{errors.purpose}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="loanAmount" className="text-slate-300">Desired Loan Amount (₹)</Label>
-            <Input
-              id="loanAmount"
-              type="number"
-              value={formData.loanAmount}
-              onChange={(e) => handleInputChange('loanAmount', e.target.value)}
-              className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-              placeholder="Enter amount in rupees"
-              min="1"
-              max="50000"
+            
+            <FinancialInfoSection
+              formData={formData}
+              onInputChange={handleInputChange}
             />
-            {errors.loanAmount && (
-              <p className="text-red-400 text-sm">{errors.loanAmount}</p>
-            )}
-          </div>
+            
+            <DocumentUploadSection
+              onDocumentUpload={handleDocumentUpload}
+            />
 
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit Application'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+            <Button 
+              type="submit" 
+              disabled={isPending}
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+            >
+              {isPending ? 'Submitting Application...' : 'Submit Loan Application'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </TooltipProvider>
   );
 };
