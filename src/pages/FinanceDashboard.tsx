@@ -6,6 +6,7 @@ import { RepaymentTracker } from '@/components/finance/RepaymentTracker';
 import { QuickTips } from '@/components/finance/QuickTips';
 import { LoanApplicationForm } from '@/components/finance/LoanApplicationForm';
 import { LoanStatusCard } from '@/components/finance/LoanStatusCard';
+import { HelpFAQSection } from '@/components/finance/HelpFAQSection';
 import { 
   creditScore, 
   loanSchemes, 
@@ -19,16 +20,16 @@ const FinanceDashboard = () => {
   return (
     <div className="min-h-screen bg-slate-900 text-gray-200">
       <VendorDashboardHeader />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Page Header */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h2 className="text-3xl font-bold font-display gradient-text mb-2">Finance Dashboard</h2>
-          <p className="text-slate-400">Manage your financial health and opportunities</p>
+          <p className="text-slate-400">Manage your financial health and loan opportunities</p>
         </div>
 
-        {/* Top Section: Credit Score & Quick Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-1">
+        {/* Top Row: Credit Score + Quick Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          <div className="lg:col-span-2">
             <CreditScoreWidget 
               score={creditScore} 
               trustLevel={trustLevel}
@@ -38,33 +39,42 @@ const FinanceDashboard = () => {
           <div className="lg:col-span-1">
             <QuickTips tips={quickTips} />
           </div>
-          <div className="lg:col-span-1">
-            <RepaymentTracker data={repaymentData} />
-          </div>
         </div>
 
-        {/* Loan Management Section */}
-        <div className="mb-8">
-          <h3 className="text-2xl font-bold font-display text-white mb-6">
-            Loan Application & Management
-          </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Middle Row: Loan Management */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px bg-gradient-to-r from-green-600 to-emerald-600 flex-1"></div>
+            <h3 className="text-xl font-bold text-white px-4">Loan Management</h3>
+            <div className="h-px bg-gradient-to-l from-green-600 to-emerald-600 flex-1"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <LoanApplicationForm />
-            <LoanStatusCard />
+            <div className="space-y-6">
+              <LoanStatusCard />
+              <RepaymentTracker data={repaymentData} />
+            </div>
           </div>
         </div>
 
-        {/* Available Schemes Section */}
-        <div>
-          <h3 className="text-2xl font-bold font-display text-white mb-6">
-            Available Loan Schemes
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {/* Bottom Row: Available Schemes */}
+        <div className="mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px bg-gradient-to-r from-blue-600 to-purple-600 flex-1"></div>
+            <h3 className="text-xl font-bold text-white px-4">Available Loan Schemes</h3>
+            <div className="h-px bg-gradient-to-l from-blue-600 to-purple-600 flex-1"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {loanSchemes.map((scheme) => (
               <LoanSchemeCard key={scheme.id} scheme={scheme} />
             ))}
           </div>
         </div>
+
+        {/* Help Section */}
+        <HelpFAQSection />
       </main>
     </div>
   );

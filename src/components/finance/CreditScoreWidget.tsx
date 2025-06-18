@@ -1,8 +1,10 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { TrendingUp, Info } from 'lucide-react';
+import { TrendingUp, Info, Star } from 'lucide-react';
 
 interface CreditScoreWidgetProps {
   score: number;
@@ -21,23 +23,18 @@ const getScoreColor = (score: number) => {
   return 'text-emerald-400';
 };
 
-const getScoreLabel = (score: number) => {
-    if (score < 600) return 'Poor 😟';
-    if (score < 700) return 'Fair 😐';
-    if (score < 800) return 'Good 😊';
-    return 'Excellent 😍';
-}
+const getScoreGradient = (score: number) => {
+  if (score < 600) return 'from-red-600 to-red-400';
+  if (score < 700) return 'from-yellow-600 to-yellow-400';
+  if (score < 800) return 'from-green-600 to-green-400';
+  return 'from-emerald-600 to-emerald-400';
+};
 
-const renderStars = (level: number) => {
-  const stars = [];
-  for (let i = 1; i <= 5; i++) {
-    stars.push(
-      <span key={i} className={i <= level ? 'text-yellow-400' : 'text-slate-600'}>
-        ⭐
-      </span>
-    );
-  }
-  return stars;
+const getScoreLabel = (score: number) => {
+  if (score < 600) return 'Poor';
+  if (score < 700) return 'Fair';
+  if (score < 800) return 'Good';
+  return 'Excellent';
 };
 
 export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({ 
@@ -45,47 +42,91 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
   trustLevel, 
   activityData 
 }) => {
+  const scorePercentage = (score / 850) * 100;
+
   return (
-    <Card className="h-full bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-        <CardTitle className="text-lg font-semibold text-white">Credit Score</CardTitle>
-        <TrendingUp className="h-5 w-5 text-green-400" />
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="text-center">
-          <div className={cn("text-4xl font-bold font-display mb-1", getScoreColor(score))}>
-            {score}
-          </div>
-          <p className="text-sm text-slate-400">{getScoreLabel(score)}</p>
-        </div>
-        
-        <div className="pt-3 border-t border-slate-700/50">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-white">Trust Level</span>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="h-4 w-4 text-slate-400 hover:text-slate-300" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-sm">Calculated from your platform activity and reliability</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
+    <TooltipProvider>
+      <Card className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-lg border border-slate-700/50 shadow-xl">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              {renderStars(trustLevel)}
+            <CardTitle className="text-2xl font-bold text-white flex items-center gap-3">
+              <div className={cn(
+                "p-2 rounded-lg bg-gradient-to-br",
+                getScoreGradient(score)
+              )}>
+                <TrendingUp className="h-6 w-6 text-white" />
+              </div>
+              Credit Profile
+            </CardTitle>
+            <Badge className={cn(
+              "text-sm font-semibold px-3 py-1",
+              getScoreColor(score),
+              "bg-current/10 border-current/20"
+            )}>
+              {getScoreLabel(score)}
+            </Badge>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="space-y-6">
+          {/* Main Score Display */}
+          <div className="text-center">
+            <div className={cn(
+              "text-6xl font-bold font-display mb-2 bg-gradient-to-r bg-clip-text text-transparent",
+              getScoreGradient(score)
+            )}>
+              {score}
             </div>
-            <span className="text-sm text-slate-400">
-              ({trustLevel}/5)
-            </span>
+            <Progress value={scorePercentage} className="h-3 mb-2" />
+            <p className="text-sm text-slate-400">out of 850</p>
           </div>
-          <div className="text-xs text-slate-500 mt-2">
-            {activityData.totalOrders} orders • {activityData.returnRate}% returns • {activityData.avgRating}★ rating
+          
+          {/* Trust Level Section */}
+          <div className="border-t border-slate-700/50 pt-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-white">Platform Trust Level</span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info className="h-4 w-4 text-slate-400 hover:text-slate-300" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-sm">Based on your trading history and customer feedback</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star 
+                    key={star} 
+                    className={cn(
+                      "h-4 w-4",
+                      star <= trustLevel ? "text-yellow-400 fill-yellow-400" : "text-slate-600"
+                    )} 
+                  />
+                ))}
+                <span className="text-sm text-slate-400 ml-1">({trustLevel}/5)</span>
+              </div>
+            </div>
+            
+            {/* Activity Stats */}
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="bg-slate-700/30 rounded-lg p-3">
+                <p className="text-lg font-bold text-white">{activityData.totalOrders}</p>
+                <p className="text-xs text-slate-400">Orders</p>
+              </div>
+              <div className="bg-slate-700/30 rounded-lg p-3">
+                <p className="text-lg font-bold text-white">{activityData.returnRate}%</p>
+                <p className="text-xs text-slate-400">Returns</p>
+              </div>
+              <div className="bg-slate-700/30 rounded-lg p-3">
+                <p className="text-lg font-bold text-white">{activityData.avgRating}★</p>
+                <p className="text-xs text-slate-400">Rating</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </TooltipProvider>
   );
 };
