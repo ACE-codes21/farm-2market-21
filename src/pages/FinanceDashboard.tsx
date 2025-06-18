@@ -11,18 +11,43 @@ import { LoanStatusCard } from '@/components/finance/LoanStatusCard';
 import { HelpFAQSection } from '@/components/finance/HelpFAQSection';
 import { LoanInsightsPanel } from '@/components/finance/LoanInsightsPanel';
 import { useLoanApplications } from '@/hooks/useLoanApplications';
+import { useVendorProducts } from '@/hooks/useVendorProducts';
+import { useVendorOrders } from '@/hooks/useVendorOrders';
 import { 
   creditScore, 
   loanSchemes, 
   repaymentData, 
   quickTips, 
-  vendorActivityData, 
-  trustLevel 
+  calculateTrustLevel 
 } from '@/data/finance';
 
 const FinanceDashboard = () => {
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
   const { data: applications = [] } = useLoanApplications();
+  
+  // Real-time data for trust calculation
+  const { data: products = [] } = useVendorProducts();
+  const { data: orders = [] } = useVendorOrders();
+
+  // Calculate real-time vendor activity data
+  const calculateRealTimeActivity = () => {
+    const totalOrders = orders.length;
+    const completedOrders = orders.filter(order => order.status === 'completed');
+    const returnedOrders = orders.filter(order => order.status === 'returned');
+    const returnRate = totalOrders > 0 ? (returnedOrders.length / totalOrders) * 100 : 0;
+    
+    // Calculate average rating from completed orders (mock for now)
+    const avgRating = completedOrders.length > 0 ? 4.6 : 0;
+
+    return {
+      totalOrders: completedOrders.length,
+      returnRate: Math.round(returnRate * 10) / 10,
+      avgRating
+    };
+  };
+
+  const vendorActivityData = calculateRealTimeActivity();
+  const trustLevel = calculateTrustLevel(vendorActivityData);
   
   // Check if user has submitted any applications to show insights
   const hasSubmittedApplications = applications.length > 0;
@@ -35,19 +60,19 @@ const FinanceDashboard = () => {
         {/* Page Header */}
         <div className="mb-6">
           <h2 className="text-3xl font-bold font-display gradient-text mb-2">Finance Dashboard</h2>
-          <p className="text-slate-400">Manage your financial health and loan opportunities</p>
+          <p className="text-slate-400">Manage your financial health and build platform credibility</p>
         </div>
 
-        {/* Top Row: Credit Score + Quick Info */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <div className="lg:col-span-2">
+        {/* Top Row: Platform Trust & Tips - Better integrated layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-6">
+          <div className="xl:col-span-3">
             <CreditScoreWidget 
               score={creditScore} 
               trustLevel={trustLevel}
               activityData={vendorActivityData}
             />
           </div>
-          <div className="lg:col-span-1">
+          <div className="xl:col-span-1">
             <QuickTips tips={quickTips} />
           </div>
         </div>

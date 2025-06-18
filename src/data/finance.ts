@@ -37,29 +37,31 @@ export const loanSchemes: LoanScheme[] = [
 
 export const creditScore = 780;
 
-// Mock vendor activity data for trust level calculation
-export const vendorActivityData: VendorActivityData = {
-  totalOrders: 127,
-  returnRate: 2.3,
-  avgRating: 4.6
-};
-
-// Calculate trust level based on activity data
+// Enhanced trust level calculation for real-time credibility
 export const calculateTrustLevel = (activityData: VendorActivityData): number => {
   let trustLevel = 0;
   
   // Base trust from order count (0-2 stars)
+  if (activityData.totalOrders >= 10) trustLevel += 1;
   if (activityData.totalOrders >= 50) trustLevel += 1;
   if (activityData.totalOrders >= 100) trustLevel += 1;
   
   // Trust from low return rate (0-1 star)
   if (activityData.returnRate < 5) trustLevel += 1;
+  if (activityData.returnRate < 2) trustLevel += 1;
   
-  // Trust from high rating (0-2 stars)
+  // Trust from high rating (0-1 star)
   if (activityData.avgRating >= 4.0) trustLevel += 1;
   if (activityData.avgRating >= 4.5) trustLevel += 1;
   
   return Math.min(trustLevel, 5);
+};
+
+// Mock vendor activity data for demonstration
+export const vendorActivityData: VendorActivityData = {
+  totalOrders: 127,
+  returnRate: 2.3,
+  avgRating: 4.6
 };
 
 export const trustLevel = calculateTrustLevel(vendorActivityData);
@@ -76,9 +78,10 @@ export const repaymentData = {
 };
 
 export const quickTips = [
-  "Pay your loan EMIs on time to improve your credit score.",
-  "Keep your credit utilization ratio low (under 30%).",
-  "Regularly check your credit report for any errors.",
-  "Avoid applying for multiple loans in a short period.",
-  "A healthy mix of credit types can positively impact your score.",
+  "Complete orders on time to build buyer trust and improve your platform rating.",
+  "Respond quickly to buyer messages - fast communication boosts your credibility score.",
+  "Upload high-quality product photos to increase buyer confidence and trust.",
+  "Maintain consistent product quality to reduce returns and improve trust rating.",
+  "Engage with customer reviews professionally to show reliability.",
+  "Keep your profile updated with accurate business information for better credibility."
 ];
