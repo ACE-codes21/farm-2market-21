@@ -13,12 +13,12 @@ import { FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-interface FormData extends LoanApplicationInput {
+interface LoanFormData extends LoanApplicationInput {
   documents: Record<string, File | null>;
 }
 
 export const LoanApplicationForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<LoanFormData>({
     vendor_name: '',
     aadhar_number: '',
     pan_number: '',
@@ -44,7 +44,7 @@ export const LoanApplicationForm: React.FC = () => {
   const { validateForm } = useFormValidation();
   const { toast } = useToast();
 
-  const handleInputChange = (field: keyof FormData, value: any) => {
+  const handleInputChange = (field: keyof LoanFormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

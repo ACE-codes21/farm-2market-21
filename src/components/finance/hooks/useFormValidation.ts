@@ -1,5 +1,5 @@
 
-interface FormData {
+interface LoanFormData {
   vendor_name: string;
   aadhar_number: string;
   pan_number: string;
@@ -15,7 +15,7 @@ interface FormErrors {
 }
 
 export const useFormValidation = () => {
-  const validateForm = (formData: FormData): { isValid: boolean; errors: FormErrors } => {
+  const validateForm = (formData: LoanFormData): { isValid: boolean; errors: FormErrors } => {
     const newErrors: FormErrors = {};
 
     // Required field validations
