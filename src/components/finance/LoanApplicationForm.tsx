@@ -61,7 +61,21 @@ export const LoanApplicationForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const { isValid, errors: validationErrors } = validateForm(formData);
+    // Create validation data without optional undefined fields
+    const validationData = {
+      vendor_name: formData.vendor_name,
+      aadhar_number: formData.aadhar_number,
+      pan_number: formData.pan_number,
+      email: formData.email,
+      phone: formData.phone,
+      loan_scheme_type: formData.loan_scheme_type,
+      loan_amount: formData.loan_amount,
+      purpose: formData.purpose,
+      monthly_income: formData.monthly_income,
+      monthly_expenses: formData.monthly_expenses,
+    };
+
+    const { isValid, errors: validationErrors } = validateForm(validationData);
     setErrors(validationErrors);
     
     if (!isValid) return;

@@ -1,6 +1,5 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
 
 export interface LoanApplicationInput {
   vendor_name: string;
@@ -26,6 +25,10 @@ export interface LoanApplication extends LoanApplicationInput {
   updated_at: string;
 }
 
+// Mock data store for development
+let mockApplications: LoanApplication[] = [];
+let mockIdCounter = 1;
+
 export const useCreateLoanApplication = () => {
   const queryClient = useQueryClient();
 
@@ -38,20 +41,25 @@ export const useCreateLoanApplication = () => {
       const eligibilityScore = Math.floor(Math.random() * 40) + 60; // 60-100
       const approvalLikelihood = Math.floor(Math.random() * 30) + 50; // 50-80
 
-      const { data, error } = await supabase
-        .from('loan_applications')
-        .insert({
-          ...applicationData,
-          application_number: applicationNumber,
-          status: 'pending',
-          eligibility_score: eligibilityScore,
-          approval_likelihood: approvalLikelihood,
-        })
-        .select()
-        .single();
+      // Create mock application
+      const newApplication: LoanApplication = {
+        ...applicationData,
+        id: `mock_${mockIdCounter++}`,
+        application_number: applicationNumber,
+        status: 'pending',
+        eligibility_score: eligibilityScore,
+        approval_likelihood: approvalLikelihood,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
-      if (error) throw error;
-      return data as LoanApplication;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Add to mock store
+      mockApplications.push(newApplication);
+      
+      return newApplication;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['loan-applications'] });
@@ -63,13 +71,9 @@ export const useLoanApplications = () => {
   return useQuery({
     queryKey: ['loan-applications'],
     queryFn: async (): Promise<LoanApplication[]> => {
-      const { data, error } = await supabase
-        .from('loan_applications')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return data as LoanApplication[];
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return [...mockApplications].reverse(); // Return newest first
     },
   });
 };
@@ -78,14 +82,15 @@ export const useLoanApplicationById = (id: string) => {
   return useQuery({
     queryKey: ['loan-application', id],
     queryFn: async (): Promise<LoanApplication> => {
-      const { data, error } = await supabase
-        .from('loan_applications')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-      if (error) throw error;
-      return data as LoanApplication;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      const application = mockApplications.find(app => app.id === id);
+      if (!application) {
+        throw new Error('Application not found');
+      }
+      
+      return application;
     },
     enabled: !!id,
   });

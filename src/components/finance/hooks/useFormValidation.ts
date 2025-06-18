@@ -2,12 +2,14 @@
 interface LoanFormData {
   vendor_name: string;
   aadhar_number: string;
-  pan_number: string;
-  email: string;
+  pan_number?: string;
+  email?: string;
   phone: string;
   loan_scheme_type: string;
   loan_amount: number;
   purpose: string;
+  monthly_income?: number;
+  monthly_expenses?: number;
 }
 
 interface FormErrors {
