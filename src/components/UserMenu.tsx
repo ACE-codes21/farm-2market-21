@@ -6,11 +6,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User } from 'lucide-react';
-import { useUserSession } from '@/hooks/useUserSession';
+import { useSecureAuth } from '@/hooks/useSecureAuth';
 import { UserMenuItems } from './UserMenuItems';
 
 export const UserMenu: React.FC = () => {
-  const user = useUserSession();
+  const { user } = useSecureAuth();
 
   if (!user) {
     return null;

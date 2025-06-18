@@ -6,46 +6,62 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { VendorProfileModal } from './vendor/VendorProfileModal';
 import { BuyerProfileModal } from './buyer/BuyerProfileModal';
-import { useUserSession } from '@/hooks/useUserSession';
+import { useSecureAuth } from '@/hooks/useSecureAuth';
 import type { User } from '@supabase/supabase-js';
+
 interface UserMenuItemsProps {
   user: User;
   displayName: string;
 }
+
 export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
   user,
   displayName
 }) => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
-  const currentUser = useUserSession();
+  const { role } = useSecureAuth();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
   const handleLogout = async () => {
     try {
-      // Remove user session from localStorage
+      // Clear localStorage
       localStorage.removeItem('userSession');
-      // Sign out from Supabase (ignore errors for now)
-      await supabase.auth.signOut();
+      
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('Logout error:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An error occurred during logout."
+        });
+        return;
+      }
+
       toast({
         title: "Success",
         description: "You have been logged out successfully."
       });
-      // Immediately redirect to home (window.location reload guarantees full reset)
+      
+      // Redirect to home
       window.location.href = '/';
     } catch (error) {
       console.error('Logout error:', error);
       toast({
         variant: "destructive",
-        title: "Error",
+        title: "Error", 
         description: "An error occurred during logout."
       });
     }
   };
+
   const handleProfileClick = () => {
     setIsProfileModalOpen(true);
   };
+
   const handleMenuAction = (action: string) => {
     const actions: {
       [key: string]: string;
@@ -58,6 +74,7 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
       help: "Help",
       about: "About"
     };
+    
     if (actions[action]) {
       toast({
         title: actions[action],
@@ -66,9 +83,7 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
     }
   };
 
-  // Check if user is a vendor
-  const userRole = user.user_metadata?.role || localStorage.getItem('userSession') && JSON.parse(localStorage.getItem('userSession')!).role;
-  const isVendor = userRole === 'vendor';
+  const isVendor = role === 'vendor';
 
   // Redesigned dropdown: glassy, soft blur, shadow, subtle border, bright hover
   return <>
@@ -82,8 +97,6 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
           <UserIcon className="h-5 w-5 text-slate-300 group-hover:text-green-400" />
           <span>Profile</span>
         </DropdownMenuItem>
-        
-        
         
         <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="flex items-center gap-3 hover:bg-yellow-500/10 hover:text-yellow-300 cursor-pointer py-3 px-6 text-white focus:bg-yellow-700/10 group transition-all">
           <Bell className="h-5 w-5 text-yellow-400 group-hover:animate-bounce" />
