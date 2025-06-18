@@ -11,11 +11,11 @@ export const DocumentUploadSection: React.FC<DocumentUploadSectionProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <h4 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">
+      <h4 className="text-base font-medium text-white border-b border-slate-600/50 pb-2">
         Document Upload
       </h4>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <DocumentUploader
           label="Aadhaar Card"
           accept=".pdf,.jpg,.jpeg,.png"

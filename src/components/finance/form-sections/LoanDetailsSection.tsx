@@ -33,53 +33,55 @@ export const LoanDetailsSection: React.FC<LoanDetailsSectionProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <h4 className="text-lg font-semibold text-white border-b border-slate-600 pb-2">
+      <h4 className="text-base font-medium text-white border-b border-slate-600/50 pb-2">
         Loan Details
       </h4>
       
-      <div className="space-y-2">
-        <Label htmlFor="loanScheme" className="text-slate-300">Loan Scheme Type</Label>
-        <Select value={formData.loan_scheme_type} onValueChange={(value) => onInputChange('loan_scheme_type', value)}>
-          <SelectTrigger className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500">
-            <SelectValue placeholder="Select a loan scheme" />
-          </SelectTrigger>
-          <SelectContent className="bg-slate-800 border-slate-700 text-white">
-            {loanSchemes.map((scheme) => (
-              <SelectItem key={scheme} value={scheme} className="hover:bg-slate-700">
-                {scheme}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {errors.loan_scheme_type && <p className="text-red-400 text-sm">{errors.loan_scheme_type}</p>}
-      </div>
+      <div className="space-y-3">
+        <div className="space-y-2">
+          <Label htmlFor="loanScheme" className="text-slate-300 text-sm">Loan Scheme Type</Label>
+          <Select value={formData.loan_scheme_type} onValueChange={(value) => onInputChange('loan_scheme_type', value)}>
+            <SelectTrigger className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500">
+              <SelectValue placeholder="Select a loan scheme" />
+            </SelectTrigger>
+            <SelectContent className="bg-slate-800 border-slate-700 text-white">
+              {loanSchemes.map((scheme) => (
+                <SelectItem key={scheme} value={scheme} className="hover:bg-slate-700">
+                  {scheme}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors.loan_scheme_type && <p className="text-red-400 text-xs">{errors.loan_scheme_type}</p>}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="loanAmount" className="text-slate-300">Desired Loan Amount (₹)</Label>
-        <Input
-          id="loanAmount"
-          type="number"
-          value={formData.loan_amount || ''}
-          onChange={(e) => onInputChange('loan_amount', Number(e.target.value))}
-          className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-          placeholder="Enter amount in rupees"
-          min="1"
-          max="1000000"
-        />
-        {errors.loan_amount && <p className="text-red-400 text-sm">{errors.loan_amount}</p>}
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="loanAmount" className="text-slate-300 text-sm">Desired Loan Amount (₹)</Label>
+          <Input
+            id="loanAmount"
+            type="number"
+            value={formData.loan_amount || ''}
+            onChange={(e) => onInputChange('loan_amount', Number(e.target.value))}
+            className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
+            placeholder="Enter amount in rupees"
+            min="1"
+            max="1000000"
+          />
+          {errors.loan_amount && <p className="text-red-400 text-xs">{errors.loan_amount}</p>}
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="purpose" className="text-slate-300">Loan Purpose</Label>
-        <Textarea
-          id="purpose"
-          value={formData.purpose}
-          onChange={(e) => onInputChange('purpose', e.target.value)}
-          className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
-          placeholder="Describe the purpose of the loan in detail"
-          rows={3}
-        />
-        {errors.purpose && <p className="text-red-400 text-sm">{errors.purpose}</p>}
+        <div className="space-y-2">
+          <Label htmlFor="purpose" className="text-slate-300 text-sm">Loan Purpose</Label>
+          <Textarea
+            id="purpose"
+            value={formData.purpose}
+            onChange={(e) => onInputChange('purpose', e.target.value)}
+            className="bg-slate-700/50 border-slate-600 text-white focus:border-green-500"
+            placeholder="Describe the purpose of the loan in detail"
+            rows={3}
+          />
+          {errors.purpose && <p className="text-red-400 text-xs">{errors.purpose}</p>}
+        </div>
       </div>
     </div>
   );

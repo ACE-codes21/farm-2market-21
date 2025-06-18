@@ -22,10 +22,10 @@ const getScoreColor = (score: number) => {
 };
 
 const getScoreLabel = (score: number) => {
-    if (score < 600) return 'Poor 😟';
-    if (score < 700) return 'Fair 😐';
-    if (score < 800) return 'Good 😊';
-    return 'Excellent 😍';
+    if (score < 600) return 'Poor';
+    if (score < 700) return 'Fair';
+    if (score < 800) return 'Good';
+    return 'Excellent';
 }
 
 const renderStars = (level: number) => {
@@ -46,14 +46,14 @@ export const CreditScoreWidget: React.FC<CreditScoreWidgetProps> = ({
   activityData 
 }) => {
   return (
-    <Card className="h-full bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+    <Card className="bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <CardTitle className="text-lg font-semibold text-white">Credit Score</CardTitle>
         <TrendingUp className="h-5 w-5 text-green-400" />
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-center">
-          <div className={cn("text-4xl font-bold font-display mb-1", getScoreColor(score))}>
+          <div className={cn("text-3xl font-bold font-display mb-1", getScoreColor(score))}>
             {score}
           </div>
           <p className="text-sm text-slate-400">{getScoreLabel(score)}</p>
