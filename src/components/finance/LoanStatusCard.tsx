@@ -17,18 +17,18 @@ interface LoanStatus {
 const statusConfig = {
   'Under Review': {
     icon: Clock,
-    color: 'bg-yellow-500/10 text-yellow-300 border-yellow-400/30',
-    badgeClass: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'
+    color: 'bg-yellow-500/10 text-yellow-400 border-yellow-400/20',
+    badgeClass: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'
   },
   'Approved': {
     icon: CheckCircle,
-    color: 'bg-green-500/10 text-green-300 border-green-400/30',
-    badgeClass: 'bg-green-500/20 text-green-300 border-green-500/40'
+    color: 'bg-green-500/10 text-green-400 border-green-400/20',
+    badgeClass: 'bg-green-500/20 text-green-300 border-green-500/30'
   },
   'Disbursed': {
     icon: CreditCard,
-    color: 'bg-blue-500/10 text-blue-300 border-blue-400/30',
-    badgeClass: 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+    color: 'bg-blue-500/10 text-blue-400 border-blue-400/20',
+    badgeClass: 'bg-blue-500/20 text-blue-300 border-blue-500/30'
   }
 };
 
@@ -65,9 +65,9 @@ export const LoanStatusCard: React.FC = () => {
   };
 
   return (
-    <Card className="bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-      <CardHeader className="flex flex-row items-center justify-between pb-4">
-        <CardTitle className="text-lg font-semibold text-white">
+    <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-xl font-bold text-white">
           Loan Status Tracker
         </CardTitle>
         <Button 
@@ -80,7 +80,7 @@ export const LoanStatusCard: React.FC = () => {
           Official Portal
         </Button>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-4">
         {dummyLoanData.map((loan) => {
           const config = statusConfig[loan.status];
           const StatusIcon = config.icon;
@@ -88,21 +88,21 @@ export const LoanStatusCard: React.FC = () => {
           return (
             <div 
               key={loan.id}
-              className={`p-3 rounded-lg border ${config.color}`}
+              className={`p-4 rounded-lg border ${config.color}`}
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <StatusIcon className="h-4 w-4" />
-                  <span className="font-medium text-white text-sm">
+                  <StatusIcon className="h-5 w-5" />
+                  <span className="font-medium text-white">
                     {loan.scheme}
                   </span>
                 </div>
-                <Badge className={`${config.badgeClass} border text-xs`}>
+                <Badge className={`${config.badgeClass} border`}>
                   {loan.status}
                 </Badge>
               </div>
               
-              <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <p className="text-slate-400">Application No.</p>
                   <p className="text-white font-medium">{loan.applicationNumber}</p>
@@ -125,9 +125,9 @@ export const LoanStatusCard: React.FC = () => {
         })}
         
         {dummyLoanData.length === 0 && (
-          <div className="text-center py-6">
-            <p className="text-slate-400 text-sm">No loan applications found</p>
-            <p className="text-slate-500 text-xs mt-1">Submit your first application to get started</p>
+          <div className="text-center py-8">
+            <p className="text-slate-400">No loan applications found</p>
+            <p className="text-slate-500 text-sm mt-1">Submit your first application to get started</p>
           </div>
         )}
       </CardContent>

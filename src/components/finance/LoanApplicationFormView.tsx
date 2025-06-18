@@ -42,15 +42,15 @@ export const LoanApplicationFormView: React.FC<LoanApplicationFormViewProps> = (
 }) => {
   return (
     <TooltipProvider>
-      <Card className="bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
+      <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
             <FileText className="h-5 w-5 text-green-400" />
-            Loan Application
+            Enhanced Loan Application
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-5">
-          <form onSubmit={onSubmit} className="space-y-5">
+        <CardContent>
+          <form onSubmit={onSubmit} className="space-y-6">
             <PersonalInfoSection
               formData={formData}
               errors={errors}
@@ -75,9 +75,9 @@ export const LoanApplicationFormView: React.FC<LoanApplicationFormViewProps> = (
             <Button 
               type="submit" 
               disabled={isPending}
-              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium"
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
             >
-              {isPending ? 'Submitting...' : 'Submit Application'}
+              {isPending ? 'Submitting Application...' : 'Submit Loan Application'}
             </Button>
           </form>
         </CardContent>

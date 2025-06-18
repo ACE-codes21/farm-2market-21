@@ -22,7 +22,7 @@ export const LoanApplicationSuccess: React.FC<LoanApplicationSuccessProps> = ({
   onReset
 }) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <LoanInsightsPanel
         eligibilityScore={submittedApplication.eligibility_score || 0}
         approvalLikelihood={submittedApplication.approval_likelihood || 0}
@@ -31,18 +31,20 @@ export const LoanApplicationSuccess: React.FC<LoanApplicationSuccessProps> = ({
         loanAmount={submittedApplication.loan_amount}
         loanScheme={submittedApplication.loan_scheme_type}
       />
-      <Card className="bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-        <CardContent className="p-6 text-center space-y-3">
-          <h3 className="text-lg font-semibold text-white">Application Submitted Successfully!</h3>
-          <p className="text-slate-300 text-sm">
-            Application Number: <span className="font-mono text-green-400">{submittedApplication.application_number}</span>
-          </p>
-          <Button 
-            onClick={onReset}
-            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
-          >
-            Submit Another Application
-          </Button>
+      <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+        <CardContent className="p-6 text-center">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold text-white">Application Submitted Successfully!</h3>
+            <p className="text-slate-300">
+              Application Number: <span className="font-mono text-green-400">{submittedApplication.application_number}</span>
+            </p>
+            <Button 
+              onClick={onReset}
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
+            >
+              Submit Another Application
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>

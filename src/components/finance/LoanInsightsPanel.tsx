@@ -37,21 +37,21 @@ export const LoanInsightsPanel: React.FC<LoanInsightsPanelProps> = ({
   };
 
   return (
-    <Card className="bg-slate-800/80 backdrop-blur-sm border border-slate-600/50 shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-white flex items-center gap-2">
+    <Card className="bg-slate-800/50 backdrop-blur-lg border border-slate-700/50 shadow-xl rounded-xl">
+      <CardHeader>
+        <CardTitle className="text-xl font-bold text-white flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-green-400" />
           Loan Application Insights
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-5">
+      <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-slate-300 text-sm">Eligibility Score</span>
+              <span className="text-slate-300">Eligibility Score</span>
               <div className="flex items-center gap-2">
                 {getScoreIcon(eligibilityScore)}
-                <span className={`font-bold text-sm ${getScoreColor(eligibilityScore)}`}>
+                <span className={`font-bold ${getScoreColor(eligibilityScore)}`}>
                   {eligibilityScore}%
                 </span>
               </div>
@@ -61,10 +61,10 @@ export const LoanInsightsPanel: React.FC<LoanInsightsPanelProps> = ({
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-slate-300 text-sm">Approval Likelihood</span>
+              <span className="text-slate-300">Approval Likelihood</span>
               <div className="flex items-center gap-2">
                 {getScoreIcon(approvalLikelihood)}
-                <span className={`font-bold text-sm ${getScoreColor(approvalLikelihood)}`}>
+                <span className={`font-bold ${getScoreColor(approvalLikelihood)}`}>
                   {approvalLikelihood}%
                 </span>
               </div>
@@ -73,13 +73,13 @@ export const LoanInsightsPanel: React.FC<LoanInsightsPanelProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-slate-700/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <DollarSign className="h-4 w-4 text-green-400" />
-              <span className="text-xs text-slate-400">Monthly Surplus</span>
+              <span className="text-sm text-slate-400">Monthly Surplus</span>
             </div>
-            <span className={`text-sm font-bold ${disposableIncome >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <span className={`text-lg font-bold ${disposableIncome >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               ₹{disposableIncome.toLocaleString()}
             </span>
           </div>
@@ -87,9 +87,9 @@ export const LoanInsightsPanel: React.FC<LoanInsightsPanelProps> = ({
           <div className="bg-slate-700/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="h-4 w-4 text-blue-400" />
-              <span className="text-xs text-slate-400">Debt-to-Income</span>
+              <span className="text-sm text-slate-400">Debt-to-Income</span>
             </div>
-            <span className={`text-sm font-bold ${debtToIncomeRatio <= 30 ? 'text-green-400' : debtToIncomeRatio <= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+            <span className={`text-lg font-bold ${debtToIncomeRatio <= 30 ? 'text-green-400' : debtToIncomeRatio <= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
               {debtToIncomeRatio.toFixed(1)}%
             </span>
           </div>
@@ -97,15 +97,15 @@ export const LoanInsightsPanel: React.FC<LoanInsightsPanelProps> = ({
           <div className="bg-slate-700/30 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
               <CheckCircle className="h-4 w-4 text-purple-400" />
-              <span className="text-xs text-slate-400">Loan Scheme</span>
+              <span className="text-sm text-slate-400">Loan Scheme</span>
             </div>
-            <span className="text-xs font-medium text-white truncate">
+            <span className="text-sm font-medium text-white truncate">
               {loanScheme}
             </span>
           </div>
         </div>
 
-        <div className="bg-slate-700/20 rounded-lg p-3">
+        <div className="bg-slate-700/20 rounded-lg p-4">
           <h4 className="text-sm font-semibold text-white mb-2">Recommendations</h4>
           <ul className="space-y-1 text-xs text-slate-300">
             {eligibilityScore < 70 && (
