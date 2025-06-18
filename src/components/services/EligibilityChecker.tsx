@@ -241,7 +241,9 @@ const EligibilityChecker: React.FC = () => {
         {result.status && (
           <div className="w-full space-y-4">
             <div className={`flex items-center gap-3 p-4 rounded-lg border ${getStatusConfig(result.status).bg} ${getStatusConfig(result.status).border}`}>
-              <getStatusConfig(result.status).icon className={`h-6 w-6 ${getStatusConfig(result.status).color}`} />
+              {React.createElement(getStatusConfig(result.status).icon, {
+                className: `h-6 w-6 ${getStatusConfig(result.status).color}`
+              })}
               <div className="flex-1">
                 <p className="font-semibold text-white">
                   Eligibility Score: {result.score}%
