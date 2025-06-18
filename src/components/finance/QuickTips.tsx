@@ -30,11 +30,11 @@ export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
   if (!currentTip) return null;
 
   return (
-    <Card className="bg-gradient-to-br from-green-900/30 to-orange-900/30 backdrop-blur-lg border border-green-700/30 shadow-lg">
+    <Card className="bg-slate-800/80 backdrop-blur-lg border border-slate-700/50 shadow-xl">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-gradient-to-r from-green-600 to-orange-600">
+            <div className="p-1.5 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600">
               <Lightbulb className="h-4 w-4 text-white" />
             </div>
             <CardTitle className="text-base font-semibold text-white">Smart Tips</CardTitle>
@@ -46,7 +46,7 @@ export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
             variant="ghost"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="h-6 w-6 p-0 text-slate-400 hover:text-white"
+            className="h-6 w-6 p-0 text-slate-400 hover:text-white hover:bg-green-600/20"
           >
             {isExpanded ? <Minimize2 className="h-3 w-3" /> : <Maximize2 className="h-3 w-3" />}
           </Button>
@@ -61,7 +61,7 @@ export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
             variant="outline"
             size="sm"
             onClick={nextTip}
-            className="w-full bg-slate-800/50 border-green-600/30 text-green-300 hover:bg-green-700/20 hover:text-white hover:border-green-500/50 text-xs transition-all duration-200"
+            className="w-full bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-green-600/20 hover:border-green-500/50 hover:text-white text-xs transition-all duration-200"
           >
             Next Tip
             <ChevronRight className="h-3 w-3 ml-1" />

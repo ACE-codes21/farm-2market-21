@@ -20,7 +20,7 @@ export const HelpFAQSection: React.FC = () => {
   };
 
   return (
-    <Card className="bg-gradient-to-r from-slate-800/40 to-slate-900/40 backdrop-blur-lg border border-slate-700/30 shadow-lg">
+    <Card className="bg-slate-800/80 backdrop-blur-lg border border-slate-700/50 shadow-xl">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -86,9 +86,9 @@ export const HelpFAQSection: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={() => window.open('/help', '_blank')}
-              className="text-green-400 hover:text-green-300 hover:bg-green-600/20"
+              className="text-green-400 hover:text-green-300 hover:bg-green-600/20 flex items-center gap-1"
             >
-              <ExternalLink className="h-4 w-4 mr-1" />
+              <ExternalLink className="h-4 w-4" />
               Help Center
             </Button>
           </div>
