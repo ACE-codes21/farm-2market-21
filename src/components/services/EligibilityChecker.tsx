@@ -4,8 +4,9 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, HelpCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { CheckCircle, HelpCircle, XCircle, AlertTriangle, Award, Target } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 
 const questions = [
   { 
@@ -168,12 +169,13 @@ const EligibilityChecker: React.FC = () => {
     setResult({
       status,
       score: scorePercentage,
-      eligibleSchemes: [...new Set(eligibleSchemes)], // Remove duplicates
+      eligibleSchemes: [...new Set(eligibleSchemes)],
       recommendations
     });
   };
 
   const isCheckDisabled = Object.keys(answers).length !== questions.length;
+  const progressPercentage = (Object.keys(answers).length / questions.length) * 100;
 
   const getStatusConfig = (status: string) => {
     switch (status) {
@@ -189,103 +191,165 @@ const EligibilityChecker: React.FC = () => {
   };
 
   return (
-    <Card className="dark-modern-card mt-6 animate-fade-in">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-white">
-          <HelpCircle className="text-green-400" /> Enhanced Eligibility Check
-        </CardTitle>
-        <p className="text-sm text-slate-400">Answer all questions to get personalized scheme recommendations</p>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {questions.map(q => (
-          <div key={q.id} className="space-y-3">
-            <p className="font-medium text-slate-300 mb-2">{q.text}</p>
-            {q.type === 'select' ? (
-              <select 
-                value={answers[q.id] || ''} 
-                onChange={(e) => handleValueChange(q.id, e.target.value)}
-                className="w-full p-2 bg-slate-700 border border-slate-600 rounded-md text-white focus:border-green-500"
-              >
-                <option value="">Select an option</option>
-                {q.options?.map(option => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            ) : (
-              <RadioGroup onValueChange={(value) => handleValueChange(q.id, value)} className="flex gap-4">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="yes" id={`${q.id}-yes`} />
-                  <Label htmlFor={`${q.id}-yes`}>Yes</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="no" id={`${q.id}-no`} />
-                  <Label htmlFor={`${q.id}-no`}>No</Label>
-                </div>
-              </RadioGroup>
-            )}
-            <div className="flex flex-wrap gap-1">
-              {q.schemes.map(scheme => (
-                <Badge key={scheme} variant="outline" className="text-xs text-blue-300 border-blue-400/30">
-                  {scheme}
-                </Badge>
-              ))}
+    <div className="space-y-6 mt-6">
+      {/* Header Card */}
+      <Card className="dark-modern-card animate-fade-in bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-lg border border-slate-600/50">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-3 text-xl text-white">
+            <div className="p-2 rounded-lg bg-green-500/20">
+              <Target className="h-6 w-6 text-green-400" />
             </div>
+            Enhanced Eligibility Assessment
+          </CardTitle>
+          <p className="text-slate-300 leading-relaxed">
+            Complete our comprehensive assessment to discover your eligibility for government schemes and receive personalized recommendations.
+          </p>
+          
+          {/* Progress Bar */}
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-slate-400">Progress</span>
+              <span className="text-slate-300">{Object.keys(answers).length}/{questions.length} completed</span>
+            </div>
+            <Progress value={progressPercentage} className="h-2 bg-slate-700/50" />
           </div>
-        ))}
-      </CardContent>
-      <CardFooter className="flex flex-col items-start gap-4">
-        <Button onClick={checkEligibility} disabled={isCheckDisabled} className="w-full">
-          Check Eligibility Now
-        </Button>
+        </CardHeader>
+      </Card>
+
+      {/* Questions Card */}
+      <Card className="dark-modern-card animate-fade-in">
+        <CardContent className="p-6">
+          <div className="grid gap-6">
+            {questions.map((q, index) => (
+              <div key={q.id} className="p-4 rounded-lg bg-slate-800/30 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-200">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-sm font-medium text-slate-300">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-slate-200 mb-3 leading-relaxed">{q.text}</p>
+                    
+                    {q.type === 'select' ? (
+                      <select 
+                        value={answers[q.id] || ''} 
+                        onChange={(e) => handleValueChange(q.id, e.target.value)}
+                        className="w-full p-3 bg-slate-700/50 border border-slate-600 rounded-lg text-white focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+                      >
+                        <option value="">Select your income range</option>
+                        {q.options?.map(option => (
+                          <option key={option.value} value={option.value}>{option.label}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <RadioGroup 
+                        onValueChange={(value) => handleValueChange(q.id, value)} 
+                        className="flex gap-6"
+                        value={answers[q.id] || ''}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <RadioGroupItem value="yes" id={`${q.id}-yes`} className="border-slate-500 text-green-400" />
+                          <Label htmlFor={`${q.id}-yes`} className="text-slate-300 cursor-pointer">Yes</Label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <RadioGroupItem value="no" id={`${q.id}-no`} className="border-slate-500 text-red-400" />
+                          <Label htmlFor={`${q.id}-no`} className="text-slate-300 cursor-pointer">No</Label>
+                        </div>
+                      </RadioGroup>
+                    )}
+                    
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {q.schemes.map(scheme => (
+                        <Badge key={scheme} variant="outline" className="text-xs text-blue-300 border-blue-400/40 bg-blue-500/10 hover:bg-blue-500/20 transition-colors">
+                          {scheme}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
         
-        {result.status && (
-          <div className="w-full space-y-4">
-            <div className={`flex items-center gap-3 p-4 rounded-lg border ${getStatusConfig(result.status).bg} ${getStatusConfig(result.status).border}`}>
-              {React.createElement(getStatusConfig(result.status).icon, {
-                className: `h-6 w-6 ${getStatusConfig(result.status).color}`
-              })}
-              <div className="flex-1">
-                <p className="font-semibold text-white">
-                  Eligibility Score: {result.score}%
-                </p>
-                <p className={`text-sm ${getStatusConfig(result.status).color}`}>
-                  {result.status === 'eligible' && 'Excellent! You qualify for multiple schemes.'}
-                  {result.status === 'partially-eligible' && 'Good! You qualify for some schemes with improvements.'}
-                  {result.status === 'ineligible' && 'Limited eligibility. Follow recommendations to improve.'}
-                </p>
-              </div>
-            </div>
+        <CardFooter className="p-6 pt-0">
+          <Button 
+            onClick={checkEligibility} 
+            disabled={isCheckDisabled} 
+            className="w-full h-12 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-medium rounded-lg shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isCheckDisabled ? `Complete ${questions.length - Object.keys(answers).length} more questions` : 'Analyze My Eligibility'}
+          </Button>
+        </CardFooter>
+      </Card>
 
-            {result.eligibleSchemes.length > 0 && (
-              <div className="p-4 bg-green-500/10 rounded-lg border border-green-400/30">
-                <h4 className="font-semibold text-green-400 mb-2">Eligible Schemes:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {result.eligibleSchemes.map(scheme => (
-                    <Badge key={scheme} className="bg-green-500/20 text-green-300 border-green-400/30">
-                      {scheme}
-                    </Badge>
-                  ))}
+      {/* Results Card */}
+      {result.status && (
+        <Card className="dark-modern-card animate-fade-in">
+          <CardContent className="p-6">
+            <div className="space-y-6">
+              {/* Score Display */}
+              <div className={`p-6 rounded-xl border-2 ${getStatusConfig(result.status).bg} ${getStatusConfig(result.status).border}`}>
+                <div className="flex items-center gap-4 mb-4">
+                  {React.createElement(getStatusConfig(result.status).icon, {
+                    className: `h-8 w-8 ${getStatusConfig(result.status).color}`
+                  })}
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      Eligibility Score: {result.score}%
+                    </h3>
+                    <p className={`text-sm ${getStatusConfig(result.status).color}`}>
+                      {result.status === 'eligible' && 'Excellent! You qualify for multiple schemes.'}
+                      {result.status === 'partially-eligible' && 'Good! You qualify for some schemes with improvements.'}
+                      {result.status === 'ineligible' && 'Limited eligibility. Follow recommendations to improve.'}
+                    </p>
+                  </div>
                 </div>
+                <Progress value={result.score} className="h-3" />
               </div>
-            )}
 
-            {result.recommendations.length > 0 && (
-              <div className="p-4 bg-blue-500/10 rounded-lg border border-blue-400/30">
-                <h4 className="font-semibold text-blue-400 mb-2">Recommendations:</h4>
-                <ul className="space-y-1 text-sm text-slate-300">
-                  {result.recommendations.map((rec, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-blue-400 mt-1">•</span>
-                      <span>{rec}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-      </CardFooter>
-    </Card>
+              {/* Eligible Schemes */}
+              {result.eligibleSchemes.length > 0 && (
+                <div className="p-6 bg-green-500/10 rounded-xl border border-green-400/30">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Award className="h-5 w-5 text-green-400" />
+                    <h4 className="font-semibold text-green-400">You're Eligible For:</h4>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {result.eligibleSchemes.map(scheme => (
+                      <div key={scheme} className="p-3 bg-green-500/20 rounded-lg border border-green-400/30">
+                        <Badge className="bg-green-500/30 text-green-300 border-green-400/50 mb-2">
+                          {scheme}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Recommendations */}
+              {result.recommendations.length > 0 && (
+                <div className="p-6 bg-blue-500/10 rounded-xl border border-blue-400/30">
+                  <h4 className="font-semibold text-blue-400 mb-4 flex items-center gap-2">
+                    <HelpCircle className="h-5 w-5" />
+                    Improvement Recommendations:
+                  </h4>
+                  <div className="space-y-3">
+                    {result.recommendations.map((rec, index) => (
+                      <div key={index} className="flex items-start gap-3 p-3 bg-blue-500/5 rounded-lg">
+                        <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-xs text-blue-400 font-medium">{index + 1}</span>
+                        </div>
+                        <span className="text-sm text-slate-300 leading-relaxed">{rec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 };
 
