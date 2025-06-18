@@ -26,22 +26,22 @@ const FinanceDashboard = () => {
   const { data: applications = [] } = useLoanApplications();
   
   // Real-time data for trust calculation
-  const { data: products = [] } = useVendorProducts();
+  const { products } = useVendorProducts();
   const { data: orders = [] } = useVendorOrders();
 
   // Calculate real-time vendor activity data
   const calculateRealTimeActivity = () => {
     const totalOrders = orders.length;
-    const completedOrders = orders.filter(order => order.status === 'completed');
-    const returnedOrders = orders.filter(order => order.status === 'returned');
-    const returnRate = totalOrders > 0 ? (returnedOrders.length / totalOrders) * 100 : 0;
+    const deliveredOrders = orders.filter(order => order.status === 'delivered');
+    const cancelledOrders = orders.filter(order => order.status === 'cancelled');
+    const cancellationRate = totalOrders > 0 ? (cancelledOrders.length / totalOrders) * 100 : 0;
     
-    // Calculate average rating from completed orders (mock for now)
-    const avgRating = completedOrders.length > 0 ? 4.6 : 0;
+    // Calculate average rating from delivered orders (mock for now)
+    const avgRating = deliveredOrders.length > 0 ? 4.6 : 0;
 
     return {
-      totalOrders: completedOrders.length,
-      returnRate: Math.round(returnRate * 10) / 10,
+      totalOrders: deliveredOrders.length,
+      returnRate: Math.round(cancellationRate * 10) / 10,
       avgRating
     };
   };
