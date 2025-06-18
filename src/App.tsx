@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,7 @@ import AnalyticsDashboard from "./pages/AnalyticsDashboard";
 import ServicesDashboard from "./pages/ServicesDashboard";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
+import FloatingChatButton from "./components/chat/FloatingChatButton";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +67,7 @@ const App = () => {
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
+          <FloatingChatButton />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
