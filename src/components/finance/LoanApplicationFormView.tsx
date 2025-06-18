@@ -83,78 +83,66 @@ export const LoanApplicationFormView: React.FC<LoanApplicationFormViewProps> = (
 
   return (
     <TooltipProvider>
-      <Card className="bg-slate-800/60 backdrop-blur-lg border border-slate-700/50 shadow-xl">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600">
-              <FileText className="h-5 w-5 text-white" />
-            </div>
-            Loan Application
-          </CardTitle>
-          <p className="text-slate-400 text-sm">Complete all sections to submit your application</p>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          <form onSubmit={onSubmit} className="space-y-6">
-            <FormSection
-              icon={User}
-              title="Personal Information"
-              isCompleted={personalInfoCompleted}
-              hasErrors={personalInfoErrors}
-            >
-              <PersonalInfoSection
-                formData={formData}
-                errors={errors}
-                onInputChange={onInputChange}
-              />
-            </FormSection>
-            
-            <FormSection
-              icon={DollarSign}
-              title="Loan Details"
-              isCompleted={loanDetailsCompleted}
-              hasErrors={loanDetailsErrors}
-            >
-              <LoanDetailsSection
-                formData={formData}
-                errors={errors}
-                onInputChange={onInputChange}
-              />
-            </FormSection>
-            
-            <FormSection
-              icon={DollarSign}
-              title="Financial Information"
-              isCompleted={!!(formData.monthly_income && formData.monthly_expenses)}
-            >
-              <FinancialInfoSection
-                formData={formData}
-                onInputChange={onInputChange}
-              />
-            </FormSection>
-            
-            <FormSection
-              icon={Upload}
-              title="Document Upload"
-              isCompleted={documentsUploaded}
-            >
-              <DocumentUploadSection
-                onDocumentUpload={onDocumentUpload}
-              />
-            </FormSection>
+      <div className="bg-slate-900">
+        <form onSubmit={onSubmit} className="space-y-6">
+          <FormSection
+            icon={User}
+            title="Personal Information"
+            isCompleted={personalInfoCompleted}
+            hasErrors={personalInfoErrors}
+          >
+            <PersonalInfoSection
+              formData={formData}
+              errors={errors}
+              onInputChange={onInputChange}
+            />
+          </FormSection>
+          
+          <FormSection
+            icon={DollarSign}
+            title="Loan Details"
+            isCompleted={loanDetailsCompleted}
+            hasErrors={loanDetailsErrors}
+          >
+            <LoanDetailsSection
+              formData={formData}
+              errors={errors}
+              onInputChange={onInputChange}
+            />
+          </FormSection>
+          
+          <FormSection
+            icon={DollarSign}
+            title="Financial Information"
+            isCompleted={!!(formData.monthly_income && formData.monthly_expenses)}
+          >
+            <FinancialInfoSection
+              formData={formData}
+              onInputChange={onInputChange}
+            />
+          </FormSection>
+          
+          <FormSection
+            icon={Upload}
+            title="Document Upload"
+            isCompleted={documentsUploaded}
+          >
+            <DocumentUploadSection
+              onDocumentUpload={onDocumentUpload}
+            />
+          </FormSection>
 
-            <div className="pt-4 border-t border-slate-700/50">
-              <Button 
-                type="submit" 
-                disabled={isPending}
-                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 text-base font-semibold"
-              >
-                {isPending ? 'Submitting Application...' : 'Submit Loan Application'}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+          <div className="pt-4 border-t border-slate-700/50">
+            <Button 
+              type="submit" 
+              disabled={isPending}
+              className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-3 text-base font-semibold"
+            >
+              {isPending ? 'Submitting Application...' : 'Submit Loan Application'}
+            </Button>
+          </div>
+        </form>
+      </div>
     </TooltipProvider>
   );
 };

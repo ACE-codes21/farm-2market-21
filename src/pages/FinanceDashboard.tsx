@@ -1,12 +1,16 @@
 
+import { useState } from 'react';
 import { VendorDashboardHeader } from '@/components/vendor/VendorDashboardHeader';
 import { CreditScoreWidget } from '@/components/finance/CreditScoreWidget';
 import { LoanSchemeCard } from '@/components/finance/LoanSchemeCard';
 import { RepaymentTracker } from '@/components/finance/RepaymentTracker';
 import { QuickTips } from '@/components/finance/QuickTips';
-import { LoanApplicationForm } from '@/components/finance/LoanApplicationForm';
+import { LoanApplicationCTA } from '@/components/finance/LoanApplicationCTA';
+import { LoanApplicationModal } from '@/components/finance/LoanApplicationModal';
 import { LoanStatusCard } from '@/components/finance/LoanStatusCard';
 import { HelpFAQSection } from '@/components/finance/HelpFAQSection';
+import { LoanInsightsPanel } from '@/components/finance/LoanInsightsPanel';
+import { useLoanApplications } from '@/hooks/useLoanApplications';
 import { 
   creditScore, 
   loanSchemes, 
@@ -17,6 +21,13 @@ import {
 } from '@/data/finance';
 
 const FinanceDashboard = () => {
+  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
+  const { data: applications = [] } = useLoanApplications();
+  
+  // Check if user has submitted any applications to show insights
+  const hasSubmittedApplications = applications.length > 0;
+  const latestApplication = applications[0]; // Most recent application
+
   return (
     <div className="min-h-screen bg-slate-900 text-gray-200">
       <VendorDashboardHeader />
@@ -41,6 +52,25 @@ const FinanceDashboard = () => {
           </div>
         </div>
 
+        {/* Loan Application CTA */}
+        <div className="mb-6">
+          <LoanApplicationCTA onOpenApplication={() => setIsApplicationModalOpen(true)} />
+        </div>
+
+        {/* Loan Insights Panel - Only show if user has submitted applications */}
+        {hasSubmittedApplications && latestApplication && (
+          <div className="mb-6">
+            <LoanInsightsPanel
+              eligibilityScore={latestApplication.eligibility_score || 0}
+              approvalLikelihood={latestApplication.approval_likelihood || 0}
+              monthlyIncome={latestApplication.monthly_income}
+              monthlyExpenses={latestApplication.monthly_expenses}
+              loanAmount={latestApplication.loan_amount}
+              loanScheme={latestApplication.loan_scheme_type}
+            />
+          </div>
+        )}
+
         {/* Middle Row: Loan Management */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-4">
@@ -50,11 +80,8 @@ const FinanceDashboard = () => {
           </div>
           
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <LoanApplicationForm />
-            <div className="space-y-6">
-              <LoanStatusCard />
-              <RepaymentTracker data={repaymentData} />
-            </div>
+            <LoanStatusCard />
+            <RepaymentTracker data={repaymentData} />
           </div>
         </div>
 
@@ -75,6 +102,12 @@ const FinanceDashboard = () => {
 
         {/* Help Section */}
         <HelpFAQSection />
+
+        {/* Loan Application Modal */}
+        <LoanApplicationModal
+          isOpen={isApplicationModalOpen}
+          onClose={() => setIsApplicationModalOpen(false)}
+        />
       </main>
     </div>
   );

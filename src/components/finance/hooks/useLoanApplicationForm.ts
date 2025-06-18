@@ -98,7 +98,7 @@ export const useLoanApplicationForm = () => {
         setSubmittedApplication(data);
         toast({
           title: "Application Submitted Successfully!",
-          description: `Your application number is ${data.application_number}`,
+          description: `Your application number is ${data.application_number}. You can track its status below.`,
         });
       },
       onError: (error) => {
