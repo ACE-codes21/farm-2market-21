@@ -26,12 +26,28 @@ interface LanguageProviderProps {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState<Language>('en');
   const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize language from localStorage on mount
+  useEffect(() => {
+    console.log('LanguageProvider: Initializing...');
+    const savedLanguage = localStorage.getItem('language') as Language;
+    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'hi')) {
+      console.log('LanguageProvider: Found saved language:', savedLanguage);
+      setCurrentLanguage(savedLanguage);
+    }
+    setIsInitialized(true);
+  }, []);
 
   useEffect(() => {
+    if (!isInitialized) return;
+    
     // Load translations when language changes
     const loadTranslations = async () => {
+      console.log('LanguageProvider: Loading translations for:', currentLanguage);
       try {
         const translationModule = await import(`../translations/${currentLanguage}.ts`);
+        console.log('LanguageProvider: Translations loaded successfully');
         setTranslations(translationModule.default);
       } catch (error) {
         console.error('Failed to load translations:', error);
@@ -41,27 +57,39 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     };
 
     loadTranslations();
-  }, [currentLanguage]);
+  }, [currentLanguage, isInitialized]);
 
   const setLanguage = (lang: Language) => {
+    console.log('LanguageProvider: Setting language to:', lang);
     setCurrentLanguage(lang);
     localStorage.setItem('language', lang);
   };
 
-  // Initialize language from localStorage on mount
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'hi')) {
-      setCurrentLanguage(savedLanguage);
-    }
-  }, []);
-
   const t = (key: string): string => {
-    return translations[key] || key;
+    const translation = translations[key];
+    if (!translation) {
+      console.warn(`Translation missing for key: ${key}`);
+      return key; // Return the key itself as fallback
+    }
+    return translation;
   };
 
+  // Don't render children until initialized
+  if (!isInitialized) {
+    console.log('LanguageProvider: Still initializing...');
+    return null;
+  }
+
+  const contextValue: LanguageContextType = {
+    currentLanguage,
+    setLanguage,
+    t
+  };
+
+  console.log('LanguageProvider: Rendering with context:', contextValue);
+
   return (
-    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );
