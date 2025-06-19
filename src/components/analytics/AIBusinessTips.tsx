@@ -4,9 +4,11 @@ import { Lightbulb, Sparkles, TrendingUp } from 'lucide-react';
 import { useAIBusinessTips } from '@/hooks/useAIBusinessTips';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const AIBusinessTips: React.FC = () => {
   const { data: tipsData, isLoading } = useAIBusinessTips();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -14,10 +16,10 @@ export const AIBusinessTips: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg font-medium text-white">
             <Lightbulb className="h-5 w-5 text-yellow-400" />
-            AI Business Tips
+            {t('analytics.aiBusinessTips')}
             <Badge variant="outline" className="text-xs animate-pulse">
               <Sparkles className="h-3 w-3 mr-1" />
-              Analyzing...
+              {t('analytics.analyzing')}
             </Badge>
           </CardTitle>
         </CardHeader>
@@ -43,13 +45,13 @@ export const AIBusinessTips: React.FC = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg font-medium text-white">
           <Lightbulb className="h-5 w-5 text-yellow-400" />
-          AI Business Tips
+          {t('analytics.aiBusinessTips')}
           <Badge variant="outline" className="text-xs text-green-300 border-green-400/30">
             <TrendingUp className="h-3 w-3 mr-1" />
-            Live Data
+            {t('analytics.liveData')}
           </Badge>
         </CardTitle>
-        <p className="text-xs text-slate-400">Personalized insights based on your business data</p>
+        <p className="text-xs text-slate-400">{t('analytics.personalizedInsights')}</p>
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
@@ -66,7 +68,7 @@ export const AIBusinessTips: React.FC = () => {
         </ul>
         <div className="mt-4 pt-4 border-t border-slate-700/30">
           <p className="text-xs text-slate-500 text-center">
-            Tips refresh every hour based on your latest business activity
+            {t('analytics.tipsRefresh')}
           </p>
         </div>
       </CardContent>

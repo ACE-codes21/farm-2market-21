@@ -1,9 +1,11 @@
 
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const AboutUsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
   const isInView = useInView(sectionRef, {
     once: true
   });
@@ -16,7 +18,7 @@ export const AboutUsSection: React.FC = () => {
           initial={{ opacity: 0, y: 40 }} 
           animate={isInView ? { opacity: 1, y: 0 } : {}}
         >
-          Our Mission
+          {t('about.mission')}
         </motion.h2>
         <motion.p 
           className="text-xl md:text-2xl text-gray-200 leading-relaxed mb-10" 
@@ -31,29 +33,29 @@ export const AboutUsSection: React.FC = () => {
 
         {/* Timeline (subtle visual progression for values) */}
         <motion.div initial={{
-        opacity: 0,
-        y: 40
-      }} animate={isInView ? {
-        opacity: 1,
-        y: 0
-      } : {}} transition={{
-        delay: 0.4
-      }}>
+          opacity: 0,
+          y: 40
+        }} animate={isInView ? {
+          opacity: 1,
+          y: 0
+        } : {}} transition={{
+          delay: 0.4
+        }}>
           <div className="flex flex-col md:flex-row gap-10 justify-center mt-9">
             <div className="flex-1 flex flex-col items-center">
               <div className="h-14 w-14 rounded-full bg-gradient-to-br from-green-400 to-green-700 mb-4 flex items-center justify-center text-2xl shadow-lg">🌱</div>
-              <div className="text-lg font-semibold text-white mb-1">Empower Vendors</div>
-              <div className="text-gray-400 text-sm max-w-xs">Give street vendors digital tools & access to new markets.</div>
+              <div className="text-lg font-semibold text-white mb-1">{t('about.empowerVendors')}</div>
+              <div className="text-gray-400 text-sm max-w-xs">{t('about.empowerVendorsDesc')}</div>
             </div>
             <div className="flex-1 flex flex-col items-center">
               <div className="h-14 w-14 rounded-full bg-gradient-to-br from-orange-300 to-orange-600 mb-4 flex items-center justify-center text-2xl shadow-lg">🛒</div>
-              <div className="text-lg font-semibold text-white mb-1">Nourish Communities</div>
-              <div className="text-gray-400 text-sm max-w-xs">Create direct connections from farm to table, nourishing neighborhoods.</div>
+              <div className="text-lg font-semibold text-white mb-1">{t('about.nourishCommunities')}</div>
+              <div className="text-gray-400 text-sm max-w-xs">{t('about.nourishCommunitiesDesc')}</div>
             </div>
             <div className="flex-1 flex flex-col items-center">
               <div className="h-14 w-14 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-700 mb-4 flex items-center justify-center text-2xl shadow-lg">🤝</div>
-              <div className="text-lg font-semibold text-white mb-1">Drive Inclusion</div>
-              <div className="text-gray-400 text-sm max-w-xs">Advance financial inclusion and transparent pricing for all stakeholders.</div>
+              <div className="text-lg font-semibold text-white mb-1">{t('about.driveInclusion')}</div>
+              <div className="text-gray-400 text-sm max-w-xs">{t('about.driveInclusionDesc')}</div>
             </div>
           </div>
           <div className="mx-auto border-t border-dashed mt-10 border-gray-700 w-2/3 opacity-40"></div>

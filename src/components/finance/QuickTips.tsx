@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Lightbulb, ChevronRight, Target, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface QuickTipsProps {
   tips: string[];
@@ -13,6 +14,7 @@ interface QuickTipsProps {
 export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
   const [currentTip, setCurrentTip] = useState('');
   const [tipIndex, setTipIndex] = useState(0);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (tips.length > 0) {
@@ -47,7 +49,7 @@ export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
             <div className="p-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">
               <Target className="h-4 w-4 text-white" />
             </div>
-            <CardTitle className="text-base font-semibold text-white">Trust Building Tips</CardTitle>
+            <CardTitle className="text-base font-semibold text-white">{t('trust.buildingTips')}</CardTitle>
             <Badge variant="outline" className="text-xs text-blue-300 border-blue-400/30">
               {tipIndex + 1}/{displayTips.length}
             </Badge>
@@ -74,13 +76,13 @@ export const QuickTips: React.FC<QuickTipsProps> = ({ tips }) => {
             onClick={nextTip}
             className="w-full bg-slate-700/30 border-slate-600 text-slate-300 hover:bg-blue-600/20 hover:border-blue-500/50 hover:text-white text-xs transition-all duration-200"
           >
-            Next Tip
+            {t('trust.nextTip')}
             <ChevronRight className="h-3 w-3 ml-1" />
           </Button>
         )}
 
         <div className="text-center pt-2 border-t border-slate-700/30">
-          <p className="text-xs text-slate-500">Higher trust = More buyer confidence</p>
+          <p className="text-xs text-slate-500">{t('trust.higherTrust')}</p>
         </div>
       </CardContent>
     </Card>
