@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -8,8 +9,8 @@ import { FreshPickBadge } from './FreshPickBadge';
 import { ContactVendorDialog } from './ContactVendorDialog';
 import { AddToCartDialog } from './AddToCartDialog';
 import { BuyNowDialog } from './BuyNowDialog';
-import { getProductReviews } from '@/services/reviewService';
 import { ProductReviewSection } from './ProductReviewSection';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
@@ -24,13 +25,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToWishlist, 
   isInWishlist 
 }) => {
+  const { t } = useLanguage();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [showContactDialog, setShowContactDialog] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   
-  // Generate reviews for this product
-  const productReviews = getProductReviews(product.id);
+  // Use static product rating and reviews from the product object
+  const productRating = product.rating || 4.0;
+  const productReviews = product.reviews || 0;
 
   // Check if fresh pick is expired
   const isFreshPickExpired = product.isFreshPick && product.freshPickExpiresAt && 
@@ -51,7 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     return () => clearInterval(interval);
   }, [isHovered, product.images.length]);
 
-  const isPremium = product.rating >= 4.6;
+  const isPremium = productRating >= 4.6;
 
   return (
     <>
@@ -64,7 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         }}
         tabIndex={0}
         role="article"
-        aria-label={`Product: ${product.name}`}
+        aria-label={`${t('product.product')}: ${product.name}`}
       >
         {/* Gradient overlay for premium look */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-emerald-500/5 pointer-events-none" />
@@ -73,7 +76,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className="relative overflow-hidden rounded-t-3xl">
             <img 
               src={product.images[currentImageIndex]} 
-              alt={`${product.name} - ${product.category} available for ₹${product.price}`}
+              alt={`${product.name} - ${product.category} ${t('product.availableFor')} ₹${product.price}`}
               className="w-full h-56 object-cover transition-all duration-700 ease-out group-hover:scale-110"
               loading="lazy"
             />
@@ -90,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onAddToWishlist(product);
               }}
-              aria-label={isInWishlist ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+              aria-label={isInWishlist ? `${t('product.removeFromWishlist')} ${product.name}` : `${t('product.addToWishlist')} ${product.name}`}
             >
               <Heart className={`h-5 w-5 transition-all ${isInWishlist ? 'fill-current scale-110' : ''}`} />
             </Button>
@@ -106,7 +109,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {isPremium && !product.isFreshPick && (
               <div className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full px-3 py-2 flex items-center gap-2 shadow-lg border border-yellow-300/30">
                 <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
-                <span className="text-sm font-bold text-white">Premium</span>
+                <span className="text-sm font-bold text-white">{t('product.premium')}</span>
               </div>
             )}
 
@@ -124,11 +127,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   variant="outline" 
                   size="sm" 
                   className="flex items-center gap-2 text-sm px-3 py-2 h-8 rounded-xl bg-black/30 backdrop-blur-md border border-white/20 hover:border-green-400 hover:text-green-400 transition-all text-white"
-                  aria-label={`Contact vendor ${product.vendor.name} for ${product.name}`}
+                  aria-label={`${t('vendor.contact')} ${product.vendor.name} ${t('product.for')} ${product.name}`}
                   onClick={() => setShowContactDialog(true)}
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                  Contact
+                  {t('vendor.contact')}
                 </Button>
               </div>
             )}
@@ -141,12 +144,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </h3>
               
               <div className="flex items-center gap-3">
-                <div className="flex items-center" role="img" aria-label={`Rating: ${productReviews.averageRating} out of 5 stars`}>
+                <div className="flex items-center" role="img" aria-label={`${t('product.rating')}: ${productRating} ${t('product.outOf')} 5 ${t('product.stars')}`}>
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i} 
                       className={`h-4 w-4 ${
-                        i < Math.floor(productReviews.averageRating) 
+                        i < Math.floor(productRating) 
                           ? 'text-yellow-400 fill-current' 
                           : 'text-slate-600'
                       }`}
@@ -155,25 +158,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   ))}
                 </div>
                 <span className="text-sm text-white font-semibold">
-                  {productReviews.averageRating}
+                  {productRating}
                 </span>
                 <button 
                   onClick={() => setShowReviews(!showReviews)}
                   className="text-sm text-slate-400 hover:text-green-400 transition-colors"
                 >
-                  ({productReviews.totalReviews} reviews)
+                  ({productReviews} {t('vendor.reviews')})
                 </button>
               </div>
             </div>
             
             <div className="flex items-center justify-between">
               <div className="space-y-2">
-                <span className="text-3xl font-bold text-white" aria-label={`Price: ${product.price} rupees`}>
+                <span className="text-3xl font-bold text-white" aria-label={`${t('common.price')}: ${product.price} ${t('product.rupees')}`}>
                   ₹{product.price}
                 </span>
                 {product.stock <= 5 && product.stock > 0 && (
                   <div className="text-sm font-medium text-orange-400 bg-orange-500/20 px-3 py-1 rounded-full border border-orange-500/30 inline-block" role="status">
-                    Only {product.stock} left!
+                    {t('product.only')} {product.stock} {t('product.left')}!
                   </div>
                 )}
               </div>
@@ -190,10 +193,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     product.stock === 0 ? 'opacity-50 cursor-not-allowed bg-slate-600 hover:bg-slate-600' : ''
                   }`}
                   disabled={product.stock === 0}
-                  aria-label={product.stock === 0 ? `${product.name} is out of stock` : `Buy ${product.name} now`}
+                  aria-label={product.stock === 0 ? `${product.name} ${t('product.outOfStock')}` : `${t('product.buyNow')} ${product.name}`}
                 >
                   <Zap className="mr-2 h-5 w-5" aria-hidden="true" />
-                  {product.stock === 0 ? 'Out of Stock' : 'Buy Now'}
+                  {product.stock === 0 ? t('product.outOfStock') : t('product.buyNow')}
                 </Button>
               </BuyNowDialog>
 
@@ -206,7 +209,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   variant="outline"
                   className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 transition-all duration-300 p-3 rounded-xl"
                   disabled={product.stock === 0}
-                  aria-label={`Add ${product.name} to cart`}
+                  aria-label={`${t('product.addToCart')} ${product.name}`}
                 >
                   <ShoppingCart className="h-5 w-5" aria-hidden="true" />
                 </Button>
@@ -220,7 +223,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <ContactVendorDialog
             open={showContactDialog}
             onOpenChange={setShowContactDialog}
-            vendorName={product.vendor.name || 'Vendor'}
+            vendorName={product.vendor.name || t('vendor.vendor')}
             vendorPhone={product.vendor.phone || ''}
           />
         )}
@@ -229,9 +232,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Reviews Section */}
       {showReviews && (
         <ProductReviewSection 
-          reviews={productReviews.reviews}
-          averageRating={productReviews.averageRating}
-          totalReviews={productReviews.totalReviews}
+          reviews={[]}
+          averageRating={productRating}
+          totalReviews={productReviews}
         />
       )}
     </>

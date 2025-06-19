@@ -99,6 +99,7 @@ export default {
   'vendor.minAgo': 'min ago',
   'vendor.specialties': 'Specialties',
   'vendor.rating': 'rating',
+  'vendor.vendor': 'Vendor',
 
   // Vendor Profile
   'vendor.profile': 'Vendor Profile',
@@ -171,6 +172,18 @@ export default {
   'product.freshPick': 'Fresh Pick',
   'product.addToWishlist': 'Add to Wishlist',
   'product.removeFromWishlist': 'Remove from Wishlist',
+  'product.product': 'Product',
+  'product.availableFor': 'available for',
+  'product.premium': 'Premium',
+  'product.for': 'for',
+  'product.rating': 'Rating',
+  'product.outOf': 'out of',
+  'product.stars': 'stars',
+  'product.rupees': 'rupees',
+  'product.only': 'Only',
+  'product.left': 'left',
+  'product.deleted': 'Product Deleted',
+  'product.removedFromInventory': 'has been removed from your inventory',
 
   // Cart
   'cart.title': 'Shopping Cart',
