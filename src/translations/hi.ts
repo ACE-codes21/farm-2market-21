@@ -74,7 +74,7 @@ export default {
 
   // Vendor Products Page
   'vendor.backToVendors': 'विक्रेताओं पर वापस जाएं',
-  'vendor.noProducts': 'कोई उत्पाद नहीं मिले',
+  'vendor.noProductsFound': 'कोई उत्पाद नहीं मिले',
   'vendor.noProductsDescription': 'के पास इस समय कोई उत्पाद उपलब्ध नहीं है।',
   'vendor.browseOtherVendors': 'अन्य विक्रेता ब्राउज़ करें',
   'vendor.loadingProducts': 'उत्पाद लोड हो रहे हैं...',
@@ -161,6 +161,7 @@ export default {
   'common.time': 'समय',
   'common.status': 'स्थिति',
   'common.category': 'श्रेणी',
+  'common.comingSoon': 'जल्द आ रहा है',
 
   // Product related
   'product.addToCart': 'कार्ट में जोड़ें',
@@ -277,4 +278,25 @@ export default {
 
   // Notifications
   'notifications.badge': 'सूचनाएं',
+
+  // Buy Now Dialog
+  'buyNow.title': 'अपनी खरीदारी पूरी करें',
+  'buyNow.quantity': 'मात्रा',
+  'buyNow.orderSummary': 'ऑर्डर सारांश',
+  'buyNow.subtotal': 'उप-कुल',
+  'buyNow.item': 'आइटम',
+  'buyNow.items': 'आइटम',
+  'buyNow.total': 'कुल',
+  'buyNow.placeOrder': 'ऑर्डर दें',
+
+  // Fresh For Badge
+  'freshFor.expired': 'समाप्त हो गया',
+  'freshFor.notAvailable': 'उपलब्ध नहीं',
+
+  // Sales Summary
+  'sales.totalSales': 'कुल बिक्री',
+  'sales.totalProducts': 'कुल उत्पाद',
+  'sales.totalOrders': 'कुल ऑर्डर',
+  'sales.totalRevenue': 'कुल आय',
+  'sales.yesterday': 'कल की तुलना में',
 };

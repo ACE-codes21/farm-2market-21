@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface SalesSummaryCardProps {
   title: string;
@@ -19,6 +20,8 @@ export const SalesSummaryCard: React.FC<SalesSummaryCardProps> = ({
   change,
   changeType,
 }) => {
+  const { t } = useLanguage();
+  
   return (
     <Card className="dark-modern-card card-hover-glow border-green-500/20 shadow-green-500/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -37,7 +40,7 @@ export const SalesSummaryCard: React.FC<SalesSummaryCardProps> = ({
             <span className={cn(changeType === 'increase' ? 'text-green-500' : 'text-red-500')}>
               {change}
             </span>
-            vs yesterday
+            {t('sales.yesterday')}
           </p>
         )}
       </CardContent>

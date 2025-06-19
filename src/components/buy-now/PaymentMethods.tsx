@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PaymentMethod {
   id: string;
@@ -21,9 +22,11 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   setSelectedPaymentMethod,
   paymentMethods,
 }) => {
+  const { t } = useLanguage();
+  
   return (
     <div className="space-y-4">
-      <label className="text-sm font-medium text-white">Payment Method</label>
+      <label className="text-sm font-medium text-white">{t('payment.method')}</label>
       <div className="grid grid-cols-1 gap-2">
         {paymentMethods.map((method) => {
           const Icon = method.icon;

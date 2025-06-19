@@ -2,18 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { differenceInDays, formatDistanceToNowStrict, isPast } from 'date-fns';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FreshForBadgeProps {
   expiryDate?: string;
 }
 
 export const FreshForBadge: React.FC<FreshForBadgeProps> = ({ expiryDate }) => {
+  const { t } = useLanguage();
   const [timeLeft, setTimeLeft] = useState('');
   const [badgeVariant, setBadgeVariant] = useState<'default' | 'destructive' | 'secondary'>('default');
 
   useEffect(() => {
     if (!expiryDate) {
-      setTimeLeft('N/A');
+      setTimeLeft(t('freshFor.notAvailable'));
       setBadgeVariant('secondary');
       return;
     }
@@ -22,7 +24,7 @@ export const FreshForBadge: React.FC<FreshForBadgeProps> = ({ expiryDate }) => {
       const targetDate = new Date(expiryDate);
       
       if (isPast(targetDate)) {
-        setTimeLeft('Expired');
+        setTimeLeft(t('freshFor.expired'));
         setBadgeVariant('destructive');
         return;
       }
@@ -43,7 +45,7 @@ export const FreshForBadge: React.FC<FreshForBadgeProps> = ({ expiryDate }) => {
     updateBadge();
     const interval = setInterval(updateBadge, 60000); // update every minute
     return () => clearInterval(interval);
-  }, [expiryDate]);
+  }, [expiryDate, t]);
 
   const getVariantClass = () => {
     switch(badgeVariant) {

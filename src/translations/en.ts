@@ -161,6 +161,7 @@ export default {
   'common.time': 'Time',
   'common.status': 'Status',
   'common.category': 'Category',
+  'common.comingSoon': 'Coming Soon',
 
   // Product related
   'product.addToCart': 'Add to Cart',
@@ -277,4 +278,25 @@ export default {
 
   // Notifications
   'notifications.badge': 'notifications',
+
+  // Buy Now Dialog
+  'buyNow.title': 'Complete Your Purchase',
+  'buyNow.quantity': 'Quantity',
+  'buyNow.orderSummary': 'Order Summary',
+  'buyNow.subtotal': 'Subtotal',
+  'buyNow.item': 'item',
+  'buyNow.items': 'items',
+  'buyNow.total': 'Total',
+  'buyNow.placeOrder': 'Place Order',
+
+  // Fresh For Badge
+  'freshFor.expired': 'Expired',
+  'freshFor.notAvailable': 'N/A',
+
+  // Sales Summary
+  'sales.totalSales': 'Total Sales',
+  'sales.totalProducts': 'Total Products', 
+  'sales.totalOrders': 'Total Orders',
+  'sales.totalRevenue': 'Total Revenue',
+  'sales.yesterday': 'vs yesterday',
 };
