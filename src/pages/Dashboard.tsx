@@ -3,17 +3,19 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import BuyerDashboard from '@/components/BuyerDashboard';
 import { useSecureAuth } from '@/hooks/useSecureAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, role, isLoading, isAuthenticated } = useSecureAuth();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">{t('common.loading')}</p>
         </div>
       </div>
     );

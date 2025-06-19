@@ -6,6 +6,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { UserMenu } from '@/components/UserMenu';
 import { supabase } from '@/integrations/supabase/client';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NavigationHeaderProps {
   onOpenAuthModal: (role: 'vendor' | 'buyer', mode?: 'login' | 'signup') => void;
@@ -15,6 +16,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [user, setUser] = React.useState<any>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     // Get initial session
@@ -70,19 +72,19 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
               onClick={() => scrollToSection('dynamic-features')}
               className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
             >
-              Features
+              {t('nav.features')}
             </button>
             <button 
               onClick={() => scrollToSection('about-us')}
               className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
             >
-              About
+              {t('nav.about')}
             </button>
             <button 
               onClick={() => scrollToSection('contact-footer')}
               className="text-white/80 hover:text-white transition-colors nav-link-animated-underline"
             >
-              Contact
+              {t('nav.contact')}
             </button>
           </div>
         </div>
@@ -101,7 +103,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                   className="text-white hover:bg-white/10 flex items-center gap-2"
                 >
                   <LogIn className="h-4 w-4" />
-                  <span>Login</span>
+                  <span>{t('nav.login')}</span>
                 </Button>
               )}
             </>
@@ -126,19 +128,19 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                   onClick={() => scrollToSection('dynamic-features')}
                   className="block text-white/80 hover:text-white transition-colors text-left"
                 >
-                  Features
+                  {t('nav.features')}
                 </button>
                 <button 
                   onClick={() => scrollToSection('about-us')}
                   className="block text-white/80 hover:text-white transition-colors text-left"
                 >
-                  About
+                  {t('nav.about')}
                 </button>
                 <button 
                   onClick={() => scrollToSection('contact-footer')}
                   className="block text-white/80 hover:text-white transition-colors text-left"
                 >
-                  Contact
+                  {t('nav.contact')}
                 </button>
               </div>
               <div className="pt-2 space-y-3 flex flex-col items-start">
@@ -154,7 +156,7 @@ const NavigationHeader: React.FC<NavigationHeaderProps> = ({ onOpenAuthModal }) 
                         className="text-white hover:bg-white/10 flex items-center gap-2 p-0"
                       >
                         <LogIn className="h-4 w-4" />
-                        <span>Login</span>
+                        <span>{t('nav.login')}</span>
                       </Button>
                     )}
                   </>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Map, Grid3x3, Package } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type ActiveTab = 'products' | 'vendors' | 'orders';
 
@@ -11,24 +12,40 @@ interface DashboardTabsProps {
 }
 
 export const DashboardTabs: React.FC<DashboardTabsProps> = ({ activeTab, setActiveTab }) => {
+  const { t } = useLanguage();
+  
   const tabConfig = {
-    products: { label: 'Products', icon: Grid3x3 },
-    vendors: { label: 'Vendors', icon: Map },
-    orders: { label: 'Orders', icon: Package },
+    products: { label: t('tabs.products'), icon: Grid3x3 },
+    vendors: { label: t('tabs.vendors'), icon: Map },
+    orders: { label: t('tabs.orders'), icon: Package },
+  };
+
+  const getTitle = () => {
+    switch(activeTab) {
+      case 'products': return t('dashboard.discoverFresh');
+      case 'vendors': return t('dashboard.discoverVendors');
+      case 'orders': return t('dashboard.yourOrders');
+      default: return t('dashboard.discoverFresh');
+    }
+  };
+
+  const getSubtitle = () => {
+    switch(activeTab) {
+      case 'products': return t('dashboard.browseProducts');
+      case 'vendors': return t('dashboard.findVendors');
+      case 'orders': return t('dashboard.trackOrders');
+      default: return t('dashboard.browseProducts');
+    }
   };
 
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>
         <h2 className="text-3xl font-bold font-display gradient-text mb-2">
-          {activeTab === 'products' && 'Discover Fresh Market'}
-          {activeTab === 'vendors' && 'Discover Vendors'}
-          {activeTab === 'orders' && 'Your Orders'}
+          {getTitle()}
         </h2>
         <p className="text-slate-300">
-          {activeTab === 'products' && 'Browse fresh produce from local farmers'}
-          {activeTab === 'vendors' && 'Find trusted vendors in your area'}
-          {activeTab === 'orders' && 'Track your recent orders and purchases'}
+          {getSubtitle()}
         </p>
       </div>
 

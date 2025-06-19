@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
@@ -7,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { VendorProfileModal } from './vendor/VendorProfileModal';
 import { BuyerProfileModal } from './buyer/BuyerProfileModal';
 import { useSecureAuth } from '@/hooks/useSecureAuth';
+import { useLanguage } from '@/contexts/LanguageContext';
 import type { User } from '@supabase/supabase-js';
 
 interface UserMenuItemsProps {
@@ -21,6 +23,7 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
   const { toast } = useToast();
   const navigate = useNavigate();
   const { role } = useSecureAuth();
+  const { t } = useLanguage();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -35,14 +38,14 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
         console.error('Logout error:', error);
         toast({
           variant: "destructive",
-          title: "Error",
+          title: t('common.error'),
           description: "An error occurred during logout."
         });
         return;
       }
 
       toast({
-        title: "Success",
+        title: t('common.success'),
         description: "You have been logged out successfully."
       });
       
@@ -52,7 +55,7 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
       console.error('Logout error:', error);
       toast({
         variant: "destructive",
-        title: "Error", 
+        title: t('common.error'), 
         description: "An error occurred during logout."
       });
     }
@@ -66,13 +69,13 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
     const actions: {
       [key: string]: string;
     } = {
-      settings: "Settings",
-      security: "Security",
-      billing: "Billing",
-      notifications: "Notifications",
+      settings: t('menu.settings'),
+      security: t('menu.security'),
+      billing: t('menu.billing'),
+      notifications: t('menu.notifications'),
       favorites: "Favorites",
-      help: "Help",
-      about: "About"
+      help: t('menu.help'),
+      about: t('menu.about')
     };
     
     if (actions[action]) {
@@ -89,54 +92,54 @@ export const UserMenuItems: React.FC<UserMenuItemsProps> = ({
   return <>
       <DropdownMenuContent align="end" className="w-72 bg-gradient-to-br from-slate-800/90 via-slate-900/95 to-[#212A34]/90 border border-slate-600/40 rounded-xl shadow-2xl backdrop-blur-lg z-[9999] p-0">
         <DropdownMenuLabel className="font-bold text-lg py-4 px-6 text-white border-b border-slate-700/30 bg-transparent">
-          Welcome, <span className="text-green-400">{displayName}</span>
+          {t('menu.welcome')}, <span className="text-green-400">{displayName}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-slate-600/30" />
         
         <DropdownMenuItem onClick={handleProfileClick} className="flex items-center gap-3 hover:bg-green-700/20 hover:text-green-400 cursor-pointer py-3 px-6 text-white focus:bg-green-800/20 group transition-all">
           <UserIcon className="h-5 w-5 text-slate-300 group-hover:text-green-400" />
-          <span>Profile</span>
+          <span>{t('menu.profile')}</span>
         </DropdownMenuItem>
         
         <DropdownMenuItem onClick={() => handleMenuAction('notifications')} className="flex items-center gap-3 hover:bg-yellow-500/10 hover:text-yellow-300 cursor-pointer py-3 px-6 text-white focus:bg-yellow-700/10 group transition-all">
           <Bell className="h-5 w-5 text-yellow-400 group-hover:animate-bounce" />
-          <span>Notifications</span>
+          <span>{t('menu.notifications')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-slate-600/30" />
 
         <DropdownMenuItem onClick={() => handleMenuAction('settings')} className="flex items-center gap-3 hover:bg-slate-600/20 hover:text-white cursor-pointer py-3 px-6 text-slate-200 focus:bg-slate-700/30 group">
           <Settings className="h-5 w-5 text-slate-400 group-hover:text-green-300" />
-          <span>Settings</span>
+          <span>{t('menu.settings')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => handleMenuAction('security')} className="flex items-center gap-3 hover:bg-blue-800/10 hover:text-blue-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-blue-900/20 group">
           <Shield className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
-          <span>Security</span>
+          <span>{t('menu.security')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => handleMenuAction('billing')} className="flex items-center gap-3 hover:bg-green-800/10 hover:text-green-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-green-900/20 group">
           <CreditCard className="h-5 w-5 text-green-400 group-hover:text-green-300" />
-          <span>Billing</span>
+          <span>{t('menu.billing')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-slate-600/30" />
 
         <DropdownMenuItem onClick={() => handleMenuAction('help')} className="flex items-center gap-3 hover:bg-purple-800/10 hover:text-purple-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-purple-900/20 group">
           <HelpCircle className="h-5 w-5 text-purple-400 group-hover:text-purple-300" />
-          <span>Help & Support</span>
+          <span>{t('menu.help')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuItem onClick={() => handleMenuAction('about')} className="flex items-center gap-3 hover:bg-blue-800/10 hover:text-blue-300 cursor-pointer py-3 px-6 text-slate-200 focus:bg-blue-900/20 group">
           <Info className="h-5 w-5 text-blue-400 group-hover:text-blue-300" />
-          <span>About</span>
+          <span>{t('menu.about')}</span>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="bg-slate-700/20" />
 
         <DropdownMenuItem onClick={handleLogout} className="flex items-center gap-3 text-red-400 hover:bg-red-700/10 hover:text-red-500 cursor-pointer py-3 px-6 focus:bg-red-900/10 group transition-all">
           <LogOut className="h-5 w-5 group-hover:-rotate-12" />
-          <span>Logout</span>
+          <span>{t('menu.logout')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
 

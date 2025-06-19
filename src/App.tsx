@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
@@ -51,26 +53,28 @@ const App = () => {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/buyer" element={<Dashboard />} />
-            <Route path="/vendor" element={<VendorPortal />} />
-            <Route path="/vendor/finance" element={<FinanceDashboard />} />
-            <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
-            <Route path="/vendor/services" element={<ServicesDashboard />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/404" element={<NotFound />} />
-            <Route path="*" element={<Navigate to="/404" replace />} />
-          </Routes>
-          <FloatingChatButton />
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/buyer" element={<Dashboard />} />
+              <Route path="/vendor" element={<VendorPortal />} />
+              <Route path="/vendor/finance" element={<FinanceDashboard />} />
+              <Route path="/vendor/analytics" element={<AnalyticsDashboard />} />
+              <Route path="/vendor/services" element={<ServicesDashboard />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
+            </Routes>
+            <FloatingChatButton />
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 };
 
