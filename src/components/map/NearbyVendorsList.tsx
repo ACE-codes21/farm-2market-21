@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Navigation, Star, Clock, Search } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface VendorLocation {
   id: string;
@@ -30,11 +30,13 @@ export const NearbyVendorsList: React.FC<NearbyVendorsListProps> = ({
   searchQuery,
   onVendorClick
 }) => {
+  const { t } = useLanguage();
+  
   return (
     <Card className="dark-glass-effect border-slate-600/30">
       <CardHeader>
         <CardTitle className="text-white">
-          Nearby Vendors ({filteredVendors.length})
+          {t('vendor.nearbyVendors')} ({filteredVendors.length})
           {searchQuery && (
             <span className="text-sm text-slate-400 font-normal"> - Filtered by "{searchQuery}"</span>
           )}

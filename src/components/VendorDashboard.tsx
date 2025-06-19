@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Product, Order, VendorStats, StatChanges } from '@/types';
@@ -9,6 +8,7 @@ import { VendorStatsGrid } from './vendor/VendorStatsGrid';
 import { VendorRecentOrders } from './vendor/VendorRecentOrders';
 import { subDays, isAfter } from 'date-fns';
 import { VendorProductsTable } from './vendor/VendorProductsTable';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface VendorDashboardProps {
   products: Product[];
@@ -29,6 +29,7 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
   const [isEditProductOpen, setIsEditProductOpen] = useState(false);
   const [isAddProductDialogOpen, setAddProductDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const maintenanceCost = 2000;
   const totalSales = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
@@ -83,8 +84,8 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
       onDeleteProduct(productId);
       toast({
         variant: "destructive",
-        title: "Product Deleted",
-        description: `${product.name} has been removed from your inventory.`,
+        title: t('product.deleted'),
+        description: `${product.name} ${t('product.removedFromInventory')}`,
       });
     }
   };
@@ -95,8 +96,8 @@ const VendorDashboard: React.FC<VendorDashboardProps> = ({
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 animate-fade-in-up">
-          <h2 className="text-3xl font-bold font-display gradient-text mb-2">Dashboard Overview</h2>
-          <p className="text-slate-400">Manage your products and track your business performance</p>
+          <h2 className="text-3xl font-bold font-display gradient-text mb-2">{t('vendor.dashboardOverview')}</h2>
+          <p className="text-slate-400">{t('vendor.manageProducts')}</p>
         </div>
         
         <VendorStatsGrid stats={stats} changes={statChanges} />

@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Navigation, Clock, Star, Zap, MessageCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface VendorLocation {
   id: string;
@@ -32,11 +32,13 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
   onContactVendor,
   onGetDirections
 }) => {
+  const { t } = useLanguage();
+  
   return (
     <Card className="dark-glass-effect border-slate-600/30">
       <CardHeader>
         <CardTitle className="text-white">
-          {selectedVendor ? 'Vendor Details' : 'Select a Vendor'}
+          {selectedVendor ? t('vendor.vendorDetails') : t('vendor.selectVendor')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -51,12 +53,12 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
               <div className="flex items-center gap-2">
                 <Star className="h-4 w-4 text-yellow-400 fill-current" />
                 <span className="text-white">{selectedVendor.rating}</span>
-                <span className="text-slate-400 text-sm">rating</span>
+                <span className="text-slate-400 text-sm">{t('vendor.rating')}</span>
               </div>
               
               <div className="flex items-center gap-2">
                 <Navigation className="h-4 w-4 text-blue-400" />
-                <span className="text-slate-300">{selectedVendor.distance} km away</span>
+                <span className="text-slate-300">{selectedVendor.distance} {t('vendor.kmAway')}</span>
               </div>
               
               <div className="flex items-center gap-2">
@@ -65,7 +67,7 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
               </div>
 
               <div className="space-y-2">
-                <span className="text-slate-400 text-sm">Specialties:</span>
+                <span className="text-slate-400 text-sm">{t('vendor.specialties')}:</span>
                 <div className="flex flex-wrap gap-2">
                   {selectedVendor.specialties.map((specialty, index) => (
                     <Badge key={index} variant="secondary" className="bg-slate-700/50 text-slate-200 border-slate-600/30 text-xs">
@@ -85,10 +87,10 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
                 {selectedVendor.isOnline ? (
                   <>
                     <Zap className="h-4 w-4 mr-2" />
-                    View Products
+                    {t('vendor.viewProducts')}
                   </>
                 ) : (
-                  'Currently Offline'
+                  t('vendor.currentlyOffline')
                 )}
               </Button>
               
@@ -100,7 +102,7 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
                     className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
                   >
                     <MessageCircle className="h-4 w-4 mr-2" />
-                    Contact Vendor
+                    {t('vendor.contact')}
                   </Button>
                   
                   <Button 
@@ -109,7 +111,7 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
                     className="w-full border-slate-600 text-slate-300 hover:bg-slate-700"
                   >
                     <Navigation className="h-4 w-4 mr-2" />
-                    Get Directions
+                    {t('vendor.getDirections')}
                   </Button>
                 </>
               )}
@@ -118,9 +120,9 @@ export const VendorDetailsPanel: React.FC<VendorDetailsPanelProps> = ({
         ) : (
           <div className="text-center py-8">
             <MapPin className="h-12 w-12 mx-auto mb-4 text-slate-500" />
-            <p className="text-slate-400">Click on a vendor marker to view details</p>
+            <p className="text-slate-400">{t('vendor.clickMarker')}</p>
             <p className="text-slate-500 text-sm mt-2">
-              Green markers are online, gray are offline
+              {t('vendor.greenOnline')}
             </p>
           </div>
         )}

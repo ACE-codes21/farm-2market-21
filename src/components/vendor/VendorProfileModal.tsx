@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { LocationPicker } from './LocationPicker';
 import { useUserSession } from '@/hooks/useUserSession';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface VendorProfileModalProps {
   isOpen: boolean;
@@ -30,6 +30,7 @@ interface ProfileData {
 export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, onClose }) => {
   const user = useUserSession();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [showLocationPicker, setShowLocationPicker] = useState(false);
   const [profile, setProfile] = useState<ProfileData>({
@@ -124,8 +125,8 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
       }
 
       toast({
-        title: "Profile Updated",
-        description: "Your profile has been updated successfully.",
+        title: t('vendor.profileUpdated'),
+        description: t('vendor.profileUpdateSuccess'),
       });
 
       onClose();
@@ -133,8 +134,8 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
       console.error('Error updating profile:', error);
       toast({
         variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to update profile.",
+        title: t('common.error'),
+        description: error.message || t('vendor.profileUpdateError'),
       });
     } finally {
       setLoading(false);
@@ -164,7 +165,7 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-800/95 via-slate-900/95 to-[#212A34]/95 border border-slate-600/40 backdrop-blur-xl text-white">
           <DialogHeader className="border-b border-slate-700/30 pb-4">
             <DialogTitle className="flex items-center justify-between text-2xl font-bold bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
-              <span>Vendor Profile</span>
+              <span>{t('vendor.profile')}</span>
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -192,8 +193,8 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
                   className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full bg-slate-700/80 border-slate-600/50 hover:bg-slate-600/80 text-green-400"
                   onClick={() => {
                     toast({
-                      title: "Coming Soon",
-                      description: "Avatar upload will be available soon!",
+                      title: t('common.comingSoon'),
+                      description: t('vendor.avatarUploadSoon'),
                     });
                   }}
                 >
@@ -205,18 +206,18 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-slate-200 font-medium">Full Name</Label>
+                <Label htmlFor="fullName" className="text-slate-200 font-medium">{t('vendor.fullName')}</Label>
                 <Input
                   id="fullName"
                   value={profile.full_name || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, full_name: e.target.value }))}
-                  placeholder="Enter your full name"
+                  placeholder={t('vendor.enterFullName')}
                   className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-slate-200 font-medium">Email</Label>
+                <Label htmlFor="email" className="text-slate-200 font-medium">{t('common.email')}</Label>
                 <Input
                   id="email"
                   value={profile.email || ''}
@@ -226,23 +227,23 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-slate-200 font-medium">Phone Number</Label>
+                <Label htmlFor="phone" className="text-slate-200 font-medium">{t('vendor.phoneNumber')}</Label>
                 <Input
                   id="phone"
                   value={profile.phone || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="Enter your phone number"
+                  placeholder={t('vendor.enterPhoneNumber')}
                   className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="upiId" className="text-slate-200 font-medium">UPI ID</Label>
+                <Label htmlFor="upiId" className="text-slate-200 font-medium">{t('vendor.upiId')}</Label>
                 <Input
                   id="upiId"
                   value={profile.upi_id || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, upi_id: e.target.value }))}
-                  placeholder="Enter your UPI ID"
+                  placeholder={t('vendor.enterUpiId')}
                   className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
@@ -251,7 +252,7 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
             {/* Location Section */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label className="text-slate-200 font-medium">Business Location</Label>
+                <Label className="text-slate-200 font-medium">{t('vendor.businessLocation')}</Label>
                 <Button
                   variant="outline"
                   size="sm"
@@ -259,17 +260,17 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
                   className="flex items-center gap-2 bg-slate-700/50 border-slate-600/50 text-green-400 hover:bg-slate-600/50 hover:text-green-300"
                 >
                   <MapPin className="h-4 w-4" />
-                  {profile.latitude && profile.longitude ? 'Update Location' : 'Set Location'}
+                  {profile.latitude && profile.longitude ? t('vendor.updateLocation') : t('vendor.setLocation')}
                 </Button>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address" className="text-slate-200 font-medium">Business Address</Label>
+                <Label htmlFor="address" className="text-slate-200 font-medium">{t('vendor.businessAddress')}</Label>
                 <Input
                   id="address"
                   value={profile.address || ''}
                   onChange={(e) => setProfile(prev => ({ ...prev, address: e.target.value }))}
-                  placeholder="Enter your business address"
+                  placeholder={t('vendor.enterBusinessAddress')}
                   className="bg-slate-700/50 border-slate-600/50 text-white placeholder:text-slate-400 focus:border-green-500/50 focus:ring-green-500/20"
                 />
               </div>
@@ -277,7 +278,7 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
               {profile.latitude && profile.longitude && (
                 <div className="text-sm text-slate-400 flex items-center gap-2 p-3 bg-slate-700/30 rounded-lg border border-slate-600/30">
                   <MapPin className="h-4 w-4 text-green-400" />
-                  <span>Coordinates: {profile.latitude.toFixed(6)}, {profile.longitude.toFixed(6)}</span>
+                  <span>{t('vendor.coordinates')}: {profile.latitude.toFixed(6)}, {profile.longitude.toFixed(6)}</span>
                 </div>
               )}
             </div>
@@ -289,7 +290,7 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
                 onClick={onClose}
                 className="bg-transparent border-slate-600/50 text-slate-300 hover:bg-slate-700/50 hover:text-white"
               >
-                Cancel
+                {t('common.cancel')}
               </Button>
               <Button 
                 onClick={handleSave} 
@@ -297,7 +298,7 @@ export const VendorProfileModal: React.FC<VendorProfileModalProps> = ({ isOpen, 
                 className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium flex items-center gap-2 shadow-lg"
               >
                 <Save className="h-4 w-4" />
-                {loading ? 'Saving...' : 'Save Profile'}
+                {loading ? t('vendor.saving') : t('vendor.saveProfile')}
               </Button>
             </div>
           </div>

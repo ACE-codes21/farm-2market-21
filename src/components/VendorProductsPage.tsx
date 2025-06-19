@@ -8,6 +8,7 @@ import { ProductCard } from './ProductCard';
 import { useAppContext } from '@/contexts/AppContext';
 import { useCart } from '@/hooks/useCart';
 import { useWishlist } from '@/hooks/useWishlist';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface VendorProductsPageProps {
   vendorName: string;
@@ -22,6 +23,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const { addToCart } = useCart();
   const { handleAddToWishlist: addToWishlist, isInWishlist } = useWishlist();
+  const { t } = useLanguage();
 
   // Get products from this vendor with better error handling
   const vendorProducts = useMemo(() => {
@@ -65,15 +67,15 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
             className="dark-modern-card border-slate-600/30 text-white hover:bg-slate-700/50"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Vendors
+            {t('vendor.backToVendors')}
           </Button>
         </div>
         
         <div className="text-center py-16">
           <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400 mx-auto mb-4"></div>
-            <p className="text-2xl font-semibold text-white mb-3">Loading products...</p>
-            <p className="text-slate-300">Please wait while we fetch the vendor's products.</p>
+            <p className="text-2xl font-semibold text-white mb-3">{t('vendor.loadingProducts')}</p>
+            <p className="text-slate-300">{t('vendor.pleasewait')}</p>
           </div>
         </div>
       </div>
@@ -91,22 +93,22 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
             className="dark-modern-card border-slate-600/30 text-white hover:bg-slate-700/50"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Vendors
+            {t('vendor.backToVendors')}
           </Button>
         </div>
         
         <div className="text-center py-16">
           <div className="dark-glass-effect rounded-3xl p-12 max-w-md mx-auto border border-slate-600/30">
             <AlertCircle className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-            <p className="text-2xl font-semibold text-white mb-3">No products found</p>
+            <p className="text-2xl font-semibold text-white mb-3">{t('vendor.noProductsFound')}</p>
             <p className="text-slate-300 mb-6">
-              {vendorName} doesn't have any products available at the moment.
+              {vendorName} {t('vendor.noProductsDescription')}
             </p>
             <Button 
               onClick={onBack}
               className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
             >
-              Browse Other Vendors
+              {t('vendor.browseOtherVendors')}
             </Button>
           </div>
         </div>
@@ -124,7 +126,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
           className="dark-modern-card border-slate-600/30 text-white hover:bg-slate-700/50"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Vendors
+          {t('vendor.backToVendors')}
         </Button>
         
         <div className="flex items-center gap-4">
@@ -156,7 +158,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
                 <h2 className="text-2xl font-bold text-white">{vendorName}</h2>
                 <div className="w-3 h-3 rounded-full bg-green-500" />
                 <Badge variant="secondary" className="bg-slate-700/50 text-slate-200 border-slate-600/30">
-                  Online
+                  {t('vendor.online')}
                 </Badge>
               </div>
               
@@ -168,11 +170,11 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
                   </div>
                   <div className="flex items-center gap-2">
                     <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                    <span>4.7 (156 reviews)</span>
+                    <span>4.7 (156 {t('vendor.reviews')})</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
-                    <span>0.8 km away</span>
+                    <span>0.8 {t('vendor.kmAway')}</span>
                   </div>
                 </div>
               )}
@@ -180,7 +182,7 @@ export const VendorProductsPage: React.FC<VendorProductsPageProps> = ({
             
             <div className="text-right">
               <p className="text-2xl font-bold text-white">{vendorProducts.length}</p>
-              <p className="text-sm text-slate-300">Products Available</p>
+              <p className="text-sm text-slate-300">{t('vendor.productsAvailable')}</p>
             </div>
           </div>
         </CardContent>

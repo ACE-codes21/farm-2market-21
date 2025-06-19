@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Clock, CreditCard, Eye, MessageCircle } from 'lucide-react';
 import { useVendorProfiles } from '@/hooks/useVendorProfiles';
 import { VendorProductsPage } from '@/components/VendorProductsPage';
+import { useLanguage } from '@/contexts/LanguageContext';
+
 interface Vendor {
   id: string;
   name: string;
@@ -19,9 +21,12 @@ interface Vendor {
   upiId?: string;
   email?: string;
 }
+
 export const VendorMapView: React.FC = () => {
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
   const [showVendorProducts, setShowVendorProducts] = useState(false);
+  const { t } = useLanguage();
+
   const {
     data: vendorProfiles
   } = useVendorProfiles();
@@ -67,14 +72,17 @@ export const VendorMapView: React.FC = () => {
     upiId: 'localgrocery@phonepe',
     email: 'support@localgrocery.com'
   }];
+
   const handleVendorSelect = (vendor: Vendor) => {
     setSelectedVendor(vendor);
   };
+  
   const handleViewProducts = () => {
     if (selectedVendor) {
       setShowVendorProducts(true);
     }
   };
+  
   const handleContact = () => {
     if (selectedVendor?.phone) {
       const message = `Hi! I found your business on Farm2Market. I'm interested in your products.`;
@@ -82,15 +90,17 @@ export const VendorMapView: React.FC = () => {
       window.open(whatsappUrl, '_blank');
     }
   };
+  
   if (showVendorProducts && selectedVendor) {
     return <VendorProductsPage vendorName={selectedVendor.name} onBack={() => setShowVendorProducts(false)} />;
   }
+  
   return <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Interactive Map */}
         <Card className="dark-glass-effect border-slate-600/30">
           <CardHeader>
-            <CardTitle className="text-white">Interactive Vendor Map</CardTitle>
+            <CardTitle className="text-white">{t('vendor.interactiveMap')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="relative h-96 bg-slate-800/50 rounded-lg border border-slate-600/30 overflow-hidden">
@@ -99,8 +109,8 @@ export const VendorMapView: React.FC = () => {
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center text-white">
                     <MapPin className="h-12 w-12 mx-auto mb-4 text-green-400" />
-                    <p className="text-lg font-medium">Interactive Map</p>
-                    <p className="text-slate-400 text-sm">Coming Soon</p>
+                    <p className="text-lg font-medium">{t('vendor.interactiveMap')}</p>
+                    <p className="text-slate-400 text-sm">{t('vendor.comingSoon')}</p>
                   </div>
                 </div>
                 
@@ -118,7 +128,7 @@ export const VendorMapView: React.FC = () => {
         <Card className="dark-glass-effect border-slate-600/30">
           <CardHeader>
             <CardTitle className="text-white">
-              {selectedVendor ? 'Vendor Details' : 'Select a Vendor'}
+              {selectedVendor ? t('vendor.vendorDetails') : t('vendor.selectVendor')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -126,7 +136,7 @@ export const VendorMapView: React.FC = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-2">{selectedVendor.name}</h3>
                   <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
-                    {selectedVendor.distance} away
+                    {selectedVendor.distance} {t('vendor.kmAway')}
                   </Badge>
                 </div>
 
@@ -143,7 +153,7 @@ export const VendorMapView: React.FC = () => {
                   
                   <div className="flex items-center gap-3 text-slate-300">
                     <Clock className="h-4 w-4 text-yellow-400" />
-                    <span>Last updated: {selectedVendor.lastUpdated}</span>
+                    <span>{t('vendor.lastUpdated')}: {selectedVendor.lastUpdated}</span>
                   </div>
                   
                   {selectedVendor.upiId && <div className="flex items-center gap-3 text-slate-300">
@@ -155,16 +165,16 @@ export const VendorMapView: React.FC = () => {
                 <div className="flex gap-3 pt-4">
                   <Button onClick={handleViewProducts} className="flex-1 bg-green-600 hover:bg-green-700 text-white">
                     <Eye className="h-4 w-4 mr-2" />
-                    View Products
+                    {t('vendor.viewProducts')}
                   </Button>
                   <Button onClick={handleContact} variant="outline" className="flex-1 border-slate-600 text-zinc-300 bg-slate-700 hover:bg-slate-600">
                     <MessageCircle className="h-4 w-4 mr-2" />
-                    Contact
+                    {t('vendor.contact')}
                   </Button>
                 </div>
               </div> : <div className="text-center py-8">
                 <MapPin className="h-12 w-12 mx-auto mb-4 text-slate-500" />
-                <p className="text-slate-400">Click on a vendor marker to view details</p>
+                <p className="text-slate-400">{t('vendor.clickMarker')}</p>
               </div>}
           </CardContent>
         </Card>
@@ -173,7 +183,7 @@ export const VendorMapView: React.FC = () => {
       {/* Nearby Vendors List */}
       <Card className="dark-glass-effect border-slate-600/30">
         <CardHeader>
-          <CardTitle className="text-white">Nearby Vendors</CardTitle>
+          <CardTitle className="text-white">{t('vendor.nearbyVendors')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
