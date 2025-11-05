@@ -14,13 +14,197 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      order_items: {
+        Row: {
+          id: string
+          order_id: string | null
+          price: number
+          product_id: string | null
+          quantity: number
+        }
+        Insert: {
+          id?: string
+          order_id?: string | null
+          price: number
+          product_id?: string | null
+          quantity: number
+        }
+        Update: {
+          id?: string
+          order_id?: string | null
+          price?: number
+          product_id?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          id: string
+          status: string
+          total_amount: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          status?: string
+          total_amount: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          status?: string
+          total_amount?: number
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          barcode: string | null
+          category: string
+          created_at: string | null
+          description: string | null
+          expiry_date: string | null
+          fresh_pick_expires_at: string | null
+          id: string
+          images: string[] | null
+          is_fresh_pick: boolean | null
+          name: string
+          price: number
+          rating: number | null
+          restock_reminder: boolean | null
+          reviews: number | null
+          stock: number
+          vendor_id: string | null
+        }
+        Insert: {
+          barcode?: string | null
+          category: string
+          created_at?: string | null
+          description?: string | null
+          expiry_date?: string | null
+          fresh_pick_expires_at?: string | null
+          id?: string
+          images?: string[] | null
+          is_fresh_pick?: boolean | null
+          name: string
+          price: number
+          rating?: number | null
+          restock_reminder?: boolean | null
+          reviews?: number | null
+          stock?: number
+          vendor_id?: string | null
+        }
+        Update: {
+          barcode?: string | null
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          expiry_date?: string | null
+          fresh_pick_expires_at?: string | null
+          id?: string
+          images?: string[] | null
+          is_fresh_pick?: boolean | null
+          name?: string
+          price?: number
+          rating?: number | null
+          restock_reminder?: boolean | null
+          reviews?: number | null
+          stock?: number
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          role: string
+          updated_at: string | null
+          upi_id: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          role: string
+          updated_at?: string | null
+          upi_id?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          role?: string
+          updated_at?: string | null
+          upi_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_order_and_decrement_stock: {
+        Args: { items_to_buy: Json }
+        Returns: string
+      }
+      get_vendor_orders: {
+        Args: { vendor_id_param: string }
+        Returns: {
+          created_at: string
+          id: string
+          order_items: Json
+          status: string
+          total_amount: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
